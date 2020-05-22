@@ -1,0 +1,25 @@
+{
+    "menu": [
+        {
+            "url": "/",
+            "name": "Dashboard",
+            "slug": "/",
+            "icon": "settings_input_svideo",
+            "i18n": "Dashboard"
+        },
+        {
+            "url": "page-users-list",
+            "name": "Users",
+            "slug": "page-users-list",
+            "icon": "face",
+            "i18n": "Users"
+        },
+        {
+            "url": "app-invoice-list",
+            "name": "Invoices",
+            "slug": "app-invoice-list",
+            "icon": "receipt",
+            "i18n": "Invoices"
+        }
+    ]
+}
