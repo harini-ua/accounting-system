@@ -256,7 +256,7 @@ $(function () {
    // Collapsible inside page not for sidebar
    var allCollapse = document.querySelectorAll(".collapsible");
    M.Collapsible.init(allCollapse);
-   // Collapsible expandable    
+   // Collapsible expandable
    var elem = document.querySelector('.collapsible.expandable');
    var instance = M.Collapsible.init(elem, {
       accordion: false
@@ -412,7 +412,7 @@ $(function () {
       edge: "right"
    });
 
-   // check for if touch device 
+   // check for if touch device
    if (!is_touch_device()) {
       // Right side slide-out (Chat, settings & timeline)
       if ($("#slide-out.leftside-navigation").length > 0) {
@@ -443,7 +443,7 @@ $(function () {
             suppressScrollX: true
          });
       }
-      // for horizonatal nav scroll 
+      // for horizonatal nav scroll
       if ($("#ul-horizontal-nav").length > 0) {
          var ps_horizontal_nav = new PerfectScrollbar("#ul-horizontal-nav", {
             wheelPropagation: false,
@@ -543,18 +543,18 @@ $(function () {
          .removeClass()
          .addClass(selectedFlag);
    });
-   // set language flag icon as 
+   // set language flag icon as
    var language = $('html')[0].lang;
    if (language !== null) {
-      // get the selected flag class 
+      // get the selected flag class
       var selectedFlag = $(".dropdown-language .dropdown-item").find("a[data-language=" + language + "] .flag-icon").attr("class");
-      // set the class in button 
+      // set the class in button
       $(".translation-button .flag-icon")
          .removeClass()
          .addClass(selectedFlag);
    }
 
-   // Horizontal-nav active parent  
+   // Horizontal-nav active parent
    if ($("#ul-horizontal-nav li.active").length > 0) {
       $('#ul-horizontal-nav li.active').closest('ul').parents('li').addClass('active');
    }

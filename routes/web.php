@@ -1,4 +1,6 @@
 <?php
+
+use App\DataTables\UsersDataTable;
 use App\Http\Controllers\LanguageController;
 /*
 |--------------------------------------------------------------------------
@@ -13,13 +15,10 @@ use App\Http\Controllers\LanguageController;
 
 Auth::routes();
 
-Route::get('/', 'DashboardController@index');
+Route::get('/', 'DashboardController@index')->name('home');
 
 // Users
-//Route::resource('users', 'UserController');
-Route::get('/page-users-list', 'UserController@usersList');
-Route::get('/page-users-view', 'UserController@usersView');
-Route::get('/page-users-edit', 'UserController@usersEdit');
+Route::resource('users', 'UserController');
 Route::get('/user-profile-page', 'UserController@userProfile');
 
 // Invoices

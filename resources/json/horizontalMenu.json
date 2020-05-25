@@ -8,9 +8,9 @@
             "i18n": "Dashboard"
         },
         {
-            "url": "page-users-list",
+            "url": "users",
             "name": "Users",
-            "slug": "page-users-list",
+            "slug": "users",
             "icon": "face",
             "i18n": "Users"
         },
