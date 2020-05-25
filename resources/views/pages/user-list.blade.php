@@ -20,6 +20,12 @@
 @section('content')
     <!-- users list start -->
     <section class="users-list-wrapper section">
+        <div class="create-btn">
+            <a href="{{ route('users.create') }}" class="btn waves-effect waves-light invoice-create border-round z-depth-4">
+                <i class="material-icons">add</i>
+                <span class="hide-on-small-only">Add User</span>
+            </a>
+        </div>
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">

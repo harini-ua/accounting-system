@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -41,7 +42,7 @@ class LoginController extends Controller
     // Login
     public function showLoginForm(){
        $pageConfigs = ['bodyCustomClass' => 'login-bg', 'isCustomizer' => false];
-  
+
         return view('/auth/login', [
             'pageConfigs' => $pageConfigs
         ]);

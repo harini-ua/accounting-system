@@ -25,7 +25,7 @@ class UsersDataTable extends DataTable
                 return view("partials.actions", ['model' => $user]);
             })
             ->addColumn('position', function(User $user) {
-                return $user->position->name;
+                return $user->position ? $user->position->name : '-';
             });
     }
 

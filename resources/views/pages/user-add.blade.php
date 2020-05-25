@@ -39,14 +39,13 @@
                     {{--                    </div>--}}
                     <!-- users edit media object ends -->
                         <!-- users edit account form start -->
-                        <form id="accountForm" method="POST" action="{{ route('user.profile.update') }}">
+                        <form id="accountForm" method="POST" action="{{ route('users.store') }}">
                             @csrf
-                            @method('PUT')
                             <div class="row">
                                 <div class="col s12 m6">
                                     <div class="row">
                                         <div class="col s12 input-field">
-                                            <input id="name" name="name" type="text" class="validate" value="{{ $user->name }}"
+                                            <input id="name" name="name" type="text" class="validate" value="{{ old('name') }}"
                                                    data-error=".errorTxt1">
                                             <label for="name">Name</label>
                                             @error('name')
@@ -54,7 +53,7 @@
                                             @enderror
                                         </div>
                                         <div class="col s12 input-field">
-                                            <input id="email" name="email" type="email" class="validate" value="{{ $user->email }}"
+                                            <input id="email" name="email" type="email" class="validate" value="{{ old('email') }}"
                                                    data-error=".errorTxt2">
                                             <label for="email">E-mail</label>
                                             @error('email')
@@ -66,7 +65,7 @@
                                 <div class="col s12 m6">
                                     <div class="row">
                                         <div class="col s12 input-field">
-                                            <input id="password" name="password" type="password" class="validate" value=""
+                                            <input id="password" name="password" type="password" class="validate" value="{{ old('password') }}"
                                                    data-error=".errorTxt1">
                                             <label for="password">Password</label>
                                             @error('password')
@@ -77,7 +76,7 @@
                                             <select id="position_id" name="position_id">
                                                 <option value="">-</option>
                                                 @foreach ($positions as $position)
-                                                    <option {{ $user->position_id == $position->id ? 'selected' : '' }}
+                                                    <option {{ old('position_id') == $position->id ? 'selected' : '' }}
                                                             value="{{ $position->id }}">
                                                         {{ $position->name }}
                                                     </option>
@@ -187,6 +186,7 @@
                                 <div class="col s12 display-flex justify-content-end mt-3">
                                     <button type="submit" class="btn indigo">
                                         Save changes</button>
+                                    <a href="{{ route('users.index') }}" class="btn btn-light">Cancel</a>
                                 </div>
                             </div>
                         </form>

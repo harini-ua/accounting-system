@@ -11,6 +11,12 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
+        \App\User::create([
+            'name' => 'Super Admin',
+            'email' => 'admin@admin.com',
+            'password' => bcrypt('123calculator123'),
+        ]);
+
         $positions = \App\Position::all();
         factory(\App\User::class, 100)->create([
             'position_id' => function() use ($positions) {

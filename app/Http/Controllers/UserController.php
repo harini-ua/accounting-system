@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
+use App\Http\Requests\ProfileUpdate;
+use App\Http\Requests\StoreUser;
+use App\Http\Requests\UpdateUser;
 use App\Position;
 use App\User;
-use Illuminate\Http\Request;
 use App\DataTables\UsersDataTable;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @param UsersDataTable $dataTable
+     * @return mixed
      */
     public function index(UsersDataTable $dataTable)
     {
@@ -35,18 +38,34 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['link' => "javascript:void(0)", 'name' => "User"],
+            ['name' => "User Add"]
+        ];
+        //Pageheader set true for breadcrumbs
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $positions = Position::all();
+
+        return view('pages.user-add', [
+            'pageConfigs' => $pageConfigs,
+            'breadcrumbs' => $breadcrumbs,
+            'positions' => $positions,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param StoreUser $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(StoreUser $request)
     {
-        //
+        User::create($request->all());
+
+        return redirect()->route('users.index');
     }
 
     /**
@@ -71,7 +90,7 @@ class UserController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => "Home"],
             ['link' => "javascript:void(0)", 'name' => "User"],
-            ['name' => "Users Edit"]
+            ['name' => "User Edit"]
         ];
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
@@ -90,11 +109,11 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param UserRequest $request
+     * @param UpdateUser $request
      * @param User $user
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UserRequest $request, User $user)
+    public function update(UpdateUser $request, User $user)
     {
         $user->fill($request->all());
         $user->save();
@@ -115,5 +134,46 @@ class UserController extends Controller
             return response()->json(['success'=>true]);
         }
         return response()->json(['success'=>false]);
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function userProfile(Request $request)
+    {
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Pages"], ['name' => "User Profile Page"],
+        ];
+        //Pageheader set true for breadcrumbs
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $positions = Position::all();
+
+        return view('pages.user-profile-page', [
+            'pageConfigs' => $pageConfigs,
+            'breadcrumbs' => $breadcrumbs,
+            'user' => $request->user(),
+            'positions' => $positions,
+        ]);
+    }
+
+    /**
+     * @param ProfileUpdate $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function profileUpdate(ProfileUpdate $request)
+    {
+        $user = $request->user();
+        $validatedData = $request->all();
+        if (empty($validatedData['password'])) {
+            unset($validatedData['password']);
+        } else {
+            $validatedData['password'] = bcrypt($validatedData['password']);
+        }
+        $user->fill($validatedData);
+        $user->save();
+
+        return redirect()->route('user.profile');
     }
 }

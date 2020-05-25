@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title','Users edit')
+@section('title','User edit')
 
 {{-- vendor styles --}}
 @section('vendor-style')
@@ -67,6 +67,7 @@
                                 <div class="row">
                                     <div class="col s12 input-field">
                                         <select id="position_id" name="position_id">
+                                            <option value="">-</option>
                                             @foreach ($positions as $position)
                                                 <option {{ $user->position_id == $position->id ? 'selected' : '' }}
                                                         value="{{ $position->id }}">

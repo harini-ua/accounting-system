@@ -31,16 +31,19 @@
       <!-- profile-dropdown-->
       <ul class="dropdown-content" id="profile-dropdown">
         <li>
-          <a class="grey-text text-darken-1" href="#">
+          <a class="grey-text text-darken-1" href="{{ route('user.profile') }}">
             <i class="material-icons">person_outline</i>
             Profile
           </a>
         </li>
         <li>
-          <a class="grey-text text-darken-1" href="#">
+          <a class="grey-text text-darken-1" href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
             <i class="material-icons">keyboard_tab</i>
             Logout
           </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                {{ csrf_field() }}
+            </form>
         </li>
       </ul>
     </div>

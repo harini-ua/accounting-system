@@ -1,7 +1,5 @@
 <?php
 
-use App\DataTables\UsersDataTable;
-use App\Http\Controllers\LanguageController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,18 +11,23 @@ use App\Http\Controllers\LanguageController;
 |
  */
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
-Route::get('/', 'DashboardController@index')->name('home');
+Route::middleware(['auth'])->group(function() {
 
-// Users
-Route::resource('users', 'UserController');
-Route::get('/user-profile-page', 'UserController@userProfile');
+    Route::get('/', 'DashboardController@index')->name('home');
 
-// Invoices
-//Route::resource('invoices', 'InvoiceController');
-Route::get('/app-invoice-list', 'InvoiceController@invoiceList');
-Route::get('/app-invoice-view', 'InvoiceController@invoiceView');
-Route::get('/app-invoice-edit', 'InvoiceController@invoiceEdit');
-Route::get('/app-invoice-add', 'InvoiceController@invoiceAdd');
+    // Users
+    Route::resource('users', 'UserController');
+    Route::get('/user-profile', 'UserController@userProfile')->name('user.profile');
+    Route::put('/user-profile', 'UserController@profileUpdate')->name('user.profile.update');
+
+    // Invoices
+    //Route::resource('invoices', 'InvoiceController');
+    Route::get('/app-invoice-list', 'InvoiceController@invoiceList');
+    Route::get('/app-invoice-view', 'InvoiceController@invoiceView');
+    Route::get('/app-invoice-edit', 'InvoiceController@invoiceEdit');
+    Route::get('/app-invoice-add', 'InvoiceController@invoiceAdd');
+
+});
 
