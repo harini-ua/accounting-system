@@ -22,7 +22,6 @@ class UserController extends Controller
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => "Home"],
-            ['link' => "javascript:void(0)", 'name' => "User"],
             ['name' => "Users List"]
         ];
         //Pageheader set true for breadcrumbs
@@ -89,7 +88,7 @@ class UserController extends Controller
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => "Home"],
-            ['link' => "javascript:void(0)", 'name' => "User"],
+            ['link' => route('users.index'), 'name' => "User"],
             ['name' => "User Edit"]
         ];
         //Pageheader set true for breadcrumbs

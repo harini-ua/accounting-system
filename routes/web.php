@@ -22,6 +22,10 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/user-profile', 'UserController@userProfile')->name('user.profile');
     Route::put('/user-profile', 'UserController@profileUpdate')->name('user.profile.update');
 
+    Route::resource('wallets', 'WalletController');
+
+    Route::resource('accounts', 'AccountController');
+
     // Invoices
     //Route::resource('invoices', 'InvoiceController');
     Route::get('/app-invoice-list', 'InvoiceController@invoiceList');

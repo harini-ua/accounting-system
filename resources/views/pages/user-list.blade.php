@@ -31,7 +31,7 @@
                 <div class="card-content">
                     <!-- datatable start -->
                     <div class="responsive-table">
-                        {{$dataTable->table()}}
+                        {{ $dataTable->table() }}
                     </div>
                     <!-- datatable ends -->
                 </div>
@@ -49,6 +49,6 @@
 
 {{-- page script --}}
 @section('page-script')
-    <script src="{{asset('js/scripts/page-users.js')}}"></script>
-    {{$dataTable->scripts()}}
+    {{ $dataTable->scripts() }}
+    <script src="{{asset('js/scripts/data-tables.js')}}"></script>
 @endsection

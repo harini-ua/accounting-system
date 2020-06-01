@@ -2,15 +2,15 @@
 
 namespace App\DataTables;
 
-use App\Position;
-use App\User;
+use App\Wallet;
+use App\WalletType;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class UsersDataTable extends DataTable
+class WalletDataTable extends DataTable
 {
     /**
      * Build DataTable class.
@@ -22,24 +22,30 @@ class UsersDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', function(User $user) {
-                return view("partials.actions", ['actions'=>['edit','delete'], 'model' => $user]);
+            ->addColumn('action', function(Wallet $model) {
+                return view("partials.actions", ['actions'=>['view','delete'], 'model' => $model]);
             })
-            ->filterColumn('position', function($query, $keyword) {
-                $walletTypes = Position::where('name', 'like', "%$keyword%")->pluck('id')->toArray();
-                $query->whereIn('position_id', $walletTypes);
+            ->addColumn('status', function(Wallet $model) {
+                return $model->status
+                    ? '<span class="chip lighten-5 green green-text">Active</span>'
+                    : '<span class="chip lighten-5 red red-text">Inactive</span>';
+            })
+            ->rawColumns(['status'])
+            ->filterColumn('type', function($query, $keyword) {
+                $walletTypes = WalletType::where('name', 'like', "%$keyword%")->pluck('id')->toArray();
+                $query->whereIn('wallet_type_id', $walletTypes);
             });
     }
 
     /**
      * Get query source of dataTable.
      *
-     * @param \App\User $model
+     * @param \App\Wallet $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function query(User $model)
+    public function query(Wallet $model)
     {
-        return $model->newQuery()->with('position');
+        return $model->newQuery()->with('walletType');
     }
 
     /**
@@ -50,8 +56,8 @@ class UsersDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('users-list-datatable')
-                    ->addTableClass('table')
+                    ->setTableId('data-table-wallet')
+                    ->addTableClass('display')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
@@ -66,11 +72,9 @@ class UsersDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('id'),
             Column::make('name'),
-            Column::make('email'),
-            Column::make('position')->data('position.name')
-                ->orderable(false),
+            Column::make('type')->data('wallet_type.name'),
+            Column::make('status'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
@@ -87,6 +91,6 @@ class UsersDataTable extends DataTable
      */
     protected function filename()
     {
-        return 'Users_' . date('YmdHis');
+        return 'Wallet_' . date('YmdHis');
     }
 }

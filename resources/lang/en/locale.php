@@ -135,5 +135,7 @@ return [
     "Page Collapse"=> "Page Collapse",
     "Users"=> "Users",
     "Invoices"=> "Invoices",
+    "Wallets"=> "Wallets",
+    "Accounts"=> "Accounts",
 ];
 ?>

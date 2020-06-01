@@ -15,6 +15,22 @@
             "i18n": "Users"
         },
         {
+            "url": "wallets",
+            "name": "Wallets",
+            "i18n": "Wallets",
+            "class": "waves-effect waves-cyan",
+            "icon": "account_balance_wallet",
+            "slug": "wallets"
+        },
+        {
+            "url": "accounts",
+            "name": "Accounts",
+            "i18n": "Accounts",
+            "class": "waves-effect waves-cyan",
+            "icon": "account_balance",
+            "slug": "accounts"
+        },
+        {
             "url": "app-invoice-list",
             "name": "Invoices",
             "slug": "app-invoice-list",
