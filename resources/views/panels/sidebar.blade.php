@@ -46,9 +46,8 @@
         @else
         @php
           $custom_classes="";
-          if(isset($menu->class))
-          {
-          $custom_classes = $menu->class;
+          if(isset($menu->class)) {
+            $custom_classes = $menu->class;
           }
         @endphp
         <li class="bold {{(request()->is($menu->url.'*')) ? 'active' : '' }}">

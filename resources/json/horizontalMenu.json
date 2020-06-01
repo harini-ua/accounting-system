@@ -36,6 +36,13 @@
             "slug": "app-invoice-list",
             "icon": "receipt",
             "i18n": "Invoices"
+        },
+        {
+            "url": "clients",
+            "name": "Clients",
+            "slug": "clients",
+            "icon": "group",
+            "i18n": "Clients"
         }
     ]
 }
