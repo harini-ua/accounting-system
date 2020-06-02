@@ -22,11 +22,17 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/user-profile', 'UserController@userProfile')->name('user.profile');
     Route::put('/user-profile', 'UserController@profileUpdate')->name('user.profile.update');
 
+    // Wallets
     Route::resource('wallets', 'WalletController');
 
+    // Accounts
     Route::resource('accounts', 'AccountController');
 
-    // Invoices
+    // Money Flows
+    Route::resource('money-flows', 'MoneyFlowController');
+    Route::get('walletAccounts/{walletId}', 'MoneyFlowController@walletAccounts');
+
+    // Invoices example
     //Route::resource('invoices', 'InvoiceController');
     Route::get('/app-invoice-list', 'InvoiceController@invoiceList');
     Route::get('/app-invoice-view', 'InvoiceController@invoiceView');

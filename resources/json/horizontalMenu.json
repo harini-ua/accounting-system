@@ -31,6 +31,14 @@
             "slug": "accounts"
         },
         {
+            "url": "money-flows",
+            "name": "Money Flows",
+            "i18n": "Money Flows",
+            "class": "waves-effect waves-cyan",
+            "icon": "account_balance",
+            "slug": "money-flows"
+        },
+        {
             "url": "app-invoice-list",
             "name": "Invoices",
             "slug": "app-invoice-list",

@@ -24,7 +24,7 @@ class AccountRequest extends FormRequest
     public function rules()
     {
         return [
-            'started_at' => 'required|date_format:d/m/Y',
+            'started_at' => 'required|date_format:d-m-Y',
             'start_sum' => 'required|numeric',
             'status' => 'boolean',
         ];

@@ -45,38 +45,18 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="row">
-                                    <div class="col s12 input-field">
-                                        <input id="name" name="name" type="text" class="validate" value="{{ $user->name }}"
-                                               data-error=".errorTxt1">
-                                        <label for="name">Name</label>
-                                        @error('name')
-                                            <small class="errorTxt1">{{ $message }}</small>
-                                        @enderror
-                                    </div>
-                                    <div class="col s12 input-field">
-                                        <input id="email" name="email" type="email" class="validate" value="{{ $user->email }}"
-                                               data-error=".errorTxt2">
-                                        <label for="email">E-mail</label>
-                                        @error('email')
-                                            <small class="errorTxt2">{{ $message }}</small>
-                                        @enderror
-                                    </div>
+                                    <x-input name="name" title="Name" :model="$user"></x-input>
+                                    <x-input name="email" title="E-mail" :model="$user"></x-input>
                                 </div>
                             </div>
                             <div class="col s12 m6">
                                 <div class="row">
-                                    <div class="col s12 input-field">
-                                        <select id="position_id" name="position_id">
-                                            <option value="">-</option>
-                                            @foreach ($positions as $position)
-                                                <option {{ $user->position_id == $position->id ? 'selected' : '' }}
-                                                        value="{{ $position->id }}">
-                                                {{ $position->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <label for="position_id">Position</label>
-                                    </div>
+                                    <x-select
+                                        name="position_id"
+                                        title="Position"
+                                        :options="$positions"
+                                        :model="$user"
+                                    ></x-select>
                                 </div>
                             </div>
 {{--                            <div class="col s12">--}}
