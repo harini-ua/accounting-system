@@ -138,5 +138,5 @@ return [
     "Wallets"=> "Wallets",
     "Accounts"=> "Accounts",
     "Clients"=> "Clients",
+    "Money Flows"=> "Money Flows",
 ];
-?>

@@ -44,22 +44,8 @@
                             <div class="row">
                                 <div class="col s12 m6">
                                     <div class="row">
-                                        <div class="col s12 input-field">
-                                            <input id="name" name="name" type="text" class="validate" value="{{ old('name') }}"
-                                                   data-error=".errorTxt1">
-                                            <label for="name">Name</label>
-                                            @error('name')
-                                            <small class="errorTxt1">{{ $message }}</small>
-                                            @enderror
-                                        </div>
-                                        <div class="col s12 input-field">
-                                            <input id="email" name="email" type="email" class="validate" value="{{ old('email') }}"
-                                                   data-error=".errorTxt2">
-                                            <label for="email">E-mail</label>
-                                            @error('email')
-                                            <small class="errorTxt2">{{ $message }}</small>
-                                            @enderror
-                                        </div>
+                                        <x-input name="name" title="Name"></x-input>
+                                        <x-input name="email" title="E-mail"></x-input>
                                     </div>
                                 </div>
                                 <div class="col s12 m6">
@@ -72,18 +58,11 @@
                                             <small class="errorTxt3">{{ $message }}</small>
                                             @enderror
                                         </div>
-                                        <div class="col s12 input-field">
-                                            <select id="position_id" name="position_id">
-                                                <option value="">-</option>
-                                                @foreach ($positions as $position)
-                                                    <option {{ old('position_id') == $position->id ? 'selected' : '' }}
-                                                            value="{{ $position->id }}">
-                                                        {{ $position->name }}
-                                                    </option>
-                                                @endforeach
-                                            </select>
-                                            <label for="position_id">Position</label>
-                                        </div>
+                                        <x-select-old
+                                            name="position_id"
+                                            title="Position"
+                                            :options="$positions"
+                                        ></x-select-old>
                                     </div>
                                 </div>
                                 {{--                            <div class="col s12">--}}
