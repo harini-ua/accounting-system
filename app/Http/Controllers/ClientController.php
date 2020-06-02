@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ClientsDataTable;
-use Illuminate\Http\Request;
+use App\Http\Requests\ClientCreateRequest;
+use App\Http\Requests\ClientUpdateRequest;
+use App\Modules\Client;
 
 class ClientController extends Controller
 {
@@ -39,66 +41,121 @@ class ClientController extends Controller
     /**
      * Show the form for creating a new client.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        return view('pages.client.create');
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => 'Home'],
+            ['link' => 'javascript:void(0)', 'name' => 'Client'],
+            ['name' => 'Create']
+        ];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        return view('pages.client.create', compact('pageConfigs', 'breadcrumbs'));
     }
 
     /**
      * Store a newly created resource in client.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(ClientCreateRequest $request)
     {
-        //..
+        $client = new Client();
+        $client->fill($request->all());
+        $client->save();
+
+        alert()->success($client->name, __('Create client has been successful'));
+
+        return redirect()->route('clients.show', $client);
     }
 
     /**
      * Display the specified client.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Client $client
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($id)
+    public function show(Client $client)
     {
-        return view('pages.client.view');
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => 'Home'],
+            ['link' => 'javascript:void(0)', 'name' => 'Client'],
+            ['name' => $client->name]
+        ];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $client->load('addresses');
+
+        return view('pages.client.view', compact('pageConfigs', 'breadcrumbs', 'client'));
     }
 
     /**
      * Show the form for editing the specified client.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Client $client
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Client $client)
     {
-        return view('pages.client.update');
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => 'Home'],
+            ['link' => 'javascript:void(0)', 'name' => 'Client'],
+            ['name' => 'Update']
+        ];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $client->load('addresses');
+
+        return view('pages.client.update', compact('pageConfigs', 'breadcrumbs', 'client'));
     }
 
     /**
      * Update the specified resource in client.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Client $client
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(ClientUpdateRequest $request, Client $client)
     {
-        return redirect()->view();
+        $client->fill($request->all());
+        $client->save();
+
+        alert()->success($client->name, __('Client data has been update successful'));
+
+        return redirect()->route('clients.index');
     }
 
     /**
      * Remove the specified resource from client.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param  Client $client
+     *
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy($id)
+    public function destroy(Client $client)
     {
-        //..
+        if ($client->delete()) {
+            return response()->json([
+                'success' => true,
+                'message' => __('Client has been deleted successfully.')
+            ]);
+        }
+
+
+        return response()->json([
+            'success' => false,
+            'message' => __('Something went wrong. Try again.')
+        ]);
     }
 }

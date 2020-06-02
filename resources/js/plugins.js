@@ -129,7 +129,7 @@ $(function () {
       });
    }
 
-   $("select").formSelect();
+   $('select:not(.swal2-select)').formSelect();
    // Set checkbox on forms.html to indeterminate
    var indeterminateCheckbox = document.getElementById("indeterminate-checkbox");
    if (indeterminateCheckbox !== null) indeterminateCheckbox.indeterminate = true;

@@ -2,6 +2,9 @@
   class="{{$configData['mainLayoutTypeClass']}} @if(!empty($configData['bodyCustomClass']) && isset($configData['bodyCustomClass'])) {{$configData['bodyCustomClass']}} @endif @if($configData['isMenuCollapsed'] && isset($configData['isMenuCollapsed'])){{'menu-collapse'}} @endif"
   data-open="click" data-menu="vertical-modern-menu" data-col="2-columns">
 
+<script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
+  @include('sweetalert::alert')
+
   <!-- BEGIN: Header-->
   <header class="page-topbar" id="header">
     @include('panels.navbar')

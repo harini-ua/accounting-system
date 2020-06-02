@@ -11,19 +11,14 @@
           href="{{asset('vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
 @endsection
 
-{{-- page styles --}}
-@section('page-style')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-users.css')}}">
-@endsection
-
 {{-- page content --}}
 @section('content')
     <!-- client list start -->
-    <section class="clients-list-wrapper section">
+    <div id="clients" class="clients-wrapper section">
         <div class="create-btn">
             <a href="{{ route('clients.create') }}" class="btn border-round z-depth-4">
                 <i class="material-icons">add</i>
-                <span class="hide-on-small-only">Add Client</span>
+                <span class="hide-on-small-only">{{ __('Add Client') }}</span>
             </a>
         </div>
         <div class="clients-list-table">
@@ -37,7 +32,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
     <!-- client list ends -->
 @endsection
 
@@ -51,4 +46,5 @@
 @section('page-script')
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
+    <script src="{{asset('js/scripts/clients.js')}}"></script>
 @endsection

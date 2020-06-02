@@ -22,8 +22,18 @@ class ClientsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->addColumn('name', static function(Client $model) {
+                return '<a target="_blank" href="'.route('clients.show', $model->id).'">'.$model->name.'</a>';
+            })
+            ->addColumn('email', static function(Client $model) {
+                return '<a href="mailto:'.$model->email.'">'.$model->email.'</a>';
+            })
+            ->addColumn('phone', static function(Client $model) {
+                return '<a href="tel:'.$model->phone.'">'.$model->phone.'</a>';
+            })
+            ->rawColumns(['name', 'email', 'phone'])
             ->addColumn('action', static function(Client $client) {
-                return view('partials.actions', ['actions' =>['edit', 'delete'], 'model' => $client]);
+                return view('partials.actions', ['actions' =>['view', 'edit', 'delete'], 'model' => $client]);
             });
     }
 
@@ -63,15 +73,15 @@ class ClientsDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('name'),
-            Column::make('company_name'),
+            Column::make('name')->searchable(),
+            Column::make('company_name')->searchable(),
             Column::make('email'),
             Column::make('phone'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)
-                ->width(60)
+                ->width(100)
                 ->addClass('text-center'),
         ];
     }

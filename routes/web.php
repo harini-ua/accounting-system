@@ -41,7 +41,7 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/{client}', 'ClientController@show')->name('clients.show');
         Route::get('/{client}/edit', 'ClientController@edit')->name('clients.edit');
         Route::put('/{client}', 'ClientController@update')->name('clients.update');
-        Route::get('/{client}/delete', 'ClientController@destroy')->name('clients.destroy');
+        Route::delete('/{client}/delete', 'ClientController@destroy')->name('clients.destroy');
     });
 
 });
