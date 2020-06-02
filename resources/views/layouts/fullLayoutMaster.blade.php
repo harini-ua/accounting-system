@@ -42,6 +42,10 @@ License: You must have a valid license purchased only from themeforest(the above
 <body
   class="{{$configData['mainLayoutTypeClass']}} @if(!empty($configData['bodyCustomClass'])) {{$configData['bodyCustomClass']}} @endif"
   data-open="click" data-menu="vertical-modern-menu" data-col="1-column">
+
+<script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
+  @include('sweetalert::alert')
+
   <div class="row">
     <div class="col s12">
       <div class="container">

@@ -2,6 +2,9 @@
   class="{{$configData['mainLayoutTypeClass']}} @if(!empty($configData['bodyCustomClass']) && isset($configData['bodyCustomClass'])) {{$configData['bodyCustomClass']}} @endif"
   data-open="click" data-menu="horizontal-menu" data-col="2-columns">
 
+<script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
+  @include('sweetalert::alert')
+
   <!-- BEGIN: Header-->
   <header class="page-topbar" id="header">
     @include('panels.horizontalNavbar')

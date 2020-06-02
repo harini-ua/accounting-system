@@ -39,5 +39,16 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/app-invoice-edit', 'InvoiceController@invoiceEdit');
     Route::get('/app-invoice-add', 'InvoiceController@invoiceAdd');
 
+    // CLIENTS
+    Route::group(['prefix' => 'clients'], static function() {
+        Route::get('/', 'ClientController@index')->name('clients.index');
+        Route::get('/create', 'ClientController@create')->name('clients.create');
+        Route::post('/', 'ClientController@store')->name('clients.store');
+        Route::get('/{client}', 'ClientController@show')->name('clients.show');
+        Route::get('/{client}/edit', 'ClientController@edit')->name('clients.edit');
+        Route::put('/{client}', 'ClientController@update')->name('clients.update');
+        Route::delete('/{client}/delete', 'ClientController@destroy')->name('clients.destroy');
+    });
+
 });
 
