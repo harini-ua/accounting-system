@@ -73,7 +73,7 @@
                             </a>
                         </div>
                         <div class="invoice-action-btn">
-                            <a href="#" class="btn waves-effect waves-light display-flex align-items-center justify-content-center">
+                            <a href="{{ route('money-flows.create') }}" class="btn waves-effect waves-light display-flex align-items-center justify-content-center">
                                 <i class="material-icons mr-3">attach_money</i>
                                 <span class="text-nowrap">Add Payment</span>
                             </a>
