@@ -50,5 +50,15 @@ Route::middleware(['auth'])->group(function() {
         Route::delete('/{client}/delete', 'ClientController@destroy')->name('clients.destroy');
     });
 
+    // CONTRACTS
+    Route::group(['prefix' => 'contracts'], static function() {
+        Route::get('/', 'ContractController@index')->name('contracts.index');
+        Route::get('/create', 'ContractController@create')->name('contracts.create');
+        Route::post('/', 'ContractController@store')->name('contracts.store');
+        Route::get('/{contract}', 'ContractController@show')->name('contracts.show');
+        Route::get('/{contract}/edit', 'ContractController@edit')->name('contracts.edit');
+        Route::put('/{contract}', 'ContractController@update')->name('contracts.update');
+        Route::delete('/{contract}/delete', 'ContractController@destroy')->name('contracts.destroy');
+    });
 });
 

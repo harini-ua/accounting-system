@@ -51,6 +51,13 @@
             "slug": "clients",
             "icon": "group",
             "i18n": "Clients"
+        },
+        {
+            "url": "contracts",
+            "name": "Contracts",
+            "slug": "contracts",
+            "icon": "business_center",
+            "i18n": "Contracts"
         }
     ]
 }

@@ -4,10 +4,18 @@
 {{-- page title --}}
 @section('title', "$client->name ($client->company_name)")
 
+{{-- vendors styles --}}
+@section('vendor-style')
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/jquery.dataTables.min.css')}}">
+    <link rel="stylesheet" type="text/css"
+          href="{{asset('vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
+@endsection
+
 {{-- page content --}}
 @section('content')
     <!-- client update start -->
     <div id="clients" class="section">
+        <h5>{{ $client->name.' ('.$client->company_name.')' }}</h5>
         <div class="row">
             <div class="col s12 m4 l3" style="margin-top: 25px">
                 <div class="row">
@@ -20,7 +28,9 @@
                 <div class="row mt-5">
                     <div class="col s6">
                         <h6>{{ __('Contracts') }}</h6>
-                        <h5 class="m-0"><a href="#">540</a></h5>
+                        <h5 class="m-0"><a href="#" class="tooltipped"
+                                           data-position="right"
+                                           data-tooltip="{{ __('Total: ').$client->contracts->count().' / '.__('Closed: ').$closedContract }}">{{ $client->contracts->count().'/'.$closedContract}}</a></h5>
                     </div>
                     <div class="col s6">
                         <h6>{{ __('Balance') }}</h6>
@@ -69,7 +79,11 @@
                             <div class="row">
                                 <div class="col s12">
                                     <h5>{{ __('Contracts') }}</h5>
-
+                                    <!-- datatable start -->
+                                    <div class="responsive-table">
+                                        {{ $dataTable->table() }}
+                                    </div>
+                                    <!-- datatable ends -->
                                 </div>
                             </div>
                         </div>
@@ -79,4 +93,17 @@
         </div>
     </div>
     <!-- client update ends -->
+@endsection
+
+{{-- vendor scripts --}}
+@section('vendor-script')
+    <script src="{{asset('vendors/data-tables/js/jquery.dataTables.min.js')}}"></script>
+    <script src="{{asset('vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js')}}"></script>
+@endsection
+
+{{-- page script --}}
+@section('page-script')
+    {{ $dataTable->scripts() }}
+    <script src="{{asset('js/scripts/data-tables.js')}}"></script>
+    <script src="{{asset('js/scripts/clients.js')}}"></script>
 @endsection

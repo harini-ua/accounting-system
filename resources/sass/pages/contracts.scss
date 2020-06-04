@@ -1,0 +1,168 @@
+@import 'variables.scss';
+$contract-border-color:#e8e8e8;
+
+/* Contract list */
+/*---------------*/
+.contracts-lists-wrapper {
+    margin-top: 10px;
+    margin-bottom: 22px;
+
+    /* Contract wrapper */
+    .responsive-table {
+        .top {
+            .action-filters {
+                flex-grow: .95;
+
+                .dataTables_filter {
+                    width: 100%;
+                    padding-right: 30px;
+
+                    label {
+                        position: relative;
+
+                        input[type="search"] {
+                            border: 1px solid color("grey", "base") !important;
+                            background: white;
+                            margin: 0;
+                            height: 3.2rem;
+                            padding-left: 1.5rem;
+                            border-radius: 150px;
+                            border-bottom: none;
+
+                            &:focus {
+                                box-shadow: none;
+                            }
+                        }
+
+                        .filter-btn {
+                            position: absolute;
+                            right: 7px;
+                            top: -12px;
+                        }
+                    }
+                }
+            }
+
+            .action-btns {
+                flex-grow: .05;
+                justify-content: space-around;
+            }
+        }
+
+        /* data table */
+        .contract-data-table {
+            border-collapse: collapse;
+            box-shadow: box-shadow .25s;
+
+            th {
+                width: auto !important;
+                padding: 19px 15px;
+                border-bottom: 1px solid color("grey", "lighten-2");
+            }
+
+            &.dataTable tbody td {
+                padding: .8rem .8rem;
+
+                .contract-action {
+                    a {
+                        color: color("grey", "base");
+
+                        i {
+                            font-size: 1.5rem;
+                        }
+                    }
+                }
+            }
+
+            tr:last-child {
+                border-bottom-color: transparent;
+            }
+
+            .dt-checkboxes-cell {
+
+                /* Data Table checkbox style */
+                input {
+                    opacity: .5;
+                    -webkit-appearance: none;
+
+                    &::before,
+                    &::after {
+                        content: '';
+                        position: absolute;
+                        border-radius: 4px;
+                        top: -4px;
+                        left: 0;
+                        width: 18px;
+                        height: 18px;
+                        z-index: 0;
+                        border: 2px solid color("grey", "base");
+                        margin-top: -3px;
+                        transition: .2s;
+                    }
+
+                    &:checked:before,
+                    &:checked::after {
+                        top: -4px;
+                        left: -5px;
+                        width: 12px;
+                        height: 22px;
+                        border-top: 2px solid transparent;
+                        border-left: 2px solid transparent;
+                        border-right: 2px solid color("pink", "accent-2");
+                        border-bottom: 2px solid color("pink", "accent-2");
+                        transform: rotate(40deg);
+                        backface-visibility: hidden;
+                        transform-origin: 100% 100%;
+                    }
+                }
+            }
+        }
+
+        /* Data table Pagination*/
+        .bottom {
+            margin-top: 1rem;
+
+            .dataTables_paginate {
+                .paginate_button {
+                    padding: 0.25em 0.65em;
+                    margin-top: 0.25rem;
+
+                    &.current,
+                    &:hover {
+                        border-radius: 4px;
+                        background: color("indigo", "base");
+                        border: 1px solid color("indigo", "base");
+                        box-shadow: 0px 0px 8px 0px #3f51b5;
+                        color: white !important;
+                    }
+                }
+            }
+        }
+
+        /* small bullet*/
+        .bullet {
+            height: 10px;
+            width: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: .2rem;
+        }
+    }
+    table.dataTable.dtr-column>tbody>tr>td.control:before,
+    table.dataTable.dtr-column>tbody>tr>th.control:before{
+        left: 80%;
+    }
+}
+
+/* Contract */
+/*--------*/
+.contract-view-wrapper {
+
+}
+
+/* Contract Edit and Add */
+/*----------------------*/
+
+.contract-edit-wrapper{
+
+}

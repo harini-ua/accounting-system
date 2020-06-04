@@ -32,4 +32,12 @@ class Client extends Model
      * @var array
      */
     protected $fillable = ['name', 'company_name', 'email', 'phone'];
+
+    /**
+     * Get the contracts for the client.
+     */
+    public function contracts()
+    {
+        return $this->hasMany(Contract::class);
+    }
 }

@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2.5",
         "ext-json": "*",
+        "bensampo/laravel-enum": "^1.37",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
@@ -20,7 +21,8 @@
         "nesbot/carbon": "^2.28",
         "pragmarx/countries": "^0.7.0",
         "realrashid/sweet-alert": "^3.1",
-        "yajra/laravel-datatables": "^1.5"
+        "yajra/laravel-datatables": "^1.5",
+        "ext-mbstring": "*"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.3",
