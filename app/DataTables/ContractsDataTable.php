@@ -13,6 +13,7 @@ use Yajra\DataTables\Services\DataTable;
 class ContractsDataTable extends DataTable
 {
     const COLUMNS = [
+        'id',
         'client',
         'name',
         'comment',
@@ -42,6 +43,9 @@ class ContractsDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = datatables()->eloquent($query);
+        $dataTable->addColumn('id', static function(Contract $model) {
+            return $model->id;
+        });
 
         if ($this->client_id === null) {
             $dataTable->addColumn('client', static function(Contract $model) {
@@ -135,6 +139,9 @@ class ContractsDataTable extends DataTable
         $data[] = Column::make('manager')->title(__('Sales Manager'));
         $data[] = Column::make('status');
         $data[] = Column::computed('action')->addClass('text-center');
+
+//        dump($data);
+//        die('dump');
 
         return $data;
     }
