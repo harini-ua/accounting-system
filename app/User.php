@@ -44,4 +44,17 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Position::class);
     }
+
+    /**
+     * Scope a query user by position.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param integer                               $positionId
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByPosition($query, $positionId)
+    {
+        return $query->where('position_id', $positionId);
+    }
 }

@@ -3,7 +3,6 @@
 namespace App\DataTables;
 
 use App\Modules\Client;
-use App\Position;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -12,6 +11,12 @@ use Yajra\DataTables\Services\DataTable;
 
 class ClientsDataTable extends DataTable
 {
+    const COLUMNS = [
+        'name',
+        'email',
+        'phone'
+    ];
+
     /**
      * Build DataTable class.
      *
@@ -31,10 +36,10 @@ class ClientsDataTable extends DataTable
             ->addColumn('phone', static function(Client $model) {
                 return '<a href="tel:'.$model->phone.'">'.$model->phone.'</a>';
             })
-            ->rawColumns(['name', 'email', 'phone'])
-            ->addColumn('action', static function(Client $client) {
-                return view('partials.actions', ['actions' =>['view', 'edit', 'delete'], 'model' => $client]);
-            });
+            ->addColumn('action', static function(Client $model) {
+                return view('partials.actions', ['actions' =>['view', 'edit', 'delete'], 'model' => $model]);
+            })
+            ->rawColumns(self::COLUMNS);
     }
 
     /**
@@ -56,12 +61,14 @@ class ClientsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('clients-list-datatable')
-                    ->addTableClass('table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(0);
+            ->setTableId('clients-list-datatable')
+            ->addTableClass('table client-data-table white border-radius-4 pt-1')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('<"top display-flex  mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>')
+            ->languageSearch('')
+            ->languageSearchPlaceholder('Search Client')
+            ->orderBy(0);
     }
 
     /**
@@ -78,10 +85,6 @@ class ClientsDataTable extends DataTable
             Column::make('email'),
             Column::make('phone'),
             Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
-                ->orderable(false)
-                ->width(100)
                 ->addClass('text-center'),
         ];
     }

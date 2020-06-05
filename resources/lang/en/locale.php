@@ -139,4 +139,5 @@ return [
     "Accounts"=> "Accounts",
     "Clients"=> "Clients",
     "Money Flows"=> "Money Flows",
+    "Contracts"=> "Contracts",
 ];

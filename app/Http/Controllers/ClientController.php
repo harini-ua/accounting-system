@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ClientsDataTable;
+use App\DataTables\ContractsDataTable;
+use App\Enums\ContractStatus;
 use App\Http\Requests\ClientCreateRequest;
 use App\Http\Requests\ClientUpdateRequest;
 use App\Modules\Client;
@@ -28,14 +30,9 @@ class ClientController extends Controller
      */
     public function index(ClientsDataTable $dataTable)
     {
-        $breadcrumbs = [
-            ['link' => route('home'), 'name' => __('Home')],
-            ['name' => __('Clients')]
-        ];
+        $pageConfigs = ['pageHeader' => true];
 
-        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
-
-        return $dataTable->render('pages.client.index', compact('pageConfigs', 'breadcrumbs'));
+        return $dataTable->render('pages.client.index', compact('pageConfigs'));
     }
 
     /**
@@ -83,17 +80,17 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        $breadcrumbs = [
-            ['link' => route('home'), 'name' => 'Home'],
-            ['link' => 'javascript:void(0)', 'name' => 'Client'],
-            ['name' => $client->name]
-        ];
-
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        $client->load('addresses');
+        $client->load(['addresses', 'contracts']);
 
-        return view('pages.client.view', compact('pageConfigs', 'breadcrumbs', 'client'));
+        $dataTable = new ContractsDataTable($client->id);
+
+        $closedContract = $client->contracts()->status(ContractStatus::CLOSED)->count();
+
+        return $dataTable->render('pages.client.view', compact(
+            'pageConfigs', 'client', 'closedContract'
+        ));
     }
 
     /**
