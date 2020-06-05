@@ -8,6 +8,7 @@ use App\Http\Requests\AccountRequest;
 use App\Wallet;
 use App\Account;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class AccountController extends Controller
 {
@@ -24,10 +25,14 @@ class AccountController extends Controller
         $pageConfigs = ['bodyCustomClass' => 'app-page'];
 
         $wallets = Wallet::all();
+        $startDate = Carbon::now()->startOfMonth();
+        $endDate = Carbon::now();
 
-        return $dataTable->render('pages.account-list', [
+        return $dataTable->render('pages.account.index', [
             'pageConfigs' => $pageConfigs,
             'wallets' => $wallets,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
         ]);
     }
 
@@ -81,7 +86,7 @@ class AccountController extends Controller
 
         $wallets = Wallet::all();
         $accountTypes = AccountType::all();
-        return view('pages.account-edit', [
+        return view('pages.account.edit', [
             'breadcrumbs' => $breadcrumbs,
             'pageConfigs' => $pageConfigs,
             'model' => $account,

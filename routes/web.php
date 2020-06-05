@@ -18,18 +18,18 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/', 'DashboardController@index')->name('home');
 
     // Users
-    Route::resource('users', 'UserController');
+    Route::resource('users', 'UserController')->except(['show']);
     Route::get('/user-profile', 'UserController@userProfile')->name('user.profile');
     Route::put('/user-profile', 'UserController@profileUpdate')->name('user.profile.update');
 
     // Wallets
-    Route::resource('wallets', 'WalletController');
+    Route::resource('wallets', 'WalletController')->except(['create', 'edit', 'update']);
 
     // Accounts
-    Route::resource('accounts', 'AccountController');
+    Route::resource('accounts', 'AccountController')->only(['index', 'edit', 'update']);
 
     // Money Flows
-    Route::resource('money-flows', 'MoneyFlowController');
+    Route::resource('money-flows', 'MoneyFlowController')->except(['show']);
     Route::get('walletAccounts/{walletId}', 'MoneyFlowController@walletAccounts');
 
     // Invoices example

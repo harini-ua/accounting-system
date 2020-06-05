@@ -22,7 +22,7 @@ class MoneyFlowController extends Controller
         // custom body class
         $pageConfigs = ['bodyCustomClass' => 'app-page'];
 
-        return $dataTable->render('pages.money-flow-list', [
+        return $dataTable->render('pages.money-flow.index', [
             'pageConfigs' => $pageConfigs,
         ]);
     }
@@ -44,7 +44,7 @@ class MoneyFlowController extends Controller
 
         $wallets = Wallet::with('accounts')->get();
 
-        return view('pages.money-flow-add', [
+        return view('pages.money-flow.create', [
             'breadcrumbs' => $breadcrumbs,
             'pageConfigs' => $pageConfigs,
             'wallets' => $wallets,
@@ -95,7 +95,7 @@ class MoneyFlowController extends Controller
         $accounts = Account::with('accountType')->get();
         $moneyFlow->load('accountFrom.wallet');
 
-        return view('pages.money-flow-edit', [
+        return view('pages.money-flow.edit', [
             'breadcrumbs' => $breadcrumbs,
             'pageConfigs' => $pageConfigs,
             'model' => $moneyFlow,

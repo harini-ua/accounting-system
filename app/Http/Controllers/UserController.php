@@ -27,7 +27,7 @@ class UserController extends Controller
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        return $dataTable->render('pages.user-list', ['pageConfigs' => $pageConfigs], ['breadcrumbs' => $breadcrumbs]);
+        return $dataTable->render('pages.user.index', ['pageConfigs' => $pageConfigs], ['breadcrumbs' => $breadcrumbs]);
     }
 
     /**
@@ -47,7 +47,7 @@ class UserController extends Controller
 
         $positions = Position::all();
 
-        return view('pages.user-add', [
+        return view('pages.user.create', [
             'pageConfigs' => $pageConfigs,
             'breadcrumbs' => $breadcrumbs,
             'positions' => $positions,
@@ -97,7 +97,7 @@ class UserController extends Controller
         $user->load('position');
         $positions = Position::all();
 
-        return view('pages.user-edit', [
+        return view('pages.user.edit', [
             'pageConfigs' => $pageConfigs,
             'breadcrumbs' => $breadcrumbs,
             'user' => $user,
@@ -149,7 +149,7 @@ class UserController extends Controller
 
         $positions = Position::all();
 
-        return view('pages.user-profile-page', [
+        return view('pages.user.profile', [
             'pageConfigs' => $pageConfigs,
             'breadcrumbs' => $breadcrumbs,
             'user' => $request->user(),

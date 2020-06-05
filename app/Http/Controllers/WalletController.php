@@ -23,7 +23,7 @@ class WalletController extends Controller
 
         $walletTypes = WalletType::all();
 
-        return $dataTable->render('pages.wallet-list', [
+        return $dataTable->render('pages.wallet.index', [
             'pageConfigs' => $pageConfigs,
             'walletTypes' => $walletTypes,
         ]);
@@ -66,7 +66,7 @@ class WalletController extends Controller
 
         $wallet->load(['walletType', 'accounts.accountType']);
 
-        return view('pages.wallet-show', [
+        return view('pages.wallet.show', [
             'pageConfigs' => $pageConfigs,
             'wallet' => $wallet,
         ]);
