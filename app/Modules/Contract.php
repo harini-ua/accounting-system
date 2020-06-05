@@ -44,15 +44,6 @@ class Contract extends Model
         'closed_at',
     ];
 
-//    /**
-//     * The attributes that are enum casting.
-//     *
-//     * @var array
-//     */
-//    protected $enumCasts = [
-//        'status' => ContractStatus::class,
-//    ];
-
     /**
      * Get the client that owns the contract.
      */

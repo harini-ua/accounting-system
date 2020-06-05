@@ -33,7 +33,7 @@ class ContractController extends Controller
     {
         $pageConfigs = ['pageHeader' => true];
 
-        return $dataTable->render('pages.contracts.index', compact('pageConfigs'));
+        return $dataTable->render('pages.contract.index', compact('pageConfigs'));
     }
 
     /**
@@ -60,7 +60,7 @@ class ContractController extends Controller
 
         $status = ContractStatus::toSelectArray();
 
-        return view('pages.contracts.create', compact(
+        return view('pages.contract.create', compact(
             'pageConfigs', 'breadcrumbs', 'clients', 'salesManagers', 'status'
         ));
     }
@@ -78,7 +78,7 @@ class ContractController extends Controller
         $contract->fill($request->all());
         $contract->save();
 
-        alert()->success($contract->name, __('Contract client has been successful'));
+        alert()->success($contract->name, __('Create Contract has been successful'));
 
         return redirect()->route('contracts.show', $contract);
     }
@@ -100,7 +100,7 @@ class ContractController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        return view('pages.contracts.view', compact('pageConfigs', 'breadcrumbs', 'contract'));
+        return view('pages.contract.view', compact('pageConfigs', 'breadcrumbs', 'contract'));
     }
 
     /**
@@ -131,7 +131,7 @@ class ContractController extends Controller
 
         $status = ContractStatus::toSelectArray();
 
-        return view('pages.contracts.update', compact(
+        return view('pages.contract.update', compact(
             'pageConfigs', 'breadcrumbs', 'contract', 'clients', 'salesManagers', 'status'
         ));
     }
@@ -170,7 +170,6 @@ class ContractController extends Controller
                 'message' => __('Contract has been deleted successfully.')
             ]);
         }
-
 
         return response()->json([
             'success' => false,

@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\InvoicesDataTable;
+use App\Modules\Invoice;
+use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -9,101 +12,133 @@ class InvoiceController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param InvoicesDataTable $dataTable
+     *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(InvoicesDataTable $dataTable)
     {
-        //
+        $pageConfigs = ['pageHeader' => true];
+
+        return $dataTable->render('pages.invoice.index', compact('pageConfigs'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create()
     {
-        //
+        $pageConfigs = ['pageHeader' => true];
+
+        return view('pages.invoice.create', compact('pageConfigs'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(Request $request)
     {
-        //
+        $invoice = new Invoice();
+        $invoice->fill($request->all());
+        $invoice->save();
+
+        alert()->success($invoice->number, __('Create invoice has been successful'));
+
+        return redirect()->route('invoices.show', $invoice);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Invoice $invoice
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show($id)
+    public function show(Invoice $invoice)
     {
-        //
+        $pageConfigs = ['pageHeader' => true];
+
+        return view('pages.invoice.view', compact('pageConfigs', 'invoice'));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Invoice $invoice
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Invoice $invoice)
     {
-        //
+        $pageConfigs = ['pageHeader' => true];
+
+        $invoice->load('contract');
+
+        return view('pages.invoice.update', compact('pageConfigs', 'invoice'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param Invoice                  $invoice
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(Request $request, Invoice $invoice)
+    {
+        $invoice->fill($request->all());
+        $invoice->save();
+
+        alert()->success($invoice->numder, __('Invoice data has been update successful'));
+
+        return redirect()->route('invoices.index');
+    }
+
+    /**
+     * Download the specified resource to pdf file.
+     *
+     * @param Invoice $invoice
+     *
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function download(Invoice $invoice)
     {
-        //
+        $pdf = PDF::loadView('pdf.invoice.default', $invoice);
+        $pdf->setPaper(
+            config('invoices.paper.size'),
+            config('invoices.paper.orientation')
+        );
+
+        return $pdf->download(sprintf('%s.pdf', $invoice->number));
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Invoice $invoice
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Invoice $invoice)
     {
-        //
-    }
+        if ($invoice->delete()) {
+            return response()->json([
+                'success' => true,
+                'message' => __('Payment has been deleted successfully.')
+            ]);
+        }
 
-    public function invoiceList()
-    {
-        // custom body class
-        $pageConfigs = ['bodyCustomClass' => 'app-page'];
-        return view('pages.app-invoice-list', ['pageConfigs' => $pageConfigs]);
-    }
-    public function invoiceView()
-    {
-        // custom body class
-        $pageConfigs = ['bodyCustomClass' => 'app-page'];
-        return view('pages.app-invoice-view', ['pageConfigs' => $pageConfigs]);
-    }
-    public function invoiceEdit()
-    {
-        // custom body class
-        $pageConfigs = ['bodyCustomClass' => 'app-page'];
-        return view('pages.app-invoice-edit', ['pageConfigs' => $pageConfigs]);
-    }
-    public function invoiceAdd()
-    {
-        // custom body class
-        $pageConfigs = ['bodyCustomClass' => 'app-page'];
-        return view('pages.app-invoice-add', ['pageConfigs' => $pageConfigs]);
+        return response()->json([
+            'success' => false,
+            'message' => __('Something went wrong. Try again.')
+        ]);
     }
 }

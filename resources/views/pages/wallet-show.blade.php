@@ -6,7 +6,7 @@
 
 {{-- page styles --}}
 @section('page-style')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-invoice.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/invoice.css')}}">
 @endsection
 
 {{-- page content --}}

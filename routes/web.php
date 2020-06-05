@@ -32,13 +32,6 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('money-flows', 'MoneyFlowController');
     Route::get('walletAccounts/{walletId}', 'MoneyFlowController@walletAccounts');
 
-    // Invoices example
-    //Route::resource('invoices', 'InvoiceController');
-    Route::get('/app-invoice-list', 'InvoiceController@invoiceList');
-    Route::get('/app-invoice-view', 'InvoiceController@invoiceView');
-    Route::get('/app-invoice-edit', 'InvoiceController@invoiceEdit');
-    Route::get('/app-invoice-add', 'InvoiceController@invoiceAdd');
-
     // CLIENTS
     Route::group(['prefix' => 'clients'], static function() {
         Route::get('/', 'ClientController@index')->name('clients.index');
@@ -59,6 +52,40 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/{contract}/edit', 'ContractController@edit')->name('contracts.edit');
         Route::put('/{contract}', 'ContractController@update')->name('contracts.update');
         Route::delete('/{contract}/delete', 'ContractController@destroy')->name('contracts.destroy');
+    });
+
+    // INVOICES
+    Route::group(['prefix' => 'invoices'], static function() {
+        Route::get('/', 'InvoiceController@index')->name('invoices.index');
+        Route::get('/create', 'InvoiceController@create')->name('invoices.create');
+        Route::post('/', 'InvoiceController@store')->name('invoices.store');
+        Route::get('/{invoice}', 'InvoiceController@show')->name('invoices.show');
+        Route::get('/{invoice}/edit', 'InvoiceController@edit')->name('invoices.edit');
+        Route::put('/{invoice}', 'InvoiceController@update')->name('invoices.update');
+        Route::delete('/{invoice}/delete', 'InvoiceController@destroy')->name('invoices.destroy');
+        Route::get('{invoice}/download', 'InvoiceController@download')->name('invoices.download');
+    });
+
+    // INVOICE-ITEMS
+    Route::group(['prefix' => 'invoice-items'], static function() {
+        Route::get('/', 'InvoiceItemController@index')->name('invoice-items.index');
+        Route::get('/create', 'InvoiceItemController@create')->name('invoice-items.create');
+        Route::post('/', 'InvoiceItemController@store')->name('invoice-items.store');
+        Route::get('/{invoice-item}', 'InvoiceItemController@show')->name('invoice-items.show');
+        Route::get('/{invoice-item}/edit', 'InvoiceItemController@edit')->name('invoice-items.edit');
+        Route::put('/{invoice-item}', 'InvoiceItemController@update')->name('invoice-items.update');
+        Route::delete('/{invoice-item}/delete', 'InvoiceItemController@destroy')->name('invoice-items.destroy');
+    });
+
+    // PAYMENTS
+    Route::group(['prefix' => 'payments'], static function() {
+        Route::get('/', 'PaymentController@index')->name('payments.index');
+        Route::get('/create', 'PaymentController@create')->name('payments.create');
+        Route::post('/', 'PaymentController@store')->name('payments.store');
+        Route::get('/{payment}', 'PaymentController@show')->name('payments.show');
+        Route::get('/{payment}/edit', 'PaymentController@edit')->name('payments.edit');
+        Route::put('/{payment}', 'PaymentController@update')->name('payments.update');
+        Route::delete('/{payment}/delete', 'PaymentController@destroy')->name('payments.destroy');
     });
 });
 

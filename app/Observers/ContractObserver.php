@@ -32,7 +32,7 @@ class ContractObserver
     }
 
     /**
-     * Handle the contract "updated" event.
+     * Handle the contract "updating" event.
      *
      * @param  \App\Modules\Contract  $contract
      * @return void

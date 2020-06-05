@@ -2,13 +2,16 @@
 
 namespace App\Enums;
 
-use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
-final class ContractStatus extends Enum implements LocalizedEnum
+final class InvoiceStatus extends Enum
 {
-    const OPENED = 'OPENED';
-    const CLOSED = 'CLOSED';
+    const DRAFT = 'DRAFT';
+    const SEND = 'SEND';
+    const PAID = 'PAID';
+    const OVERDUE = 'OVERDUE';
+    const CANCELED = 'CANCELED';
+    const DEBT = 'DEBT';
 
     /**
      * Get the description for an enum value

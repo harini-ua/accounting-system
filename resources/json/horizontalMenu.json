@@ -39,13 +39,6 @@
             "slug": "money-flows"
         },
         {
-            "url": "app-invoice-list",
-            "name": "Invoices",
-            "slug": "app-invoice-list",
-            "icon": "receipt",
-            "i18n": "Invoices"
-        },
-        {
             "url": "clients",
             "name": "Clients",
             "slug": "clients",
@@ -58,6 +51,13 @@
             "slug": "contracts",
             "icon": "business_center",
             "i18n": "Contracts"
+        },
+        {
+            "url": "invoices",
+            "name": "Invoices",
+            "slug": "invoice",
+            "icon": "receipt",
+            "i18n": "Invoices"
         }
     ]
 }
