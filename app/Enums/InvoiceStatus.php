@@ -2,9 +2,10 @@
 
 namespace App\Enums;
 
+use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
-final class InvoiceStatus extends Enum
+final class InvoiceStatus extends Enum implements LocalizedEnum
 {
     const DRAFT = 'DRAFT';
     const SEND = 'SEND';
