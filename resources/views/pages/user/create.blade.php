@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title','User add')
+@section('title','Add User')
 
 {{-- vendor styles --}}
 @section('vendor-style')
@@ -163,7 +163,7 @@
                                 {{--                                <!-- </div> -->--}}
                                 {{--                            </div>--}}
                                 <div class="col s12 display-flex justify-content-end mt-3">
-                                    <button type="submit" class="btn indigo">
+                                    <button type="submit" class="btn indigo mr-1">
                                         Save changes</button>
                                     <a href="{{ route('users.index') }}" class="btn btn-light">Cancel</a>
                                 </div>

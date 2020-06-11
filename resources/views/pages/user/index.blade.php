@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title','Users list')
+@section('title','Users List')
 
 {{-- vendors styles --}}
 @section('vendor-style')
@@ -23,7 +23,7 @@
         <div class="create-btn">
             <a href="{{ route('users.create') }}" class="btn waves-effect waves-light invoice-create border-round z-depth-4">
                 <i class="material-icons">add</i>
-                <span class="hide-on-small-only">Create</span>
+                <span class="hide-on-small-only">Add</span>
             </a>
         </div>
         <div class="users-list-table">

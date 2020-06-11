@@ -19,13 +19,12 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- invoice list -->
-    <section class="invoice-list-wrapper section">
-        <h5 class="mb-2">Money Flows</h5>
+    <!-- list -->
+    <section class="list-wrapper section">
         <div class="invoice-create-btn">
             <a href="{{ route('money-flows.create') }}" class="btn waves-effect waves-light invoice-create border-round z-depth-4">
                 <i class="material-icons">add</i>
-                <span class="hide-on-small-only">Create</span>
+                <span class="hide-on-small-only">Add</span>
             </a>
         </div>
         <div class="responsive-table">

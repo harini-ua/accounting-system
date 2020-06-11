@@ -21,18 +21,24 @@ class AccountController extends Controller
      */
     public function index(AccountsDataTable $dataTable)
     {
-        // custom body class
-        $pageConfigs = ['bodyCustomClass' => 'app-page'];
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['name' => "Accounts"]
+        ];
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
         $wallets = Wallet::all();
         $startDate = Carbon::now()->startOfMonth();
         $endDate = Carbon::now();
+        $accountTypes = AccountType::with('accountsSum')->get();
 
         return $dataTable->render('pages.account.index', [
             'pageConfigs' => $pageConfigs,
+            'breadcrumbs' => $breadcrumbs,
             'wallets' => $wallets,
             'startDate' => $startDate,
             'endDate' => $endDate,
+            'accountTypes' => $accountTypes,
         ]);
     }
 
@@ -79,7 +85,7 @@ class AccountController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => "Home"],
             ['link' => route('accounts.index'), 'name' => "Accounts"],
-            ['name' => "Account Edit"]
+            ['name' => "Edit Account"]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];

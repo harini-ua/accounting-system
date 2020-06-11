@@ -23,7 +23,7 @@ Route::middleware(['auth'])->group(function() {
     Route::put('/user-profile', 'UserController@profileUpdate')->name('user.profile.update');
 
     // Wallets
-    Route::resource('wallets', 'WalletController')->except(['create', 'edit', 'update']);
+    Route::resource('wallets', 'WalletController')->except(['create']);
 
     // Accounts
     Route::resource('accounts', 'AccountController')->only(['index', 'edit', 'update']);

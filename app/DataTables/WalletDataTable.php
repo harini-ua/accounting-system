@@ -23,17 +23,19 @@ class WalletDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function(Wallet $model) {
-                return view("partials.actions", ['actions'=>['view','delete'], 'model' => $model]);
+                return view("partials.actions", ['actions'=>['edit','delete'], 'model' => $model]);
             })
-            ->addColumn('status', function(Wallet $model) {
-                return $model->status
-                    ? '<span class="chip lighten-5 green green-text">Active</span>'
-                    : '<span class="chip lighten-5 red red-text">Inactive</span>';
+            ->addColumn('name', static function(Wallet $model) {
+                return view('partials.view-link', ['model' => $model]);
             })
-            ->rawColumns(['status'])
+            ->rawColumns(['name'])
             ->filterColumn('type', function($query, $keyword) {
                 $walletTypes = WalletType::where('name', 'like', "%$keyword%")->pluck('id')->toArray();
                 $query->whereIn('wallet_type_id', $walletTypes);
+            })
+            ->orderColumn('type', function($query, $order) {
+                $query->join('wallet_types', 'wallet_types.id', '=', 'wallets.wallet_type_id')
+                    ->orderBy('wallet_types.name', $order);
             });
     }
 
@@ -74,7 +76,6 @@ class WalletDataTable extends DataTable
         return [
             Column::make('name'),
             Column::make('type')->data('wallet_type.name'),
-            Column::make('status'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

@@ -1,13 +1,19 @@
 @import 'variables.scss';
 $invoice-border-color:#e8e8e8;
 
- /* Invoice list */
+ /* list */
 /*---------------*/
-.invoice-list-wrapper{
+.content-area {
+  width: calc(100% - 300px);
+  &.content-right {
+    float: right;
+  }
+}
+.list-wrapper{
   margin-top: 10px;
   margin-bottom: 22px;
 
-  /* invoice wrapper */
+  /* wrapper */
   .responsive-table {
     .top {
       .action-filters {

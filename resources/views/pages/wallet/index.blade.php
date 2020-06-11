@@ -26,8 +26,6 @@
     <div class="sidebar-content">
       <div class="sidebar-header">
         <div class="sidebar-details">
-          <h5 class="m-0 sidebar-title"><i class="material-icons app-header-icon text-top">account_balance_wallet</i> Wallets
-          </h5>
           <div class="mt-10 pt-2">
               <!-- form start -->
               <form id="add-wallet-form" class="edit-contact-item mb-5 mt-5" method="POST" action="{{ route('wallets.store') }}">

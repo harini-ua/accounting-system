@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title','Wallet View' )
+@section('title','Wallet' )
 
 {{-- page styles --}}
 @section('page-style')
@@ -26,7 +26,6 @@
 {{--                                <img src="{{asset('images/gallery/pixinvent-logo.png')}}" alt="logo" height="46" width="164">--}}
                             </div>
                             <div class="col m6 s12 pull-m6">
-                                <h4 class="indigo-text">Wallet</h4>
                                 <span>{{ $wallet->name }}</span><br>
                                 <span>{{ $wallet->walletType->name }}</span>
                             </div>
@@ -75,7 +74,7 @@
                         <div class="invoice-action-btn">
                             <a href="{{ route('money-flows.create') }}" class="btn waves-effect waves-light display-flex align-items-center justify-content-center">
                                 <i class="material-icons mr-3">attach_money</i>
-                                <span class="text-nowrap">Add Payment</span>
+                                <span class="text-nowrap">Money flow</span>
                             </a>
                         </div>
                     </div>
@@ -83,9 +82,4 @@
             </div>
         </div>
     </section>
-@endsection
-
-{{-- page scripts --}}
-@section('page-script')
-
 @endsection

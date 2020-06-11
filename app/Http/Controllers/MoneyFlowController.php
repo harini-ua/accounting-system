@@ -19,11 +19,15 @@ class MoneyFlowController extends Controller
      */
     public function index(MoneyFlowsDataTable $dataTable)
     {
-        // custom body class
-        $pageConfigs = ['bodyCustomClass' => 'app-page'];
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['name' => "Money Flows"]
+        ];
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
         return $dataTable->render('pages.money-flow.index', [
             'pageConfigs' => $pageConfigs,
+            'breadcrumbs' => $breadcrumbs,
         ]);
     }
 
@@ -37,7 +41,7 @@ class MoneyFlowController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => "Home"],
             ['link' => route('money-flows.index'), 'name' => "Money Flow"],
-            ['name' => "Money Flow Add"]
+            ['name' => "Add Money Flow"]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
@@ -86,7 +90,7 @@ class MoneyFlowController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => "Home"],
             ['link' => route('money-flows.index'), 'name' => "Money Flow"],
-            ['name' => "Money Flow Edit"]
+            ['name' => "Edit Money Flow"]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];

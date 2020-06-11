@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Account;
 use App\MoneyFlow;
+use App\Services\Formatter;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -30,6 +31,15 @@ class MoneyFlowsDataTable extends DataTable
             })
             ->addColumn('date', function(MoneyFlow $model) {
                 return $model->date->format('d-m-Y');
+            })
+            ->addColumn('sum_from', function(MoneyFlow $model) {
+                return Formatter::currency($model->sum_from, $model->accountFrom->accountType);
+            })
+            ->addColumn('sum_to', function(MoneyFlow $model) {
+                return Formatter::currency($model->sum_to, $model->accountTo->accountType);
+            })
+            ->addColumn('fee', function(MoneyFlow $model) {
+                return Formatter::currency($model->fee, $model->accountFrom->accountType);
             })
             ->filterColumn('wallet_from', function($query, $keyword) {
                 $accounts = Account::join('wallets', 'wallets.id', '=', 'accounts.wallet_id')
@@ -68,7 +78,14 @@ class MoneyFlowsDataTable extends DataTable
      */
     public function query(MoneyFlow $model)
     {
-        return $model->newQuery()->with(['accountFrom.wallet', 'accountTo.wallet']);
+        return $model
+            ->newQuery()
+            ->with([
+                'accountFrom.wallet',
+                'accountFrom.accountType',
+                'accountTo.wallet',
+                'accountTo.accountType'
+            ]);
     }
 
     /**

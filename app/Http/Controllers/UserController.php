@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdate;
-use App\Http\Requests\StoreUser;
-use App\Http\Requests\UpdateUser;
+use App\Http\Requests\UserStoreRequest;
+use App\Http\Requests\UserUpdateRequest;
 use App\Position;
 use App\User;
 use App\DataTables\UsersDataTable;
@@ -39,8 +39,8 @@ class UserController extends Controller
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => "Home"],
-            ['link' => "javascript:void(0)", 'name' => "User"],
-            ['name' => "User Add"]
+            ['link' => route('users.index'), 'name' => "User"],
+            ['name' => "Add User"]
         ];
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
@@ -57,10 +57,10 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param StoreUser $request
+     * @param UserStoreRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(StoreUser $request)
+    public function store(UserStoreRequest $request)
     {
         User::create($request->all());
 
@@ -89,7 +89,7 @@ class UserController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => "Home"],
             ['link' => route('users.index'), 'name' => "User"],
-            ['name' => "User Edit"]
+            ['name' => "Edit User"]
         ];
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
@@ -108,11 +108,11 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param UpdateUser $request
+     * @param UserUpdateRequest $request
      * @param User $user
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(UpdateUser $request, User $user)
+    public function update(UserUpdateRequest $request, User $user)
     {
         $user->fill($request->all());
         $user->save();

@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title','Account List')
+@section('title','Accounts')
 
 {{-- vendor styles --}}
 @section('vendor-style')
@@ -14,14 +14,38 @@
 
 {{-- page styles --}}
 @section('page-style')
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-sidebar.css')}}">
+    {{--<link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-wallets.css')}}">--}}
     <link rel="stylesheet" type="text/css" href="{{asset('css/pages/accounts.css')}}">
 @endsection
 
 {{-- page content --}}
 @section('content')
-    <!-- invoice list -->
-    <section class="invoice-list-wrapper section">
-        <h5 class="mb-2">Accounts</h5>
+    <!-- Sidebar Area Starts -->
+    <div class="sidebar-left sidebar-fixed">
+        <div class="sidebar">
+            <div class="sidebar-content">
+                <div class="sidebar-header">
+                    <div class="sidebar-details">
+                        <h5 class="m-0 sidebar-title"> Totals
+                        </h5>
+                        <div class="mt-10 pt-2">
+                            <div>
+                                <ul class="display-grid">
+                                    @foreach ($accountTypes as $accountType)
+                                        <li class="sidebar-title">{{ $accountType->name }}: {{ $accountType->accountsSum }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Sidebar Area Ends -->
+    <!-- list -->
+    <section class="list-wrapper section content-area content-right">
         <!-- Options and filter dropdown button-->
         <div class="invoice-filter-action mr-3">
             <input type="text" class="datepicker" placeholder="Start date" value="{{ $startDate->format('d-m-Y') }}">

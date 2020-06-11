@@ -15,6 +15,7 @@ class UsersSeeder extends Seeder
             'name' => 'Super Admin',
             'email' => 'admin@admin.com',
             'password' => bcrypt('123calculator123'),
+            'position_id' => 1,
         ]);
 
         $positions = \App\Position::all();
