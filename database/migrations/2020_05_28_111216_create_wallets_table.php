@@ -17,7 +17,6 @@ class CreateWalletsTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedInteger('wallet_type_id');
-            $table->tinyInteger('status')->default(1);
             $table->timestamps();
 
             $table

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\WalletDataTable;
-use App\Http\Requests\WalletRequest;
+use App\Http\Requests\WalletStoreRequest;
+use App\Http\Requests\WalletUpdateRequest;
 use App\Wallet;
 use App\WalletType;
-use Illuminate\Http\Request;
 
 class WalletController extends Controller
 {
@@ -18,13 +18,17 @@ class WalletController extends Controller
      */
     public function index(WalletDataTable $dataTable)
     {
-        // custom body class
-        $pageConfigs = ['bodyCustomClass' => 'app-page'];
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['name' => "Wallets"]
+        ];
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
         $walletTypes = WalletType::all();
 
-        return $dataTable->render('pages.wallet-list', [
+        return $dataTable->render('pages.wallet.index', [
             'pageConfigs' => $pageConfigs,
+            'breadcrumbs' => $breadcrumbs,
             'walletTypes' => $walletTypes,
         ]);
     }
@@ -42,10 +46,10 @@ class WalletController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param WalletRequest $request
+     * @param WalletStoreRequest $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(WalletRequest $request)
+    public function store(WalletStoreRequest $request)
     {
         $wallet = Wallet::create($request->all());
         $wallet->createAccounts();
@@ -61,13 +65,18 @@ class WalletController extends Controller
      */
     public function show(Wallet $wallet)
     {
-        // custom body class
-        $pageConfigs = ['bodyCustomClass' => 'app-page'];
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['link' => route('wallets.index'), 'name' => "Wallets"],
+            ['name' => "Wallet"]
+        ];
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
         $wallet->load(['walletType', 'accounts.accountType']);
 
-        return view('pages.wallet-show', [
+        return view('pages.wallet.show', [
             'pageConfigs' => $pageConfigs,
+            'breadcrumbs' => $breadcrumbs,
             'wallet' => $wallet,
         ]);
     }
@@ -75,24 +84,39 @@ class WalletController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Wallet $wallet
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Wallet $wallet)
     {
-        //
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['link' => route('wallets.index'), 'name' => "Wallets"],
+            ['name' => "Edit Wallet"]
+        ];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        return view('pages.wallet.edit', [
+            'breadcrumbs' => $breadcrumbs,
+            'pageConfigs' => $pageConfigs,
+            'model' => $wallet,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param WalletUpdateRequest $request
+     * @param Wallet $wallet
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, $id)
+    public function update(WalletUpdateRequest $request, Wallet $wallet)
     {
-        //
+        $wallet->fill($request->all());
+        $wallet->save();
+
+        return redirect()->route('wallets.index');
     }
 
     /**

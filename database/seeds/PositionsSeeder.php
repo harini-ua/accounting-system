@@ -13,6 +13,12 @@ class PositionsSeeder extends Seeder
     public function run()
     {
         Position::create([
+            'name' => 'CEO',
+        ]);
+        Position::create([
+            'name' => 'COO',
+        ]);
+        Position::create([
             'name' => 'Project Manager',
         ]);
         Position::create([
@@ -29,12 +35,6 @@ class PositionsSeeder extends Seeder
         ]);
         Position::create([
             'name' => 'Accountant',
-        ]);
-        Position::create([
-            'name' => 'CEO',
-        ]);
-        Position::create([
-            'name' => 'COO',
         ]);
     }
 }

@@ -28,6 +28,10 @@ class UsersDataTable extends DataTable
             ->filterColumn('position', function($query, $keyword) {
                 $walletTypes = Position::where('name', 'like', "%$keyword%")->pluck('id')->toArray();
                 $query->whereIn('position_id', $walletTypes);
+            })
+            ->orderColumn('position', function($query, $order) {
+                $query->join('positions', 'positions.id', '=', 'users.position_id')
+                    ->orderBy('positions.name', $order);
             });
     }
 
@@ -69,8 +73,7 @@ class UsersDataTable extends DataTable
             Column::make('id'),
             Column::make('name'),
             Column::make('email'),
-            Column::make('position')->data('position.name')
-                ->orderable(false),
+            Column::make('position')->data('position.name'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

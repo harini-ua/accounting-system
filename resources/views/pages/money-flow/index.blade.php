@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title','Account List')
+@section('title','Money Flows')
 
 {{-- vendor styles --}}
 @section('vendor-style')
@@ -19,30 +19,13 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- invoice list -->
-    <section class="invoice-list-wrapper section">
-        <h5 class="mb-2">Accounts</h5>
-        <!-- Options and filter dropdown button-->
-        <div class="invoice-filter-action mr-3">
-            <input type="text" class="datepicker" placeholder="Start date">
-        </div>
-        <div class="invoice-filter-action mr-3">
-            <input type="text" class="datepicker" placeholder="End date">
-        </div>
-        <div class="filter-btn">
-            <!-- Dropdown Trigger -->
-            <a class='dropdown-trigger btn waves-effect waves-light purple darken-1 border-round' href='#'
-               data-target='btn-filter'>
-                <span class="hide-on-small-only">Filter by Wallet</span>
-                <i class="material-icons">keyboard_arrow_down</i>
+    <!-- list -->
+    <section class="list-wrapper section">
+        <div class="invoice-create-btn">
+            <a href="{{ route('money-flows.create') }}" class="btn waves-effect waves-light invoice-create border-round z-depth-4">
+                <i class="material-icons">add</i>
+                <span class="hide-on-small-only">Add</span>
             </a>
-            <!-- Dropdown Structure -->
-            <ul id='btn-filter' class='dropdown-content'>
-                <li><a class="option" data-id="all" href="#!">All</a></li>
-                @foreach($wallets as $wallet)
-                    <li><a class="option" data-id="{{ $wallet->id }}" href="#!">{{ $wallet->name }}</a></li>
-                @endforeach
-            </ul>
         </div>
         <div class="responsive-table">
             {{ $dataTable->table() }}
@@ -60,5 +43,6 @@
 {{-- page scripts --}}
 @section('page-script')
     {{ $dataTable->scripts() }}
+    <script src="{{asset('js/scripts/data-tables.js')}}"></script>
     <script src="{{asset('js/scripts/accounts.js')}}"></script>
 @endsection

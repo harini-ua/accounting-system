@@ -14,15 +14,19 @@ class AccountTypesSeeder extends Seeder
     {
         AccountType::create([
             'name' => 'UAH',
+            'symbol' => '₴',
         ]);
         AccountType::create([
             'name' => 'USD',
+            'symbol' => '$',
         ]);
         AccountType::create([
             'name' => 'EUR',
+            'symbol' => '€',
         ]);
         AccountType::create([
             'name' => 'Deposit UAH',
+            'symbol' => '₴',
         ]);
     }
 }

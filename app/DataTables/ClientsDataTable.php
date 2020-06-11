@@ -37,7 +37,7 @@ class ClientsDataTable extends DataTable
                 return '<a href="tel:'.$model->phone.'">'.$model->phone.'</a>';
             })
             ->addColumn('action', static function(Client $model) {
-                return view('partials.actions', ['actions' =>['view', 'edit', 'delete'], 'model' => $model]);
+                return view('partials.actions', ['actions' =>['edit', 'delete'], 'model' => $model]);
             })
             ->rawColumns(self::COLUMNS);
     }

@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Account;
 use App\AccountType;
 use App\Wallet;
+use App\Services\Formatter;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -27,10 +28,17 @@ class AccountsDataTable extends DataTable
                 // todo: calculating income for period
                 return 0;
             })
+            ->addColumn('expenses', function(Account $account) {
+                // todo: calculating expenses for period
+                return 0;
+            })
             ->addColumn('status', function(Account $model) {
                 return $model->status
                     ? '<span class="chip lighten-5 green green-text">Active</span>'
                     : '<span class="chip lighten-5 red red-text">Inactive</span>';
+            })
+            ->addColumn('balance', function(Account $model) {
+                return Formatter::currency($model->balance, $model->accountType);
             })
             ->addColumn('action', function(Account $account) {
                 return view("partials.actions", ['actions'=>['edit'], 'model' => $account]);
@@ -50,6 +58,14 @@ class AccountsDataTable extends DataTable
             ->filterColumn('account', function($query, $keyword) {
                 $walletTypes = AccountType::where('name', 'like', "%$keyword%")->pluck('id')->toArray();
                 $query->whereIn('account_type_id', $walletTypes);
+            })
+            ->orderColumn('wallet', function($query, $order) {
+                $query->join('wallets', 'wallets.id', '=', 'accounts.wallet_id')
+                    ->orderBy('wallets.name', $order);
+            })
+            ->orderColumn('account', function($query, $order) {
+                $query->join('account_types', 'account_types.id', '=', 'accounts.account_type_id')
+                    ->orderBy('account_types.name', $order);
             });
     }
 
@@ -95,6 +111,7 @@ class AccountsDataTable extends DataTable
             Column::make('account')->data('account_type.name'),
             Column::make('start_sum'),
             Column::make('income'),
+            Column::make('expenses'),
             Column::make('balance'),
             Column::make('status'),
             Column::computed('action')
