@@ -5,10 +5,9 @@ namespace App\Enums;
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
-final class InvoiceItemType extends Enum implements LocalizedEnum
+final class InvoiceType extends Enum implements LocalizedEnum
 {
-    const HOURLY = 'HOURLY';
-    const FIXED = 'FIXED';
+    const DEFAULT = 'DEFAULT';
 
     /**
      * Get the description for an enum value

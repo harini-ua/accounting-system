@@ -19,4 +19,8 @@ return [
         \App\Enums\InvoiceStatus::CANCELED => 'Canceled',
         \App\Enums\InvoiceStatus::DEBT => 'Debt',
     ],
+
+    \App\Enums\InvoiceType::class => [
+        \App\Enums\InvoiceType::DEFAULT => 'Default',
+    ]
 ];
