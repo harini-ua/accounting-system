@@ -18,7 +18,6 @@ class CreateInvoicesTable extends Migration
             $table->string('number', 100);
             $table->string('name', 100);
             $table->unsignedBigInteger('contract_id');
-            $table->unsignedBigInteger('wallet_id');
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('sales_manager_id');
             $table->string('status', 20)
@@ -31,7 +30,6 @@ class CreateInvoicesTable extends Migration
             $table->softDeletes();
 
             $table->foreign('contract_id')->on('contracts')->references('id')->onDelete('cascade');
-            $table->foreign('wallet_id')->on('wallets')->references('id')->onDelete('cascade');
             $table->foreign('account_id')->on('accounts')->references('id')->onDelete('cascade');
             $table->foreign('sales_manager_id')->on('users')->references('id')->onDelete('cascade');
         });

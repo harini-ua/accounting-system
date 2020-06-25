@@ -22,5 +22,16 @@ return [
 
     \App\Enums\InvoiceType::class => [
         \App\Enums\InvoiceType::DEFAULT => 'Default',
-    ]
+    ],
+
+    \App\Enums\Position::class => [
+        \App\Enums\Position::CEO => 'CEO',
+        \App\Enums\Position::COO => 'CEO',
+        \App\Enums\Position::ProjectManager => 'Project Manager',
+        \App\Enums\Position::Manager => 'Manager',
+        \App\Enums\Position::SalesManager => 'Sales Manager',
+        \App\Enums\Position::Developer => 'Developer',
+        \App\Enums\Position::SysAdmin => 'SysAdmin',
+        \App\Enums\Position::Accountant => 'Accountant',
+    ],
 ];

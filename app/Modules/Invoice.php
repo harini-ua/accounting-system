@@ -34,6 +34,16 @@ class Invoice extends Model
     protected $fillable = ['client_id', 'contract_id', 'date', 'wallet_id', 'sum', 'fee', 'received_sum', 'status'];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
+    ];
+
+    /**
      * Get the client that owns the invoice.
      */
     public function client()

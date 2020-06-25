@@ -18,10 +18,10 @@ class CreateInvoiceItemsTable extends Migration
             $table->unsignedBigInteger('invoice_id');
             $table->string('name', 100);
             $table->string('description', 200);
-//            $table->decimal('total_sum', 15,2);
-//            $table->decimal('discount', 15,2);
-//            $table->decimal('total', 15,2);
-//            $table->string('type', 20);
+            $table->decimal('sum', 15,2);
+            $table->decimal('discount', 15,2);
+            $table->decimal('total', 15,2);
+            $table->string('type', 20);
             $table->timestamps();
             $table->softDeletes();
 

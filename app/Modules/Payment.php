@@ -33,6 +33,16 @@ class Payment extends Model
     protected $fillable = ['invoice_id', 'fee', 'received_sum', 'date'];
 
     /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'created_at' => 'datetime:Y-m-d H:i:s',
+        'updated_at' => 'datetime:Y-m-d H:i:s',
+    ];
+
+    /**
      * Get the client that owns the invoice.
      */
     public function invoice()
