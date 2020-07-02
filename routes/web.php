@@ -87,5 +87,9 @@ Route::middleware(['auth'])->group(function() {
         Route::put('/{payment}', 'PaymentController@update')->name('payments.update');
         Route::delete('/{payment}/delete', 'PaymentController@destroy')->name('payments.destroy');
     });
+
+    // Incomes
+    Route::resource('incomes', 'IncomeController');
+
 });
 

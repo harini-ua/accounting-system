@@ -114,5 +114,5 @@
 
 {{-- page scripts --}}
 @section('page-script')
-    <script src="{{ asset('js/scripts/money-flows.js') }}"></script>
+    <script src="{{ asset('js/scripts/linked-selects.js') }}"></script>
 @endsection

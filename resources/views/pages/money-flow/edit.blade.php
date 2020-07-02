@@ -23,7 +23,7 @@
                                 <div class="divider mt-2 mb-2"></div>
                                 <div class="row">
                                     <div class="col s12 input-field">
-                                        <select id="wallet_from_id" name="wallet_from_id" class="linked">
+                                        <select id="wallet_from_id" name="wallet_from_id" class="linked" data-url="{{ url('/walletAccounts') }}">
                                             @foreach ($wallets as $wallet)
                                             <option {{ $model->accountFrom->wallet_id == $wallet->id ? 'selected' : '' }}
                                                 value="{{ $wallet->id }}">
@@ -56,7 +56,7 @@
                                 <div class="divider mt-2 mb-2"></div>
                                 <div class="row">
                                     <div class="col s12 input-field">
-                                        <select id="wallet_to_id" name="wallet_to_id" class="linked">
+                                        <select id="wallet_to_id" name="wallet_to_id" class="linked" data-url="{{ url('/walletAccounts') }}">
                                             @foreach ($wallets as $wallet)
                                                 <option {{ $model->accountTo->wallet_id == $wallet->id ? 'selected' : '' }}
                                                         value="{{ $wallet->id }}">
@@ -99,5 +99,5 @@
 
 {{-- page scripts --}}
 @section('page-script')
-    <script src="{{ asset('js/scripts/money-flows.js') }}"></script>
+    <script src="{{ asset('js/scripts/linked-selects.js') }}"></script>
 @endsection

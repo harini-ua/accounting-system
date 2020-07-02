@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     $('.linked').change(function() {
         $.ajax({
-            url: '/walletAccounts/' + this.value,
+            url: this.dataset.url + '/' + this.value,
             type: "GET",
             success: data => {
                 if (data.length) {
