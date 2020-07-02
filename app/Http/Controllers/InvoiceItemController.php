@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\InvoiceItemsDataTable;
-use App\Modules\InvoiceItem;
+use App\Models\InvoiceItem;
 use Illuminate\Http\Request;
 
 class InvoiceItemController extends Controller

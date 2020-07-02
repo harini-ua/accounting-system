@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\MoneyFlowRequest;
-use App\Wallet;
-use App\Account;
-use App\MoneyFlow;
+use App\Models\Wallet;
+use App\Models\Account;
+use App\Models\MoneyFlow;
 use App\DataTables\MoneyFlowsDataTable;
 
 class MoneyFlowController extends Controller

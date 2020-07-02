@@ -4,7 +4,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(\App\Modules\InvoiceItem::class, static function (Faker $faker) {
+$factory->define(\App\Models\InvoiceItem::class, static function (Faker $faker) {
     $sum = $faker->randomFloat(2, 100, 10000);
     $discount = $sum / 20;
     return [

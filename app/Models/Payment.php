@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Modules;
+namespace App\Models;
 
-use App\Wallet;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Invoice extends Model
+class Payment extends Model
 {
     use SoftDeletes;
 
-    public const TABLE_NAME = 'invoices';
+    public const TABLE_NAME = 'payments';
 
     /**
      * The table associated with the model.
@@ -31,7 +30,7 @@ class Invoice extends Model
      *
      * @var array
      */
-    protected $fillable = ['client_id', 'contract_id', 'date', 'wallet_id', 'sum', 'fee', 'received_sum', 'status'];
+    protected $fillable = ['invoice_id', 'fee', 'received_sum', 'date'];
 
     /**
      * The attributes that should be cast.
@@ -46,32 +45,8 @@ class Invoice extends Model
     /**
      * Get the client that owns the invoice.
      */
-    public function client()
+    public function invoice()
     {
         return $this->belongsTo(Client::class);
-    }
-
-    /**
-     * Get the contract that owns the invoice.
-     */
-    public function contract()
-    {
-        return $this->belongsTo(Contract::class);
-    }
-
-    /**
-     * Get the contract that owns the wallet.
-     */
-    public function wallet()
-    {
-        return $this->belongsTo(Wallet::class);
-    }
-
-    /**
-     * Get the items for the blog invoice.
-     */
-    public function items()
-    {
-        return $this->hasMany(InvoiceItem::class);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Modules\Contract;
-use App\Modules\Invoice;
+use App\Models\Contract;
+use App\Models\Invoice;
 use App\Observers\ContractObserver;
 use App\Observers\InvoiceObserver;
 use Illuminate\Support\ServiceProvider;

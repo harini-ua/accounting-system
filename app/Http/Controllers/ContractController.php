@@ -6,8 +6,8 @@ use App\DataTables\ContractsDataTable;
 use App\Enums\ContractStatus;
 use App\Http\Requests\ContractCreateRequest;
 use App\Http\Requests\ContractUpdateRequest;
-use App\Modules\Client;
-use App\Modules\Contract;
+use App\Models\Client;
+use App\Models\Contract;
 use App\User;
 
 class ContractController extends Controller

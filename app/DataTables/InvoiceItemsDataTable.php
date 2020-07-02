@@ -2,8 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Modules\Contract;
-use App\Modules\InvoiceItem;
+use App\Models\Contract;
+use App\Models\InvoiceItem;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -46,7 +46,7 @@ class InvoiceItemsDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Modules\InvoiceItem $model
+     * @param \App\Models\InvoiceItem $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(InvoiceItem $model)

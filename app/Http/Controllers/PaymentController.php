@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\PaymentsDataTable;
 use App\Http\Resources\PaymentResource;
-use App\Modules\Payment;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
 class PaymentController extends Controller

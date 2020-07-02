@@ -12,13 +12,13 @@ class InvoiceItemSeed extends Seeder
      */
     public function run()
     {
-        $invoiceIds = \App\Modules\Invoice::all()->pluck('id');
+        $invoiceIds = \App\Models\Invoice::all()->pluck('id');
         $createdAt = \Illuminate\Support\Carbon::now();
 
         $allInvoiceItems = [];
 
         foreach ($invoiceIds as $invoiceId) {
-            $invoiceItems = factory(\App\Modules\InvoiceItem::class, random_int(3, 6))
+            $invoiceItems = factory(\App\Models\InvoiceItem::class, random_int(3, 6))
                 ->make([
                     'invoice_id' => $invoiceId,
                     'created_at' => $createdAt,
@@ -28,6 +28,6 @@ class InvoiceItemSeed extends Seeder
             $allInvoiceItems = array_merge($allInvoiceItems, $invoiceItems);
         }
 
-        \App\Modules\InvoiceItem::insert($allInvoiceItems);
+        \App\Models\InvoiceItem::insert($allInvoiceItems);
     }
 }

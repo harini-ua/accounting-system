@@ -4,7 +4,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(\App\Modules\Payment::class, static function (Faker $faker) {
+$factory->define(\App\Models\Payment::class, static function (Faker $faker) {
     $receivedSum = $faker->randomFloat(2, 100, 10000);
     return [
         'fee' => $receivedSum / 100,

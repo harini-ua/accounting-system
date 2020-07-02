@@ -7,7 +7,7 @@ use App\DataTables\ContractsDataTable;
 use App\Enums\ContractStatus;
 use App\Http\Requests\ClientCreateRequest;
 use App\Http\Requests\ClientUpdateRequest;
-use App\Modules\Client;
+use App\Models\Client;
 
 class ClientController extends Controller
 {

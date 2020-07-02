@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Modules;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Payment extends Model
+class InvoiceItem extends Model
 {
     use SoftDeletes;
 
-    public const TABLE_NAME = 'payments';
+    public const TABLE_NAME = 'invoice_items';
 
     /**
      * The table associated with the model.
@@ -30,7 +30,7 @@ class Payment extends Model
      *
      * @var array
      */
-    protected $fillable = ['invoice_id', 'fee', 'received_sum', 'date'];
+    protected $fillable = ['client_id', 'contract_id', 'date', 'wallet_id', 'sum', 'fee', 'received_sum', 'status'];
 
     /**
      * The attributes that should be cast.

@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\DataTables\WalletDataTable;
 use App\Http\Requests\WalletStoreRequest;
 use App\Http\Requests\WalletUpdateRequest;
-use App\Wallet;
-use App\WalletType;
+use App\Models\Wallet;
+use App\Models\WalletType;
 
 class WalletController extends Controller
 {
