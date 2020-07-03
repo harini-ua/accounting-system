@@ -22,28 +22,16 @@
                                 <h5>From:</h5>
                                 <div class="divider mt-2 mb-2"></div>
                                 <div class="row">
-                                    <div class="col s12 input-field">
-                                        <select id="wallet_from_id" name="wallet_from_id" class="linked" data-url="{{ url('/walletAccounts') }}">
-                                            @foreach ($wallets as $wallet)
-                                            <option {{ $model->accountFrom->wallet_id == $wallet->id ? 'selected' : '' }}
-                                                value="{{ $wallet->id }}">
-                                                {{ $wallet->name }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <label for="wallet_from_id">Wallet</label>
-                                    </div>
-                                    <div class="col s12 input-field">
-                                        <select id="account_from_id" name="account_from_id" data-linked="wallet_from_id">
-                                            @foreach ($wallets->find($model->accountFrom->wallet_id)->accounts as $account)
-                                            <option {{ $model->account_from_id == $account->id ? 'selected' : '' }}
-                                                value="{{ $account->id }}">
-                                                {{ $account->accountType->name }}
-                                            </option>
-                                            @endforeach
-                                        </select>
-                                        <label for="account_from_id">Account</label>
-                                    </div>
+                                    <x-linked-selects
+                                        firstName="wallet_from_id"
+                                        firstTitle="Wallet"
+                                        secondName="account_from_id"
+                                        secondTitle="Account"
+                                        dataUrl="/wallets/walletAccounts"
+                                        view="components.linked-selects.wallets-accounts-money-flow"
+                                        :options="$wallets"
+                                        :model="$model"
+                                    />
                                     <x-date name="date" title="Date" :model="$model"></x-date>
                                     <x-input name="sum_from" title="Sum" :model="$model"></x-input>
                                     <x-input name="currency_rate" title="Currency Rate" :model="$model"></x-input>
@@ -55,28 +43,16 @@
                                 <h5>To:</h5>
                                 <div class="divider mt-2 mb-2"></div>
                                 <div class="row">
-                                    <div class="col s12 input-field">
-                                        <select id="wallet_to_id" name="wallet_to_id" class="linked" data-url="{{ url('/walletAccounts') }}">
-                                            @foreach ($wallets as $wallet)
-                                                <option {{ $model->accountTo->wallet_id == $wallet->id ? 'selected' : '' }}
-                                                        value="{{ $wallet->id }}">
-                                                    {{ $wallet->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <label for="wallet_to_id">Wallet</label>
-                                    </div>
-                                    <div class="col s12 input-field">
-                                        <select id="account_to_id" name="account_to_id" data-linked="wallet_to_id">
-                                            @foreach ($wallets->find($model->accountTo->wallet_id)->accounts as $account)
-                                                <option {{ $model->account_to_id == $account->id ? 'selected' : '' }}
-                                                        value="{{ $account->id }}">
-                                                    {{ $account->accountType->name }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <label for="account_to_id">Account</label>
-                                    </div>
+                                    <x-linked-selects
+                                        firstName="wallet_to_id"
+                                        firstTitle="Wallet"
+                                        secondName="account_to_id"
+                                        secondTitle="Account"
+                                        dataUrl="/wallets/walletAccounts"
+                                        view="components.linked-selects.wallets-accounts-money-flow"
+                                        :options="$wallets"
+                                        :model="$model"
+                                    />
                                     <x-input name="sum_to" title="Sum" :model="$model"></x-input>
                                 </div>
                             </div>
@@ -99,5 +75,5 @@
 
 {{-- page scripts --}}
 @section('page-script')
-    <script src="{{ asset('js/scripts/linked-selects.js') }}"></script>
+    @stack('components-scripts')
 @endsection

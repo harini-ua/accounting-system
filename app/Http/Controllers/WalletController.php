@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\WalletDataTable;
 use App\Http\Requests\WalletStoreRequest;
 use App\Http\Requests\WalletUpdateRequest;
+use App\Models\Account;
 use App\Models\Wallet;
 use App\Models\WalletType;
 
@@ -134,4 +135,20 @@ class WalletController extends Controller
         return response()->json(['success'=>false]);
     }
 
+    /**
+     * @param $walletId
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
+     */
+    public function walletAccounts($walletId)
+    {
+        return Account::with('accountType')
+            ->where('wallet_id', '=', $walletId)
+            ->get()
+            ->map(function($account) {
+                return [
+                    'id' => $account->id,
+                    'name' => $account->accountType->name,
+                ];
+            });
+    }
 }

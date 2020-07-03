@@ -24,13 +24,13 @@ Route::middleware(['auth'])->group(function() {
 
     // Wallets
     Route::resource('wallets', 'WalletController')->except(['create']);
+    Route::get('wallets/walletAccounts/{walletId}', 'WalletController@walletAccounts');
 
     // Accounts
     Route::resource('accounts', 'AccountController')->only(['index', 'edit', 'update']);
 
     // Money Flows
     Route::resource('money-flows', 'MoneyFlowController')->except(['show']);
-    Route::get('walletAccounts/{walletId}', 'MoneyFlowController@walletAccounts');
 
     // CLIENTS
     Route::group(['prefix' => 'clients'], static function() {
@@ -41,6 +41,8 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/{client}/edit', 'ClientController@edit')->name('clients.edit');
         Route::put('/{client}', 'ClientController@update')->name('clients.update');
         Route::delete('/{client}/delete', 'ClientController@destroy')->name('clients.destroy');
+
+        Route::get('clientContracts/{clientId}', 'ClientController@clientContracts');
     });
 
     // CONTRACTS
@@ -89,7 +91,7 @@ Route::middleware(['auth'])->group(function() {
     });
 
     // Incomes
-    Route::resource('incomes', 'IncomeController');
+    Route::resource('incomes', 'IncomeController')->except(['create', 'show']);
 
 });
 

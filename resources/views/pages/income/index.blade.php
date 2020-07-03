@@ -29,36 +29,36 @@
                     <div class="sidebar-details">
                         <div class="mt-10 pt-2">
                             <!-- form start -->
-                            <form id="add-wallet-form" class="edit-contact-item mb-5 mt-5" method="POST" action="{{ route('wallets.store') }}">
+                            <form class="edit-contact-item mb-5 mt-5" method="POST" action="{{ route('incomes.store') }}">
                                 @csrf
                                 <div class="row">
-                                    <div class="input-field col s12">
-                                        <i class="material-icons prefix"> account_balance_wallet </i>
-                                        <input id="name" name="name" type="text" class="validate" value="{{ old('name') }}">
-                                        <label for="name">Wallet Name</label>
-                                        @error('name')
-                                        <span class="helper-text">{{ $message }}</span>
-                                        @enderror
-                                    </div>
-                                    <div class="input-field col s12">
-                                        <i class="material-icons prefix"> account_balance_wallet </i>
-                                        <select id="wallet_type_id" name="wallet_type_id">
-{{--                                            @foreach ($walletTypes as $walletType)--}}
-{{--                                                <option {{ old('wallet_type_id') == $walletType->id ? 'selected' : '' }}--}}
-{{--                                                        value="{{ $walletType->id }}">--}}
-{{--                                                    {{ $walletType->name }}--}}
-{{--                                                </option>--}}
-{{--                                            @endforeach--}}
-                                        </select>
-                                        <label for="wallet_type_id">Wallet Type</label>
-                                    </div>
+                                    <x-linked-selects
+                                        firstName="client_id"
+                                        firstTitle="Client"
+                                        secondName="contract_id"
+                                        secondTitle="Contract"
+                                        dataUrl="/clients/clientContracts"
+                                        view="components.linked-selects.clients-contracts"
+                                        :options="$clients"
+                                    />
+                                    <x-linked-selects
+                                        firstName="wallet_id"
+                                        firstTitle="Wallet"
+                                        secondName="account_id"
+                                        secondTitle="Account"
+                                        dataUrl="/wallets/walletAccounts"
+                                        view="components.linked-selects.wallets-accounts"
+                                        :options="$wallets"
+                                    />
+                                    <x-date name="plan_date" title="Planning Date"></x-date>
+                                    <x-input name="plan_sum" title="Planning Sum"></x-input>
+                                </div>
+                                <div class="card-action pl-0 pr-0 right-align">
+                                    <button class="btn-small waves-effect waves-light">
+                                        <span>Add Income</span>
+                                    </button>
                                 </div>
                             </form>
-                            <div class="card-action pl-0 pr-0 right-align">
-                                <button class="btn-small waves-effect waves-light add-wallet">
-                                    <span>Add Income</span>
-                                </button>
-                            </div>
                             <!-- form start end-->
                         </div>
                     </div>
@@ -104,9 +104,9 @@
     <script src="{{asset('vendors/data-tables/js/datatables.checkboxes.min.js')}}"></script>
 @endsection
 
- page scripts
 @section('page-script')
     {{ $dataTable->scripts() }}
+    <script src="{{asset('js/scripts/data-tables.js')}}"></script>
     @stack('components-scripts')
     <script src="{{asset('js/scripts/accounts.js')}}"></script>
 @endsection

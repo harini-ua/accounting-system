@@ -2,7 +2,6 @@
 
 namespace App\DataTables;
 
-use App\Models\Client;
 use App\Models\Contract;
 use App\Models\Income;
 use Yajra\DataTables\Html\Button;
@@ -23,6 +22,18 @@ class IncomesDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->addColumn('plan_date', function(Income $model) {
+                return $model->plan_date->format('d-m-Y');
+            })
+            ->addColumn('client', function(Income $model) {
+                return view('partials.view-link', ['model' => $model->contract->client]);
+            })
+            ->addColumn('contract', function(Income $model) {
+                return view('partials.view-link', ['model' => $model->contract]);
+            })
+            ->addColumn('wallet', function(Income $model) {
+                return view('partials.view-link', ['model' => $model->account->wallet]);
+            })
             ->filterColumn('client', function($query, $keyword) {
                 $contracts = Contract::join('clients', 'contracts.client_id', '=', 'clients.id')
                     ->where('clients.name', 'like', "%$keyword%")
@@ -49,6 +60,9 @@ class IncomesDataTable extends DataTable
                 $query->join('accounts', 'accounts.id', '=', 'incomes.account_id')
                     ->join('account_types', 'account_types.id', '=', 'accounts.account_type_id')
                     ->orderBy('account_types.name', $order);
+            })
+            ->orderColumn('plan_date', function($query, $order) {
+                $query->orderBy('plan_date', $order);
             })
             ->addColumn('action', function(Income $account) {
                 return view("partials.actions", ['actions'=>['edit', 'delete'], 'model' => $account]);
@@ -93,9 +107,9 @@ class IncomesDataTable extends DataTable
     {
         return [
             Column::make('id')->searchable(false),
-            Column::make('client')->data('contract.client.name'),
-            Column::make('contract')->data('contract.name')->searchable(false),
-            Column::make('wallet')->data('account.wallet.name')->searchable(false),
+            Column::make('client'),
+            Column::make('contract')->searchable(false),
+            Column::make('wallet')->searchable(false),
             Column::make('account')->data('account.account_type.name')->searchable(false),
             Column::make('plan_sum')->searchable(false),
             Column::make('plan_date')->searchable(false),

@@ -9,6 +9,7 @@ class MoneyFlow extends Model
 {
     protected $fillable = ['date', 'account_from_id', 'sum_from', 'account_to_id', 'sum_to', 'currency_rate',
         'fee', 'comment'];
+
     protected $dates = ['date'];
 
     protected static function booted()

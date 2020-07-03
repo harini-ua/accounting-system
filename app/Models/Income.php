@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Income extends Model
 {
+    protected $fillable = ['contract_id', 'account_id', 'plan_date', 'plan_sum'];
+
     /**
      * The attributes that should be cast.
      *
@@ -14,6 +16,7 @@ class Income extends Model
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
+        'plan_date' => 'date',
     ];
 
     /**

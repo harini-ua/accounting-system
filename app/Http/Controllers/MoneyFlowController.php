@@ -46,7 +46,7 @@ class MoneyFlowController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        $wallets = Wallet::with('accounts')->get();
+        $wallets = Wallet::with('accounts.accountType')->get();
 
         return view('pages.money-flow.create', [
             'breadcrumbs' => $breadcrumbs,
@@ -95,7 +95,7 @@ class MoneyFlowController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        $wallets = Wallet::with('accounts')->get();
+        $wallets = Wallet::with('accounts.accountType')->get();
         $accounts = Account::with('accountType')->get();
         $moneyFlow->load('accountFrom.wallet');
 
@@ -136,22 +136,5 @@ class MoneyFlowController extends Controller
             return response()->json(['success'=>true]);
         }
         return response()->json(['success'=>false]);
-    }
-
-    /**
-     * @param $walletId
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
-     */
-    public function walletAccounts($walletId)
-    {
-        return Account::with('accountType')
-            ->where('wallet_id', '=', $walletId)
-            ->get()
-            ->map(function($account) {
-                return [
-                    'id' => $account->id,
-                    'name' => $account->accountType->name,
-                ];
-            });
     }
 }
