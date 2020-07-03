@@ -20,7 +20,7 @@ class CreateAccountsTable extends Migration
             $table->unsignedBigInteger('wallet_id');
             $table->float('start_sum')->default(0.0);
             $table->timestamp('started_at')->nullable()->default(Carbon::now());
-            $table->float('balance')->default(0.0);
+            $table->double('balance')->default(0.0);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
 

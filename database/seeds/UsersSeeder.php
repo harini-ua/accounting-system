@@ -18,7 +18,7 @@ class UsersSeeder extends Seeder
             'position_id' => 1,
         ]);
 
-        $positions = \App\Position::all();
+        $positions = \App\Models\Position::all();
         factory(\App\User::class, 100)->create([
             'position_id' => function() use ($positions) {
                 return $positions->random()->id;

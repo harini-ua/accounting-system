@@ -3,8 +3,8 @@
 namespace App\Services;
 
 
-use App\Account;
-use App\MoneyFlow;
+use App\Models\Account;
+use App\Models\MoneyFlow;
 use Illuminate\Support\Facades\DB;
 
 /**

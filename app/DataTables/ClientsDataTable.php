@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Modules\Client;
+use App\Models\Client;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -45,7 +45,7 @@ class ClientsDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Modules\Client $model
+     * @param \App\Models\Client $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Client $model)
