@@ -2,8 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Account;
-use App\MoneyFlow;
+use App\Models\Account;
+use App\Models\MoneyFlow;
 use App\Services\Formatter;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;

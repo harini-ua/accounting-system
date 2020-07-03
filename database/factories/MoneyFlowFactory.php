@@ -2,7 +2,7 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
-use App\MoneyFlow;
+use App\Models\MoneyFlow;
 use Faker\Generator as Faker;
 
 $factory->define(MoneyFlow::class, function (Faker $faker) {

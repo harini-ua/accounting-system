@@ -4,7 +4,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(\App\Modules\Contract::class, static function (Faker $faker) {
+$factory->define(\App\Models\Contract::class, static function (Faker $faker) {
     $status = $faker->randomElement([
         \App\Enums\ContractStatus::OPENED,
         \App\Enums\ContractStatus::CLOSED

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\AccountType;
+use App\Models\AccountType;
 use App\DataTables\AccountsDataTable;
 use App\Http\Requests\AccountRequest;
-use App\Wallet;
-use App\Account;
+use App\Models\Wallet;
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 

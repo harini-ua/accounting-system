@@ -11,8 +11,8 @@ class WalletsSeeder extends Seeder
      */
     public function run()
     {
-        $walletTypes = \App\WalletType::all();
-        factory(\App\Wallet::class, 15)->create([
+        $walletTypes = \App\Models\WalletType::all();
+        factory(\App\Models\Wallet::class, 15)->create([
             'wallet_type_id' => function() use ($walletTypes) {
                 return $walletTypes->random()->id;
             }

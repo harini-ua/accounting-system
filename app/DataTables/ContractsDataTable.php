@@ -3,7 +3,7 @@
 namespace App\DataTables;
 
 use App\Enums\ContractStatus;
-use App\Modules\Contract;
+use App\Models\Contract;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -89,7 +89,7 @@ class ContractsDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Modules\Contract $model
+     * @param \App\Models\Contract $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Contract $model)
