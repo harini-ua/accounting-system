@@ -34,6 +34,17 @@ class IncomesDataTable extends DataTable
             ->addColumn('wallet', function(Income $model) {
                 return view('partials.view-link', ['model' => $model->account->wallet]);
             })
+            ->filter(function($query) {
+                if ($this->request->has('client_filter')) {
+                    $filter = $this->request->input('client_filter');
+                    $contracts = Contract::join('clients', 'contracts.client_id', '=', 'clients.id')
+                        ->where('clients.id', '=', $filter)
+                        ->distinct('contracts.id')
+                        ->pluck('contracts.id')
+                        ->toArray();
+                    $query->whereIn('contract_id', $contracts);
+                }
+            }, true)
             ->filterColumn('client', function($query, $keyword) {
                 $contracts = Contract::join('clients', 'contracts.client_id', '=', 'clients.id')
                     ->where('clients.name', 'like', "%$keyword%")

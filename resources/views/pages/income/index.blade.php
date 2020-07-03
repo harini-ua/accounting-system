@@ -76,21 +76,13 @@
         <div class="invoice-filter-action mr-3">
             <input type="text" class="datepicker" placeholder="End date" value="{{ $endDate->format('d-m-Y') }}">
         </div>
-        <div class="filter-btn">
-            <!-- Dropdown Trigger -->
-            <a class='dropdown-trigger btn waves-effect waves-light purple darken-1 border-round' href='#'
-               data-target='btn-filter'>
-                <span class="hide-on-small-only">Filter by Client</span>
-                <i class="material-icons">keyboard_arrow_down</i>
-            </a>
-            <!-- Dropdown Structure -->
-            <ul id='btn-filter' class='dropdown-content'>
-                <li><a class="option" data-id="all" href="#!">All</a></li>
-{{--                @foreach($wallets as $wallet)--}}
-{{--                    <li><a class="option" data-id="{{ $wallet->id }}" href="#!">{{ $wallet->name }}</a></li>--}}
-{{--                @endforeach--}}
-            </ul>
-        </div>
+        <x-filter
+            table="incomes-table"
+            :options="$clients"
+            url="{{ route('incomes.index') }}"
+            name="client_filter"
+            title="Filter by Client"
+        />
         <div class="responsive-table">
             {{ $dataTable->table() }}
         </div>
