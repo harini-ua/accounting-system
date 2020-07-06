@@ -2,10 +2,10 @@
 
 namespace App\Casts;
 
+use App\Helpers\InvoiceHelper;
 use Illuminate\Contracts\Database\Eloquent\CastsAttributes;
-use Illuminate\Support\Carbon;
 
-class Date implements CastsAttributes
+class InvoiceNumber implements CastsAttributes
 {
     /**
      * Cast the given value.
@@ -14,12 +14,11 @@ class Date implements CastsAttributes
      * @param  string  $key
      * @param  mixed  $value
      * @param  array  $attributes
-     *
-     * @return string
+     * @return array
      */
     public function get($model, $key, $value, $attributes)
     {
-        return Carbon::parse($value)->format('d-m-Y');
+        return $value;
     }
 
     /**
@@ -29,11 +28,12 @@ class Date implements CastsAttributes
      * @param  string  $key
      * @param  array  $value
      * @param  array  $attributes
-     *
      * @return string
      */
     public function set($model, $key, $value, $attributes)
     {
-        return Carbon::parse($value);
+        $invoice = \App\Models\Invoice::all()->last();
+
+        return InvoiceHelper::serialNumber($invoice ? $invoice->id : 0);
     }
 }

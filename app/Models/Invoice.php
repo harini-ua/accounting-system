@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Wallet;
+use App\Casts\InvoiceNumber;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -31,7 +31,7 @@ class Invoice extends Model
      *
      * @var array
      */
-    protected $fillable = ['client_id', 'contract_id', 'date', 'wallet_id', 'sum', 'fee', 'received_sum', 'status'];
+    protected $fillable = ['number', 'client_id', 'contract_id', 'date', 'wallet_id', 'sum', 'fee', 'received_sum', 'status'];
 
     /**
      * The attributes that should be cast.
@@ -39,6 +39,7 @@ class Invoice extends Model
      * @var array
      */
     protected $casts = [
+        'number' => InvoiceNumber::class,
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];

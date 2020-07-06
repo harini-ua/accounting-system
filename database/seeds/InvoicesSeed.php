@@ -22,15 +22,9 @@ class InvoicesSeed extends Seeder
         foreach ($contracts as $contract) {
             $contractInvoices = factory(\App\Models\Invoice::class, random_int(2, 5))
                 ->make([
-                    'contract_id' => function() use ($contract) {
-                        return $contract->id;
-                    },
-                    'account_id' => function() use ($accounts) {
-                        return $accounts->random()->id;
-                    },
-                    'sales_manager_id' => function() use ($salesManagers) {
-                        return $salesManagers->random()->id;
-                    },
+                    'contract_id' => $contract->id,
+                    'account_id' => $accounts->random()->id,
+                    'sales_manager_id' => $salesManagers->random()->id,
                     'created_at' => $createdAt,
                     'updated_at' => $createdAt,
                 ])->toArray();
@@ -38,6 +32,11 @@ class InvoicesSeed extends Seeder
             $invoices = array_merge($invoices, $contractInvoices);
         }
 
-        \App\Models\Invoice::insert($invoices);
+        $invoices = collect($invoices)->map(static function($item, $key) {
+            $item['number'] = \App\Helpers\InvoiceHelper::serialNumber($key);
+            return $item;
+        });
+
+        \App\Models\Invoice::insert($invoices->toArray());
     }
 }

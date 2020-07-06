@@ -13,15 +13,22 @@ use Yajra\DataTables\Services\DataTable;
 class InvoicesDataTable extends DataTable
 {
     const COLUMNS = [
-        //
+        'id',
+        'client',
+        'number'
     ];
+
+    /** @var int|null $contract_id */
+    public $contract_id;
 
     /**
      * ContractsDataTable constructor.
+     *
+     * @param integer|null $contract_id
      */
-    public function __construct()
+    public function __construct($contract_id = null)
     {
-        //
+        $this->contract_id = $contract_id;
     }
 
     /**
@@ -33,6 +40,19 @@ class InvoicesDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = datatables()->eloquent($query);
+        $dataTable->addColumn('id', static function(Contract $model) {
+            return $model->id;
+        });
+
+        if ($this->contract_id === null) {
+            $dataTable->addColumn('contract', static function(Contract $model) {
+                return '<a target="_blank" href="'.route('contracts.show', $model->contract->id).'">'.$model->contract->name.'</a>';
+            });
+        }
+
+        $dataTable->addColumn('number', function(Contract $model) {
+            return '<a target="_blank" href="'.route('invoices.show', $model->id).'">'.$model->number.'</a>';
+        });
 
         $dataTable->addColumn('action', static function(Invoice $model) {
             return view('partials.actions', ['actions' =>['view', 'edit', 'delete'], 'model' => $model]);

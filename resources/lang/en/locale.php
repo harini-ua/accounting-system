@@ -135,6 +135,7 @@ return [
     "Page Collapse"=> "Page Collapse",
     "Users"=> "Users",
     "Invoices"=> "Invoices",
+    "Invoices List" => "Invoices List",
     "Wallets"=> "Wallets",
     "Accounts"=> "Accounts",
     "Clients"=> "Clients",
