@@ -12,22 +12,23 @@ class InvoiceItemSeed extends Seeder
      */
     public function run()
     {
-        $invoiceIds = \App\Models\Invoice::all()->pluck('id');
-        $createdAt = \Illuminate\Support\Carbon::now();
+        \App\Models\Invoice::chunk(1000, function($invoices) {
+            $allInvoiceItems = [];
+            $createdAt = \Illuminate\Support\Carbon::now();
+            $invoiceIds = $invoices->pluck('id');
 
-        $allInvoiceItems = [];
+            foreach ($invoiceIds as $invoiceId) {
+                $invoiceItems = factory(\App\Models\InvoiceItem::class, random_int(3, 6))
+                    ->make([
+                        'invoice_id' => $invoiceId,
+                        'created_at' => $createdAt,
+                        'updated_at' => $createdAt,
+                    ])->toArray();
 
-        foreach ($invoiceIds as $invoiceId) {
-            $invoiceItems = factory(\App\Models\InvoiceItem::class, random_int(3, 6))
-                ->make([
-                    'invoice_id' => $invoiceId,
-                    'created_at' => $createdAt,
-                    'updated_at' => $createdAt,
-            ])->toArray();
+                $allInvoiceItems = array_merge($allInvoiceItems, $invoiceItems);
+            }
 
-            $allInvoiceItems = array_merge($allInvoiceItems, $invoiceItems);
-        }
-
-        \App\Models\InvoiceItem::insert($allInvoiceItems);
+            \App\Models\InvoiceItem::insert($allInvoiceItems);
+        });
     }
 }
