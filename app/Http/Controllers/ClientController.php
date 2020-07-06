@@ -7,7 +7,8 @@ use App\DataTables\ContractsDataTable;
 use App\Enums\ContractStatus;
 use App\Http\Requests\ClientCreateRequest;
 use App\Http\Requests\ClientUpdateRequest;
-use App\Modules\Client;
+use App\Models\Client;
+use App\Models\Contract;
 
 class ClientController extends Controller
 {
@@ -154,5 +155,21 @@ class ClientController extends Controller
             'success' => false,
             'message' => __('Something went wrong. Try again.')
         ]);
+    }
+
+    /**
+     * @param $clientId
+     * @return mixed
+     */
+    public function clientContracts($clientId)
+    {
+        return Contract::where('client_id', '=', $clientId)
+            ->get()
+            ->map(function($contract) {
+                return [
+                    'id' => $contract->id,
+                    'name' => $contract->name,
+                ];
+            });
     }
 }

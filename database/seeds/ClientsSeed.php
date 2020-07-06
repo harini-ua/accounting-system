@@ -14,9 +14,9 @@ class ClientsSeed extends Seeder
     {
         $faker = new Faker();
 
-        factory(\App\Modules\Client::class, 100)->create()
-            ->each(static function (\App\Modules\Client $client) use ($faker) {
-                $client->addresses()->save(factory(\App\Modules\Address::class)->make());
+        factory(\App\Models\Client::class, 100)->create()
+            ->each(static function (\App\Models\Client $client) use ($faker) {
+                $client->addresses()->save(factory(\App\Models\Address::class)->make());
             }
         );
     }

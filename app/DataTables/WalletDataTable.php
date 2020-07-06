@@ -2,8 +2,8 @@
 
 namespace App\DataTables;
 
-use App\Wallet;
-use App\WalletType;
+use App\Models\Wallet;
+use App\Models\WalletType;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;

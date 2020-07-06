@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Income;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Http;
 
 class Test extends Command
 {
@@ -38,6 +40,8 @@ class Test extends Command
     public function handle()
     {
         //
+        $income = Income::find(1);
+        dd($income->toArray());
 
         $this->info('Complete!');
     }

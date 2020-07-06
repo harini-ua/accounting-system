@@ -4,7 +4,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(\App\Modules\Address::class, static function (Faker $faker) {
+$factory->define(\App\Models\Address::class, static function (Faker $faker) {
     return [
         'country' => $faker->country,
         'state' => $faker->state,

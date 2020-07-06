@@ -19,7 +19,7 @@ class CreateContractsTable extends Migration
             $table->string('name');
             $table->text('comment');
             $table->unsignedBigInteger('sales_manager_id');
-            $table->string('status', 10)
+            $table->string('status', 20)
                 ->default(\App\Enums\ContractStatus::OPENED);
             $table->timestamp('closed_at')->nullable();
             $table->timestamps();

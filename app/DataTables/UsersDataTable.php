@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Position;
+use App\Models\Position;
 use App\User;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;

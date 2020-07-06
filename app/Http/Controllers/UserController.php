@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ProfileUpdate;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
-use App\Position;
+use App\Models\Position;
 use App\User;
 use App\DataTables\UsersDataTable;
 use Illuminate\Http\Request;

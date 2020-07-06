@@ -5,10 +5,6 @@ namespace App\Enums;
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
-/**
- * @method static static STATUS_OPENED()
- * @method static static STATUS_CLOSED()
- */
 final class ContractStatus extends Enum implements LocalizedEnum
 {
     const OPENED = 'OPENED';

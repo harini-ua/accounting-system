@@ -15,3 +15,28 @@ $.ajaxSetup({
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
+
+// Custom Filters
+class Filters
+{
+    constructor() {
+        this.filters = {};
+    }
+    get(name) {
+        return this.filters.find(filter => filter.name === name);
+    }
+    set(name, filter) {
+        this.filters = Object.assign({}, this.filters, {
+            [name]: filter,
+        })
+    }
+    url(route) {
+        const url = new URL(route);
+        for (let name in this.filters) {
+            url.searchParams.set(name, this.filters[name]);
+        }
+        return url.href;
+    }
+}
+window.filters = window.filters || new Filters();
+

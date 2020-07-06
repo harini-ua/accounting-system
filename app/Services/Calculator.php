@@ -4,7 +4,7 @@
 namespace App\Services;
 
 
-use App\MoneyFlow;
+use App\Models\MoneyFlow;
 use Illuminate\Database\Eloquent\Model;
 
 /**

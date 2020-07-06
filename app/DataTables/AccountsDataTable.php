@@ -2,9 +2,9 @@
 
 namespace App\DataTables;
 
-use App\Account;
-use App\AccountType;
-use App\Wallet;
+use App\Models\Account;
+use App\Models\AccountType;
+use App\Models\Wallet;
 use App\Services\Formatter;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;

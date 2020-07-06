@@ -46,16 +46,16 @@
                     @enderror
                 </div>
             </div>
-{{--            <div class="row">--}}
-{{--                <div class="col s12 m12 l12 ml-2 mt-1">--}}
-{{--                    <p>--}}
-{{--                        <label>--}}
-{{--                            <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>--}}
-{{--                            <span>Remember Me</span>--}}
-{{--                        </label>--}}
-{{--                    </p>--}}
-{{--                </div>--}}
-{{--            </div>--}}
+            <div class="row">
+                <div class="col s12 m12 l12 ml-2 mt-1">
+                    <p>
+                        <label>
+                            <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                            <span>Remember Me</span>
+                        </label>
+                    </p>
+                </div>
+            </div>
             <div class="row">
                 <div class="input-field col s12">
                     <button type="submit"

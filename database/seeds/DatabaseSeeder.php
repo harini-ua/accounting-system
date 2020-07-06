@@ -19,5 +19,9 @@ class DatabaseSeeder extends Seeder
         $this->call(MoneyFlowsSeeder::class);
         $this->call(ClientsSeed::class);
         $this->call(ContractsSeed::class);
+        $this->call(InvoicesSeed::class);
+        $this->call(InvoiceItemSeed::class);
+        $this->call(PaymentSeed::class);
+        $this->call(IncomeSeeder::class);
     }
 }
