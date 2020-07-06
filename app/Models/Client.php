@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules;
+namespace App\Models;
 
 use App\Traits\Addressable;
 use Illuminate\Database\Eloquent\Model;

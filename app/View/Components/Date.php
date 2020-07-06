@@ -12,7 +12,7 @@ class Date extends Input
      */
     public function value()
     {
-        return $this->model ? $this->model->{$this->name}->format('d-m-Y') : $this->date();
+        return $this->model ? $this->model->{$this->name} : $this->date();
     }
 
     /**

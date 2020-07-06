@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\InvoicesDataTable;
-use App\Modules\Invoice;
+use App\Models\Invoice;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 

@@ -14,10 +14,10 @@ class ContractsSeed extends Seeder
     {
         $userIds = \App\User::where('position_id', 3)->pluck('id')->toArray();
 
-        $clientIds = \App\Modules\Client::all()->pluck('id');
+        $clientIds = \App\Models\Client::all()->pluck('id');
         foreach ($clientIds as $clientId) {
             shuffle($userIds);
-            factory(\App\Modules\Contract::class, random_int(3, 6))
+            factory(\App\Models\Contract::class, random_int(3, 6))
                 ->create([
                     'client_id' => $clientId,
                     'sales_manager_id' => $userIds[0],

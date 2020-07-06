@@ -12,13 +12,13 @@ class PaymentSeed extends Seeder
      */
     public function run()
     {
-        $invoiceIds = \App\Modules\Invoice::all()->pluck('id');
+        $invoiceIds = \App\Models\Invoice::all()->pluck('id');
         $createdAt = \Illuminate\Support\Carbon::now();
 
         $allPayments = [];
 
         foreach ($invoiceIds as $invoiceId) {
-            $payments = factory(\App\Modules\Payment::class, random_int(1, 3))
+            $payments = factory(\App\Models\Payment::class, random_int(1, 3))
                 ->make([
                     'invoice_id' => $invoiceId,
                     'created_at' => $createdAt,
@@ -28,6 +28,6 @@ class PaymentSeed extends Seeder
             $allPayments = array_merge($allPayments, $payments);
         }
 
-        \App\Modules\Payment::insert($allPayments);
+        \App\Models\Payment::insert($allPayments);
     }
 }

@@ -3,14 +3,14 @@
 namespace App\Observers;
 
 use App\Helpers\InvoiceHelper;
-use App\Modules\Invoice;
+use App\Models\Invoice;
 
 class InvoiceObserver
 {
     /**
      * Handle the contract "creating" event.
      *
-     * @param  \App\Modules\Invoice  $invoice
+     * @param  \App\Models\Invoice  $invoice
      * @return void
      */
     public function creating(Invoice $invoice)
@@ -21,7 +21,7 @@ class InvoiceObserver
     /**
      * Handle the invoice "created" event.
      *
-     * @param  \App\Modules\Invoice  $invoice
+     * @param  \App\Models\Invoice  $invoice
      * @return void
      */
     public function created(Invoice $invoice)
@@ -32,7 +32,7 @@ class InvoiceObserver
     /**
      * Handle the contract "updating" event.
      *
-     * @param  \App\Modules\Invoice  $invoice
+     * @param  \App\Models\Invoice  $invoice
      * @return void
      */
     public function updating(Invoice $invoice)
@@ -43,7 +43,7 @@ class InvoiceObserver
     /**
      * Handle the invoice "updated" event.
      *
-     * @param  \App\Modules\Invoice  $invoice
+     * @param  \App\Models\Invoice  $invoice
      * @return void
      */
     public function updated(Invoice $invoice)
@@ -54,7 +54,7 @@ class InvoiceObserver
     /**
      * Handle the invoice "deleted" event.
      *
-     * @param  \App\Modules\Invoice  $invoice
+     * @param  \App\Models\Invoice  $invoice
      * @return void
      */
     public function deleted(Invoice $invoice)
@@ -65,7 +65,7 @@ class InvoiceObserver
     /**
      * Handle the invoice "restored" event.
      *
-     * @param  \App\Modules\Invoice  $invoice
+     * @param  \App\Models\Invoice  $invoice
      * @return void
      */
     public function restored(Invoice $invoice)
@@ -76,7 +76,7 @@ class InvoiceObserver
     /**
      * Handle the invoice "force deleted" event.
      *
-     * @param  \App\Modules\Invoice  $invoice
+     * @param  \App\Models\Invoice  $invoice
      * @return void
      */
     public function forceDeleted(Invoice $invoice)

@@ -6,7 +6,7 @@
 use Faker\Generator as Faker;
 use Illuminate\Support\Carbon;
 
-$factory->define(\App\Modules\Invoice::class, static function (Faker $faker) {
+$factory->define(\App\Models\Invoice::class, static function (Faker $faker) {
     $planDate = Carbon::now()->sub(rand(1, 30) . ' days');
     return [
         'number' => $faker->bankAccountNumber,

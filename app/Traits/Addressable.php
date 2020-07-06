@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Modules\Address;
+use App\Models\Address;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 trait Addressable

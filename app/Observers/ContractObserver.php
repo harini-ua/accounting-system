@@ -3,14 +3,14 @@
 namespace App\Observers;
 
 use App\Enums\ContractStatus;
-use App\Modules\Contract;
+use App\Models\Contract;
 
 class ContractObserver
 {
     /**
      * Handle the contract "creating" event.
      *
-     * @param  \App\Modules\Contract  $contract
+     * @param  \App\Models\Contract  $contract
      * @return void
      */
     public function creating(Contract $contract)
@@ -23,7 +23,7 @@ class ContractObserver
     /**
      * Handle the contract "created" event.
      *
-     * @param  \App\Modules\Contract  $contract
+     * @param  \App\Models\Contract  $contract
      * @return void
      */
     public function created(Contract $contract)
@@ -34,7 +34,7 @@ class ContractObserver
     /**
      * Handle the contract "updating" event.
      *
-     * @param  \App\Modules\Contract  $contract
+     * @param  \App\Models\Contract  $contract
      * @return void
      */
     public function updating(Contract $contract)
@@ -47,7 +47,7 @@ class ContractObserver
     /**
      * Handle the contract "updated" event.
      *
-     * @param  \App\Modules\Contract  $contract
+     * @param  \App\Models\Contract  $contract
      * @return void
      */
     public function updated(Contract $contract)
@@ -58,7 +58,7 @@ class ContractObserver
     /**
      * Handle the contract "deleted" event.
      *
-     * @param  \App\Modules\Contract  $contract
+     * @param  \App\Models\Contract  $contract
      * @return void
      */
     public function deleted(Contract $contract)
@@ -69,7 +69,7 @@ class ContractObserver
     /**
      * Handle the contract "restored" event.
      *
-     * @param  \App\Modules\Contract  $contract
+     * @param  \App\Models\Contract  $contract
      * @return void
      */
     public function restored(Contract $contract)
@@ -80,7 +80,7 @@ class ContractObserver
     /**
      * Handle the contract "force deleted" event.
      *
-     * @param  \App\Modules\Contract  $contract
+     * @param  \App\Models\Contract  $contract
      * @return void
      */
     public function forceDeleted(Contract $contract)

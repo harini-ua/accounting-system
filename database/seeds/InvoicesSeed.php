@@ -12,15 +12,15 @@ class InvoicesSeed extends Seeder
      */
     public function run()
     {
-        $contracts = \App\Modules\Contract::all('id');
-        $accounts = \App\Account::all('id');
+        $contracts = \App\Models\Contract::all('id');
+        $accounts = \App\Models\Account::all('id');
         $salesManagers = \App\User::where('position_id', \App\Enums\Position::SalesManager())->get('id');
         $createdAt = \Illuminate\Support\Carbon::now();
 
         $invoices = [];
 
         foreach ($contracts as $contract) {
-            $contractInvoices = factory(\App\Modules\Invoice::class, random_int(2, 5))
+            $contractInvoices = factory(\App\Models\Invoice::class, random_int(2, 5))
                 ->make([
                     'contract_id' => function() use ($contract) {
                         return $contract->id;
@@ -38,6 +38,6 @@ class InvoicesSeed extends Seeder
             $invoices = array_merge($invoices, $contractInvoices);
         }
 
-        \App\Modules\Invoice::insert($invoices);
+        \App\Models\Invoice::insert($invoices);
     }
 }

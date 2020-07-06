@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Modules;
+namespace App\Models;
 
 use App\Enums\ContractStatus;
 use App\User;
