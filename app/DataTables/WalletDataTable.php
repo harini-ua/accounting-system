@@ -63,6 +63,7 @@ class WalletDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
+                    ->responsive(true)
                     ->orderBy(0);
     }
 

@@ -1,15 +1,33 @@
 @import 'variables.scss';
-$invoice-border-color:#e8e8e8;
 
- /* list */
+$invoice-border-color: #e8e8e8;
+
+/* list */
 /*---------------*/
 .content-area {
-  width: calc(100% - 300px);
+  @media screen and (min-width: 1200px) {
+    width: calc(100% - 300px);
+  }
   &.content-right {
-    float: right;
+    @media screen and (min-width: 1200px) {
+      float: right;
+    }
+  }
+  #accounts-table_wrapper {
+    .top, .action-btns {
+      @media screen and (max-width: 768px) {
+        display: block;
+      }
+    }
+    table {
+      @media screen and (max-width: 1200px) {
+        width: 100%!important;
+      }
+    }
   }
 }
-.list-wrapper{
+
+.list-wrapper {
   margin-top: 10px;
   margin-bottom: 22px;
 
@@ -58,7 +76,7 @@ $invoice-border-color:#e8e8e8;
     /* data table */
     .invoice-data-table {
       border-collapse: collapse;
-      box-shadow: box-shadow .25s;
+      box-shadow: .25s;
 
       th {
         width: auto !important;
@@ -154,8 +172,8 @@ $invoice-border-color:#e8e8e8;
       margin-right: .2rem;
     }
   }
-  table.dataTable.dtr-column>tbody>tr>td.control:before,
-  table.dataTable.dtr-column>tbody>tr>th.control:before{
+  table.dataTable.dtr-column > tbody > tr > td.control:before,
+  table.dataTable.dtr-column > tbody > tr > th.control:before {
     left: 80%;
   }
 }
@@ -176,11 +194,11 @@ $invoice-border-color:#e8e8e8;
     color: $body-font-color;
     margin-bottom: 1rem;
   }
-.invoice-action-wrapper{
-  .invoice-action-btn:not(:last-child){
-    margin-bottom: .8rem;
+  .invoice-action-wrapper {
+    .invoice-action-btn:not(:last-child) {
+      margin-bottom: .8rem;
+    }
   }
-}
   .invoice-address {
     margin-bottom: 1rem;
   }
@@ -189,8 +207,8 @@ $invoice-border-color:#e8e8e8;
 /* Invoice Edit and Add */
 /*----------------------*/
 
-.invoice-edit-wrapper{
-  .invoice-date-picker{
+.invoice-edit-wrapper {
+  .invoice-date-picker {
     /* Date Picker label */
     small {
       white-space: nowrap;
@@ -239,8 +257,8 @@ $invoice-border-color:#e8e8e8;
 
   /* Invoice action button */
   .invoice-action-wrapper {
-    .invoice-action-btn:not(:last-child){
-    margin-bottom: .8rem;
+    .invoice-action-btn:not(:last-child) {
+      margin-bottom: .8rem;
       .preview,
       .save {
         padding: 0 0.75rem;
@@ -260,10 +278,10 @@ $invoice-border-color:#e8e8e8;
   }
 }
 
-@media (min-width:600px){
+@media (min-width: 600px) {
   /* responsive table*/
-  .responsive-table{
-    .top{
+  .responsive-table {
+    .top {
       .action-btns,
       .action-filters {
 
@@ -289,7 +307,7 @@ $invoice-border-color:#e8e8e8;
   }
 }
 
-@media (max-width:600px) {
+@media (max-width: 600px) {
   .invoice-payment {
     border: 1px solid $invoice-border-color;
     border-radius: 4px;
@@ -302,7 +320,7 @@ $invoice-border-color:#e8e8e8;
   }
 }
 
-@media (max-width:1054px) and (min-width:600px) {
+@media (max-width: 1054px) and (min-width: 600px) {
   .invoice-action-wrapper {
     .btn {
       .responsive-text {
@@ -313,7 +331,7 @@ $invoice-border-color:#e8e8e8;
   }
 }
 
-@media (min-width:1201px) {
+@media (min-width: 1201px) {
   .invoice-view-wrapper {
     .invoice-date {
       justify-content: flex-end;
@@ -324,16 +342,16 @@ $invoice-border-color:#e8e8e8;
 @media print {
 
   /* Hide a Unnecessary div while print invoice*/
-  html,body {
+  html, body {
     visibility: hidden;
   }
 
   .invoice-print-area {
     visibility: visible;
     page-break-after: auto;
-   .divider{
-     margin: .5rem 0 !important;
-   }
+    .divider {
+      margin: .5rem 0 !important;
+    }
   }
 
   .invoice-action-wrapper,

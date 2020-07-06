@@ -4,7 +4,7 @@ return [
     'custom' => [
         'mainLayoutType' => 'vertical-modern-menu', //Options:vertical-modern-menu,vertical-menu-nav-dark,vertical-gradient-menu,vertical-dark-menu,horizontal-menu, default(vertical-modern-menu)
         'pageHeader' => false, //options:Boolean: false(default), true (Page Header for Breadcrumbs) Warning:if pageheader true need to define a breadcrums in controller
-        'bodyCustomClass' => '', //any custom class can be pass
+        'bodyCustomClass' => 'vertical-modern-menu', //any custom class can be pass
         'navbarLarge' => true, //options:[boolean]:true or false default(true)
         'navbarBgColor' => '', //Options: cyan,teal,light-blue,amber (any of materializecolor class can be pass). warning:if isNavbarDark set NavbarBgColor not work.
         'isNavbarDark' => null, //Options:True for dark, false for light and null for default (blank for default navbar background color according to theme)
