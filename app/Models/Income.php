@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Date;
 use Illuminate\Database\Eloquent\Model;
 
 class Income extends Model
@@ -16,7 +17,7 @@ class Income extends Model
     protected $casts = [
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
-        'plan_date' => 'date',
+        'plan_date' => Date::class,
     ];
 
     /**

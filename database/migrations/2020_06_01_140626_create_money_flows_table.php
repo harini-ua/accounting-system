@@ -18,11 +18,11 @@ class CreateMoneyFlowsTable extends Migration
             $table->id();
             $table->timestamp('date')->default(Carbon::now());
             $table->unsignedBigInteger('account_from_id');
-            $table->float('sum_from');
+            $table->decimal('sum_from', 15, 2);
             $table->unsignedBigInteger('account_to_id');
-            $table->float('sum_to');
-            $table->float('currency_rate')->nullable();
-            $table->float('fee')->nullable();
+            $table->decimal('sum_to', 15, 2);
+            $table->decimal('currency_rate', 15, 2)->nullable();
+            $table->decimal('fee', 15, 2)->nullable();
             $table->text('comment')->nullable();
             $table->timestamps();
 

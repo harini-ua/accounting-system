@@ -29,9 +29,6 @@ class MoneyFlowsDataTable extends DataTable
             ->addColumn('comment', function(MoneyFlow $model) {
                 return mb_strimwidth($model->comment, 0, 50, '...');
             })
-            ->addColumn('date', function(MoneyFlow $model) {
-                return $model->date->format('d-m-Y');
-            })
             ->addColumn('sum_from', function(MoneyFlow $model) {
                 return Formatter::currency($model->sum_from, $model->accountFrom->accountType);
             })

@@ -27,13 +27,11 @@ class IncomeController extends Controller
         ];
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
-        $startDate = Carbon::now()->startOfMonth();
-        $endDate = Carbon::now();
         $clients = Client::with('contracts')->get();
         $wallets = Wallet::with('accounts.accountType')->get();
 
         return $dataTable->render('pages.income.index', compact('pageConfigs', 'breadcrumbs',
-            'startDate', 'endDate', 'clients', 'wallets'
+            'clients', 'wallets'
         ));
     }
 

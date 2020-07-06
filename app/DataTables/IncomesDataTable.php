@@ -9,6 +9,7 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use Illuminate\Support\Carbon;
 
 class IncomesDataTable extends DataTable
 {
@@ -22,9 +23,6 @@ class IncomesDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('plan_date', function(Income $model) {
-                return $model->plan_date->format('d-m-Y');
-            })
             ->addColumn('client', function(Income $model) {
                 return view('partials.view-link', ['model' => $model->contract->client]);
             })
@@ -43,6 +41,12 @@ class IncomesDataTable extends DataTable
                         ->pluck('contracts.id')
                         ->toArray();
                     $query->whereIn('contract_id', $contracts);
+                }
+                if ($this->request->has('start_date')) {
+                    $query->where('plan_date', '>=', Carbon::parse($this->request->input('start_date')));
+                }
+                if ($this->request->has('end_date')) {
+                    $query->where('plan_date', '<=', Carbon::parse($this->request->input('end_date')));
                 }
             }, true)
             ->filterColumn('client', function($query, $keyword) {

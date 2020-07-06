@@ -41,14 +41,15 @@
     "/js/scripts/contracts.js": "/js/scripts/contracts.js?id=8ceff2f818de0bf1533a",
     "/js/scripts/dashboard-analytics.js": "/js/scripts/dashboard-analytics.js?id=02dfa65c4d7e12285530",
     "/js/scripts/data-tables.js": "/js/scripts/data-tables.js?id=459b1814af4aa6fbcc0d",
-    "/js/scripts/filter.js": "/js/scripts/filter.js?id=aca344ec255590ae0a2f",
+    "/js/scripts/date-filter.js": "/js/scripts/date-filter.js?id=aee00c2296ac9fb3319d",
+    "/js/scripts/filter.js": "/js/scripts/filter.js?id=92b3c7f07a53beb790db",
     "/js/scripts/form-select2.js": "/js/scripts/form-select2.js?id=ed19903ae75fcab9f430",
     "/js/scripts/invoice.js": "/js/scripts/invoice.js?id=804eabd002f5d0160131",
     "/js/scripts/linked-selects.js": "/js/scripts/linked-selects.js?id=40fe4cfd88bb69e3dacc",
     "/js/scripts/page-users.js": "/js/scripts/page-users.js?id=3d7a23834bc743516ed6",
     "/js/scripts/page-wallets.js": "/js/scripts/page-wallets.js?id=bba46187a6bdc60d7568",
     "/js/scripts/ui-alerts.js": "/js/scripts/ui-alerts.js?id=22965afb55e00b807a07",
-    "/js/custom/custom-script.js": "/js/custom/custom-script.js?id=05c7141e0f0300fa3af5",
+    "/js/custom/custom-script.js": "/js/custom/custom-script.js?id=f814910555402a275d76",
     "/js/custom/custom-script.min.js": "/js/custom/custom-script.min.js?id=d41d8cd98f00b204e980",
     "/js/vendors.min.js": "/js/vendors.min.js?id=b92a9e8ff873da139204"
 }
