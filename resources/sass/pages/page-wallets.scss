@@ -5,9 +5,29 @@
 @import 'variables.scss';
 
 // Datatable
+
+.sidebar .sidebar-content .sidebar-header {
+	height: auto;
+	position: static;
+	width: auto;
+}
+
+.sidebar {
+	padding-top: 70px;
+}
+
 .content-area {
 	margin-top: 49px;
 	width: calc(100% - 350px);
+	@media screen and (max-width: 1024px) {
+		width: 100%;
+	}
+
+	table {
+		@media screen and (max-width: 768px) {
+			width: 100%!important;
+		}
+	}
 
 	&.content-left {
 		float: left;
@@ -329,7 +349,7 @@
 
 @media (max-width: 900px) {
 	.content-area {
-		margin-top: -110px !important;
+		//margin-top: -110px !important;
 
 		&.content-right,
 		&.content-left {

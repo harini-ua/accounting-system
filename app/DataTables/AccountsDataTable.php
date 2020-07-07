@@ -89,13 +89,14 @@ class AccountsDataTable extends DataTable
     {
         return $this->builder()
                     ->setTableId('accounts-table')
-                    ->addTableClass('table invoice-data-table white border-radius-4 pt-1')
+                    ->addTableClass('table invoice-data-table white border-radius-4')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('<"top display-flex  mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>')
                     ->languageSearch('')
                     ->languageSearchPlaceholder('Search account')
-                    ->orderBy(0);
+                    ->orderBy(0)
+                    ->responsive(true);
     }
 
     /**
