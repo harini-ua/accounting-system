@@ -16,7 +16,7 @@ class InvoiceHelper
         $delimiter            = config('invoices.serial_number.delimiter');
         $serial_number_format = config('invoices.serial_number.format');
 
-        $sequence = str_pad((string) $latestId, $sequence_padding, 0, STR_PAD_LEFT);
+        $sequence = str_pad((string) ++$latestId, $sequence_padding, 0, STR_PAD_LEFT);
 
         return strtr($serial_number_format, [
             '{SERIES}'    => $series,
