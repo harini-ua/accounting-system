@@ -2,8 +2,9 @@
 
 namespace App\DataTables;
 
-use App\Models\Contract;
+use App\Enums\InvoiceStatus;
 use App\Models\Invoice;
+use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -15,7 +16,8 @@ class InvoicesDataTable extends DataTable
     const COLUMNS = [
         'id',
         'client',
-        'number'
+        'number',
+        'status'
     ];
 
     /** @var int|null $contract_id */
@@ -40,18 +42,33 @@ class InvoicesDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = datatables()->eloquent($query);
-        $dataTable->addColumn('id', static function(Contract $model) {
-            return $model->id;
+
+        $dataTable->addColumn('number', static function(Invoice $model) {
+            return '<a target="_blank" href="'.route('invoices.show', $model->id).'">'.$model->number.'</a>';
+        });
+
+        $dataTable->addColumn('client', static function(Invoice $model) {
+            return '<a target="_blank" href="'.route('clients.show', $model->client->id).'">'.$model->client->name.'</a>';
         });
 
         if ($this->contract_id === null) {
-            $dataTable->addColumn('contract', static function(Contract $model) {
-                return '<a target="_blank" href="'.route('contracts.show', $model->contract->id).'">'.$model->contract->name.'</a>';
+            $dataTable->addColumn('contract', static function(Invoice $model) {
+                return '<a target="_blank" href="'.route('invoices.show', $model->contract->id).'">'.$model->contract->name.'</a>';
             });
         }
 
-        $dataTable->addColumn('number', function(Contract $model) {
-            return '<a target="_blank" href="'.route('invoices.show', $model->id).'">'.$model->number.'</a>';
+        $dataTable->addColumn('wallet', static function(Invoice $model) {
+            return '<a target="_blank" href="'.route('wallets.show', $model->wallet->id).'">'.$model->wallet->name.'</a>';
+        });
+
+        $dataTable->addColumn('invoice_date', static function(Invoice $model) {
+            return $model->created_at;
+        });
+
+        $dataTable->addColumn('status', static function(Invoice $model) {
+            $color = InvoiceStatus::getColor($model->status, 'class');
+            $class = "chip lighten-5 $color $color-text";
+            return '<span class="'.$class.'">'.$model->status.'</span>';
         });
 
         $dataTable->addColumn('action', static function(Invoice $model) {

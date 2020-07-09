@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Date;
 use App\Casts\InvoiceNumber;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
@@ -41,9 +42,28 @@ class Invoice extends Model
      */
     protected $casts = [
         'number' => InvoiceNumber::class,
-        'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
+
+    /**
+     * Invoice constructor.
+     *
+     * @param array $attributes
+     */
+    public function __construct(array $attributes = [])
+    {
+        $this->casts['created_at'] = Date::class.':'.config('invoices.date.format');
+
+        parent::__construct($attributes);
+    }
+
+    /**
+     * Get the client that owns the invoice.
+     */
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
 
     /**
      * Get the contract that owns the invoice.
