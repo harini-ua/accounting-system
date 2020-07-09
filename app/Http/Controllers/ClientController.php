@@ -67,6 +67,8 @@ class ClientController extends Controller
         $client->fill($request->all());
         $client->save();
 
+        $client->billingAddress()->create($request->only(['country', 'city', 'state', 'address', 'postal_code']));
+
         alert()->success($client->name, __('Create client has been successful'));
 
         return redirect()->route('clients.show', $client);
@@ -111,7 +113,7 @@ class ClientController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        $client->load('addresses');
+        $client->load('billingAddress');
 
         return view('pages.client.update', compact('pageConfigs', 'breadcrumbs', 'client'));
     }
@@ -128,6 +130,8 @@ class ClientController extends Controller
     {
         $client->fill($request->all());
         $client->save();
+
+        $client->billingAddress()->update($request->only(['country', 'city', 'state', 'address', 'postal_code']));
 
         alert()->success($client->name, __('Client data has been update successful'));
 

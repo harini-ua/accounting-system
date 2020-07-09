@@ -22,7 +22,7 @@ class CreateAddressTable extends Migration
             $table->string('address')->nullable();
             $table->string('postal_code')->nullable();
             $table->boolean('is_primary')->default(false);
-            $table->boolean('is_billing')->default(false);
+            $table->boolean('is_billing')->default(true);
             $table->timestamps();
             $table->softDeletes();
         });
