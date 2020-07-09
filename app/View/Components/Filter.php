@@ -11,6 +11,7 @@ class Filter extends Component
     public $url;
     public $name;
     public $title;
+    public $className;
 
     /**
      * Filter constructor.
@@ -19,14 +20,16 @@ class Filter extends Component
      * @param $url
      * @param $name
      * @param $title
+     * @param $className
      */
-    public function __construct($table, $options, $url, $name, $title)
+    public function __construct($table, $options, $url, $name, $title, $className = 'filter-btn')
     {
         $this->table = $table;
         $this->options = $options;
         $this->url = $url;
         $this->name = $name;
         $this->title = $title;
+        $this->className = $className;
     }
 
     /**
@@ -37,5 +40,13 @@ class Filter extends Component
     public function render()
     {
         return view('components.filter');
+    }
+
+    /**
+     * @return int|void
+     */
+    public function id()
+    {
+        return spl_object_id($this);
     }
 }

@@ -60,11 +60,18 @@
             "i18n": "Invoices"
         },
         {
+            "url": "list-incomes",
+            "name": "Income listing",
+            "slug": "list-incomes",
+            "icon": "attach_money",
+            "i18n": "Income listing"
+        },
+        {
             "url": "incomes",
             "name": "Income planning",
             "slug": "incomes",
             "icon": "attach_money",
-            "i18n": "Invoices"
+            "i18n": "Income planning"
         }
     ]
 }

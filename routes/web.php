@@ -92,6 +92,7 @@ Route::middleware(['auth'])->group(function() {
 
     // Incomes
     Route::resource('incomes', 'IncomeController')->except(['create', 'show']);
+    Route::get('/list-incomes', 'IncomeController@list')->name('incomes.list');
 
 });
 

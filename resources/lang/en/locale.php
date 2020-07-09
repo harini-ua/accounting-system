@@ -142,4 +142,5 @@ return [
     "Money Flows"=> "Money Flows",
     "Contracts"=> "Contracts",
     "Income planning"=> "Income planning",
+    "Income listing"=> "Income listing",
 ];
