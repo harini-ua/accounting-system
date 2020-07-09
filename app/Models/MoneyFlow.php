@@ -5,9 +5,12 @@ namespace App\Models;
 use App\Casts\Date;
 use App\Services\Calculator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MoneyFlow extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = ['date', 'account_from_id', 'sum_from', 'account_to_id', 'sum_to', 'currency_rate',
         'fee', 'comment'];
 

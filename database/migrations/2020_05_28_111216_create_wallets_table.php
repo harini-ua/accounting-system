@@ -18,6 +18,7 @@ class CreateWalletsTable extends Migration
             $table->string('name');
             $table->unsignedInteger('wallet_type_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table
                 ->foreign('wallet_type_id')

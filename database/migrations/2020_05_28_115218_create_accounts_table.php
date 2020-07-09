@@ -23,6 +23,7 @@ class CreateAccountsTable extends Migration
             $table->decimal('balance', 15, 2)->default(0.0);
             $table->tinyInteger('status')->default(1);
             $table->timestamps();
+            $table->softDeletes();
 
             $table
                 ->foreign('account_type_id')

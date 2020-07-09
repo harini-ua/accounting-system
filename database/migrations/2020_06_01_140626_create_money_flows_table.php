@@ -25,6 +25,7 @@ class CreateMoneyFlowsTable extends Migration
             $table->decimal('fee', 15, 2)->nullable();
             $table->text('comment')->nullable();
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('account_from_id')
                 ->on('accounts')
