@@ -33,11 +33,18 @@ class ClientsDataTable extends DataTable
             ->addColumn('email', static function(Client $model) {
                 return '<a href="mailto:'.$model->email.'">'.$model->email.'</a>';
             })
-            ->addColumn('phone', static function(Client $model) {
-                return '<a href="tel:'.$model->phone.'">'.$model->phone.'</a>';
+            ->addColumn('city', static function(Client $model) {
+                return $model->billingAddress ? $model->billingAddress->city : null;
             })
             ->addColumn('action', static function(Client $model) {
                 return view('partials.actions', ['actions' =>['edit', 'delete'], 'model' => $model]);
+            })
+            ->orderColumn('city', function($query, $order) {
+                $query->join('address', 'address.addressable_id', '=', 'clients.id')
+                    ->where('address.addressable_type', Client::class)
+                    ->where('address.is_billing', true)
+                    ->whereNull('address.deleted_at')
+                    ->orderBy('address.city', $order);
             })
             ->rawColumns(self::COLUMNS);
     }
@@ -50,7 +57,7 @@ class ClientsDataTable extends DataTable
      */
     public function query(Client $model)
     {
-        return $model->newQuery()->with([]);
+        return $model->newQuery()->with(['billingAddress']);
     }
 
     /**
@@ -84,7 +91,7 @@ class ClientsDataTable extends DataTable
             Column::make('name')->searchable(),
             Column::make('company_name')->searchable(),
             Column::make('email'),
-            Column::make('phone'),
+            Column::make('city'),
             Column::computed('action')
                 ->addClass('text-center'),
         ];
