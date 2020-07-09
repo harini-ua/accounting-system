@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\Casts\Date;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Income extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = ['contract_id', 'account_id', 'plan_date', 'plan_sum'];
 
     /**

@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->unsignedInteger('position_id');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('position_id')->on('positions')->references('id')->onDelete('cascade');
         });

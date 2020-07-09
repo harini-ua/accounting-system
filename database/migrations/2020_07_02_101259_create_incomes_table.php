@@ -20,6 +20,7 @@ class CreateIncomesTable extends Migration
             $table->decimal('plan_sum', 15,2);
             $table->date('plan_date');
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('contract_id')->on('contracts')->references('id')->onDelete('cascade');
             $table->foreign('account_id')->on('accounts')->references('id')->onDelete('cascade');

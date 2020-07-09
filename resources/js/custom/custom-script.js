@@ -26,9 +26,13 @@ class Filters
         return this.filters.find(filter => filter.name === name);
     }
     set(name, filter) {
-        this.filters = Object.assign({}, this.filters, {
-            [name]: filter,
-        })
+        if (filter) {
+            this.filters = Object.assign({}, this.filters, {
+                [name]: filter,
+            })
+        } else {
+            delete(this.filters[name]);
+        }
     }
     url(route) {
         const url = new URL(route);

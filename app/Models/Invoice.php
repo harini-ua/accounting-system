@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\Date;
 use App\Casts\InvoiceNumber;
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -73,11 +74,11 @@ class Invoice extends Model
     }
 
     /**
-     * Get the contract that owns the wallet.
+     * Get the contract that owns the account.
      */
-    public function wallet()
+    public function account()
     {
-        return $this->belongsTo(Wallet::class);
+        return $this->belongsTo(Account::class);
     }
 
     /**
@@ -86,5 +87,13 @@ class Invoice extends Model
     public function items()
     {
         return $this->hasMany(InvoiceItem::class);
+    }
+
+    /**
+     * Get the sales manager for invoice.
+     */
+    public function salesManager()
+    {
+        return $this->belongsTo(User::class, 'sales_manager_id');
     }
 }
