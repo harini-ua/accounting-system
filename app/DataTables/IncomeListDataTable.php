@@ -39,9 +39,6 @@ class IncomeListDataTable extends DataTable
             ->addColumn('sales', function(Invoice $model) {
                 return $model->salesManager->name;
             })
-            ->addColumn('created_at', function(Invoice $model) {
-                return $model->created_at->format('d-m-Y');
-            })
             ->rawColumns(['status'])
             ->filterColumn('client', function($query, $keyword) {
                 $contracts = Contract::join('clients', 'contracts.client_id', '=', 'clients.id')
