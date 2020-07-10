@@ -91,7 +91,8 @@ class IncomeListDataTable extends DataTable
      * Get query source of dataTable.
      *
      * @param \App\Models\Invoice $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     *
+     * @return \Illuminate\Database\Query\Builder
      */
     public function query(Invoice $model)
     {
@@ -132,7 +133,7 @@ class IncomeListDataTable extends DataTable
             ->minifiedAjax()
             ->dom('<"top display-flex  mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>')
             ->languageSearch('')
-            ->languageSearchPlaceholder('Search by client')
+            ->languageSearchPlaceholder(__('Search By Client'))
             ->orderBy(0);
     }
 
@@ -149,7 +150,7 @@ class IncomeListDataTable extends DataTable
             Column::make('contract')->searchable(false),
             Column::make('plan_sum')->title('Planning sum')->searchable(false),
             Column::make('number')->title('Invoice #')->searchable(false),
-            Column::make('created_at')->title('Invoice Date')->searchable(false),
+            Column::make('date')->title('Invoice Date')->searchable(false),
             Column::make('plan_income_date')->title('Planning Date of Income')->searchable(false),
             Column::make('pay_date')->title('Date of Payment')->searchable(false),
             Column::make('wallet')->searchable(false),

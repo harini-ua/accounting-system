@@ -37,7 +37,7 @@ class IncomeController extends Controller
     public function index(IncomesDataTable $dataTable)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
+            ['link' => route('home'), 'name' => __("Home")],
             ['name' => __("Income planning")]
         ];
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];

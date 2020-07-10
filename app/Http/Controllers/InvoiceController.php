@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\InvoicesDataTable;
+use App\Enums\InvoiceStatus;
+use App\Models\Client;
 use App\Models\Invoice;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class InvoiceController extends Controller
 {
@@ -18,9 +21,21 @@ class InvoiceController extends Controller
      */
     public function index(InvoicesDataTable $dataTable)
     {
-        $pageConfigs = ['pageHeader' => true];
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __("Home")],
+            ['name' => __("Invoices")]
+        ];
 
-        return $dataTable->render('pages.invoice.index', compact('pageConfigs'));
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+        $clients = Client::with('contracts.invoices')
+            ->has('contracts.invoices')->orderBy('name')->get();
+
+        $status = InvoiceStatus::toCollection();
+
+        return $dataTable->render('pages.invoice.index', compact(
+            'pageConfigs', 'breadcrumbs', 'clients', 'status'
+        ));
     }
 
     /**
@@ -30,9 +45,9 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        $pageConfigs = ['pageHeader' => true];
+        $config = config('invoices');
 
-        return view('pages.invoice.create', compact('pageConfigs'));
+        return view('pages.invoice.create', compact('config'));
     }
 
     /**

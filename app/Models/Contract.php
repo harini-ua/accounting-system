@@ -61,6 +61,14 @@ class Contract extends Model
     }
 
     /**
+     * Get the invoices that owns the contract.
+     */
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    /**
      * Scope a query by status contract.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query

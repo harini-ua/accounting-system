@@ -20,6 +20,7 @@ class CreateInvoicesTable extends Migration
             $table->unsignedBigInteger('contract_id');
             $table->unsignedBigInteger('account_id');
             $table->unsignedBigInteger('sales_manager_id');
+            $table->date('date')->useCurrent();
             $table->string('status', 20)
                 ->default(\App\Enums\InvoiceStatus::DRAFT);
             $table->string('type', 20)

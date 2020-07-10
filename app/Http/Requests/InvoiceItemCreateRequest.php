@@ -24,7 +24,7 @@ class InvoiceItemCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:100',
         ];
     }
 }

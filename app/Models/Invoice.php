@@ -33,7 +33,7 @@ class Invoice extends Model
      *
      * @var array
      */
-    protected $fillable = ['number', 'client_id', 'contract_id', 'date', 'wallet_id', 'sum', 'fee', 'received_sum', 'status'];
+    protected $fillable = ['number', 'client_id', 'contract_id', 'wallet_id', 'date', 'status', 'type'];
 
     /**
      * The attributes that should be cast.
@@ -42,6 +42,7 @@ class Invoice extends Model
      */
     protected $casts = [
         'number' => InvoiceNumber::class,
+        'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
     ];
 
@@ -52,7 +53,7 @@ class Invoice extends Model
      */
     public function __construct(array $attributes = [])
     {
-        $this->casts['created_at'] = Date::class.':'.config('invoices.date.format');
+        $this->casts['date'] = Date::class.':'.config('invoices.date.format');
 
         parent::__construct($attributes);
     }
@@ -74,7 +75,7 @@ class Invoice extends Model
     }
 
     /**
-     * Get the contract that owns the account.
+     * Get the account that owns the contract.
      */
     public function account()
     {

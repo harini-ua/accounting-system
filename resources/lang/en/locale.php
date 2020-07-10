@@ -135,7 +135,8 @@ return [
     "Page Collapse"=> "Page Collapse",
     "Users"=> "Users",
     "Invoices"=> "Invoices",
-    "Invoices List" => "Invoices List",
+    "Invoices List"=> "Invoices List",
+    "Add Invoice"=> "Add Invoice",
     "Wallets"=> "Wallets",
     "Accounts"=> "Accounts",
     "Clients"=> "Clients",
@@ -143,4 +144,8 @@ return [
     "Contracts"=> "Contracts",
     "Income planning"=> "Income planning",
     "Income listing"=> "Income listing",
+    "Search By Client"=> "Search By Client",
+    "Home"=> "Home",
+    "Filter By Client"=> "Filter By Client",
+    "Filter By Status"=> "Filter By Status",
 ];

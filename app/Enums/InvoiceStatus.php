@@ -4,6 +4,7 @@ namespace App\Enums;
 
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
+use Illuminate\Support\Collection;
 
 final class InvoiceStatus extends Enum implements LocalizedEnum
 {
@@ -59,5 +60,23 @@ final class InvoiceStatus extends Enum implements LocalizedEnum
         $values = array_combine(['class', 'hash'], $values);
 
         return $values[$value];
+    }
+
+    /**
+     * Get the enum as an collection formatted.
+     *
+     * @return Collection
+     */
+    public static function toCollection()
+    {
+        $values = new Collection();
+        foreach (self::toSelectArray() as $key => $value) {
+            $values->push((object) [
+                'id' => $key,
+                'name' => $value,
+            ]);
+        }
+
+        return $values;
     }
 }
