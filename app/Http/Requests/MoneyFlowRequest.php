@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\MoneyFlowFee;
 use App\Rules\MoneyFlowSumFrom;
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -26,12 +27,12 @@ class MoneyFlowRequest extends FormRequest
     {
         return [
             'account_from_id' => 'required|exists:accounts,id',
-            'sum_from' => ['required', 'numeric', new MoneyFlowSumFrom($this->get('account_from_id'))],
+            'sum_from' => ['required', 'numeric', new MoneyFlowSumFrom($this)],
             'account_to_id' => 'required|exists:accounts,id',
-            'sum_to' => ['required', 'numeric', new MoneyFlowSumFrom($this->get('account_from_id'))],
+            'sum_to' => ['required', 'numeric', new MoneyFlowSumFrom($this)],
             'date' => 'required|date_format:d-m-Y',
             'currency_rate' => 'nullable|numeric',
-            'fee' => 'nullable|numeric',
+            'fee' => ['nullable', 'numeric', new MoneyFlowFee($this)],
             'comment' => 'nullable|string',
         ];
     }

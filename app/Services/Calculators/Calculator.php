@@ -1,7 +1,7 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Services\Calculators;
 
 
 use App\Models\MoneyFlow;

@@ -16,7 +16,7 @@ class CreateMoneyFlowsTable extends Migration
     {
         Schema::create('money_flows', function (Blueprint $table) {
             $table->id();
-            $table->timestamp('date')->default(Carbon::now());
+            $table->date('date')->default(Carbon::now());
             $table->unsignedBigInteger('account_from_id');
             $table->decimal('sum_from', 15, 2);
             $table->unsignedBigInteger('account_to_id');

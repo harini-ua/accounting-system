@@ -6,7 +6,7 @@ use App\Http\Requests\MoneyFlowRequest;
 use App\Models\Account;
 use Illuminate\Contracts\Validation\Rule;
 
-class MoneyFlowSumFrom implements Rule
+class MoneyFlowFee implements Rule
 {
     private $request;
 
@@ -32,9 +32,9 @@ class MoneyFlowSumFrom implements Rule
     public function passes($attribute, $value)
     {
         if ($this->request->money_flow) {
-            return Account::find($this->request->account_from_id)->balance + $this->request->money_flow->sum_from >= $value;
+            return Account::find($this->request->account_from_id)->balance + $this->request->money_flow->sum_from + $this->request->money_flow->fee >= $value + $this->request->sum_from;
         }
-        return Account::find($this->request->account_from_id)->balance >= $value;
+        return Account::find($this->request->account_from_id)->balance >= $value + $this->request->sum_from;
     }
 
     /**
