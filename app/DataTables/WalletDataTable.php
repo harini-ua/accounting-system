@@ -29,9 +29,8 @@ class WalletDataTable extends DataTable
                 return view('partials.view-link', ['model' => $model]);
             })
             ->rawColumns(['name'])
-            ->filterColumn('type', function($query, $keyword) {
-                $walletTypes = WalletType::where('name', 'like', "%$keyword%")->pluck('id')->toArray();
-                $query->whereIn('wallet_type_id', $walletTypes);
+            ->filterColumn('name', function($query, $keyword) {
+                $query->where('name', 'like', "%$keyword%");
             })
             ->orderColumn('type', function($query, $order) {
                 $query->join('wallet_types', 'wallet_types.id', '=', 'wallets.wallet_type_id')
@@ -76,7 +75,7 @@ class WalletDataTable extends DataTable
     {
         return [
             Column::make('name'),
-            Column::make('type')->data('wallet_type.name'),
+            Column::make('type')->data('wallet_type.name')->searchable(false),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)
