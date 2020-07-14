@@ -16,15 +16,17 @@ class IncomeController extends Controller
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => "Home"],
-            ['name' => __("Income listing")]
+            ['name' => __("Actual Income")]
         ];
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
         $clients = Client::with('contracts')->orderBy('name')->get();
         $wallets = Wallet::with('accounts.accountType')->orderBy('name')->get();
+        $startDate = $dataTable->startDate->format('d-m-Y');
+        $endDate = $dataTable->endDate->format('d-m-Y');
 
         return $dataTable->render('pages.income.list', compact('pageConfigs', 'breadcrumbs',
-            'clients', 'wallets'
+            'clients', 'wallets', 'startDate', 'endDate'
         ));
     }
     /**
@@ -38,7 +40,7 @@ class IncomeController extends Controller
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __("Home")],
-            ['name' => __("Income planning")]
+            ['name' => __("Sales planning")]
         ];
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 

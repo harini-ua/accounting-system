@@ -61,17 +61,17 @@
         },
         {
             "url": "list-incomes",
-            "name": "Income listing",
+            "name": "Actual Income",
             "slug": "list-incomes",
             "icon": "attach_money",
-            "i18n": "Income listing"
+            "i18n": "Actual Income"
         },
         {
             "url": "incomes",
-            "name": "Income planning",
+            "name": "Sales planning",
             "slug": "incomes",
             "icon": "attach_money",
-            "i18n": "Income planning"
+            "i18n": "Sales planning"
         }
     ]
 }

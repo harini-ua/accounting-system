@@ -5,7 +5,6 @@ namespace App\DataTables;
 use App\Models\Contract;
 use App\Models\Invoice;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -14,6 +13,24 @@ use Yajra\DataTables\Services\DataTable;
 
 class IncomeListDataTable extends DataTable
 {
+    public $startDate;
+    public $endDate;
+
+    /**
+     * IncomeListDataTable constructor.
+     */
+    public function __construct()
+    {
+        $request = request();
+        $this->startDate = $request->has('start_date')
+            ? Carbon::parse($request->input('start_date'))->startOfMonth()
+            : Carbon::now()->startOfMonth();
+
+        $this->endDate = $request->has('end_date')
+            ? Carbon::parse($request->input('end_date'))->endOfMonth()
+            : Carbon::now();
+    }
+
     /**
      * Build DataTable class.
      *
@@ -63,10 +80,10 @@ class IncomeListDataTable extends DataTable
                         ->whereNull('accounts.deleted_at');
                 }
                 if ($this->request->has('start_date')) {
-                    $query->where('invoices.plan_income_date', '>=', Carbon::parse($this->request->input('start_date'))->startOfMonth());
+                    $query->where('invoices.plan_income_date', '>=', $this->startDate);
                 }
                 if ($this->request->has('end_date')) {
-                    $query->where('invoices.plan_income_date', '<=', Carbon::parse($this->request->input('end_date'))->endOfMonth());
+                    $query->where('invoices.plan_income_date', '<=', $this->endDate);
                 }
             }, true)
             ->orderColumn('client', function($query, $order) {
@@ -96,19 +113,12 @@ class IncomeListDataTable extends DataTable
      */
     public function query(Invoice $model)
     {
-        $planSums = DB::table('incomes')
-            ->select('contract_id', DB::raw('sum(plan_sum) as plan_sum'))
-            ->groupBy('contract_id');
-
         return $model
             ->with(['contract.client', 'account.wallet', 'salesManager'])
             ->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
-            ->joinSub($planSums, 'plan_sums', function($join) {
-                $join->on('invoices.contract_id', '=', 'plan_sums.contract_id');
-            })
             ->join('invoice_items', 'invoice_items.invoice_id', '=', 'invoices.id')
             ->join('payments', 'payments.invoice_id', '=', 'invoices.id')
-            ->select(['invoices.*', 'plan_sums.plan_sum as plan_sum'])
+            ->select(['invoices.*'])
             ->selectRaw("sum(invoice_items.total) as total")
             ->selectRaw("sum(payments.fee) as fee")
             ->selectRaw("sum(payments.received_sum) as received_sum")
@@ -148,7 +158,6 @@ class IncomeListDataTable extends DataTable
             Column::make('id')->searchable(false),
             Column::make('client'),
             Column::make('contract')->searchable(false),
-            Column::make('plan_sum')->title('Planning sum')->searchable(false),
             Column::make('number')->title('Invoice #')->searchable(false),
             Column::make('date')->title('Invoice Date')->searchable(false),
             Column::make('plan_income_date')->title('Planning Date of Income')->searchable(false),
@@ -171,4 +180,5 @@ class IncomeListDataTable extends DataTable
     {
         return 'IncomeList_' . date('YmdHis');
     }
+
 }
