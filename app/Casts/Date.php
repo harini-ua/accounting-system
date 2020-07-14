@@ -7,6 +7,19 @@ use Illuminate\Support\Carbon;
 
 class Date implements CastsAttributes
 {
+    /** @var string $format */
+    protected $format;
+
+    /**
+     * Date constructor.
+     *
+     * @param string $format
+     */
+    public function __construct($format = 'd-m-Y')
+    {
+        $this->format = $format;
+    }
+
     /**
      * Cast the given value.
      *
@@ -19,7 +32,7 @@ class Date implements CastsAttributes
      */
     public function get($model, $key, $value, $attributes)
     {
-        return Carbon::parse($value)->format('d-m-Y');
+        return Carbon::parse($value)->format($this->format);
     }
 
     /**

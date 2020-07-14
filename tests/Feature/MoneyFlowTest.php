@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Account;
-use App\MoneyFlow;
-use App\Wallet;
+use App\Models\Account;
+use App\Models\MoneyFlow;
+use App\Models\Wallet;
+use App\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Support\Carbon;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 
@@ -33,6 +35,108 @@ class MoneyFlowTest extends TestCase
         extract($accounts);
 
         $this->delete($accountFrom, $accountTo, $moneyFlow);
+    }
+
+    /**
+     *
+     */
+    public function testMoneyFlowForm()
+    {
+        $user = factory(User::class)->create();
+
+        $this->successForm($user);
+        $this->unSuccessForm($user);
+        $this->unSuccessFormFee($user);
+    }
+
+    /**
+     * @param $user
+     */
+    public function successForm($user)
+    {
+        $accounts = $this->createAccounts();
+        /**
+         * @var $accountFrom Account
+         * @var $accountTo Account
+         */
+        extract($accounts);
+
+        $date = Carbon::now();
+        $data = [
+            'account_from_id' => $accountFrom->id,
+            'sum_from' => $accountFrom->balance - 1,
+            'account_to_id' => $accountTo->id,
+            'sum_to' => $accountFrom->balance - 1,
+            'date' => $date->format('d-m-Y'),
+        ];
+
+        $response = $this->actingAs($user)->post('money-flows', $data);
+        $response->assertStatus(302)->assertSessionHasNoErrors();
+
+        $data['date'] = $date->format('Y-m-d');
+        $this->assertDatabaseHas('money_flows', $data);
+    }
+
+    /**
+     * @param $user
+     */
+    public function unSuccessForm($user)
+    {
+        $accounts = $this->createAccounts();
+        /**
+         * @var $accountFrom Account
+         * @var $accountTo Account
+         */
+        extract($accounts);
+
+        $date = Carbon::now();
+        $data = [
+            'account_from_id' => $accountFrom->id,
+            'sum_from' => $accountFrom->balance + 1,
+            'account_to_id' => $accountTo->id,
+            'sum_to' => $accountFrom->balance + 1,
+            'date' => $date->format('d-m-Y'),
+        ];
+
+        $response = $this->actingAs($user)->post('money-flows', $data);
+        $response->assertStatus(302)->assertSessionHasErrors([
+            'sum_from', 'sum_to'
+        ]);
+
+        $data['date'] = $date->format('Y-m-d');
+        $this->assertDatabaseMissing('money_flows', $data);
+    }
+
+
+    /**
+     * @param $user
+     */
+    public function unSuccessFormFee($user)
+    {
+        $accounts = $this->createAccounts();
+        /**
+         * @var $accountFrom Account
+         * @var $accountTo Account
+         */
+        extract($accounts);
+
+        $date = Carbon::now();
+        $data = [
+            'account_from_id' => $accountFrom->id,
+            'sum_from' => $accountFrom->balance - 1,
+            'account_to_id' => $accountTo->id,
+            'sum_to' => $accountFrom->balance - 1,
+            'date' => $date->format('d-m-Y'),
+            'fee' => 2,
+        ];
+
+        $response = $this->actingAs($user)->post('money-flows', $data);
+        $response->assertStatus(302)->assertSessionHasErrors([
+            'fee'
+        ]);
+
+        $data['date'] = $date->format('Y-m-d');
+        $this->assertDatabaseMissing('money_flows', $data);
     }
 
     /**

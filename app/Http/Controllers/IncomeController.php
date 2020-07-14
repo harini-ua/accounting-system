@@ -2,16 +2,31 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\IncomeListDataTable;
 use App\DataTables\IncomesDataTable;
+use App\DataTables\TestDataTable;
 use App\Http\Requests\IncomeRequest;
 use App\Models\Client;
 use App\Models\Income;
 use App\Models\Wallet;
-use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 class IncomeController extends Controller
 {
+    public function list(IncomeListDataTable $dataTable)
+    {
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['name' => __("Income listing")]
+        ];
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+        $clients = Client::with('contracts')->orderBy('name')->get();
+        $wallets = Wallet::with('accounts.accountType')->orderBy('name')->get();
+
+        return $dataTable->render('pages.income.list', compact('pageConfigs', 'breadcrumbs',
+            'clients', 'wallets'
+        ));
+    }
     /**
      * Display a listing of the resource.
      *
@@ -22,7 +37,7 @@ class IncomeController extends Controller
     public function index(IncomesDataTable $dataTable)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
+            ['link' => route('home'), 'name' => __("Home")],
             ['name' => __("Income planning")]
         ];
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];

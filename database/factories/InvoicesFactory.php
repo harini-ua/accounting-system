@@ -7,11 +7,14 @@ use Faker\Generator as Faker;
 use Illuminate\Support\Carbon;
 
 $factory->define(\App\Models\Invoice::class, static function (Faker $faker) {
-    $planDate = Carbon::now()->sub(rand(1, 30) . ' days');
+    $date = Carbon::now()->subDays(random_int(1, 30));
+    $planDate = Carbon::now()->addDays(random_int(1, 30));
     return [
         'number' => $faker->bankAccountNumber,
-        'name' => $faker->word,
+        'name' => ucfirst($faker->words(random_int(1, 3), true)),
+        'date' => $date,
         'plan_income_date' => $planDate,
         'pay_date' => $planDate,
+        'status' => \App\Enums\InvoiceStatus::getRandomValue(),
     ];
 });

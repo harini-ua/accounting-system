@@ -40,4 +40,14 @@ class Client extends Model
     {
         return $this->hasMany(Contract::class);
     }
+
+    /**
+     * Get only the billing address
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     */
+    public function billingAddress()
+    {
+        return $this->morphOne(Address::class, 'addressable')->where('is_billing', true);
+    }
 }

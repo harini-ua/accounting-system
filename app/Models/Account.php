@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Casts\Date;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Account
@@ -10,6 +12,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Account extends Model
 {
+    use SoftDeletes;
     /**
      * @var string[]
      */
@@ -17,7 +20,9 @@ class Account extends Model
     /**
      * @var string[]
      */
-    protected $dates = ['started_at'];
+    protected $casts = [
+        'started_at' => Date::class,
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

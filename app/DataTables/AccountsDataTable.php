@@ -47,17 +47,19 @@ class AccountsDataTable extends DataTable
             ->filter(function($query) {
                 if ($this->request->has('wallet_filter')) {
                     $wallet_filter = $this->request->input('wallet_filter');
-                    $wallets = Wallet::where('id', '=', $wallet_filter)->pluck('id')->toArray();
+                    $wallets = Wallet::where('id', '=', $wallet_filter)
+                        ->whereNull('deleted_at')
+                        ->pluck('id')
+                        ->toArray();
                     $query->whereIn('wallet_id', $wallets);
                 }
             }, true)
             ->filterColumn('wallet', function($query, $keyword) {
-                $wallets = Wallet::where('name', 'like', "%$keyword%")->pluck('id')->toArray();
+                $wallets = Wallet::where('name', 'like', "%$keyword%")
+                    ->whereNull('deleted_at')
+                    ->pluck('id')
+                    ->toArray();
                 $query->whereIn('wallet_id', $wallets);
-            })
-            ->filterColumn('account', function($query, $keyword) {
-                $walletTypes = AccountType::where('name', 'like', "%$keyword%")->pluck('id')->toArray();
-                $query->whereIn('account_type_id', $walletTypes);
             })
             ->orderColumn('wallet', function($query, $order) {
                 $query->join('wallets', 'wallets.id', '=', 'accounts.wallet_id')
@@ -105,14 +107,14 @@ class AccountsDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('id'),
+            Column::make('id')->searchable(false),
             Column::make('wallet')->data('wallet.name'),
-            Column::make('account')->data('account_type.name'),
-            Column::make('start_sum'),
-            Column::make('income'),
-            Column::make('expenses'),
-            Column::make('balance'),
-            Column::make('status'),
+            Column::make('account')->data('account_type.name')->searchable(false),
+            Column::make('start_sum')->searchable(false),
+            Column::make('income')->searchable(false),
+            Column::make('expenses')->searchable(false),
+            Column::make('balance')->searchable(false),
+            Column::make('status')->searchable(false),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

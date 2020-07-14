@@ -49,7 +49,7 @@
                                         secondName="account_to_id"
                                         secondTitle="Account"
                                         dataUrl="/wallets/walletAccounts"
-                                        view="components.linked-selects.wallets-accounts-money-flow"
+                                        view="components.linked-selects.wallets-accounts-money-flow-to"
                                         :options="$wallets"
                                         :model="$model"
                                     />

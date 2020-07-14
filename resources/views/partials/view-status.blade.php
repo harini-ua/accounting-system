@@ -1,0 +1,1 @@
+<span class="chip lighten-5 {{$color}} {{$color}}-text">{{ $model->status }}</span>

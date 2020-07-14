@@ -37,6 +37,7 @@ class IncomesDataTable extends DataTable
                     $filter = $this->request->input('client_filter');
                     $contracts = Contract::join('clients', 'contracts.client_id', '=', 'clients.id')
                         ->where('clients.id', '=', $filter)
+                        ->whereNull('clients.deleted_at')
                         ->distinct('contracts.id')
                         ->pluck('contracts.id')
                         ->toArray();
@@ -52,6 +53,7 @@ class IncomesDataTable extends DataTable
             ->filterColumn('client', function($query, $keyword) {
                 $contracts = Contract::join('clients', 'contracts.client_id', '=', 'clients.id')
                     ->where('clients.name', 'like', "%$keyword%")
+                    ->whereNull('clients.deleted_at')
                     ->distinct('contracts.id')
                     ->pluck('contracts.id')
                     ->toArray();

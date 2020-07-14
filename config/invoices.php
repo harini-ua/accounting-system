@@ -8,7 +8,7 @@ return [
         'series'    => 'INV',
         'sequence_padding' => 5,
         'delimiter' => '-',
-        // Example: INV.00001
+        // Example: INV-00001
         'format'    => '{SERIES}{DELIMITER}{SEQUENCE}',
     ],
     'paper' => [

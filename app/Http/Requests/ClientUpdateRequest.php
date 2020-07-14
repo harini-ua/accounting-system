@@ -29,6 +29,11 @@ class ClientUpdateRequest extends FormRequest
             'company_name' => 'required|string|min:2',
             'email' => ['required', 'email', Rule::unique('clients')->ignore($this->client->id)],
             'phone' => ['required', 'string', Rule::unique('clients')->ignore($this->client->id)],
+            'country' => 'nullable|string|min:2',
+            'address' => 'nullable|string|min:3',
+            'city' => 'nullable|string|min:1',
+            'state' => 'nullable|string|min:2',
+            'postal_code' => 'nullable|integer',
         ];
     }
 }

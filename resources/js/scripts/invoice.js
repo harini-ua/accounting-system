@@ -3,48 +3,11 @@ $(document).ready(function () {
   /* --------------------------- */
   /* init data table */
   if ($(".invoice-data-table").length) {
-    var dataListView = $(".invoice-data-table").DataTable({
-      columnDefs: [
-        {
-          targets: 0,
-          className: "control"
-        },
-        {
-          orderable: true,
-          targets: 1,
-          checkboxes: { selectRow: true }
-        },
-        {
-          targets: [0, 1],
-          orderable: false
-        },
-        { "orderable": false, "targets": 8 },
-      ],
-      order: [2, 'asc'],
-      dom:
-        '<"top display-flex  mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>',
-      language: {
-        search: "",
-        searchPlaceholder: "Search Invoice"
-      },
-      select: {
-        style: "multi",
-        selector: "td:first-child>",
-        items: "row"
-      },
-      responsive: {
-        details: {
-          type: "column",
-          target: 0
-        }
-      }
-    });
     // To append actions dropdown inside action-btn div
     var invoiceFilterAction = $(".invoice-filter-action");
     var invoiceCreateBtn = $(".invoice-create-btn");
-    var filterButton = $(".filter-btn");
-    $(".action-btns").append(invoiceFilterAction, invoiceCreateBtn);
-    $(".dataTables_filter label").append(filterButton);
+    $(".dataTables_filter label").append($(".filter-btn").not(".invoice-filter-action"));
+    $(".action-btns").append($(".filter-btn.invoice-filter-action"), invoiceFilterAction, invoiceCreateBtn);
   }
 
   /* Invoice edit */
