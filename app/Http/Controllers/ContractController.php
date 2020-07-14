@@ -31,9 +31,13 @@ class ContractController extends Controller
      */
     public function index(ContractsDataTable $dataTable)
     {
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['name' => "Contracts"]
+        ];
         $pageConfigs = ['pageHeader' => true];
 
-        return $dataTable->render('pages.contract.index', compact('pageConfigs'));
+        return $dataTable->render('pages.contract.index', compact('pageConfigs'), ['breadcrumbs' => $breadcrumbs]);
     }
 
     /**

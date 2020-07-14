@@ -94,13 +94,11 @@ class MoneyFlowsDataTable extends DataTable
     {
         return $this->builder()
                     ->setTableId('moneyflows-table')
-                    ->addTableClass('table invoice-data-table white border-radius-4 pt-1')
-                    ->languageSearch('')
-                    ->languageSearchPlaceholder('Search ...')
+                    ->addTableClass('table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->responsive(true)
-                    ->dom('<"top display-flex  mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>')
+                    ->scrollX(true)
+                    ->dom('Bfrtip')
                     ->orderBy(0);
     }
 

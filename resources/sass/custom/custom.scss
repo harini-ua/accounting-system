@@ -9,8 +9,114 @@ NOTE:
 ------
 PLACE HERE YOUR OWN CSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+#main {
+  min-height: calc(100vh - 116px);
+}
+
 table {
   @media screen and (max-width: 768px) {
     width: 100% !important;
   }
+}
+
+
+
+table.dataTable thead .sorting_desc {
+  @media screen and (max-width: 738px) {
+    &:before {
+      background: none!important;
+    }
+  }
+}
+
+
+.dataTables_scrollHeadInner, .dataTables_scrollHeadInner {
+  width: 100% !important;
+}
+
+.dataTables_scrollBody {
+  table {
+    width: 100% !important;
+  }
+}
+
+.create-btn {
+  position: absolute;
+  top: -25px;
+  right: 0;
+}
+
+.section {
+  position: relative;
+}
+.page-layout {
+  display: flex;
+  justify-content: space-between;
+  @media screen and (max-width: 1360px){
+    flex-direction: column;
+  }
+
+}
+
+#breadcrumbs-wrapper {
+  padding: 10px 0!important;
+}
+
+.table-wrapper {
+  width: 100%;
+  margin-left: 50px;
+  @media screen and (max-width: 1360px){
+    margin-left: 0;
+  }
+}
+.sidebar {
+  .sidebar-content {
+    .sidebar-header {
+      height: 100%;
+      top: 0;
+      .mt-10 {
+        margin-top: 0 !important;
+      }
+      .card-action {
+        border-top: none;
+      }
+    }
+  }
+}
+
+.totals-list {
+  .card {
+    .card-content {
+      padding: 10px;
+      text-align: center;
+      min-height: 65px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+}
+
+.custom-sidebar {
+  @media screen and (max-width: 1200px) {
+    padding-bottom: 80px;
+    .sidebar-content {
+      .sidebar-header {
+        left: 0;
+      }
+    }
+  }
+
+
+  //.sidebar-content {
+  //  .sidebar-header {
+  //    top: 15px;
+  //    .sidebar-details {
+  //      li.sidebar-title {
+  //        color: grey !important;
+  //      }
+  //    }
+  //  }
+  //}
 }

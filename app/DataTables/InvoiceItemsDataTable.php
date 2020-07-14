@@ -70,6 +70,7 @@ class InvoiceItemsDataTable extends DataTable
             ->minifiedAjax()
             ->dom('<"top display-flex mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>')
             ->languageSearch('')
+            ->scrollX(true)
             ->languageSearchPlaceholder('Search Invoice')
             ->orderBy(0);
     }

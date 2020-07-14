@@ -11,17 +11,17 @@
           href="{{asset('vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
 @endsection
 
+
 {{-- page styles --}}
 @section('page-style')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/contracts.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/accounts.css')}}">
 @endsection
 
 {{-- page content --}}
 @section('content')
     <!-- contract list start -->
-    <section id="contracts" class="contracts-lists-wrapper section">
-        <h5 class="mb-2">{{__('Contracts')}}</h5>
-        <div class="contract-create-btn">
+    <section class="list-wrapper section">
+        <div class="invoice-create-btn">
             <a href="{{ route('contracts.create') }}" class="btn waves-effect waves-light invoice-create border-round z-depth-4">
                 <i class="material-icons">add</i>
                 <span class="hide-on-small-only">{{ __('Add Contract') }}</span>
@@ -52,5 +52,6 @@
 @section('page-script')
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
-    <script src="{{asset('js/scripts/contracts.js')}}"></script>
+    <script src="{{asset('js/scripts/accounts.js')}}"></script>
+    {{--<script src="{{asset('js/scripts/contracts.js')}}"></script>--}}
 @endsection

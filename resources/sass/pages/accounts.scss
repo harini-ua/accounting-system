@@ -4,10 +4,21 @@ $invoice-border-color: #e8e8e8;
 
 /* list */
 /*---------------*/
+
 .content-area {
   @media screen and (min-width: 1200px) {
     width: calc(100% - 300px);
   }
+
+  .custom-sidebar {
+    background-color: #0fb2fc;
+  }
+
+  .sidebar-left .sidebar-fixed {
+    background-color: #0c0c0c;
+    padding-top: 70px;
+  }
+
   &.content-right {
     @media screen and (min-width: 1200px) {
       float: right;
@@ -26,6 +37,19 @@ $invoice-border-color: #e8e8e8;
     }
   }
 }
+
+.accounts-page-card-panel {
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    @media screen and (max-width: 768px) {
+      min-height: 100px;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+  }
+}
+
 
 .list-wrapper {
   margin-top: 10px;

@@ -88,15 +88,13 @@ class AccountsDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('accounts-table')
-                    ->addTableClass('table invoice-data-table white border-radius-4')
+                    ->setTableId('accounts-list-datatable')
+                    ->addTableClass('table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('<"top display-flex  mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>')
-                    ->languageSearch('')
-                    ->languageSearchPlaceholder('Search account')
+                    ->dom('Bfrtip')
                     ->orderBy(0)
-                    ->responsive(true);
+                    -> scrollX(true);
     }
 
     /**

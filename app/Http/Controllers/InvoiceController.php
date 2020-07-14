@@ -18,9 +18,14 @@ class InvoiceController extends Controller
      */
     public function index(InvoicesDataTable $dataTable)
     {
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['name' => "Contracts"]
+        ];
+
         $pageConfigs = ['pageHeader' => true];
 
-        return $dataTable->render('pages.invoice.index', compact('pageConfigs'));
+        return $dataTable->render('pages.invoice.index', compact('pageConfigs'), ['breadcrumbs' => $breadcrumbs]);
     }
 
     /**
