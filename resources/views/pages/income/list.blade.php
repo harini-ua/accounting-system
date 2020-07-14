@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title', __("Income listing"))
+@section('title', __("Actual Income"))
 
 {{-- vendor styles --}}
 @section('vendor-style')
@@ -29,7 +29,7 @@
             title="Filter by Wallet"
             className="filter-btn invoice-filter-action mr-3"
         />
-        <x-date-filter table="incomes-list-table"/>
+        <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-list-table"/>
         <x-filter
             table="incomes-list-table"
             :options="$clients"
