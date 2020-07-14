@@ -14,56 +14,74 @@
 
 {{-- page styles --}}
 @section('page-style')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-sidebar.css')}}">
-    {{--<link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-wallets.css')}}">--}}
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/accounts.css')}}">
+    {{--<link rel="stylesheet" type="text/css" href="{{asset('css/pages/accounts.css')}}">--}}
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-users.css')}}">
 @endsection
 
 {{-- page content --}}
 @section('content')
-    <!-- Sidebar Area Starts -->
-    <div class="sidebar-left sidebar-fixed">
-        <div class="sidebar">
-            <div class="sidebar-content">
-                <div class="sidebar-header">
-                    <div class="sidebar-details">
-                        <h5 class="m-0 sidebar-title"> Totals
-                        </h5>
-                        <div class="mt-10 pt-2">
-                            <div>
-                                <ul class="display-grid">
-                                    @foreach ($accountTypes as $accountType)
-                                        <li class="sidebar-title">{{ $accountType->name }}: {{ $accountType->accountsSum }}</li>
-                                    @endforeach
-                                </ul>
-                            </div>
+    <div class="faq row totals-list">
+        @foreach ($accountTypes as $accountType)
+            <div class="col s12 m6 xl3">
+                <a class="black-text" href="page-faq-detail.html">
+                    <div class="card z-depth-0 grey lighten-3 faq-card">
+                        <div class="card-content center-align">
+                            {{ $accountType->name }}: {{ $accountType->accountsSum }}
                         </div>
                     </div>
+                </a>
+            </div>
+        @endforeach
+
+    </div>
+    <div class="card-panel accounts-page-card-panel">
+        <div class="row">
+            <form>
+                <div class="col s12 m12 l3 input-field">
+                    <div class="invoice-filter-action mr-3">
+                        <input type="text" class="datepicker" placeholder="Start date"
+                               value="{{ $startDate->format('d-m-Y') }}">
+                    </div>
+                </div>
+                <div class="col s12 m12 l3 input-field">
+                    <div class="invoice-filter-action mr-3">
+                        <input type="text" class="datepicker" placeholder="End date"
+                               value="{{ $endDate->format('d-m-Y') }}">
+                    </div>
+                </div>
+                <div class="col s12 l6 display-flex align-items-center show-btn">
+                    <div class="col s12 m4 input-field">
+                        <x-filter
+                                table="accounts-table"
+                                :options="$wallets"
+                                url="{{ route('accounts.index') }}"
+                                name="wallet_filter"
+                                title="Filter by Wallet"
+                        />
+                    </div>
+                    <div class="col s12 m8">
+                        <button type="button" class="btn btn-block indigo waves-effect waves-light">Reset</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+    <section class="users-list-wrapper section">
+        <div class="users-list-table">
+            <div class="card">
+                <div class="card-content">
+                    <!-- datatable start -->
+                    <div class="responsive-table">
+                        {{ $dataTable->table() }}
+                    </div>
+                    <!-- datatable ends -->
                 </div>
             </div>
         </div>
-    </div>
-    <!-- Sidebar Area Ends -->
-    <!-- list -->
-    <section class="list-wrapper section content-area content-right">
-        <!-- Options and filter dropdown button-->
-        <div class="invoice-filter-action mr-3">
-            <input type="text" class="datepicker" placeholder="Start date" value="{{ $startDate->format('d-m-Y') }}">
-        </div>
-        <div class="invoice-filter-action mr-3">
-            <input type="text" class="datepicker" placeholder="End date" value="{{ $endDate->format('d-m-Y') }}">
-        </div>
-        <x-filter
-            table="accounts-table"
-            :options="$wallets"
-            url="{{ route('accounts.index') }}"
-            name="wallet_filter"
-            title="Filter by Wallet"
-        />
-        <div class="responsive-table">
-            {{ $dataTable->table() }}
-        </div>
     </section>
+    {{--<section class="list-wrapper section">--}}
+    {{--</section>--}}
 @endsection
 
 {{-- vendor scripts --}}
@@ -77,5 +95,5 @@
 @section('page-script')
     {{ $dataTable->scripts() }}
     @stack('components-scripts')
-    <script src="{{asset('js/scripts/accounts.js')}}"></script>
+    {{--<script src="{{asset('js/scripts/accounts.js')}}"></script>--}}
 @endsection

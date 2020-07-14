@@ -31,9 +31,14 @@ class ClientController extends Controller
      */
     public function index(ClientsDataTable $dataTable)
     {
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['name' => "Contracts"]
+        ];
+
         $pageConfigs = ['pageHeader' => true];
 
-        return $dataTable->render('pages.client.index', compact('pageConfigs'));
+        return $dataTable->render('pages.client.index', compact('pageConfigs'), ['breadcrumbs' => $breadcrumbs]);
     }
 
     /**

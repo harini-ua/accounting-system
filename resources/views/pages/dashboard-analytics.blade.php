@@ -4,6 +4,12 @@
 {{-- page title --}}
 @section('title','Dashboard Analytics')
 
+@section('vendor-style')
+   <link rel="stylesheet" type="text/css" href="{{asset('vendors/animate-css/animate.css')}}">
+   <link rel="stylesheet" type="text/css" href="{{asset('vendors/chartist-js/chartist.min.css')}}">
+   <link rel="stylesheet" type="text/css" href="{{asset('vendors/chartist-js/chartist-plugin-tooltip.css')}}">
+@endsection
+
 {{-- page styles --}}
 @section('page-style')
 <link rel="stylesheet" type="text/css" href="{{asset('css/pages/dashboard.css')}}">
@@ -211,6 +217,10 @@
 @section('vendor-script')
 <script src="{{asset('vendors/sparkline/jquery.sparkline.min.js')}}"></script>
 <script src="{{asset('vendors/chartjs/chart.min.js')}}"></script>
+<script src="{{asset('vendors/chartjs/chart.min.js')}}"></script>
+<script src="{{asset('vendors/chartist-js/chartist.min.js')}}"></script>
+<script src="{{asset('vendors/chartist-js/chartist-plugin-tooltip.js')}}"></script>
+<script src="{{asset('vendors/chartist-js/chartist-plugin-fill-donut.min.js')}}"></script>
 @endsection
 
 {{-- page scripts --}}

@@ -26,7 +26,7 @@
 {{--                                <img src="{{asset('images/gallery/pixinvent-logo.png')}}" alt="logo" height="46" width="164">--}}
                             </div>
                             <div class="col m6 s12 pull-m6">
-                                <span>{{ $wallet->name }}</span><br>
+                                <h4 class="indigo-text">{{ $wallet->name }}</h4><br>
                                 <span>{{ $wallet->walletType->name }}</span>
                             </div>
                         </div>
