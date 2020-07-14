@@ -58,11 +58,11 @@ class WalletDataTable extends DataTable
     {
         return $this->builder()
                     ->setTableId('data-table-wallet')
-                    ->addTableClass('display')
+                    ->addTableClass('table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->responsive(true)
+                    ->scrollX(true)
                     ->orderBy(0);
     }
 

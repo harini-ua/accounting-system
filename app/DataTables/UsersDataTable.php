@@ -4,10 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Position;
 use App\User;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class UsersDataTable extends DataTable
@@ -58,7 +55,7 @@ class UsersDataTable extends DataTable
                     ->addTableClass('table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->responsive(true)
+                    ->scrollX(true)
                     ->dom('Bfrtip')
                     ->orderBy(0);
     }
@@ -76,6 +73,7 @@ class UsersDataTable extends DataTable
             Column::make('email'),
             Column::make('position')->data('position.name'),
             Column::computed('action')
+                ->orderable(false)
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)

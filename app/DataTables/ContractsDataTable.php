@@ -115,7 +115,7 @@ class ContractsDataTable extends DataTable
             ->addTableClass('table contract-data-table white border-radius-4 pt-1')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->responsive(true)
+            ->scrollX(true)
             ->dom('<"top display-flex  mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>')
             ->languageSearch('')
             ->languageSearchPlaceholder('Search Contract')
