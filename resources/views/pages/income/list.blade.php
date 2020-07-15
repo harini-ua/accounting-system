@@ -19,6 +19,8 @@
 
 {{-- page content --}}
 @section('content')
+    <x-totals title="Invoiced" :options="$accountTypes" relation="invoicedSum" titleColor="white-text"/>
+    <x-totals title="Received" :options="$accountTypes" relation="receivedSum"/>
     <!-- list -->
     <section class="list-wrapper section">
         <x-filter
@@ -54,6 +56,6 @@
 @section('page-script')
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
-    @stack('components-scripts')
+    <script src="{{asset('js/scripts/filters.js')}}"></script>
     <script src="{{asset('js/scripts/accounts.js')}}"></script>
 @endsection

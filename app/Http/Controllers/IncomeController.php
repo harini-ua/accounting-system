@@ -6,9 +6,11 @@ use App\DataTables\IncomeListDataTable;
 use App\DataTables\IncomesDataTable;
 use App\DataTables\TestDataTable;
 use App\Http\Requests\IncomeRequest;
+use App\Models\AccountType;
 use App\Models\Client;
 use App\Models\Income;
 use App\Models\Wallet;
+use App\Services\FilterService;
 
 class IncomeController extends Controller
 {
@@ -25,8 +27,17 @@ class IncomeController extends Controller
         $startDate = $dataTable->startDate->format('d-m-Y');
         $endDate = $dataTable->endDate->format('d-m-Y');
 
+        $accountTypes = AccountType::with([
+            'invoicedSum' => function($query) use ($dataTable) {
+                $query->whereBetween('invoice_items.created_at', [$dataTable->startDate, $dataTable->endDate->endOfMonth()]);
+            },
+            'receivedSum' => function($query) use ($dataTable) {
+                $query->whereBetween('payments.date', [$dataTable->startDate, $dataTable->endDate->endOfMonth()]);
+            }
+        ])->get();
+
         return $dataTable->render('pages.income.list', compact('pageConfigs', 'breadcrumbs',
-            'clients', 'wallets', 'startDate', 'endDate'
+            'clients', 'wallets', 'startDate', 'endDate', 'accountTypes'
         ));
     }
     /**
@@ -149,5 +160,21 @@ class IncomeController extends Controller
             'success' => false,
             'message' => __('Something went wrong. Try again.')
         ]);
+    }
+
+    public function totals(FilterService $filterService)
+    {
+        $startDate = $filterService->getStartDate();
+        $endDate = $filterService->getEndDate();
+
+        return AccountType::with([
+            'invoicedSum' => function($query) use ($startDate, $endDate) {
+                $query->whereBetween('invoice_items.created_at', [$startDate, $endDate->endOfMonth()]);
+            },
+            'receivedSum' => function($query) use ($startDate, $endDate) {
+                $query->whereBetween('payments.date', [$startDate, $endDate->endOfMonth()]);
+            },
+            // todo: client, wallet and for accountsSum
+        ])->get()->makeVisible(['invoicedSum', 'receivedSum', 'accountsSum']);
     }
 }

@@ -14,10 +14,10 @@ class InvoiceItemSeed extends Seeder
     {
         \App\Models\Invoice::chunk(1000, function($invoices) {
             $allInvoiceItems = [];
-            $createdAt = \Illuminate\Support\Carbon::now();
             $invoiceIds = $invoices->pluck('id');
 
             foreach ($invoiceIds as $invoiceId) {
+                $createdAt = \Illuminate\Support\Carbon::now()->subDays(rand(1, 365));
                 $invoiceItems = factory(\App\Models\InvoiceItem::class, random_int(3, 6))
                     ->make([
                         'invoice_id' => $invoiceId,

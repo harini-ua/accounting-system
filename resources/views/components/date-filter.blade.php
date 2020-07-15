@@ -6,7 +6,3 @@
         <input type="text" name="end_date" class="datepicker" placeholder="End date" value="{{ $end ?? '' }}">
     </div>
 </div>
-
-@push('components-scripts')
-    <script src="{{ asset('js/scripts/date-filter.js') }}"></script>
-@endpush
