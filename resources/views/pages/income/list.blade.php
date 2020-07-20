@@ -14,7 +14,7 @@
 
 {{-- page styles --}}
 @section('page-style')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/accounts.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-users.css')}}">
 @endsection
 
 {{-- page content --}}
@@ -22,25 +22,45 @@
     <x-totals title="Invoiced" :options="$accountTypes" relation="invoicedSum" titleColor="white-text"/>
     <x-totals title="Received" :options="$accountTypes" relation="receivedSum"/>
     <!-- list -->
-    <section class="list-wrapper section">
-        <x-filter
-            table="incomes-list-table"
-            :options="$wallets"
-            url="{{ route('incomes.list') }}"
-            name="wallet_filter"
-            title="Filter by Wallet"
-            className="filter-btn invoice-filter-action mr-3"
-        />
-        <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-list-table"/>
-        <x-filter
-            table="incomes-list-table"
-            :options="$clients"
-            url="{{ route('incomes.list') }}"
-            name="client_filter"
-            title="Filter by Client"
-        />
-        <div class="responsive-table">
-            {{ $dataTable->table() }}
+    <section class="users-list-wrapper section">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <div class="col m6 l4 xl2">
+                        <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-list-table"/>
+                    </div>
+                    <div class="col m6 l8 xl10">
+                        <div class="col m6 xl3">
+                            <x-filter
+                                    table="incomes-list-table"
+                                    :options="$clients"
+                                    url="{{ route('incomes.list') }}"
+                                    name="client_filter"
+                                    title="Filter by Client"
+                            />
+                        </div>
+                        <div class="col m6 xl3">
+                            <x-filter
+                                    table="incomes-list-table"
+                                    :options="$wallets"
+                                    url="{{ route('incomes.list') }}"
+                                    name="wallet_filter"
+                                    title="Filter by Wallet"
+                                    className="filter-btn invoice-filter-action mr-3"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="users-list-table">
+            <div class="card">
+                <div class="card-content">
+                    <div class="responsive-table">
+                        {{ $dataTable->table() }}
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 @endsection
@@ -57,5 +77,5 @@
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
     <script src="{{asset('js/scripts/filters.js')}}"></script>
-    <script src="{{asset('js/scripts/accounts.js')}}"></script>
+    {{--<script src="{{asset('js/scripts/accounts.js')}}"></script>--}}
 @endsection

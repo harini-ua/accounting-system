@@ -20,12 +20,10 @@ table {
   }
 }
 
-
-
 table.dataTable thead .sorting_desc {
   @media screen and (max-width: 738px) {
     &:before {
-      background: none!important;
+      background: none !important;
     }
   }
 }
@@ -37,13 +35,12 @@ table.dataTable thead .sorting_desc {
 .responsive-table {
   label {
     input {
-      height: auto!important;
-      width: auto!important;
-      margin-left: 0.5rem!important;
+      height: auto !important;
+      width: auto !important;
+      margin-left: 0.5rem !important;
     }
   }
 }
-
 
 .dataTables_scrollHeadInner, .dataTables_scrollHeadInner {
   width: 100% !important;
@@ -59,36 +56,43 @@ table.dataTable thead .sorting_desc {
   position: absolute;
   top: -25px;
   right: 0;
+  .btn {
+    display: flex;
+    align-items: center;
+  }
+
 }
 
 .section {
   position: relative;
 }
+
 .page-layout {
   display: flex;
   justify-content: space-between;
-  @media screen and (max-width: 1360px){
+  @media screen and (max-width: 1360px) {
     flex-direction: column;
   }
 
 }
 
 #breadcrumbs-wrapper {
-  padding: 10px 0!important;
+  padding: 10px 0 !important;
 }
 
 .table-wrapper {
   width: 100%;
   margin-left: 50px;
-  @media screen and (max-width: 1360px){
+  @media screen and (max-width: 1360px) {
     margin-left: 0;
   }
 }
+
 .sidebar {
   .sidebar-content {
     .sidebar-header {
       height: 100%;
-      top: 0!important;
+      top: 0 !important;
       left: 0;
       .mt-10 {
         margin-top: 0 !important;
@@ -101,7 +105,7 @@ table.dataTable thead .sorting_desc {
       }
     }
   }
-  @media screen and (max-width: 768px){
+  @media screen and (max-width: 768px) {
     width: 100%;
   }
 }
@@ -128,16 +132,4 @@ table.dataTable thead .sorting_desc {
       }
     }
   }
-
-
-  //.sidebar-content {
-  //  .sidebar-header {
-  //    top: 15px;
-  //    .sidebar-details {
-  //      li.sidebar-title {
-  //        color: grey !important;
-  //      }
-  //    }
-  //  }
-  //}
 }
