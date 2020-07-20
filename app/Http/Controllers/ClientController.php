@@ -90,6 +90,11 @@ class ClientController extends Controller
     {
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['name' => "Contracts"]
+        ];
+
         $client->load(['addresses', 'contracts']);
 
         $dataTable = new ContractsDataTable($client->id);
@@ -97,7 +102,7 @@ class ClientController extends Controller
         $closedContract = $client->contracts()->status(ContractStatus::CLOSED)->count();
 
         return $dataTable->render('pages.client.view', compact(
-            'pageConfigs', 'client', 'closedContract'
+            'pageConfigs', 'client', 'closedContract', 'breadcrumbs'
         ));
     }
 

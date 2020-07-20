@@ -15,40 +15,55 @@
 {{-- page styles --}}
 @section('page-style')
     <link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-sidebar.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/invoice.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-users.css')}}">
 @endsection
 
 {{-- page content --}}
 @section('content')
     <!-- invoice list -->
-    <section class="invoice-list-wrapper section">
+    <section class="invoice-list-wrapper users-list-wrapper section">
         <!-- create invoice button-->
-        <div class="invoice-create-btn">
-            <a href="{{ route('invoices.create') }}" class="btn waves-effect waves-light invoice-create border-round z-depth-4">
+        <div class="create-btn invoice-create-btn">
+            <a href="{{ route('invoices.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
                 <i class="material-icons">add</i>
                 <span class="hide-on-small-only">{{ __("Add Invoice") }}</span>
             </a>
         </div>
-        <x-filter
-                table="invoices-list-datatable"
-                :options="$status"
-                url="{{ route('invoices.index') }}"
-                name="status_filter"
-                title="Filter By Status"
-                className="filter-btn invoice-filter-action mr-3"
-        />
-        <x-date-filter
-                table="invoices-list-datatable"
-        />
-        <x-filter
-                table="invoices-list-datatable"
-                :options="$clients"
-                url="{{ route('invoices.index') }}"
-                name="client_filter"
-                title="Filter By Client"
-        />
-        <div class="responsive-table">
-            {{ $dataTable->table() }}
+        <div class="card-panel accounts-page-card-panel">
+            <div class="row">
+                <div class="col m4 l3 xl3">
+                    <x-filter
+                            table="invoices-list-datatable"
+                            :options="$status"
+                            url="{{ route('invoices.index') }}"
+                            name="status_filter"
+                            title="Filter By Status"
+                            className="filter-btn invoice-filter-action mr-3"
+                    />
+                </div>
+                <div class="col m4 l3 xl3">
+                    <x-filter
+                            table="invoices-list-datatable"
+                            :options="$clients"
+                            url="{{ route('invoices.index') }}"
+                            name="client_filter"
+                            title="Filter By Client"
+                    />
+                </div>
+                <div class="col m6 l3">
+                    <x-date-filter
+                            table="invoices-list-datatable"
+                    />
+                </div>
+            </div>
+        </div>
+        <div class="users-list-table">
+            <div class="card">
+            <div class="card-content">
+                <div class="responsive-table">
+                    {{ $dataTable->table() }}
+                </div>
+            </div>
         </div>
     </section>
 @endsection

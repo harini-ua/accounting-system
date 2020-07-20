@@ -18,7 +18,7 @@
                             @csrf
                             <div class="row">
                                 <div class="col s12 m6">
-                                    <h5>From:</h5>
+                                    <h5 class="indigo-text">From:</h5>
                                     <div class="divider mt-2 mb-2"></div>
                                     <div class="row">
                                         <x-linked-selects
@@ -38,7 +38,7 @@
                                     </div>
                                 </div>
                                 <div class="col s12 m6">
-                                    <h5>To:</h5>
+                                    <h5 class="purple-text">To:</h5>
                                     <div class="divider mt-2 mb-2"></div>
                                     <div class="row">
                                         <x-linked-selects
