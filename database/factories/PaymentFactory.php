@@ -9,6 +9,6 @@ $factory->define(\App\Models\Payment::class, static function (Faker $faker) {
     return [
         'fee' => $receivedSum / 100,
         'received_sum' => $receivedSum,
-        'date' => \Carbon\Carbon::now()->addWeeks(random_int(1, 52))->format('Y-m-d')
+        'date' => $faker->dateTimeBetween('-1 year', 'now'),
     ];
 });

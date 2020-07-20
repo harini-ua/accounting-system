@@ -20,20 +20,7 @@
 
 {{-- page content --}}
 @section('content')
-    <div class="faq row totals-list">
-        @foreach ($accountTypes as $accountType)
-            <div class="col s12 m6 xl3">
-                <a class="black-text" href="page-faq-detail.html">
-                    <div class="card z-depth-0 grey lighten-3 faq-card">
-                        <div class="card-content center-align">
-                            {{ $accountType->name }}: {{ $accountType->accountsSum }}
-                        </div>
-                    </div>
-                </a>
-            </div>
-        @endforeach
-
-    </div>
+    <x-totals :options="$accountTypes" relation="accountsSum"/>
     <div class="card-panel accounts-page-card-panel">
         <div class="row">
             <form>
@@ -52,7 +39,7 @@
                 <div class="col s12 l6 display-flex align-items-center show-btn">
                     <div class="col s12 m4 input-field">
                         <x-filter
-                                table="accounts-table"
+                                table="accounts-list-datatable"
                                 :options="$wallets"
                                 url="{{ route('accounts.index') }}"
                                 name="wallet_filter"
@@ -94,6 +81,6 @@
 {{-- page scripts --}}
 @section('page-script')
     {{ $dataTable->scripts() }}
-    @stack('components-scripts')
+    <script src="{{asset('js/scripts/filters.js')}}"></script>
     {{--<script src="{{asset('js/scripts/accounts.js')}}"></script>--}}
 @endsection

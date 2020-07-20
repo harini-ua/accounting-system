@@ -14,7 +14,3 @@
     </ul>
 </div>
 
-@push('components-scripts')
-    <script src="{{ asset('js/scripts/filter.js') }}"></script>
-@endpush
-

@@ -72,5 +72,5 @@
 
 {{-- page scripts --}}
 @section('page-script')
-    @stack('components-scripts')
+    <script src="{{asset('js/scripts/linked-selects.js')}}"></script>
 @endsection
