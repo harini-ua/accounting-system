@@ -62,6 +62,22 @@ $(document).ready(function () {
         });
     });
 
+    // Checkbox filter
+    $('.checkbox-filter input').on('change', function(e) {
+        e.preventDefault();
+        const checkboxFilter = $(this).closest('.checkbox-filter');
+        const route = checkboxFilter.attr('data-url') ? checkboxFilter.attr('data-url') : location.href;
+        const table = $('#' + checkboxFilter.attr('data-table')).DataTable();
+        const name = this.getAttribute('name');
+
+        filters.set(name, this.checked ? this.value : null);
+        table.ajax.url(filters.url(route)).load();
+        $(document).trigger({
+            type: 'filterChange',
+            filters: filters
+        });
+    });
+
     // Totals
     $(document).on('filterChange', function(e) {
         $.getJSON(e.filters.url(window.location.origin + '/totals'), function(data) {

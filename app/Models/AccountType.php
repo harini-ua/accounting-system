@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Services\Formatter;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Class AccountType
@@ -81,9 +80,11 @@ class AccountType extends Model
     public function invoicedSum()
     {
         return $this->hasOne(Account::class)
-            ->selectRaw('sum(invoice_items.sum) as sum, account_type_id')
+            ->selectRaw('sum(invoice_items.total) as sum, account_type_id')
             ->join('invoices', 'invoices.account_id', '=', 'accounts.id')
             ->join('invoice_items', 'invoice_items.invoice_id', '=', 'invoices.id')
+            ->whereNull('invoices.deleted_at')
+            ->whereNull('invoice_items.deleted_at')
             ->groupBy('account_type_id');
     }
 
@@ -96,6 +97,8 @@ class AccountType extends Model
             ->selectRaw('sum(payments.received_sum) as sum, account_type_id')
             ->join('invoices', 'invoices.account_id', '=', 'accounts.id')
             ->join('payments', 'payments.invoice_id', '=', 'invoices.id')
+            ->whereNull('invoices.deleted_at')
+            ->whereNull('payments.deleted_at')
             ->groupBy('account_type_id');
     }
 

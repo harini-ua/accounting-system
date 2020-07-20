@@ -6,6 +6,7 @@ namespace App\Services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class FilterService
 {
@@ -34,6 +35,10 @@ class FilterService
 
         if ($request->has('wallet_filter')) {
             $this->filters['wallet'] = $request->input('wallet_filter');
+        }
+
+        if ($request->has('received')) {
+            $this->filters['received'] = $request->input('received');
         }
     }
 
@@ -83,6 +88,7 @@ class FilterService
         ]);
         $this->filterClient($query);
         $this->filterWallet($query);
+        $this->filterReceived($query);
 
         return $query;
     }
@@ -123,6 +129,21 @@ class FilterService
         $walletId = $this->get('wallet');
         $query->when($walletId, function($query, $walletId) {
             return $query->where('accounts.wallet_id', $walletId);
+        });
+    }
+
+    /**
+     * @param $query
+     */
+    private function filterReceived($query)
+    {
+        $received = $this->get('received');
+        $query->when($received, function($query) {
+            $query->whereExists(function ($query) {
+                $query->select(DB::raw(1))
+                    ->from('payments')
+                    ->whereRaw('payments.invoice_id = invoices.id');
+            });
         });
     }
 
