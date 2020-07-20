@@ -79,6 +79,6 @@
 @section('page-script')
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
-    @stack('components-scripts')
-    {{--<script src="{{asset('js/scripts/invoice.js')}}"></script>--}}
+    <script src="{{asset('js/scripts/filters.js')}}"></script>
+    <script src="{{asset('js/scripts/invoice.js')}}"></script>
 @endsection

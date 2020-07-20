@@ -30,7 +30,7 @@ class InvoiceItem extends Model
      *
      * @var array
      */
-    protected $fillable = ['invoice_id', 'title', 'description'];
+    protected $fillable = ['invoice_id', 'title', 'description', 'created_at', 'updated_at'];
 
     /**
      * The attributes that should be cast.

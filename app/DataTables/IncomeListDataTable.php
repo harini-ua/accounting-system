@@ -29,6 +29,7 @@ class IncomeListDataTable extends DataTable
         $this->endDate = $request->has('end_date')
             ? Carbon::parse($request->input('end_date'))->endOfMonth()
             : Carbon::now();
+        // todo: refactor through FilterService
     }
 
     /**
@@ -80,10 +81,10 @@ class IncomeListDataTable extends DataTable
                         ->whereNull('accounts.deleted_at');
                 }
                 if ($this->request->has('start_date')) {
-                    $query->where('invoices.plan_income_date', '>=', $this->startDate);
+                    $query->where('invoices.plan_income_date', '>=', $this->startDate->startOfMonth());
                 }
                 if ($this->request->has('end_date')) {
-                    $query->where('invoices.plan_income_date', '<=', $this->endDate);
+                    $query->where('invoices.plan_income_date', '<=', $this->endDate->endOfMonth());
                 }
             }, true)
             ->orderColumn('client', function($query, $order) {

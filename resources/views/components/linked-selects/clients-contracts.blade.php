@@ -39,7 +39,3 @@
     </select>
     <label for="{{ $secondName }}">{{ $secondTitle }}</label>
 </div>
-
-@push('components-scripts')
-    <script src="{{ asset('js/scripts/linked-selects.js') }}"></script>
-@endpush
