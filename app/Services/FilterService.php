@@ -71,4 +71,59 @@ class FilterService
         $this->filters[$key] = $filter;
     }
 
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function filterInvoicedSum($query)
+    {
+        $query->whereBetween('invoice_items.created_at', [
+            $this->getStartDate(),
+            $this->getEndDate()->endOfMonth()
+        ]);
+        $this->filterClient($query);
+        $this->filterWallet($query);
+
+        return $query;
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function filterReceivedSum($query)
+    {
+        $query->whereBetween('payments.date', [
+            $this->getStartDate(),
+            $this->getEndDate()->endOfMonth()
+        ]);
+        $this->filterClient($query);
+        $this->filterWallet($query);
+
+        return $query;
+    }
+
+    /**
+     * @param $query
+     */
+    private function filterClient($query)
+    {
+        $clientId = $this->get('client');
+        $query->when($clientId, function($query, $clientId) {
+            return $query->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
+                ->where('contracts.client_id', $clientId);
+        });
+    }
+
+    /**
+     * @param $query
+     */
+    private function filterWallet($query)
+    {
+        $walletId = $this->get('wallet');
+        $query->when($walletId, function($query, $walletId) {
+            return $query->where('accounts.wallet_id', $walletId);
+        });
+    }
+
 }
