@@ -14,7 +14,7 @@
 
 {{-- page styles --}}
 @section('page-style')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/accounts.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-users.css')}}">
 @endsection
 
 {{-- page content --}}
@@ -22,7 +22,7 @@
     <x-totals title="Invoiced" :options="$accountTypes" relation="invoicedSum" titleColor="white-text"/>
     <x-totals title="Received" :options="$accountTypes" relation="receivedSum"/>
     <!-- list -->
-    <section class="list-wrapper section">
+    <section class="users-list-wrapper section">
         <x-filter
             table="incomes-list-table"
             :options="$wallets"
@@ -39,8 +39,17 @@
             name="client_filter"
             title="Filter by Client"
         />
-        <div class="responsive-table">
-            {{ $dataTable->table() }}
+
+        <div class="users-list-table">
+            <div class="card">
+                <div class="card-content">
+                    <!-- datatable start -->
+                    <div class="responsive-table">
+                        {{ $dataTable->table() }}
+                    </div>
+                    <!-- datatable ends -->
+                </div>
+            </div>
         </div>
     </section>
 @endsection
@@ -57,5 +66,5 @@
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
     <script src="{{asset('js/scripts/filters.js')}}"></script>
-    <script src="{{asset('js/scripts/accounts.js')}}"></script>
+{{--    <script src="{{asset('js/scripts/accounts.js')}}"></script>--}}
 @endsection
