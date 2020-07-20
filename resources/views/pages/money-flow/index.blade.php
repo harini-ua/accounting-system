@@ -14,27 +14,30 @@
 
 {{-- page styles --}}
 @section('page-style')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/accounts.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-users.css')}}">
+    {{--<link rel="stylesheet" type="text/css" href="{{asset('css/pages/accounts.css')}}">--}}
 @endsection
 
 {{-- page content --}}
 @section('content')
     <!-- list -->
-    <section class="list-wrapper section">
-        <div class="invoice-create-btn">
-            <a href="{{ route('money-flows.create') }}" class="btn waves-effect waves-light invoice-create border-round z-depth-4">
+    <section class="users-list-wrapper section">
+        <div class=" create-btn invoice-create-btn add-item-btn">
+            <a href="{{ route('money-flows.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
                 <i class="material-icons">add</i>
                 <span class="hide-on-small-only">Add</span>
             </a>
         </div>
-        <div class="contracts-list-table">
-            <div class="card">
-                <div class="card-content">
-                    <!-- datatable start -->
-                    <div class="responsive-table">
-                        {{ $dataTable->table() }}
+        <div class="">
+            <div class="users-list-table">
+                <div class="card">
+                    <div class="card-content">
+                        <!-- datatable start -->
+                        <div class="responsive-table">
+                            {{ $dataTable->table() }}
+                        </div>
+                        <!-- datatable ends -->
                     </div>
-                    <!-- datatable ends -->
                 </div>
             </div>
         </div>
@@ -52,5 +55,5 @@
 @section('page-script')
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
-    <script src="{{asset('js/scripts/accounts.js')}}"></script>
+    {{--<script src="{{asset('js/scripts/accounts.js')}}"></script>--}}
 @endsection

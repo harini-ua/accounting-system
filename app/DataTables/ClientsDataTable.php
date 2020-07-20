@@ -69,13 +69,11 @@ class ClientsDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('clients-list-datatable')
-            ->addTableClass('table client-data-table white border-radius-4 pt-1')
+            ->addTableClass('table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->scrollX(true)
-            ->dom('<"top display-flex  mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>')
-            ->languageSearch('')
-            ->languageSearchPlaceholder('Search Client')
+            ->dom('Bfrtip')
             ->orderBy(0);
     }
 

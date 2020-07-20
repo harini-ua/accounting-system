@@ -116,9 +116,7 @@ class ContractsDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->scrollX(true)
-            ->dom('<"top display-flex  mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>')
-            ->languageSearch('')
-            ->languageSearchPlaceholder('Search Contract')
+            ->dom('Bfrtip')
             ->orderBy(0);
     }
 
@@ -135,7 +133,7 @@ class ContractsDataTable extends DataTable
             $data[] = Column::make('client');
         }
 
-        $data[] = Column::make('name')->searchable();
+        $data[] = Column::make('name')->title(__('Contract'))->searchable();
         $data[] = Column::make('comment');
         $data[] = Column::make('manager')->title(__('Sales Manager'));
         $data[] = Column::make('status');

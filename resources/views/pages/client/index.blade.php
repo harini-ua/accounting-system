@@ -13,21 +13,21 @@
 
 {{-- page styles --}}
 @section('page-style')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/clients.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-users.css')}}">
 @endsection
 
 {{-- page content --}}
 @section('content')
     <!-- client list start -->
-    <section id="clients" class="clients-lists-wrapper section">
+    <section id="clients" class="users-list-wrapper section">
         <div class="create-btn">
-            <a href="{{ route('clients.create') }}" class="btn border-round z-depth-4">
+            <a href="{{ route('clients.create') }}" class="btn z-depth-4">
                 <i class="material-icons">add</i>
                 <span class="hide-on-small-only">{{ __('Add Client') }}</span>
             </a>
         </div>
-        <div class="clients-list-table">
-            <div class="card">
+        <div class="users-list-table">
+        <div class="card">
                 <div class="card-content">
                     <!-- datatable start -->
                     <div class="responsive-table">

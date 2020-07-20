@@ -30,6 +30,20 @@ table.dataTable thead .sorting_desc {
   }
 }
 
+.chip {
+  padding: 0 20px;
+}
+
+.responsive-table {
+  label {
+    input {
+      height: auto!important;
+      width: auto!important;
+      margin-left: 0.5rem!important;
+    }
+  }
+}
+
 
 .dataTables_scrollHeadInner, .dataTables_scrollHeadInner {
   width: 100% !important;
@@ -74,14 +88,21 @@ table.dataTable thead .sorting_desc {
   .sidebar-content {
     .sidebar-header {
       height: 100%;
-      top: 0;
+      top: 0!important;
+      left: 0;
       .mt-10 {
         margin-top: 0 !important;
       }
       .card-action {
         border-top: none;
       }
+      i {
+        display: none;
+      }
     }
+  }
+  @media screen and (max-width: 768px){
+    width: 100%;
   }
 }
 
