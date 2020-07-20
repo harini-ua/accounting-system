@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Contract;
 use App\Models\Invoice;
+use App\Services\FilterService;
 use Illuminate\Support\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -13,23 +14,15 @@ use Yajra\DataTables\Services\DataTable;
 
 class IncomeListDataTable extends DataTable
 {
-    public $startDate;
-    public $endDate;
+    public $filterService;
 
     /**
      * IncomeListDataTable constructor.
+     * @param FilterService $filterService
      */
-    public function __construct()
+    public function __construct(FilterService $filterService)
     {
-        $request = request();
-        $this->startDate = $request->has('start_date')
-            ? Carbon::parse($request->input('start_date'))->startOfMonth()
-            : Carbon::now()->startOfMonth();
-
-        $this->endDate = $request->has('end_date')
-            ? Carbon::parse($request->input('end_date'))->endOfMonth()
-            : Carbon::now();
-        // todo: refactor through FilterService
+        $this->filterService = $filterService;
     }
 
     /**
@@ -80,12 +73,6 @@ class IncomeListDataTable extends DataTable
                         ->whereNull('wallets.deleted_at')
                         ->whereNull('accounts.deleted_at');
                 }
-                if ($this->request->has('start_date')) {
-                    $query->where('invoices.plan_income_date', '>=', $this->startDate->startOfMonth());
-                }
-                if ($this->request->has('end_date')) {
-                    $query->where('invoices.plan_income_date', '<=', $this->endDate->endOfMonth());
-                }
             }, true)
             ->orderColumn('client', function($query, $order) {
                 $query->join('clients', 'contracts.client_id', '=', 'clients.id')
@@ -127,6 +114,8 @@ class IncomeListDataTable extends DataTable
             ->whereNull('contracts.deleted_at')
             ->whereNull('invoice_items.deleted_at')
             ->whereNull('payments.deleted_at')
+            ->where('invoices.plan_income_date', '>=', $this->filterService->getStartDate())
+            ->where('invoices.plan_income_date', '<=', $this->filterService->getEndDate())
             ->newQuery();
     }
 
