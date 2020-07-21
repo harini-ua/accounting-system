@@ -149,4 +149,5 @@ return [
     "Filter By Client"=> "Filter By Client",
     "Filter By Status"=> "Filter By Status",
     "Expense category"=> "Expense category",
+    "Expenses"=> "Expenses",
 ];

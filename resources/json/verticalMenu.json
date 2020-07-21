@@ -79,6 +79,13 @@
             "slug": "category-expenses",
             "icon": "money_off",
             "i18n": "Expense category"
+        },
+        {
+            "url": "expenses",
+            "name": "Expenses",
+            "slug": "expenses",
+            "icon": "money_off",
+            "i18n": "Expenses"
         }
     ]
 }
