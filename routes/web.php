@@ -95,5 +95,8 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/list-incomes', 'IncomeController@list')->name('incomes.list');
     Route::get('/totals', 'IncomeController@totals')->name('totals');
 
+    // Expenses
+    Route::resource('expense-categories', 'ExpenseCategoryController')->except(['create', 'show']);
+
 });
 
