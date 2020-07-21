@@ -58,8 +58,17 @@ class IncomeController extends Controller
         $clients = Client::with('contracts')->get();
         $wallets = Wallet::with('accounts.accountType')->get();
 
+        $filterService = $dataTable->filterService;
+        $accountTypes = AccountType::with([
+            'planningSum' => function($query) use ($filterService) {
+                $filterService->filterPlanningSum($query);
+            },
+        ])->get();
+        $startDate = $filterService->getStartDate()->format('d-m-Y');
+        $endDate = $filterService->getEndDate()->format('d-m-Y');
+
         return $dataTable->render('pages.income.index', compact('pageConfigs', 'breadcrumbs',
-            'clients', 'wallets'
+            'clients', 'wallets',  'startDate', 'endDate', 'accountTypes'
         ));
     }
 
@@ -171,7 +180,10 @@ class IncomeController extends Controller
             'receivedSum' => function($query) use ($filterService) {
                 $filterService->filterReceivedSum($query);
             },
+            'planningSum' => function($query) use ($filterService) {
+                $filterService->filterPlanningSum($query);
+            },
             // todo: client, wallet and for accountsSum
-        ])->get()->makeVisible(['invoicedSum', 'receivedSum', 'accountsSum']);
+        ])->get()->makeVisible(['invoicedSum', 'receivedSum', 'accountsSum', 'planningSum']);
     }
 }

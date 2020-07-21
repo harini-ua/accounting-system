@@ -111,12 +111,28 @@ class FilterService
 
     /**
      * @param $query
+     * @return mixed
      */
-    private function filterClient($query)
+    public function filterPlanningSum($query)
+    {
+        $query->whereBetween('incomes.plan_date', [
+            $this->getStartDate(),
+            $this->getEndDate()->endOfMonth()
+        ]);
+        $this->filterClient($query, 'incomes');
+
+        return $query;
+    }
+
+    /**
+     * @param $query
+     * @param string $table
+     */
+    private function filterClient($query, string $table = 'invoices')
     {
         $clientId = $this->get('client');
-        $query->when($clientId, function($query, $clientId) {
-            return $query->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
+        $query->when($clientId, function($query, $clientId) use ($table) {
+            return $query->join('contracts', 'contracts.id', '=', "$table.contract_id")
                 ->where('contracts.client_id', $clientId);
         });
     }
