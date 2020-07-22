@@ -19,6 +19,7 @@ class InvoicesDataTable extends DataTable
         'client',
         'contract',
         'date',
+        'plan_income_date',
         'wallet',
         'status'
     ];
@@ -63,6 +64,18 @@ class InvoicesDataTable extends DataTable
         $dataTable->addColumn('wallet', static function(Invoice $model) {
             return view('partials.view-link', ['model' => $model->account->wallet]);
         });
+
+        if ($this->contract_id !== null) {
+            $dataTable->addColumn('sum', static function (Invoice $model) {
+                return '-';
+            });
+            $dataTable->addColumn('fee', static function (Invoice $model) {
+                return '-';
+            });
+            $dataTable->addColumn('received_sum', static function (Invoice $model) {
+                return '-';
+            });
+        }
 
         $dataTable->addColumn('status', static function(Invoice $model) {
             return view('partials.view-status', [
@@ -177,12 +190,22 @@ class InvoicesDataTable extends DataTable
         if ($this->contract_id === null) {
             $data[] = Column::make('client');
             $data[] = Column::make('contract')->searchable(false);
-        } else {
-            $data[] = Column::make('name');
         }
 
         $data[] = Column::make('date')->searchable(false);
+
+        if ($this->contract_id !== null) {
+            $data[] = Column::make('plan_income_date')->searchable(false);
+        }
+
         $data[] = Column::make('wallet')->searchable(false);
+
+        if ($this->contract_id !== null) {
+            $data[] = Column::make('sum')->searchable(false);
+            $data[] = Column::make('fee')->searchable(false);
+            $data[] = Column::make('received_sum')->searchable(false);
+        }
+
         $data[] = Column::make('status')->searchable(false);
         $data[] = Column::computed('action')->addClass('text-center');
 
