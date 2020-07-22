@@ -44,9 +44,11 @@ class ExpenseController extends Controller
     /**
      * Show the form for creating a new resource.
      *
+     * @param Request $request
+     *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => "Home"],
@@ -56,6 +58,7 @@ class ExpenseController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
+        $model = Expense::find($request->input('model'));
         $wallets = Wallet::with('accounts.accountType')->get();
         $expenseCategories = ExpenseCategory::all();
 
@@ -64,6 +67,7 @@ class ExpenseController extends Controller
             'pageConfigs' => $pageConfigs,
             'wallets' => $wallets,
             'expenseCategories' => $expenseCategories,
+            'model' => $model,
         ]);
     }
 

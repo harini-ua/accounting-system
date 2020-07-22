@@ -18,10 +18,10 @@
                             <div class="row">
                                 <div class="col s12 m6">
                                     <div class="row">
-                                        <x-date name="plan_date" title="Date"></x-date>
-                                        <x-textarea name="purpose" title="Purpose of expense"></x-textarea>
-                                        <x-input name="plan_sum" title="Planned"></x-input>
-                                        <x-input name="real_sum" title="Real"></x-input>
+                                        <x-date name="plan_date" title="Date" :model="$model"></x-date>
+                                        <x-textarea name="purpose" title="Purpose of expense" :model="$model"></x-textarea>
+                                        <x-input name="plan_sum" title="Planned" :model="$model"></x-input>
+                                        <x-input name="real_sum" title="Real" :model="$model"></x-input>
                                     </div>
                                 </div>
                                 <div class="col s12 m6">
@@ -34,11 +34,13 @@
                                             dataUrl="/wallets/walletAccounts"
                                             view="components.linked-selects.wallets-accounts"
                                             :options="$wallets"
+                                            :model="$model"
                                         />
                                         <x-select
                                             name="expense_category_id"
                                             title="Category"
                                             :options="$expenseCategories"
+                                            :model="$model"
                                         ></x-select>
                                     </div>
                                 </div>
