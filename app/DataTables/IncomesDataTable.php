@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Contract;
 use App\Models\Income;
+use App\Services\FilterService;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -13,6 +14,17 @@ use Illuminate\Support\Carbon;
 
 class IncomesDataTable extends DataTable
 {
+    public $filterService;
+
+    /**
+     * IncomeListDataTable constructor.
+     * @param FilterService $filterService
+     */
+    public function __construct(FilterService $filterService)
+    {
+        $this->filterService = $filterService;
+    }
+
     /**
      * Build DataTable class.
      *
@@ -42,12 +54,6 @@ class IncomesDataTable extends DataTable
                         ->pluck('contracts.id')
                         ->toArray();
                     $query->whereIn('contract_id', $contracts);
-                }
-                if ($this->request->has('start_date')) {
-                    $query->where('plan_date', '>=', Carbon::parse($this->request->input('start_date')));
-                }
-                if ($this->request->has('end_date')) {
-                    $query->where('plan_date', '<=', Carbon::parse($this->request->input('end_date')));
                 }
             }, true)
             ->filterColumn('client', function($query, $keyword) {
@@ -94,7 +100,10 @@ class IncomesDataTable extends DataTable
      */
     public function query(Income $model)
     {
-        return $model->with(['contract.client', 'account.wallet', 'account.accountType'])->newQuery();
+        return $model
+            ->with(['contract.client', 'account.wallet', 'account.accountType'])
+            ->whereBetween('plan_date', [$this->filterService->getStartDate(), $this->filterService->getEndDate()])
+            ->newQuery();
     }
 
     /**

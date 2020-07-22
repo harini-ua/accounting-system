@@ -153,4 +153,5 @@ return [
     "City"=> "City",
     "State"=> "State",
     "Zip Code"=> "Zip Code",
+    "Expense category"=> "Expense category",
 ];

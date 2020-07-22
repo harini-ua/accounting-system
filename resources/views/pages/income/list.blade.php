@@ -30,7 +30,7 @@
                         <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-list-table"/>
                     </div>
                     <div class="col m6 l8 xl10">
-                        <div class="col m6 xl3">
+                        <div class="col m4 xl3">
                             <x-filter
                                     table="incomes-list-table"
                                     :options="$clients"
@@ -39,7 +39,7 @@
                                     title="Filter by Client"
                             />
                         </div>
-                        <div class="col m6 xl3">
+                        <div class="col m4 xl3">
                             <x-filter
                                     table="incomes-list-table"
                                     :options="$wallets"
@@ -48,6 +48,9 @@
                                     title="Filter by Wallet"
                                     className="filter-btn invoice-filter-action mr-3"
                             />
+                        </div>
+                        <div class="col m4 xl3">
+                            <x-checkbox-filter title="Received" name="received" table="incomes-list-table" url="{{ route('incomes.list') }}"/>
                         </div>
                     </div>
                 </div>
