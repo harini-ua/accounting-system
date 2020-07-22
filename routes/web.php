@@ -97,6 +97,7 @@ Route::middleware(['auth'])->group(function() {
 
     // Expenses
     Route::resource('expense-categories', 'ExpenseCategoryController')->except(['create', 'show']);
+    Route::resource('expenses', 'ExpenseController')->except(['show']);
 
 });
 
