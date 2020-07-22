@@ -72,6 +72,20 @@
             "slug": "incomes",
             "icon": "attach_money",
             "i18n": "Sales planning"
+        },
+        {
+            "url": "expense-categories",
+            "name": "Expense category",
+            "slug": "category-expenses",
+            "icon": "money_off",
+            "i18n": "Expense category"
+        },
+        {
+            "url": "expenses",
+            "name": "Expenses",
+            "slug": "expenses",
+            "icon": "money_off",
+            "i18n": "Expenses"
         }
     ]
 }

@@ -96,7 +96,6 @@ class AccountsDataTable extends DataTable
                     ->minifiedAjax()
                     ->dom('Bfrtip')
                     ->orderBy(0);
-
 //                    -> scrollX(true);
     }
 

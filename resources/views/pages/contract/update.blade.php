@@ -12,7 +12,7 @@
             <div class="col s12">
                 <div class="card card card-default scrollspy">
                     <div class="card-content">
-                        @include('pages.contracts.partials._form')
+                        @include('pages.contract.partials._form')
                     </div>
                 </div>
             </div>

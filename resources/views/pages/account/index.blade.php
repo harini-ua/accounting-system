@@ -46,9 +46,7 @@
                                 title="Filter by Wallet"
                         />
                     </div>
-                    <div class="col s12 m5">
-                        <button type="button" class="btn btn-block indigo waves-effect waves-light">Reset</button>
-                    </div>
+                    <x-reset-filters/>
                 </div>
             </div>
         </div>

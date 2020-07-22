@@ -66,7 +66,7 @@ class InvoicesDataTable extends DataTable
 
         $dataTable->addColumn('status', static function(Invoice $model) {
             return view('partials.view-status', [
-                'model' => $model,
+                'status' => InvoiceStatus::getDescription($model->status),
                 'color' => InvoiceStatus::getColor($model->status, 'class'),
             ]);
         });
@@ -117,6 +117,10 @@ class InvoicesDataTable extends DataTable
             $query->join('accounts', 'accounts.id', '=', 'invoices.account_id')
                 ->join('wallets', 'wallets.id', '=', 'accounts.wallet_id')
                 ->orderBy('wallets.name', $order);
+        });
+
+        $dataTable->orderColumn('status', static function($query, $order) {
+            $query->orderBy('invoices.status', $order);
         });
 
         return $dataTable;

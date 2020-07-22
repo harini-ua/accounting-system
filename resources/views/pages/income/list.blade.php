@@ -49,6 +49,12 @@
                                     className="filter-btn invoice-filter-action"
                             />
                         </div>
+                        <div class="col m4 xl3">
+                            <x-checkbox-filter title="Received" name="received" table="incomes-list-table" url="{{ route('incomes.list') }}"/>
+                        </div>
+                        <div class="col m4 xl3">
+                            <x-reset-filters/>
+                        </div>
                     </div>
                 </div>
             </div>

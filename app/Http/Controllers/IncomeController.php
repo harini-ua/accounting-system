@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\DataTables\IncomeListDataTable;
 use App\DataTables\IncomesDataTable;
-use App\DataTables\TestDataTable;
 use App\Http\Requests\IncomeRequest;
 use App\Models\AccountType;
 use App\Models\Client;
@@ -24,17 +23,18 @@ class IncomeController extends Controller
 
         $clients = Client::with('contracts')->orderBy('name')->get();
         $wallets = Wallet::with('accounts.accountType')->orderBy('name')->get();
-        $startDate = $dataTable->startDate->format('d-m-Y');
-        $endDate = $dataTable->endDate->format('d-m-Y');
 
+        $filterService = $dataTable->filterService;
         $accountTypes = AccountType::with([
-            'invoicedSum' => function($query) use ($dataTable) {
-                $query->whereBetween('invoice_items.created_at', [$dataTable->startDate, $dataTable->endDate->endOfMonth()]);
+            'invoicedSum' => function($query) use ($filterService) {
+                $filterService->filterInvoicedSum($query);
             },
-            'receivedSum' => function($query) use ($dataTable) {
-                $query->whereBetween('payments.date', [$dataTable->startDate, $dataTable->endDate->endOfMonth()]);
+            'receivedSum' => function($query) use ($filterService) {
+                $filterService->filterReceivedSum($query);
             }
         ])->get();
+        $startDate = $filterService->getStartDate()->format('d-m-Y');
+        $endDate = $filterService->getEndDate()->format('d-m-Y');
 
         return $dataTable->render('pages.income.list', compact('pageConfigs', 'breadcrumbs',
             'clients', 'wallets', 'startDate', 'endDate', 'accountTypes'
@@ -58,8 +58,17 @@ class IncomeController extends Controller
         $clients = Client::with('contracts')->get();
         $wallets = Wallet::with('accounts.accountType')->get();
 
+        $filterService = $dataTable->filterService;
+        $accountTypes = AccountType::with([
+            'planningSum' => function($query) use ($filterService) {
+                $filterService->filterPlanningSum($query);
+            },
+        ])->get();
+        $startDate = $filterService->getStartDate()->format('d-m-Y');
+        $endDate = $filterService->getEndDate()->format('d-m-Y');
+
         return $dataTable->render('pages.income.index', compact('pageConfigs', 'breadcrumbs',
-            'clients', 'wallets'
+            'clients', 'wallets',  'startDate', 'endDate', 'accountTypes'
         ));
     }
 
@@ -164,17 +173,20 @@ class IncomeController extends Controller
 
     public function totals(FilterService $filterService)
     {
-        $startDate = $filterService->getStartDate();
-        $endDate = $filterService->getEndDate();
-
         return AccountType::with([
-            'invoicedSum' => function($query) use ($startDate, $endDate) {
-                $query->whereBetween('invoice_items.created_at', [$startDate, $endDate->endOfMonth()]);
+            'invoicedSum' => function($query) use ($filterService) {
+                $filterService->filterInvoicedSum($query);
             },
-            'receivedSum' => function($query) use ($startDate, $endDate) {
-                $query->whereBetween('payments.date', [$startDate, $endDate->endOfMonth()]);
+            'receivedSum' => function($query) use ($filterService) {
+                $filterService->filterReceivedSum($query);
             },
-            // todo: client, wallet and for accountsSum
-        ])->get()->makeVisible(['invoicedSum', 'receivedSum', 'accountsSum']);
+            'planningSum' => function($query) use ($filterService) {
+                $filterService->filterPlanningSum($query);
+            },
+            'expensesSum' => function($query) use ($filterService) {
+                $filterService->filterExpensesSum($query);
+            },
+            // todo: accountsSum
+        ])->get()->makeVisible(['invoicedSum', 'receivedSum', 'accountsSum', 'planningSum']);
     }
 }

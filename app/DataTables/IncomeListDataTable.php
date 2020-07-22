@@ -4,7 +4,9 @@ namespace App\DataTables;
 
 use App\Models\Contract;
 use App\Models\Invoice;
+use App\Services\FilterService;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -13,23 +15,15 @@ use Yajra\DataTables\Services\DataTable;
 
 class IncomeListDataTable extends DataTable
 {
-    public $startDate;
-    public $endDate;
+    public $filterService;
 
     /**
      * IncomeListDataTable constructor.
+     * @param FilterService $filterService
      */
-    public function __construct()
+    public function __construct(FilterService $filterService)
     {
-        $request = request();
-        $this->startDate = $request->has('start_date')
-            ? Carbon::parse($request->input('start_date'))->startOfMonth()
-            : Carbon::now()->startOfMonth();
-
-        $this->endDate = $request->has('end_date')
-            ? Carbon::parse($request->input('end_date'))->endOfMonth()
-            : Carbon::now();
-        // todo: refactor through FilterService
+        $this->filterService = $filterService;
     }
 
     /**
@@ -80,11 +74,13 @@ class IncomeListDataTable extends DataTable
                         ->whereNull('wallets.deleted_at')
                         ->whereNull('accounts.deleted_at');
                 }
-                if ($this->request->has('start_date')) {
-                    $query->where('invoices.plan_income_date', '>=', $this->startDate->startOfMonth());
-                }
-                if ($this->request->has('end_date')) {
-                    $query->where('invoices.plan_income_date', '<=', $this->endDate->endOfMonth());
+                if ($this->request->has('received')) {
+                    $query->whereExists(function ($query) {
+                        $query->select(DB::raw(1))
+                            ->from('payments')
+                            ->whereRaw('payments.invoice_id = invoices.id')
+                            ->whereBetween('payments.date', [$this->filterService->getStartDate(), $this->filterService->getEndDate()]);
+                    });
                 }
             }, true)
             ->orderColumn('client', function($query, $order) {
@@ -114,19 +110,43 @@ class IncomeListDataTable extends DataTable
      */
     public function query(Invoice $model)
     {
+        $dates = [$this->filterService->getStartOfMonthDate(), $this->filterService->getEndOfMonthDate()];
+
+        $invoiceSums = DB::table('invoice_items')
+            ->select('invoice_id', DB::raw('sum(total) as total'))
+            ->whereBetween('invoice_items.created_at', $dates)
+            ->groupBy('invoice_id');
+
+        $paymentSums = DB::table('payments')
+            ->select('invoice_id', DB::raw('sum(received_sum) as received_sum, sum(fee) as fee'))
+            ->whereBetween('payments.date', $dates)
+            ->groupBy('invoice_id');
+
         return $model
-            ->with(['contract.client', 'account.wallet', 'salesManager'])
+            ->with([
+                'contract.client',
+                'account.wallet',
+                'salesManager',
+//                'account.accountType'
+            ])
             ->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
             ->join('invoice_items', 'invoice_items.invoice_id', '=', 'invoices.id')
-            ->join('payments', 'payments.invoice_id', '=', 'invoices.id')
-            ->select(['invoices.*'])
-            ->selectRaw("sum(invoice_items.total) as total")
-            ->selectRaw("sum(payments.fee) as fee")
-            ->selectRaw("sum(payments.received_sum) as received_sum")
+            ->leftJoinSub($invoiceSums, 'invoice_sums', function($join) {
+                $join->on('invoice_sums.invoice_id', '=', 'invoices.id');
+            })
+            ->leftJoinSub($paymentSums, 'payment_sums', function($join) {
+                $join->on('payment_sums.invoice_id', '=', 'invoices.id');
+            })
+            ->leftJoin('payments', 'payments.invoice_id', '=', 'invoices.id')
+            ->select(['invoices.*', 'invoice_sums.total as total'])
+            ->selectRaw("payment_sums.fee as fee")
+            ->selectRaw("payment_sums.received_sum as received_sum")
             ->groupBy('id')
             ->whereNull('contracts.deleted_at')
-            ->whereNull('invoice_items.deleted_at')
-            ->whereNull('payments.deleted_at')
+            ->where(function($query) use ($dates) {
+                $query->whereBetween('payments.date', $dates)
+                    ->orWhereBetween('invoice_items.created_at', $dates);
+            })
             ->newQuery();
     }
 
@@ -164,6 +184,7 @@ class IncomeListDataTable extends DataTable
             Column::make('plan_income_date')->title('Planning Date of Income')->searchable(false),
             Column::make('pay_date')->title('Date of Payment')->searchable(false),
             Column::make('wallet')->searchable(false),
+//            Column::make('account')->data('account.account_type.name')->searchable(false),
             Column::make('total')->title('Sum')->searchable(false),
             Column::make('fee')->searchable(false),
             Column::make('received_sum')->searchable(false),

@@ -23,5 +23,6 @@ class DatabaseSeeder extends Seeder
         $this->call(InvoiceItemSeed::class);
         $this->call(PaymentSeed::class);
         $this->call(IncomeSeeder::class);
+        $this->call(ExpensesSeeder::class);
     }
 }

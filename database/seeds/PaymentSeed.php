@@ -18,14 +18,16 @@ class PaymentSeed extends Seeder
         $allPayments = [];
 
         foreach ($invoiceIds as $invoiceId) {
-            $payments = factory(\App\Models\Payment::class, random_int(1, 3))
-                ->make([
-                    'invoice_id' => $invoiceId,
-                    'created_at' => $createdAt,
-                    'updated_at' => $createdAt,
-                ])->toArray();
+            if (rand(0, 3)) {
+                $payments = factory(\App\Models\Payment::class, random_int(1, 3))
+                    ->make([
+                        'invoice_id' => $invoiceId,
+                        'created_at' => $createdAt,
+                        'updated_at' => $createdAt,
+                    ])->toArray();
 
-            $allPayments = array_merge($allPayments, $payments);
+                $allPayments = array_merge($allPayments, $payments);
+            }
         }
 
         \App\Models\Payment::insert($allPayments);

@@ -61,9 +61,10 @@
         </div>
         <div class="users-list-table">
             <div class="card">
-            <div class="card-content">
-                <div class="responsive-table">
-                    {{ $dataTable->table() }}
+                <div class="card-content">
+                    <div class="responsive-table">
+                        {{ $dataTable->table() }}
+                    </div>
                 </div>
             </div>
         </div>

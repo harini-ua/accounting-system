@@ -49,7 +49,7 @@
     </div>
     <div class="row">
         <div class="input-field col s12">
-            <select name="status" class="select2 browser-default"  id="status">
+            <select name="status" id="status">
                 @foreach($status as $id => $name)
                     <option value="{{ $id }}" {{ isset($contract) && $contract->status === $id ? 'selected' : '' }}>{{ $name }}</option>
                 @endforeach

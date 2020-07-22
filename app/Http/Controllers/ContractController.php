@@ -32,12 +32,21 @@ class ContractController extends Controller
     public function index(ContractsDataTable $dataTable)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['name' => "Contracts"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['name' => __('Contracts')]
         ];
-        $pageConfigs = ['pageHeader' => true];
 
-        return $dataTable->render('pages.contract.index', compact('pageConfigs'), ['breadcrumbs' => $breadcrumbs]);
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+        $clients = Client::all()->sortBy('name');
+
+        $salesManagers = User::byPosition(3)->get();
+
+        $status = ContractStatus::toCollection();
+
+        return $dataTable->render('pages.contract.index', compact(
+            'pageConfigs', 'breadcrumbs', 'clients', 'salesManagers', 'status'
+        ));
     }
 
     /**

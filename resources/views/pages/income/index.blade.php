@@ -21,6 +21,7 @@
 
 {{-- page content --}}
 @section('content')
+    <x-totals :options="$accountTypes" relation="planningSum"/>
     <!-- Sidebar Area Starts -->
 
     <!-- Sidebar Area Ends -->
@@ -29,7 +30,7 @@
         <div class="card">
             <div class="card-content">
                 <!-- Options and filter dropdown button-->
-                <x-date-filter table="incomes-table"/>
+                <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-table"/>
                 <x-filter
                         table="incomes-table"
                         :options="$clients"

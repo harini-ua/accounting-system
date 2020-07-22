@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Services\Formatter;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 /**
  * Class AccountType
@@ -17,9 +16,9 @@ class AccountType extends Model
     const EUR = 3;
     const DEPOSIT_UAH = 4;
 
-    protected $appends = ['accountsSum', 'invoicedSum', 'receivedSum'];
+    protected $appends = ['accountsSum', 'invoicedSum', 'receivedSum', 'planningSum', 'expensesPlanSum', 'expensesRealSum'];
 
-    protected $hidden = ['accountsSum', 'invoicedSum', 'receivedSum'];
+    protected $hidden = ['accountsSum', 'invoicedSum', 'receivedSum', 'planningSum', 'expensesSum'];
 
     /*
      * ***********************************
@@ -49,6 +48,30 @@ class AccountType extends Model
     public function getReceivedSumAttribute()
     {
         return $this->getRelatedSum('receivedSum');
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getPlanningSumAttribute()
+    {
+        return $this->getRelatedSum('planningSum');
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getExpensesPlanSumAttribute()
+    {
+        return $this->getRelatedSum('expensesSum', 'plan_sum');
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getExpensesRealSumAttribute()
+    {
+        return $this->getRelatedSum('expensesSum', 'real_sum');
     }
 
     /*
@@ -81,9 +104,11 @@ class AccountType extends Model
     public function invoicedSum()
     {
         return $this->hasOne(Account::class)
-            ->selectRaw('sum(invoice_items.sum) as sum, account_type_id')
+            ->selectRaw('sum(invoice_items.total) as sum, account_type_id')
             ->join('invoices', 'invoices.account_id', '=', 'accounts.id')
             ->join('invoice_items', 'invoice_items.invoice_id', '=', 'invoices.id')
+            ->whereNull('invoices.deleted_at')
+            ->whereNull('invoice_items.deleted_at')
             ->groupBy('account_type_id');
     }
 
@@ -96,6 +121,32 @@ class AccountType extends Model
             ->selectRaw('sum(payments.received_sum) as sum, account_type_id')
             ->join('invoices', 'invoices.account_id', '=', 'accounts.id')
             ->join('payments', 'payments.invoice_id', '=', 'invoices.id')
+            ->whereNull('invoices.deleted_at')
+            ->whereNull('payments.deleted_at')
+            ->groupBy('account_type_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function planningSum()
+    {
+        return $this->hasOne(Account::class)
+            ->selectRaw('sum(incomes.plan_sum) as sum, account_type_id')
+            ->join('incomes', 'incomes.account_id', '=', 'accounts.id')
+            ->whereNull('incomes.deleted_at')
+            ->groupBy('account_type_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function expensesSum()
+    {
+        return $this->hasOne(Account::class)
+            ->selectRaw('sum(expenses.plan_sum) as plan_sum, sum(expenses.real_sum) as real_sum, account_type_id')
+            ->join('expenses', 'expenses.account_id', '=', 'accounts.id')
+            ->whereNull('expenses.deleted_at')
             ->groupBy('account_type_id');
     }
 
@@ -107,9 +158,10 @@ class AccountType extends Model
 
     /**
      * @param string $relation
+     * @param string $field
      * @return int|string
      */
-    private function getRelatedSum(string $relation)
+    private function getRelatedSum(string $relation, string $field = 'sum')
     {
         if (!array_key_exists($relation, $this->relations)) {
             $this->load($relation);
@@ -117,6 +169,6 @@ class AccountType extends Model
 
         $related = $this->getRelation($relation);
 
-        return $related ? Formatter::currency($related->sum, $this) : 0;
+        return $related ? Formatter::currency($related->$field, $this) : 0;
     }
 }
