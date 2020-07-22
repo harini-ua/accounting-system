@@ -31,29 +31,33 @@
         </div>
         <div class="card-panel accounts-page-card-panel">
             <div class="row">
-                <div class="col m4 l3 xl3">
-                    <x-filter
-                            table="invoices-list-datatable"
-                            :options="$status"
-                            url="{{ route('invoices.index') }}"
-                            name="status_filter"
-                            title="Filter By Status"
-                            className="filter-btn invoice-filter-action mr-3"
-                    />
-                </div>
-                <div class="col m4 l3 xl3">
-                    <x-filter
-                            table="invoices-list-datatable"
-                            :options="$clients"
-                            url="{{ route('invoices.index') }}"
-                            name="client_filter"
-                            title="Filter By Client"
-                    />
-                </div>
                 <div class="col m6 l3">
                     <x-date-filter
-                            table="invoices-list-datatable"
-                    />
+                            table="invoices-list-datatable"/>
+                </div>
+                <div class="row col s12 l6">
+                    <div class="col m4 l3 xl3 mb-3">
+                        <x-filter
+                                table="invoices-list-datatable"
+                                :options="$status"
+                                url="{{ route('invoices.index') }}"
+                                name="status_filter"
+                                title="Filter By Status"
+                                className="filter-btn invoice-filter-action mr-3"
+                        />
+                    </div>
+                    <div class="col m4 l3 xl3">
+                        <x-filter
+                                table="invoices-list-datatable"
+                                :options="$clients"
+                                url="{{ route('invoices.index') }}"
+                                name="client_filter"
+                                title="Filter By Client"
+                        />
+                    </div>
+                    <div class="col m4 l3 xl3">
+                        <x-reset-filters/>
+                    </div>
                 </div>
             </div>
         </div>

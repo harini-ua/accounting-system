@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Enums\InvoiceStatus;
 use App\Models\Contract;
 use App\Models\Invoice;
+use App\Services\FilterService;
 use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -23,12 +24,17 @@ class InvoicesDataTable extends DataTable
         'status'
     ];
 
+    /** @var FilterService $filterService */
+    public $filterService;
+
     /**
      * ContractsDataTable constructor.
+     *
+     * @param FilterService $filterService
      */
-    public function __construct()
+    public function __construct(FilterService $filterService)
     {
-        //..
+        $this->filterService = $filterService;
     }
 
     /**
@@ -132,6 +138,7 @@ class InvoicesDataTable extends DataTable
 
         return $query->with(['contract.client', 'account.wallet'])
             ->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
+            ->whereBetween('invoices.created_at', [$this->filterService->getStartDate(), $this->filterService->getEndDate()])
             ->select(['invoices.*']);
     }
 
