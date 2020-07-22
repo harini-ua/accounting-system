@@ -30,9 +30,7 @@
                 <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="expense-datatable-table"/>
             </div>
             <div class="col s12 l6 display-flex align-items-center show-btn">
-                <div class="col s12 m8">
-                    <button type="button" class="btn btn-block indigo waves-effect waves-light">Reset</button>
-                </div>
+                <x-reset-filters/>
             </div>
         </div>
     </div>
