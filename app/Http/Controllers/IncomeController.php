@@ -183,7 +183,10 @@ class IncomeController extends Controller
             'planningSum' => function($query) use ($filterService) {
                 $filterService->filterPlanningSum($query);
             },
-            // todo: client, wallet and for accountsSum
+            'expensesSum' => function($query) use ($filterService) {
+                $filterService->filterExpensesSum($query);
+            },
+            // todo: accountsSum
         ])->get()->makeVisible(['invoicedSum', 'receivedSum', 'accountsSum', 'planningSum']);
     }
 }

@@ -110,14 +110,16 @@ class IncomeListDataTable extends DataTable
      */
     public function query(Invoice $model)
     {
+        $dates = [$this->filterService->getStartOfMonthDate(), $this->filterService->getEndOfMonthDate()];
+
         $invoiceSums = DB::table('invoice_items')
             ->select('invoice_id', DB::raw('sum(total) as total'))
-            ->whereBetween('invoice_items.created_at', [$this->filterService->getStartDate(), $this->filterService->getEndDate()])
+            ->whereBetween('invoice_items.created_at', $dates)
             ->groupBy('invoice_id');
 
         $paymentSums = DB::table('payments')
             ->select('invoice_id', DB::raw('sum(received_sum) as received_sum, sum(fee) as fee'))
-            ->whereBetween('payments.date', [$this->filterService->getStartDate(), $this->filterService->getEndDate()])
+            ->whereBetween('payments.date', $dates)
             ->groupBy('invoice_id');
 
         return $model
@@ -141,9 +143,9 @@ class IncomeListDataTable extends DataTable
             ->selectRaw("payment_sums.received_sum as received_sum")
             ->groupBy('id')
             ->whereNull('contracts.deleted_at')
-            ->where(function($query) {
-                $query->whereBetween('payments.date', [$this->filterService->getStartDate(), $this->filterService->getEndDate()])
-                    ->orWhereBetween('invoice_items.created_at', [$this->filterService->getStartDate(), $this->filterService->getEndDate()]);
+            ->where(function($query) use ($dates) {
+                $query->whereBetween('payments.date', $dates)
+                    ->orWhereBetween('invoice_items.created_at', $dates);
             })
             ->newQuery();
     }
