@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ContractsDataTable;
-use App\DataTables\InvoicesDataTable;
+use App\DataTables\InvoicesByContractDataTable;
 use App\Enums\ContractStatus;
 use App\Http\Requests\ContractCreateRequest;
 use App\Http\Requests\ContractUpdateRequest;
@@ -116,7 +116,7 @@ class ContractController extends Controller
 
         $contract->load(['client', 'manager', 'invoices']);
 
-        $dataTable = new InvoicesDataTable($contract->id);
+        $dataTable = new InvoicesByContractDataTable($contract);
 
         return $dataTable->render('pages.contract.view', compact(
             'pageConfigs', 'breadcrumbs', 'contract'
