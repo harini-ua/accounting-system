@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ExpenseDataTable;
+use App\Http\Requests\ExpensesRequest;
+use App\Models\Account;
 use App\Models\AccountType;
+use App\Models\Expense;
+use App\Models\ExpenseCategory;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
@@ -43,18 +48,36 @@ class ExpenseController extends Controller
      */
     public function create()
     {
-        //
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['link' => route('expenses.index'), 'name' => "Expenses"],
+            ['name' => "Add Expense"]
+        ];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $wallets = Wallet::with('accounts.accountType')->get();
+        $expenseCategories = ExpenseCategory::all();
+
+        return view('pages.expenses.create', [
+            'breadcrumbs' => $breadcrumbs,
+            'pageConfigs' => $pageConfigs,
+            'wallets' => $wallets,
+            'expenseCategories' => $expenseCategories,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  ExpensesRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ExpensesRequest $request)
     {
-        //
+        Expense::create($request->except('wallet_id'));
+
+        return redirect()->route('expenses.index');
     }
 
     /**
@@ -71,34 +94,57 @@ class ExpenseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Expense $expense
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Expense $expense)
     {
-        //
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['link' => route('expenses.index'), 'name' => "Expenses"],
+            ['name' => "Edit Expense"]
+        ];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $wallets = Wallet::with('accounts.accountType')->get();
+        $expenseCategories = ExpenseCategory::all();
+
+        return view('pages.expenses.edit', [
+            'breadcrumbs' => $breadcrumbs,
+            'pageConfigs' => $pageConfigs,
+            'wallets' => $wallets,
+            'model' => $expense,
+            'expenseCategories' => $expenseCategories,
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  ExpensesRequest $request
+     * @param  Expense $expense
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ExpensesRequest $request, Expense $expense)
     {
-        //
+        $expense->fill($request->except('wallet_id'));
+        $expense->save();
+
+        return redirect()->route('expenses.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Expense $expense
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Expense $expense)
     {
-        //
+        if ($expense->delete()) {
+            return response()->json(['success'=>true]);
+        }
+        return response()->json(['success'=>false]);
     }
 }
