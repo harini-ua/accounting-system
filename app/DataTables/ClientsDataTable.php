@@ -69,10 +69,10 @@ class ClientsDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('clients-list-datatable')
-            ->addTableClass('table')
+            ->addTableClass('subscription-table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->scrollX(true)
+//            ->scrollX(true)
             ->dom('Bfrtip')
             ->orderBy(0);
     }

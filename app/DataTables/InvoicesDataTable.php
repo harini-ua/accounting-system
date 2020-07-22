@@ -147,11 +147,11 @@ class InvoicesDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('invoices-list-datatable')
-            ->addTableClass('table')
+            ->addTableClass('subscription-table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
-            ->scrollX(true)
+//            ->scrollX(true)
             ->orderBy(0);
     }
 

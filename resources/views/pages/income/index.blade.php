@@ -22,54 +22,10 @@
 {{-- page content --}}
 @section('content')
     <!-- Sidebar Area Starts -->
-    <div class="sidebar-left sidebar-fixed">
-        <div class="sidebar">
-            <div class="sidebar-content">
-                <div class="sidebar-header">
-                    <div class="sidebar-details">
-                        <div class="mt-10 pt-2">
-                            <!-- form start -->
-                            <form class="edit-contact-item mb-5 mt-5" method="POST"
-                                  action="{{ route('incomes.store') }}">
-                                @csrf
-                                <div class="row">
-                                    <x-linked-selects
-                                            firstName="client_id"
-                                            firstTitle="Client"
-                                            secondName="contract_id"
-                                            secondTitle="Contract"
-                                            dataUrl="/clients/clientContracts"
-                                            view="components.linked-selects.clients-contracts"
-                                            :options="$clients"
-                                    />
-                                    <x-linked-selects
-                                            firstName="wallet_id"
-                                            firstTitle="Wallet"
-                                            secondName="account_id"
-                                            secondTitle="Account"
-                                            dataUrl="/wallets/walletAccounts"
-                                            view="components.linked-selects.wallets-accounts"
-                                            :options="$wallets"
-                                    />
-                                    <x-date name="plan_date" title="Planning Date"></x-date>
-                                    <x-input name="plan_sum" title="Planning Sum"></x-input>
-                                </div>
-                                <div class="card-action pl-0 pr-0 right-align">
-                                    <button class="btn-small waves-effect waves-light">
-                                        <span>Add Income</span>
-                                    </button>
-                                </div>
-                            </form>
-                            <!-- form start end-->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <!-- Sidebar Area Ends -->
     <!-- list -->
-    <section class="list-wrapper section content-area content-right">
+    <section class="list-wrapper section">
         <div class="card">
             <div class="card-content">
                 <!-- Options and filter dropdown button-->
@@ -83,16 +39,67 @@
                 />
             </div>
         </div>
-        <div class="users-list-table">
+        <div class="page-layout">
             <div class="card">
                 <div class="card-content">
-                    <div class="responsive-table">
-                        {{ $dataTable->table() }}
+                    <div class="sidebar-left sidebar-fixed">
+                        <div class="sidebar">
+                            <div class="sidebar-content">
+                                <div class="sidebar-header">
+                                    <div class="sidebar-details">
+                                        <div class="mt-10 pt-2">
+                                            <!-- form start -->
+                                            <form class="edit-contact-item mb-5 mt-5" method="POST"
+                                                  action="{{ route('incomes.store') }}">
+                                                @csrf
+                                                <div class="row">
+                                                    <x-linked-selects
+                                                            firstName="client_id"
+                                                            firstTitle="Client"
+                                                            secondName="contract_id"
+                                                            secondTitle="Contract"
+                                                            dataUrl="/clients/clientContracts"
+                                                            view="components.linked-selects.clients-contracts"
+                                                            :options="$clients"
+                                                    />
+                                                    <x-linked-selects
+                                                            firstName="wallet_id"
+                                                            firstTitle="Wallet"
+                                                            secondName="account_id"
+                                                            secondTitle="Account"
+                                                            dataUrl="/wallets/walletAccounts"
+                                                            view="components.linked-selects.wallets-accounts"
+                                                            :options="$wallets"
+                                                    />
+                                                    <x-date name="plan_date" title="Planning Date"></x-date>
+                                                    <x-input name="plan_sum" title="Planning Sum"></x-input>
+                                                </div>
+                                                <div class="card-action pl-0 pr-0 right-align">
+                                                    <button class="btn-small waves-effect waves-light">
+                                                        <span>Add Income</span>
+                                                    </button>
+                                                </div>
+                                            </form>
+                                            <!-- form start end-->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="users-list-table table-wrapper">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="responsive-table">
+                            {{ $dataTable->table() }}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+           </section>
 @endsection
 
 {{-- vendor scripts --}}
@@ -107,5 +114,5 @@
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
     <script src="{{asset('js/scripts/filters.js')}}"></script>
     <script src="{{asset('js/scripts/linked-selects.js')}}"></script>
-    <script src="{{asset('js/scripts/accounts.js')}}"></script>
+    {{--<script src="{{asset('js/scripts/accounts.js')}}"></script>--}}
 @endsection

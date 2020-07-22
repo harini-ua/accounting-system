@@ -26,7 +26,7 @@
 @section('content')
 
     <!-- Sidebar Area Starts -->
-    <section class="users-list-wrapper section">
+    <section class="users-list-wrapper section animate fadeLeft">
         <div class="page-layout">
             <div class="card">
                 <div class="card-content">
@@ -81,7 +81,7 @@
             <!-- Sidebar Area Ends -->
 
             <!-- Content Area Starts -->
-            <div class="table-wrapper users-list-table">
+            <div class="table-wrapper users-list-table animate fadeRight">
                 <div class="card">
                     <div class="card-content">
                         <!-- datatable start -->
@@ -92,19 +92,6 @@
                     </div>
                 </div>
             </div>
-            {{--<div class="content-area content-right">--}}
-            {{--<div class="app-wrapper">--}}
-            {{--<div id="button-trigger" class="card card card-default scrollspy border-radius-6 fixed-width">--}}
-            {{--<div class="card-content p-0">--}}
-            {{--<div class="datatable-search">--}}
-            {{--<i class="material-icons mr-2 search-icon">search</i>--}}
-            {{--<input type="text" placeholder="Search Wallet" class="app-filter" id="global_filter">--}}
-            {{--</div>--}}
-            {{--{{ $dataTable->table() }}--}}
-            {{--</div>--}}
-            {{--</div>--}}
-            {{--</div>--}}
-            {{--</div>--}}
         </div>
     </section>
 

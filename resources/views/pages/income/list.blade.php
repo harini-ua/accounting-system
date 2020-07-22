@@ -25,12 +25,12 @@
     <section class="users-list-wrapper section">
         <div class="card">
             <div class="card-content">
-                <div class="row">
-                    <div class="col m6 l4 xl2">
+                <div class="row  display-flex align-items-center flex-wrap">
+                    <div class="col s12 m6 l4 xl5">
                         <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-list-table"/>
                     </div>
-                    <div class="col m6 l8 xl10">
-                        <div class="col m6 xl3">
+                    <div class="col s12 m6 l8 xl7">
+                        <div class="col s12 m12 xl4 center-align mb-2">
                             <x-filter
                                     table="incomes-list-table"
                                     :options="$clients"
@@ -39,14 +39,14 @@
                                     title="Filter by Client"
                             />
                         </div>
-                        <div class="col m6 xl3">
+                        <div class="col s12 m12 xl4 center-align mb-2">
                             <x-filter
                                     table="incomes-list-table"
                                     :options="$wallets"
                                     url="{{ route('incomes.list') }}"
                                     name="wallet_filter"
                                     title="Filter by Wallet"
-                                    className="filter-btn invoice-filter-action mr-3"
+                                    className="filter-btn invoice-filter-action"
                             />
                         </div>
                     </div>
@@ -76,6 +76,6 @@
 @section('page-script')
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
-    <script src="{{asset('js/scripts/filters.js')}}"></script>
+    {{--<script src="{{asset('js/scripts/filters.js')}}"></script>--}}
     {{--<script src="{{asset('js/scripts/accounts.js')}}"></script>--}}
 @endsection

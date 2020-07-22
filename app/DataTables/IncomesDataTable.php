@@ -106,13 +106,13 @@ class IncomesDataTable extends DataTable
     {
         return $this->builder()
                     ->setTableId('incomes-table')
-                    ->addTableClass('table invoice-data-table white border-radius-4 pt-1')
+                    ->addTableClass('subscription-table responsive-table highlight')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('<"top display-flex  mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>')
+                    ->dom('Bfrtip')
                     ->languageSearch('')
                     ->languageSearchPlaceholder('Search income')
-                    ->responsive(true)
+//                    ->responsive(true)
                     ->orderBy(0);
     }
 

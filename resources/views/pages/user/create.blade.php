@@ -17,28 +17,12 @@
 {{-- page content --}}
 @section('content')
     <!-- users edit start -->
-    <div class="section users-edit">
+    <div class="section users-edit animate fadeUp">
         <div class="card">
             <div class="card-content">
                 <!-- <div class="card-body"> -->
                 <div class="row">
                     <div class="col s12" id="account">
-                        <!-- users edit media object start -->
-                    {{--                    <div class="media display-flex align-items-center mb-2">--}}
-                    {{--                        <a class="mr-2" href="#">--}}
-                    {{--                            <img src="{{asset('images/avatar/avatar-11.png')}}" alt="users avatar" class="z-depth-4 circle"--}}
-                    {{--                                 height="64" width="64">--}}
-                    {{--                        </a>--}}
-                    {{--                        <div class="media-body">--}}
-                    {{--                            <h5 class="media-heading mt-0">Avatar</h5>--}}
-                    {{--                            <div class="user-edit-btns display-flex">--}}
-                    {{--                                <a href="#" class="btn-small indigo">Change</a>--}}
-                    {{--                                <a href="#" class="btn-small btn-light-pink">Reset</a>--}}
-                    {{--                            </div>--}}
-                    {{--                        </div>--}}
-                    {{--                    </div>--}}
-                    <!-- users edit media object ends -->
-                        <!-- users edit account form start -->
                         <form id="accountForm" method="POST" action="{{ route('users.store') }}">
                             @csrf
                             <div class="row">

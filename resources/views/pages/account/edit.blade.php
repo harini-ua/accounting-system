@@ -19,7 +19,7 @@
                             @method('PUT')
                             <div class="row">
                                 <div class="col s12 m6">
-                                    <div class="row">
+                                    <div class="row animate fadeLeft">
                                         <x-select
                                             name="wallet_id"
                                             title="Wallet"
@@ -36,7 +36,7 @@
                                         ></x-select>
                                     </div>
                                 </div>
-                                <div class="col s12 m6">
+                                <div class="col s12 m6 animate fadeRight">
                                     <div class="row">
                                         <x-date name="started_at" title="Start date" :model="$model"></x-date>
                                         <x-input name="start_sum" title="Start sum" :model="$model"></x-input>

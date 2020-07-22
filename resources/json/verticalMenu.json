@@ -35,7 +35,7 @@
             "name": "Money Flows",
             "i18n": "Money Flows",
             "class": "waves-effect waves-cyan",
-            "icon": "account_balance",
+            "icon": "import_export",
             "slug": "money-flows"
         },
         {

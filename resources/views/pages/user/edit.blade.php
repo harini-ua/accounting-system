@@ -23,34 +23,18 @@
             <!-- <div class="card-body"> -->
             <div class="row">
                 <div class="col s12" id="account">
-                    <!-- users edit media object start -->
-{{--                    <div class="media display-flex align-items-center mb-2">--}}
-{{--                        <a class="mr-2" href="#">--}}
-{{--                            <img src="{{asset('images/avatar/avatar-11.png')}}" alt="users avatar" class="z-depth-4 circle"--}}
-{{--                                 height="64" width="64">--}}
-{{--                        </a>--}}
-{{--                        <div class="media-body">--}}
-{{--                            <h5 class="media-heading mt-0">Avatar</h5>--}}
-{{--                            <div class="user-edit-btns display-flex">--}}
-{{--                                <a href="#" class="btn-small indigo">Change</a>--}}
-{{--                                <a href="#" class="btn-small btn-light-pink">Reset</a>--}}
-{{--                            </div>--}}
-{{--                        </div>--}}
-{{--                    </div>--}}
-                    <!-- users edit media object ends -->
-                    <!-- users edit account form start -->
                     <form id="accountForm" method="POST" action="{{ route('users.update', $user) }}">
                         @csrf
                         @method('PUT')
                         <div class="row">
                             <div class="col s12 m6">
-                                <div class="row">
+                                <div class="row animate fadeLeft">
                                     <x-input name="name" title="Name" :model="$user"></x-input>
                                     <x-input name="email" title="E-mail" :model="$user"></x-input>
                                 </div>
                             </div>
                             <div class="col s12 m6">
-                                <div class="row">
+                                <div class="row animate fr">
                                     <x-select
                                         name="position_id"
                                         title="Position"
@@ -59,103 +43,6 @@
                                     ></x-select>
                                 </div>
                             </div>
-{{--                            <div class="col s12">--}}
-{{--                                <table class="mt-1">--}}
-{{--                                    <thead>--}}
-{{--                                    <tr>--}}
-{{--                                        <th>Module Permission</th>--}}
-{{--                                        <th>Read</th>--}}
-{{--                                        <th>Write</th>--}}
-{{--                                        <th>Create</th>--}}
-{{--                                        <th>Delete</th>--}}
-{{--                                    </tr>--}}
-{{--                                    </thead>--}}
-{{--                                    <tbody>--}}
-{{--                                    <tr>--}}
-{{--                                        <td>Users</td>--}}
-{{--                                        <td>--}}
-{{--                                            <label>--}}
-{{--                                                <input type="checkbox" checked />--}}
-{{--                                                <span></span>--}}
-{{--                                            </label>--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            <label>--}}
-{{--                                                <input type="checkbox" />--}}
-{{--                                                <span></span>--}}
-{{--                                            </label>--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            <label>--}}
-{{--                                                <input type="checkbox" />--}}
-{{--                                                <span></span>--}}
-{{--                                            </label>--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            <label>--}}
-{{--                                                <input type="checkbox" checked />--}}
-{{--                                                <span></span>--}}
-{{--                                            </label>--}}
-{{--                                        </td>--}}
-{{--                                    </tr>--}}
-{{--                                    <tr>--}}
-{{--                                        <td>Articles</td>--}}
-{{--                                        <td>--}}
-{{--                                            <label>--}}
-{{--                                                <input type="checkbox" />--}}
-{{--                                                <span></span>--}}
-{{--                                            </label>--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            <label>--}}
-{{--                                                <input type="checkbox" checked />--}}
-{{--                                                <span></span>--}}
-{{--                                            </label>--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            <label>--}}
-{{--                                                <input type="checkbox" />--}}
-{{--                                                <span></span>--}}
-{{--                                            </label>--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            <label>--}}
-{{--                                                <input type="checkbox" checked />--}}
-{{--                                                <span></span>--}}
-{{--                                            </label>--}}
-{{--                                        </td>--}}
-{{--                                    </tr>--}}
-{{--                                    <tr>--}}
-{{--                                        <td>Staff</td>--}}
-{{--                                        <td>--}}
-{{--                                            <label>--}}
-{{--                                                <input type="checkbox" checked />--}}
-{{--                                                <span></span>--}}
-{{--                                            </label>--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            <label>--}}
-{{--                                                <input type="checkbox" checked />--}}
-{{--                                                <span></span>--}}
-{{--                                            </label>--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            <label>--}}
-{{--                                                <input type="checkbox" />--}}
-{{--                                                <span></span>--}}
-{{--                                            </label>--}}
-{{--                                        </td>--}}
-{{--                                        <td>--}}
-{{--                                            <label>--}}
-{{--                                                <input type="checkbox" />--}}
-{{--                                                <span></span>--}}
-{{--                                            </label>--}}
-{{--                                        </td>--}}
-{{--                                    </tr>--}}
-{{--                                    </tbody>--}}
-{{--                                </table>--}}
-{{--                                <!-- </div> -->--}}
-{{--                            </div>--}}
                             <div class="col s12 display-flex justify-content-end mt-3">
                                 <button type="submit" class="btn indigo mr-1">
                                     Save changes</button>

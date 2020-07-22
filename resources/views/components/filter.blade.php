@@ -2,7 +2,7 @@
     <!-- Dropdown Trigger -->
     <a class="dropdown-trigger btn waves-effect waves-light purple darken-1 border-round" href="#"
        data-target="btn-filter-{{ $table }}-{{ $id }}">
-        <span class="hide-on-small-only">{{ $title }}</span>
+        <span>{{ $title }}</span>
         <i class="material-icons">keyboard_arrow_down</i>
     </a>
     <!-- Dropdown Structure -->
