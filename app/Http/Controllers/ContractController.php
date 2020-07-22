@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ContractsDataTable;
+use App\DataTables\InvoicesDataTable;
 use App\Enums\ContractStatus;
 use App\Http\Requests\ContractCreateRequest;
 use App\Http\Requests\ContractUpdateRequest;
@@ -107,13 +108,19 @@ class ContractController extends Controller
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
-            ['link' => 'javascript:void(0)', 'name' => __('Contract')],
+            ['link' => route('contracts.index'), 'name' => __('Contract')],
             ['name' => $contract->name]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        return view('pages.contract.view', compact('pageConfigs', 'breadcrumbs', 'contract'));
+        $contract->load(['client', 'manager', 'invoices']);
+
+        $dataTable = new InvoicesDataTable($contract->id);
+
+        return $dataTable->render('pages.contract.view', compact(
+            'pageConfigs', 'breadcrumbs', 'contract'
+        ));
     }
 
     /**

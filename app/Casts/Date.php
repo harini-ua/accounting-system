@@ -32,6 +32,10 @@ class Date implements CastsAttributes
      */
     public function get($model, $key, $value, $attributes)
     {
+        if (!$value) {
+            return null;
+        }
+
         return Carbon::parse($value)->format($this->format);
     }
 

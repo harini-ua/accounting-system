@@ -12,8 +12,9 @@ use Yajra\DataTables\Services\DataTable;
 
 class ContractsDataTable extends DataTable
 {
-    const COLUMNS = [
+    public const COLUMNS = [
         'id',
+        'contract',
         'client',
         'name',
         'comment',
@@ -46,6 +47,10 @@ class ContractsDataTable extends DataTable
 
         $dataTable->addColumn('id', static function(Contract $model) {
             return $model->id;
+        });
+
+        $dataTable->addColumn('contract', static function(Contract $model) {
+            return view('partials.view-link', ['model' => $model]);
         });
 
         if ($this->client_id === null) {
@@ -172,12 +177,12 @@ class ContractsDataTable extends DataTable
     protected function getColumns()
     {
         $data[] = Column::make('id');
+        $data[] = Column::make('contract')->searchable(false)->title(__('Contract / Project'));
 
         if ($this->client_id === null) {
             $data[] = Column::make('client')->searchable(true);
         }
 
-        $data[] = Column::make('name')->searchable(false)->title(__('Contract Name'));
         $data[] = Column::make('comment')->searchable(false)->title(__('Comment'))->orderable(false);
         $data[] = Column::make('manager')->searchable(false)->title(__('Sales Manager'));
         $data[] = Column::make('status')->searchable(false)->title(__('Status'));

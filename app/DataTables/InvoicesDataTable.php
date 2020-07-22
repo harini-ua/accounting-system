@@ -14,7 +14,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class InvoicesDataTable extends DataTable
 {
-    const COLUMNS = [
+    public const COLUMNS = [
         'number',
         'client',
         'contract',
@@ -50,11 +50,11 @@ class InvoicesDataTable extends DataTable
             return '<a target="_blank" href="'.route('invoices.show', $model->id).'">'.$model->number.'</a>';
         });
 
-        $dataTable->addColumn('client', static function(Invoice $model) {
-            return view('partials.view-link', ['model' => $model->contract->client]);
-        });
-
         if ($this->contract_id === null) {
+            $dataTable->addColumn('client', static function (Invoice $model) {
+                return view('partials.view-link', ['model' => $model->contract->client]);
+            });
+
             $dataTable->addColumn('contract', static function(Invoice $model) {
                 return view('partials.view-link', ['model' => $model->contract]);
             });
@@ -72,21 +72,23 @@ class InvoicesDataTable extends DataTable
         });
 
         $dataTable->addColumn('action', static function(Invoice $model) {
-            return view('partials.actions', ['actions' => ['view', 'edit', 'delete'], 'model' => $model]);
+            return view('partials.actions', ['actions' => ['edit', 'delete'], 'model' => $model]);
         });
 
         $dataTable->rawColumns(self::COLUMNS);
 
-        $dataTable->filterColumn('client', static function($query, $keyword) {
-            $contractIds = Contract::join('clients', 'contracts.client_id', '=', 'clients.id')
-                ->where('clients.name', 'like', "%$keyword%")
-                ->whereNull('clients.deleted_at')
-                ->distinct('contracts.id')
-                ->pluck('contracts.id')
-                ->toArray();
+        if ($this->contract_id === null) {
+            $dataTable->filterColumn('client', static function($query, $keyword) {
+                $contractIds = Contract::join('clients', 'contracts.client_id', '=', 'clients.id')
+                    ->where('clients.name', 'like', "%$keyword%")
+                    ->whereNull('clients.deleted_at')
+                    ->distinct('contracts.id')
+                    ->pluck('contracts.id')
+                    ->toArray();
 
-            $query->whereIn('contract_id', $contractIds);
-        });
+                $query->whereIn('contract_id', $contractIds);
+            });
+        }
 
         $dataTable->filter(function($query) {
             if ($this->request->has('client_filter')) {
@@ -136,10 +138,13 @@ class InvoicesDataTable extends DataTable
     {
         $query = $model->newQuery();
 
+        if ($this->contract_id !== null) {
+            $query->where('contract_id', $this->contract_id);
+        }
+
         return $query->with(['contract.client', 'account.wallet'])
             ->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
-            ->select(['invoices.*'])
-            ;
+            ->select(['invoices.*']);
     }
 
     /**
@@ -154,6 +159,7 @@ class InvoicesDataTable extends DataTable
             ->addTableClass('table')
             ->columns($this->getColumns())
             ->minifiedAjax()
+            ->searching($this->contract_id === null)
             ->dom('Bfrtip')
             ->orderBy(0)
             ->scrollX(true);
@@ -167,8 +173,14 @@ class InvoicesDataTable extends DataTable
     protected function getColumns()
     {
         $data[] = Column::make('number')->title('Invoice #');
-        $data[] = Column::make('client');
-        $data[] = Column::make('contract')->searchable(false);
+
+        if ($this->contract_id === null) {
+            $data[] = Column::make('client');
+            $data[] = Column::make('contract')->searchable(false);
+        } else {
+            $data[] = Column::make('name');
+        }
+
         $data[] = Column::make('date')->searchable(false);
         $data[] = Column::make('wallet')->searchable(false);
         $data[] = Column::make('status')->searchable(false);
