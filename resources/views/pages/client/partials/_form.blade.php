@@ -12,11 +12,11 @@
     <h4 class="card-title">{{ __('Billing address') }}</h4>
     <div class="row">
         @php($address = $client->billingAddress ?? null)
-        <x-input name="country" title="Country" :model="$address"></x-input>
-        <x-input name="address" title="Address" :model="$address"></x-input>
-        <x-input name="city" title="City" :model="$address"></x-input>
-        <x-input name="state" title="State" :model="$address"></x-input>
-        <x-input name="postal_code" title="Zip code" :model="$address"></x-input>
+        <x-input name="country" title="{{ __('Country') }}" :model="$address"></x-input>
+        <x-input name="address" title="{{ __('Address') }}" :model="$address"></x-input>
+        <x-input name="city" title="{{ __('City') }}" :model="$address"></x-input>
+        <x-input name="state" title="{{ __('State') }}" :model="$address"></x-input>
+        <x-input name="postal_code" title="{{ __('Zip Code') }}" :model="$address"></x-input>
     </div>
     <div class="row">
         <div class="col s12 display-flex justify-content-end mt-3">

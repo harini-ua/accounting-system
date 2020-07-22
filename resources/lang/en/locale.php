@@ -148,4 +148,9 @@ return [
     "Home"=> "Home",
     "Filter By Client"=> "Filter By Client",
     "Filter By Status"=> "Filter By Status",
+    "Country"=> "Country",
+    "Address"=> "Address",
+    "City"=> "City",
+    "State"=> "State",
+    "Zip Code"=> "Zip Code",
 ];

@@ -43,34 +43,26 @@ class ContractsDataTable extends DataTable
     public function dataTable($query)
     {
         $dataTable = datatables()->eloquent($query);
+
         $dataTable->addColumn('id', static function(Contract $model) {
             return $model->id;
         });
 
         if ($this->client_id === null) {
             $dataTable->addColumn('client', static function(Contract $model) {
-                return '<a target="_blank" href="'.route('clients.show', $model->client->id).'">'.$model->client->name.'</a>';
+                return view('partials.view-link', ['model' => $model->client]);
             });
         }
 
-        $dataTable->addColumn('name', function(Contract $model) {
-            return '<a target="_blank" href="'.route('contracts.show', $model->id).'">'.$model->name.'</a>';
-        });
-
-        $dataTable->addColumn('comment', function(Contract $model) {
+        $dataTable->addColumn('comment', static function(Contract $model) {
             return mb_strimwidth($model->comment, 0, 50, '...');
         });
 
         $dataTable->addColumn('status', static function(Contract $model) {
-            switch ($model->status) {
-                case ContractStatus::CLOSED:
-                    return '<span class="chip lighten-5 red red-text">'.
-                        ContractStatus::getDescription($model->status).'</span>';
-                case ContractStatus::OPENED:
-                default:
-                    return '<span class="chip lighten-5 green green">'.
-                        ContractStatus::getDescription($model->status).'</span>';
-            }
+            return view('partials.view-status', [
+                'status' => ContractStatus::getDescription($model->status),
+                'color' => ContractStatus::getColor($model->status, 'class'),
+            ]);
         });
 
         $dataTable->addColumn('manager', static function(Contract $model) {
@@ -78,10 +70,57 @@ class ContractsDataTable extends DataTable
         });
 
         $dataTable->addColumn('action', static function(Contract $model) {
-            return view('partials.actions', ['actions' =>['view', 'edit', 'delete'], 'model' => $model]);
+            return view('partials.actions', ['actions' => ['view', 'edit', 'delete'], 'model' => $model]);
         });
 
         $dataTable->rawColumns(self::COLUMNS);
+
+        $dataTable->filterColumn('name', static function($query, $keyword) {
+            $query->where('contracts.name', 'like', "%$keyword%");
+        });
+
+        $dataTable->filterColumn('client', static function($query, $keyword) {
+            $contractIds = Contract::join('clients', 'contracts.client_id', '=', 'clients.id')
+                ->where('clients.name', 'like', "%$keyword%")
+                ->whereNull('clients.deleted_at')
+                ->distinct('contracts.id')
+                ->pluck('contracts.id')
+                ->toArray();
+
+            $query->whereIn('id', $contractIds);
+        });
+
+        $dataTable->filter(function($query) {
+            if ($this->request->has('client_filter')) {
+                $query->join('clients', 'contracts.client_id', '=', 'clients.id')
+                    ->where('clients.id', '=', $this->request->input('client_filter'));
+            }
+            if ($this->request->has('status_filter')) {
+                $query->where('contracts.status', $this->request->input('status_filter'));
+            }
+            if ($this->request->has('sales_managers_filter')) {
+                $query->join('users', 'contracts.sales_manager_id', '=', 'users.id')
+                    ->where('users.id', '=', $this->request->input('sales_managers_filter'));
+            }
+        }, true);
+
+        $dataTable->orderColumn('client', static function($query, $order) {
+            $query->join('clients', 'contracts.client_id', '=', 'clients.id')
+                ->orderBy('clients.name', $order);
+        });
+
+        $dataTable->orderColumn('name', static function($query, $order) {
+            $query->orderBy('contracts.name', $order);
+        });
+
+        $dataTable->orderColumn('manager', static function($query, $order) {
+            $query->join('users', 'contracts.sales_manager_id', '=', 'users.id')
+                ->orderBy('users.name', $order);
+        });
+
+        $dataTable->orderColumn('status', static function($query, $order) {
+            $query->orderBy('contracts.status', $order);
+        });
 
         return $dataTable;
     }
@@ -96,11 +135,13 @@ class ContractsDataTable extends DataTable
     {
         $query = $model->newQuery();
 
+        $query->with(['client', 'manager']);
+
         if ($this->client_id !== null) {
             $query->where('client_id', $this->client_id);
         }
 
-        return $query->with(['client', 'manager']);
+        return $query;
     }
 
     /**
@@ -110,14 +151,17 @@ class ContractsDataTable extends DataTable
      */
     public function html()
     {
-        return $this->builder()
-            ->setTableId('contracts-list-datatable')
-            ->addTableClass('table contract-data-table white border-radius-4 pt-1')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->scrollX(true)
-            ->dom('Bfrtip')
-            ->orderBy(0);
+        $builder = $this->builder();
+
+        $builder->setTableId('contracts-list-datatable');
+        $builder->addTableClass('table');
+        $builder->columns($this->getColumns());
+        $builder->minifiedAjax();
+        $builder->dom('Bfrtip');
+        $builder->orderBy(0);
+        $builder->scrollX(true);
+
+        return $builder;
     }
 
     /**
@@ -130,17 +174,14 @@ class ContractsDataTable extends DataTable
         $data[] = Column::make('id');
 
         if ($this->client_id === null) {
-            $data[] = Column::make('client');
+            $data[] = Column::make('client')->searchable(true);
         }
 
-        $data[] = Column::make('name')->title(__('Contract'))->searchable();
-        $data[] = Column::make('comment');
-        $data[] = Column::make('manager')->title(__('Sales Manager'));
-        $data[] = Column::make('status');
+        $data[] = Column::make('name')->searchable(false)->title(__('Contract Name'));
+        $data[] = Column::make('comment')->searchable(false)->title(__('Comment'))->orderable(false);
+        $data[] = Column::make('manager')->searchable(false)->title(__('Sales Manager'));
+        $data[] = Column::make('status')->searchable(false)->title(__('Status'));
         $data[] = Column::computed('action')->addClass('text-center');
-
-//        dump($data);
-//        die('dump');
 
         return $data;
     }

@@ -66,7 +66,7 @@ class InvoicesDataTable extends DataTable
 
         $dataTable->addColumn('status', static function(Invoice $model) {
             return view('partials.view-status', [
-                'model' => $model,
+                'status' => InvoiceStatus::getDescription($model->status),
                 'color' => InvoiceStatus::getColor($model->status, 'class'),
             ]);
         });
@@ -119,6 +119,10 @@ class InvoicesDataTable extends DataTable
                 ->orderBy('wallets.name', $order);
         });
 
+        $dataTable->orderColumn('status', static function($query, $order) {
+            $query->orderBy('invoices.status', $order);
+        });
+
         return $dataTable;
     }
 
@@ -151,8 +155,8 @@ class InvoicesDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
-            ->scrollX(true)
-            ->orderBy(0);
+            ->orderBy(0)
+            ->scrollX(true);
     }
 
     /**
