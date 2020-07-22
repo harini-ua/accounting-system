@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Expense;
+use App\Services\FilterService;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -11,6 +12,17 @@ use Yajra\DataTables\Services\DataTable;
 
 class ExpenseDataTable extends DataTable
 {
+    public $filterService;
+
+    /**
+     * IncomeListDataTable constructor.
+     * @param FilterService $filterService
+     */
+    public function __construct(FilterService $filterService)
+    {
+        $this->filterService = $filterService;
+    }
+
     /**
      * Build DataTable class.
      *
@@ -21,8 +33,31 @@ class ExpenseDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->addColumn('purpose', function(Expense $model) {
+                return mb_strimwidth($model->purpose, 0, 50, '...');
+            })
             ->addColumn('action', function(Expense $model) {
                 return view("partials.actions", ['actions'=>['edit','delete'], 'model' => $model]);
+            })
+            ->orderColumn('purpose', function($query, $order) {
+                $query->orderBy('purpose', $order);
+            })
+            ->orderColumn('account', function($query, $order) {
+                $query->join('accounts', 'accounts.id', '=', 'expenses.account_id')
+                    ->join('account_types', 'account_types.id', '=', 'accounts.account_type_id')
+                    ->select(['expenses.id as id', 'expenses.*'])
+                    ->orderBy('account_types.name', $order);
+            })
+            ->orderColumn('wallet', function($query, $order) {
+                $query->join('accounts', 'accounts.id', '=', 'expenses.account_id')
+                    ->join('wallets', 'wallets.id', '=', 'accounts.wallet_id')
+                    ->select(['expenses.id as id', 'expenses.*'])
+                    ->orderBy('wallets.name', $order);
+            })
+            ->orderColumn('category', function($query, $order) {
+                $query->join('expense_categories', 'expense_categories.id', '=', 'expenses.expense_category_id')
+                    ->select(['expenses.id as id', 'expenses.*'])
+                    ->orderBy('expense_categories.name', $order);
             });
     }
 
@@ -34,7 +69,10 @@ class ExpenseDataTable extends DataTable
      */
     public function query(Expense $model)
     {
-        return $model->newQuery();
+        return $model
+            ->with(['account.wallet', 'account.accountType', 'expenseCategory'])
+            ->whereBetween('plan_date', [$this->filterService->getStartDate(), $this->filterService->getEndDate()])
+            ->newQuery();
     }
 
     /**
@@ -51,6 +89,7 @@ class ExpenseDataTable extends DataTable
                     ->minifiedAjax()
                     ->dom('Bfrtip')
                     ->scrollX(true)
+                    ->searching(false)
                     ->orderBy(0);
     }
 
@@ -67,6 +106,9 @@ class ExpenseDataTable extends DataTable
             Column::make('purpose'),
             Column::make('plan_sum'),
             Column::make('real_sum'),
+            Column::make('wallet')->data('account.wallet.name'),
+            Column::make('account')->data('account.account_type.name'),
+            Column::make('category')->data('expense_category.name'),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

@@ -16,9 +16,9 @@ class AccountType extends Model
     const EUR = 3;
     const DEPOSIT_UAH = 4;
 
-    protected $appends = ['accountsSum', 'invoicedSum', 'receivedSum', 'planningSum'];
+    protected $appends = ['accountsSum', 'invoicedSum', 'receivedSum', 'planningSum', 'expensesPlanSum', 'expensesRealSum'];
 
-    protected $hidden = ['accountsSum', 'invoicedSum', 'receivedSum', 'planningSum'];
+    protected $hidden = ['accountsSum', 'invoicedSum', 'receivedSum', 'planningSum', 'expensesSum'];
 
     /*
      * ***********************************
@@ -56,6 +56,22 @@ class AccountType extends Model
     public function getPlanningSumAttribute()
     {
         return $this->getRelatedSum('planningSum');
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getExpensesPlanSumAttribute()
+    {
+        return $this->getRelatedSum('expensesSum', 'plan_sum');
+    }
+
+    /**
+     * @return int|string
+     */
+    public function getExpensesRealSumAttribute()
+    {
+        return $this->getRelatedSum('expensesSum', 'real_sum');
     }
 
     /*
@@ -122,6 +138,18 @@ class AccountType extends Model
             ->groupBy('account_type_id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function expensesSum()
+    {
+        return $this->hasOne(Account::class)
+            ->selectRaw('sum(expenses.plan_sum) as plan_sum, sum(expenses.real_sum) as real_sum, account_type_id')
+            ->join('expenses', 'expenses.account_id', '=', 'accounts.id')
+            ->whereNull('expenses.deleted_at')
+            ->groupBy('account_type_id');
+    }
+
     /*
      * ***********************************
      * Other
@@ -130,9 +158,10 @@ class AccountType extends Model
 
     /**
      * @param string $relation
+     * @param string $field
      * @return int|string
      */
-    private function getRelatedSum(string $relation)
+    private function getRelatedSum(string $relation, string $field = 'sum')
     {
         if (!array_key_exists($relation, $this->relations)) {
             $this->load($relation);
@@ -140,6 +169,6 @@ class AccountType extends Model
 
         $related = $this->getRelation($relation);
 
-        return $related ? Formatter::currency($related->sum, $this) : 0;
+        return $related ? Formatter::currency($related->$field, $this) : 0;
     }
 }

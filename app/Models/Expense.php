@@ -22,4 +22,21 @@ class Expense extends Model
         'updated_at' => 'datetime:Y-m-d H:i:s',
         'plan_date' => Date::class,
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function expenseCategory()
+    {
+        return $this->belongsTo(ExpenseCategory::class);
+    }
+
 }

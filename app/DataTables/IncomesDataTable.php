@@ -102,7 +102,7 @@ class IncomesDataTable extends DataTable
     {
         return $model
             ->with(['contract.client', 'account.wallet', 'account.accountType'])
-            ->whereBetween('plan_date', [$this->filterService->getStartDate(), $this->filterService->getEndDate()])
+            ->whereBetween('plan_date', [$this->filterService->getStartOfMonthDate(), $this->filterService->getEndOfMonthDate()])
             ->newQuery();
     }
 

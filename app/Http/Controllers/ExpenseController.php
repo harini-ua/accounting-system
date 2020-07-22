@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\ExpenseDataTable;
+use App\Models\AccountType;
 use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
@@ -21,7 +22,18 @@ class ExpenseController extends Controller
         ];
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
-        return $dataTable->render('pages.expenses.index', compact('pageConfigs', 'breadcrumbs'));
+        $filterService = $dataTable->filterService;
+        $accountTypes = AccountType::with([
+            'expensesSum' => function($query) use ($filterService) {
+                $filterService->filterExpensesSum($query);
+            },
+        ])->get();
+        $startDate = $filterService->getStartDate()->format('d-m-Y');
+        $endDate = $filterService->getEndDate()->format('d-m-Y');
+
+        return $dataTable->render('pages.expenses.index', compact('pageConfigs', 'breadcrumbs',
+            'accountTypes', 'startDate', 'endDate'
+        ));
     }
 
     /**
