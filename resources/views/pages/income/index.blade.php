@@ -73,15 +73,23 @@
     <section class="list-wrapper section content-area content-right">
         <div class="card">
             <div class="card-content">
-                <!-- Options and filter dropdown button-->
-                <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-table"/>
-                <x-filter
-                        table="incomes-table"
-                        :options="$clients"
-                        url="{{ route('incomes.index') }}"
-                        name="client_filter"
-                        title="Filter by Client"
-                />
+                <div class="row">
+                    <div class="col l6">
+                        <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-table"/>
+                    </div>
+                    <div class="col l3">
+                        <x-filter
+                            table="incomes-table"
+                            :options="$clients"
+                            url="{{ route('incomes.index') }}"
+                            name="client_filter"
+                            title="Filter by Client"
+                        />
+                    </div>
+                    <div class="col l3">
+                        <x-reset-filters/>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="users-list-table">
@@ -108,5 +116,5 @@
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
     <script src="{{asset('js/scripts/filters.js')}}"></script>
     <script src="{{asset('js/scripts/linked-selects.js')}}"></script>
-    <script src="{{asset('js/scripts/accounts.js')}}"></script>
+{{--    <script src="{{asset('js/scripts/accounts.js')}}"></script>--}}
 @endsection

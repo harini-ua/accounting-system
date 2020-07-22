@@ -6,15 +6,14 @@
 
 {{-- page content --}}
 @section('content')
-<!-- users edit start -->
+<!-- edit start -->
 <div class="section">
     <div class="card">
         <div class="card-content">
-            <!-- <div class="card-body"> -->
             <div class="row">
-                <div class="col s12" id="account">
-                    <!-- users edit account form start -->
-                    <form id="accountForm" method="POST" action="{{ route('expense-categories.update', $model) }}">
+                <div class="col s12">
+                    <!--  edit form start -->
+                    <form method="POST" action="{{ route('expense-categories.update', $model) }}">
                         @csrf
                         @method('PUT')
                         <div class="row">
@@ -35,12 +34,12 @@
                             </div>
                         </div>
                     </form>
-                    <!-- users edit account form ends -->
+                    <!-- edit form ends -->
                 </div>
             </div>
             <!-- </div> -->
         </div>
     </div>
 </div>
-<!-- users edit ends -->
+<!-- edit ends -->
 @endsection
