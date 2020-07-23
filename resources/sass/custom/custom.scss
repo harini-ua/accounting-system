@@ -14,27 +14,27 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
   min-height: calc(100vh - 116px);
 }
 
-table {
-  @media screen and (max-width: 768px) {
-    width: 100% !important;
-  }
-  th {
-    padding: 0 15px  0 5px !important;
-  }
 
-  td {
-    padding: 0 !important;
-    &:last-child {
-      margin-bottom: 20px;
+  @media screen and (max-width: 768px) {
+    th {
+      padding: 0 15px  0 5px !important;
+      height: 40px;
+    }
+
+    td {
+      padding: 0 !important;
+      height: 41px;
+      &:last-child {
+        margin-bottom: 20px;
+      }
+    }
+
+    th, td {
+      display: flex !important;
+      align-items: center !important;
     }
   }
 
-  th, td {
-    height: 40px;
-    display: flex !important;
-    align-items: center !important;
-  }
-}
 
 table.dataTable thead .sorting_desc {
   @media screen and (max-width: 738px) {
