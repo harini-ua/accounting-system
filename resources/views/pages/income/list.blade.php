@@ -26,11 +26,11 @@
         <div class="card">
             <div class="card-content">
                 <div class="row  display-flex align-items-center flex-wrap">
-                    <div class="col s12 m6 l4 xl5">
+                    <div class="col s12 m6 l4">
                         <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-list-table"/>
                     </div>
-                    <div class="col s12 m6 l8 xl7">
-                        <div class="col s12 m12 xl4 center-align mb-2">
+                    <div class="col s12 m6 l8">
+                        <div class="col s12 m12 xl3 center-align mb-2">
                             <x-filter
                                     table="incomes-list-table"
                                     :options="$clients"
@@ -39,7 +39,7 @@
                                     title="Filter by Client"
                             />
                         </div>
-                        <div class="col s12 m12 xl4 center-align mb-2">
+                        <div class="col s12 m12 xl3 center-align mb-2">
                             <x-filter
                                     table="incomes-list-table"
                                     :options="$wallets"
@@ -49,7 +49,7 @@
                                     className="filter-btn invoice-filter-action"
                             />
                         </div>
-                        <div class="col m4 xl3">
+                        <div class="col m4 xl3 center-align">
                             <x-checkbox-filter title="Received" name="received" table="incomes-list-table" url="{{ route('incomes.list') }}"/>
                         </div>
                         <div class="col m4 xl3">
