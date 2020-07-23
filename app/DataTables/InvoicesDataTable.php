@@ -70,6 +70,14 @@ class InvoicesDataTable extends DataTable
                 'status' => InvoiceStatus::getDescription($model->status),
                 'color' => InvoiceStatus::getColor($model->status, 'class'),
             ]);
+        })->setRowClass(static function (Invoice $model) {
+            switch ($model->status) {
+                case InvoiceStatus::OVERDUE:
+                    return 'red lighten-5 red-text red-link font-weight-700';
+                    break;
+                default:
+                    return '';
+            }
         });
 
         $dataTable->addColumn('total', static function(Invoice $model) {
@@ -100,7 +108,6 @@ class InvoicesDataTable extends DataTable
 
             $query->whereIn('contract_id', $contractIds);
         });
-
 
         $dataTable->filter(function($query) {
             if ($this->request->has('client_filter')) {

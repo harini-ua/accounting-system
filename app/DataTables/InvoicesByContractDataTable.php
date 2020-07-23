@@ -72,6 +72,14 @@ class InvoicesByContractDataTable extends DataTable
                 'status' => InvoiceStatus::getDescription($model->status),
                 'color' => InvoiceStatus::getColor($model->status, 'class'),
             ]);
+        })->setRowClass(static function (Invoice $model) {
+            switch ($model->status) {
+                case InvoiceStatus::OVERDUE:
+                    return 'red lighten-5 red-text red-link font-weight-700';
+                    break;
+                default:
+                    return '';
+            }
         });
 
         $dataTable->addColumn('action', static function(Invoice $model) {
