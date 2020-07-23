@@ -82,6 +82,6 @@
 @section('page-script')
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
-    {{--<script src="{{asset('js/scripts/filters.js')}}"></script>--}}
+    <script src="{{asset('js/scripts/filters.js')}}"></script>
     {{--<script src="{{asset('js/scripts/accounts.js')}}"></script>--}}
 @endsection
