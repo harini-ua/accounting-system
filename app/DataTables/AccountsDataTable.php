@@ -74,6 +74,18 @@ class AccountsDataTable extends DataTable
                     ->toArray();
                 $query->whereIn('wallet_id', $wallets);
             })
+            ->orderColumn('start_sum', function($query, $order) {
+                $query->orderBy('start_sum', $order);
+            })
+            ->orderColumn('income', function($query, $order) {
+                $query->orderBy('income', $order);
+            })
+            ->orderColumn('expenses', function($query, $order) {
+                $query->orderBy('expenses', $order);
+            })
+            ->orderColumn('balance', function($query, $order) {
+                $query->orderBy('balance', $order);
+            })
             ->orderColumn('wallet', function($query, $order) {
                 $query->join('wallets', 'wallets.id', '=', 'accounts.wallet_id')
                     ->orderBy('wallets.name', $order);
