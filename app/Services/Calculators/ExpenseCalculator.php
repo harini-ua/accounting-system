@@ -29,13 +29,9 @@ class ExpenseCalculator implements Calculable
      */
     public function create(): void
     {
-        DB::beginTransaction();
-
         $account = $this->expense->account;
         $account->balance -= $this->expense->real_sum;
         $account->save();
-
-        DB::commit();
     }
 
     /**
@@ -63,12 +59,8 @@ class ExpenseCalculator implements Calculable
      */
     public function delete(): void
     {
-        DB::beginTransaction();
-
         $account = $this->expense->account;
         $account->balance += $this->expense->real_sum;
         $account->save();
-
-        DB::commit();
     }
 }
