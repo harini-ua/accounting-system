@@ -91,12 +91,12 @@ class AccountsDataTable extends DataTable
     {
         return $this->builder()
                     ->setTableId('accounts-list-datatable')
-                    ->addTableClass('table')
+                    ->addTableClass('subscription-table responsive-table highlight')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->orderBy(0)
-                    ->scrollX(true);
+                    ->orderBy(0);
+//                    -> scrollX(true);
     }
 
     /**

@@ -34,7 +34,6 @@
                                         <x-input name="sum_from" title="Sum"></x-input>
                                         <x-input name="currency_rate" title="Currency Rate"></x-input>
                                         <x-input name="fee" title="Fee"></x-input>
-                                        <x-textarea name="comment" title="Comment"></x-textarea>
                                     </div>
                                 </div>
                                 <div class="col s12 m6">
@@ -51,6 +50,7 @@
                                             :options="$wallets"
                                         />
                                         <x-input name="sum_to" title="Sum"></x-input>
+                                        <x-textarea name="comment" title="Comment"></x-textarea>
                                     </div>
                                 </div>
                                 <div class="col s12 display-flex justify-content-end mt-3">

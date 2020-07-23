@@ -159,7 +159,7 @@ class IncomeListDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('incomes-list-table')
-            ->addTableClass('table')
+            ->addTableClass('subscription-table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')

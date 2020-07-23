@@ -30,17 +30,17 @@
         </div>
         <div class="card-panel accounts-page-card-panel">
             <div class="row">
-                <div class="col m4 l3 xl3">
+                <div class="col s12 m4 l3 xl3 mb-3">
                     <x-filter
                             table="contracts-list-datatable"
                             :options="$status"
                             url="{{ route('contracts.index') }}"
                             name="status_filter"
                             title="Filter By Status"
-                            className="filter-btn contract-filter-action mr-3"
+                            className="filter-btn contract-filter-action"
                     />
                 </div>
-                <div class="col m4 l3 xl3">
+                <div class="col s12 m4 l3 xl3 mb-3">
                     <x-filter
                             table="contracts-list-datatable"
                             :options="$clients"
@@ -49,7 +49,7 @@
                             title="Filter By Client"
                     />
                 </div>
-                <div class="col m4 l3 xl3">
+                <div class="col s12 m4 l3 xl3 mb-3">
                     <x-filter
                             table="contracts-list-datatable"
                             :options="$salesManagers"

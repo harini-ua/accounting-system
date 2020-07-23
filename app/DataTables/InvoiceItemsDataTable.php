@@ -65,12 +65,12 @@ class InvoiceItemsDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('invoice-items-list-datatable')
-            ->addTableClass('table invoice-item-data-table white border-radius-4 pt-1')
+            ->addTableClass('subscription-table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom('<"top display-flex mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>')
+            ->dom('Bftrip')
             ->languageSearch('')
-            ->scrollX(true)
+//            ->scrollX(true)
             ->languageSearchPlaceholder('Search Invoice')
             ->orderBy(0);
     }

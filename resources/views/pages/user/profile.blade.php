@@ -17,7 +17,7 @@
 {{-- page content --}}
 @section('content')
     <!-- users edit start -->
-    <div class="section users-edit">
+    <div class="section users-edit animate fadeUp">
         <div class="card">
             <div class="card-content">
                 <!-- <div class="card-body"> -->

@@ -16,7 +16,7 @@
         <div class="row">
             <!-- invoice view page -->
             <div class="col xl9 m8 s12">
-                <div class="card">
+                <div class="card animate fadeLeft">
                     <div class="card-content invoice-print-area">
                         <!-- header section -->
 
@@ -33,7 +33,7 @@
                         <div class="divider mb-3 mt-3"></div>
                         <!-- product details table-->
                         <div class="invoice-product-details">
-                            <table class="striped responsive-table">
+                            <table class="responsive-table">
                                 <thead>
                                 <tr>
                                     <th>Account</th>
@@ -64,7 +64,7 @@
             </div>
             <!-- invoice action  -->
             <div class="col xl3 m4 s12">
-                <div class="card invoice-action-wrapper">
+                <div class="card invoice-action-wrapper animate fadeRight">
                     <div class="card-content">
                         <div class="invoice-action-btn">
                             <a href="{{ route('accounts.index') }}" class="btn-block btn btn-light-indigo waves-effect waves-light">
