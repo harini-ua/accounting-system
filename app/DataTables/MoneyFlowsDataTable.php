@@ -52,6 +52,15 @@ class MoneyFlowsDataTable extends DataTable
                     ->toArray();
                 $query->whereIn('account_to_id', $accounts);
             })
+            ->orderColumn('sum_from', function($query, $order) {
+                $query->orderBy('sum_from', $order);
+            })
+            ->orderColumn('sum_to', function($query, $order) {
+                $query->orderBy('sum_to', $order);
+            })
+            ->orderColumn('fee', function($query, $order) {
+                $query->orderBy('fee', $order);
+            })
             ->orderColumn('wallet_from', function($query, $order) {
                 $query->join('accounts', 'accounts.id', '=', 'money_flows.account_from_id')
                     ->join('wallets', 'wallets.id', '=', 'accounts.wallet_id')
