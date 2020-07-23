@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Casts\Date;
 use App\Enums\ContractStatus;
 use App\User;
 use BenSampo\Enum\Traits\CastsEnums;
@@ -42,6 +43,11 @@ class Contract extends Model
      */
     protected $dates = [
         'closed_at',
+    ];
+
+    protected $casts = [
+        'closed_at' => Date::class,
+        'created_at' => Date::class,
     ];
 
     /**

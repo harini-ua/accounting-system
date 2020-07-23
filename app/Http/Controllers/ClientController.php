@@ -32,8 +32,8 @@ class ClientController extends Controller
     public function index(ClientsDataTable $dataTable)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['name' => "Contracts"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['name' => __('Clients')]
         ];
 
         $pageConfigs = ['pageHeader' => true];
@@ -49,8 +49,8 @@ class ClientController extends Controller
     public function create()
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => 'Home'],
-            ['link' => 'javascript:void(0)', 'name' => 'Client'],
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('clients.index'), 'name' => __('Clients')],
             ['name' => 'Create']
         ];
 
@@ -91,9 +91,12 @@ class ClientController extends Controller
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['name' => "Contracts"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('clients.index'), 'name' => __('Clients')],
+            ['name' => $client->name]
         ];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $client->load(['addresses', 'contracts']);
 
@@ -116,8 +119,8 @@ class ClientController extends Controller
     public function edit(Client $client)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => 'Home'],
-            ['link' => 'javascript:void(0)', 'name' => 'Client'],
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('clients.index'), 'name' => __('Clients')],
             ['name' => 'Update']
         ];
 

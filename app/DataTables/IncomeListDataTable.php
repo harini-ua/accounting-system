@@ -163,8 +163,6 @@ class IncomeListDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
-            ->languageSearch('')
-            ->languageSearchPlaceholder(__(''))
             ->orderBy(0);
     }
 

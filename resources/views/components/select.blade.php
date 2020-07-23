@@ -1,11 +1,20 @@
 <div class="col s12 input-field">
     <select id="{{ $name }}" name="{{ $name }}" {{ $disabled() }}>
-        @foreach ($options as $option)
-            <option {{ $selected($option) }}
-                    value="{{ $option->id }}">
-                {{ $option->name }}
-            </option>
-        @endforeach
+        @if($model)
+            @foreach ($options as $option)
+                <option {{ $selected($option) }}
+                        value="{{ $option->id }}">
+                    {{ $option->name }}
+                </option>
+            @endforeach
+        @else
+            @foreach ($options as $option)
+                <option {{ old($name) == $option->id ? 'selected' : '' }}
+                        value="{{ $option->id }}">
+                    {{ $option->name }}
+                </option>
+            @endforeach
+        @endif
     </select>
     <label for="{{ $name }}">{{ $title }}</label>
     @error($name)

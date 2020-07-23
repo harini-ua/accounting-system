@@ -20,7 +20,7 @@ class Select extends Component
      * @param $model
      * @param bool $disabled
      */
-    public function __construct($name, $title, $options, $model, $disabled = false)
+    public function __construct($name, $title, $options, $model = null, $disabled = false)
     {
         $this->name = $name;
         $this->title = $title;

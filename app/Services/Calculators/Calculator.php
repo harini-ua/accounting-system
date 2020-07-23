@@ -4,6 +4,7 @@
 namespace App\Services\Calculators;
 
 
+use App\Models\Expense;
 use App\Models\MoneyFlow;
 use Illuminate\Database\Eloquent\Model;
 
@@ -22,6 +23,10 @@ class Calculator
     {
         if ($model instanceof MoneyFlow) {
             return new MoneyFlowCalculator($model);
+        }
+
+        if ($model instanceof Expense) {
+            return new ExpenseCalculator($model);
         }
     }
 

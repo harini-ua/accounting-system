@@ -5,7 +5,6 @@ namespace App\DataTables;
 use App\Enums\InvoiceStatus;
 use App\Models\Contract;
 use App\Models\Invoice;
-use App\Services\FilterService;
 use Carbon\Carbon;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -13,28 +12,27 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class InvoicesDataTable extends DataTable
+class InvoicesByContractDataTable extends DataTable
 {
     public const COLUMNS = [
         'number',
-        'client',
-        'contract',
         'date',
+        'plan_income_date',
         'wallet',
         'status'
     ];
 
-    /** @var FilterService $filterService */
-    public $filterService;
+    /** @var Contract $contract */
+    public $contract;
 
     /**
      * ContractsDataTable constructor.
      *
-     * @param FilterService $filterService
+     * @param Contract $contract
      */
-    public function __construct(FilterService $filterService)
+    public function __construct(Contract $contract)
     {
-        $this->filterService = $filterService;
+        $this->contract = $contract;
     }
 
     /**
@@ -51,16 +49,18 @@ class InvoicesDataTable extends DataTable
             return '<a target="_blank" href="'.route('invoices.show', $model->id).'">'.$model->number.'</a>';
         });
 
-        $dataTable->addColumn('client', static function (Invoice $model) {
-            return view('partials.view-link', ['model' => $model->contract->client]);
-        });
-
-        $dataTable->addColumn('contract', static function(Invoice $model) {
-            return view('partials.view-link', ['model' => $model->contract]);
-        });
-
         $dataTable->addColumn('wallet', static function(Invoice $model) {
             return view('partials.view-link', ['model' => $model->account->wallet]);
+        });
+
+        $dataTable->addColumn('sum', static function (Invoice $model) {
+            return '-';
+        });
+        $dataTable->addColumn('fee', static function (Invoice $model) {
+            return '-';
+        });
+        $dataTable->addColumn('received_sum', static function (Invoice $model) {
+            return '-';
         });
 
         $dataTable->addColumn('status', static function(Invoice $model) {
@@ -75,18 +75,6 @@ class InvoicesDataTable extends DataTable
         });
 
         $dataTable->rawColumns(self::COLUMNS);
-
-        $dataTable->filterColumn('client', static function($query, $keyword) {
-            $contractIds = Contract::join('clients', 'contracts.client_id', '=', 'clients.id')
-                ->where('clients.name', 'like', "%$keyword%")
-                ->whereNull('clients.deleted_at')
-                ->distinct('contracts.id')
-                ->pluck('contracts.id')
-                ->toArray();
-
-            $query->whereIn('contract_id', $contractIds);
-        });
-
 
         $dataTable->filter(function($query) {
             if ($this->request->has('client_filter')) {
@@ -135,10 +123,10 @@ class InvoicesDataTable extends DataTable
     public function query(Invoice $model)
     {
         $query = $model->newQuery();
+        $query->where('contract_id', $this->contract->id);
 
         return $query->with(['contract.client', 'account.wallet'])
             ->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
-            ->whereBetween('invoices.created_at', [$this->filterService->getStartDate(), $this->filterService->getEndDate()])
             ->select(['invoices.*']);
     }
 
@@ -151,12 +139,13 @@ class InvoicesDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('invoices-list-datatable')
-            ->addTableClass('subscription-table responsive-table highlight')
+            ->addTableClass('table')
             ->columns($this->getColumns())
             ->minifiedAjax()
+            ->searching(false)
             ->dom('Bfrtip')
-//            ->scrollX(true)
-            ->orderBy(0);
+            ->orderBy(0)
+            ->scrollX(true);
     }
 
     /**
@@ -167,10 +156,12 @@ class InvoicesDataTable extends DataTable
     protected function getColumns()
     {
         $data[] = Column::make('number')->title('Invoice #');
-        $data[] = Column::make('client');
-        $data[] = Column::make('contract')->searchable(false);
         $data[] = Column::make('date')->searchable(false);
+        $data[] = Column::make('plan_income_date')->searchable(false);
         $data[] = Column::make('wallet')->searchable(false);
+        $data[] = Column::make('sum')->searchable(false);
+        $data[] = Column::make('fee')->searchable(false);
+        $data[] = Column::make('received_sum')->searchable(false);
         $data[] = Column::make('status')->searchable(false);
         $data[] = Column::computed('action')->addClass('text-center');
 
