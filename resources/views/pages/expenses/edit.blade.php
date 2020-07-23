@@ -19,14 +19,15 @@
                         <div class="row">
                             <div class="col s12 m6">
                                 <div class="row">
-                                    <x-date name="plan_date" title="Date" :model="$model"></x-date>
-                                    <x-textarea name="purpose" title="Purpose of expense" :model="$model"></x-textarea>
+                                    <x-date name="plan_date" title="Planning Date" :model="$model"></x-date>
                                     <x-input name="plan_sum" title="Planned" :model="$model"></x-input>
+                                    <x-date name="real_date" title="Real Date" :model="$model"></x-date>
                                     <x-input name="real_sum" title="Real" :model="$model"></x-input>
                                 </div>
                             </div>
                             <div class="col s12 m6">
                                 <div class="row">
+                                    <x-textarea name="purpose" title="Purpose of expense" :model="$model"></x-textarea>
                                     <x-linked-selects
                                         firstName="wallet_id"
                                         firstTitle="Wallet"

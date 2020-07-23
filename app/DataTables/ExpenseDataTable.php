@@ -106,6 +106,7 @@ class ExpenseDataTable extends DataTable
             Column::make('purpose'),
             Column::make('plan_sum'),
             Column::make('real_sum'),
+            Column::make('real_date'),
             Column::make('wallet')->data('account.wallet.name'),
             Column::make('account')->data('account.account_type.name'),
             Column::make('category')->data('expense_category.name'),
