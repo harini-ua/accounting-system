@@ -6,7 +6,9 @@ use App\Enums\InvoiceStatus;
 use App\Models\Contract;
 use App\Models\Invoice;
 use App\Services\FilterService;
+use App\Services\Formatter;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -70,6 +72,18 @@ class InvoicesDataTable extends DataTable
             ]);
         });
 
+        $dataTable->addColumn('total', static function(Invoice $model) {
+            return Formatter::currency($model->total, $model->account->accountType);
+        });
+
+        $dataTable->addColumn('fee', static function(Invoice $model) {
+            return Formatter::currency($model->fee, $model->account->accountType);
+        });
+
+        $dataTable->addColumn('received_sum', static function(Invoice $model) {
+            return Formatter::currency($model->received_sum, $model->account->accountType);
+        });
+
         $dataTable->addColumn('action', static function(Invoice $model) {
             return view('partials.actions', ['actions' => ['edit', 'delete'], 'model' => $model]);
         });
@@ -123,6 +137,10 @@ class InvoicesDataTable extends DataTable
             $query->orderBy('invoices.status', $order);
         });
 
+//        $dataTable->with('total_sum', $query->sum('total'));
+//        $dataTable->with('total_fee', $query->sum('fee'));
+//        $dataTable->with('total_received_sum', $query->sum('received_sum'));
+
         return $dataTable;
     }
 
@@ -130,16 +148,38 @@ class InvoicesDataTable extends DataTable
      * Get query source of dataTable.
      *
      * @param \App\Models\Invoice $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     *
+     * @return \Illuminate\Database\Query\Builder
      */
     public function query(Invoice $model)
     {
-        $query = $model->newQuery();
+        $dates = [ $this->filterService->getStartDate(), $this->filterService->getEndDate() ];
 
-        return $query->with(['contract.client', 'account.wallet'])
+        $invoiceSums = DB::table('invoice_items')
+            ->select('invoice_id', DB::raw('sum(total) as total'))
+            ->whereBetween('invoice_items.created_at', $dates)
+            ->groupBy('invoice_id');
+
+        $paymentSums = DB::table('payments')
+            ->select('invoice_id', DB::raw('sum(received_sum) as received_sum, sum(fee) as fee'))
+            ->whereBetween('payments.date', $dates)
+            ->groupBy('invoice_id');
+
+        return $model->with(['contract.client', 'account.wallet', 'account.accountType'])
             ->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
-            ->whereBetween('invoices.created_at', [$this->filterService->getStartDate(), $this->filterService->getEndDate()])
-            ->select(['invoices.*']);
+            ->leftJoinSub($invoiceSums, 'invoice_sums', static function($join) {
+                $join->on('invoice_sums.invoice_id', '=', 'invoices.id');
+            })
+            ->leftJoinSub($paymentSums, 'payment_sums', static function($join) {
+                $join->on('payment_sums.invoice_id', '=', 'invoices.id');
+            })
+            ->whereBetween('invoices.created_at', $dates)
+            ->select([
+                'invoices.*',
+                'invoice_sums.total as total',
+                'payment_sums.fee as fee',
+                'payment_sums.received_sum as received_sum'
+            ])->newQuery();
     }
 
     /**
@@ -155,6 +195,13 @@ class InvoicesDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
+//            ->footerCallback('function() {
+//                var api = this.api();
+//                var payload = api.ajax.json();
+//                $(api.column(5).footer()).html(payload.total_sum);
+//                $(api.column(6).footer()).html(payload.total_fee);
+//                $(api.column(7).footer()).html(payload.total_received_sum);
+//            }')
 //            ->scrollX(true)
             ->orderBy(0);
     }
@@ -170,7 +217,10 @@ class InvoicesDataTable extends DataTable
         $data[] = Column::make('client');
         $data[] = Column::make('contract')->searchable(false);
         $data[] = Column::make('date')->searchable(false);
-        $data[] = Column::make('wallet')->searchable(false);
+        $data[] = Column::make('wallet')->searchable(false)->footer(__('Totals: '));
+        $data[] = Column::make('total')->title('Sum')->searchable(false);
+        $data[] = Column::make('fee')->searchable(false);
+        $data[] = Column::make('received_sum')->searchable(false);
         $data[] = Column::make('status')->searchable(false);
         $data[] = Column::computed('action')->addClass('text-center');
 
