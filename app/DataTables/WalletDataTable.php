@@ -58,11 +58,10 @@ class WalletDataTable extends DataTable
     {
         return $this->builder()
                     ->setTableId('data-table-wallet')
-                    ->addTableClass('table')
+                    ->addTableClass('subscription-table responsive-table highlight')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->scrollX(true)
                     ->orderBy(0);
     }
 

@@ -191,7 +191,7 @@ class InvoicesDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('invoices-list-datatable')
-            ->addTableClass('table')
+            ->addTableClass('subscription-table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
@@ -202,8 +202,8 @@ class InvoicesDataTable extends DataTable
 //                $(api.column(6).footer()).html(payload.total_fee);
 //                $(api.column(7).footer()).html(payload.total_received_sum);
 //            }')
-            ->orderBy(0)
-            ->scrollX(true);
+//            ->scrollX(true)
+            ->orderBy(0);
     }
 
     /**

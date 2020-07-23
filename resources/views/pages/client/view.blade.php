@@ -33,15 +33,18 @@
                     <div class="card-content">
                         <div class="row mt-5">
                             <div class="col s6">
-                                <h6>{{ __('Contracts') }}</h6>
-                                <h5 class="m-0"><a href="#" class="tooltipped"
-                                                   data-position="right"
-                                                   data-tooltip="{{ __('Total: ').$client->contracts->count().' / '.__('Closed: ').$closedContract }}">{{ $client->contracts->count().'/'.$closedContract}}</a>
+                                <h6 class="indigo-text">{{ __('Contracts') }}</h6>
+                                <h5 class=" m-0">
+                                    <a href="#"
+                                       class="tooltipped indigo-text text-darken-1"
+                                       data-position="right"
+                                       data-tooltip="{{ __('Total: ').$client->contracts->count().' / '.__('Closed: ').$closedContract }}">{{ $client->contracts->count().'/'.$closedContract}}
+                                    </a>
                                 </h5>
                             </div>
                             <div class="col s6">
-                                <h6>{{ __('Balance') }}</h6>
-                                <h5 class="m-0"><a href="#">+$40</a></h5>
+                                <h6 class="purple-text">{{ __('Balance') }}</h6>
+                                <h5 class="m-0"><a class="purple-text text-darken-1" href="#">+$40</a></h5>
                             </div>
                         </div>
                         <hr>

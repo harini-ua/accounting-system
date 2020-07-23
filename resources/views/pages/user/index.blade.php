@@ -19,7 +19,7 @@
 {{-- page content --}}
 @section('content')
     <!-- users list start -->
-    <section class="users-list-wrapper section">
+    <section class="users-list-wrapper section animate fadeUp">
         <div class="create-btn add-item-btn">
             <a href="{{ route('users.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
                 <i class="material-icons">add</i>
@@ -29,11 +29,9 @@
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">
-                    <!-- datatable start -->
                     <div class="responsive-table">
                         {{ $dataTable->table() }}
                     </div>
-                    <!-- datatable ends -->
                 </div>
             </div>
         </div>

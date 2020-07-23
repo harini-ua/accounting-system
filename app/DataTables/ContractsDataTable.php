@@ -75,7 +75,7 @@ class ContractsDataTable extends DataTable
         });
 
         $dataTable->addColumn('action', static function(Contract $model) {
-            return view('partials.actions', ['actions' => ['view', 'edit', 'delete'], 'model' => $model]);
+            return view('partials.actions', ['actions' =>['edit', 'delete'], 'model' => $model]);
         });
 
         $dataTable->rawColumns(self::COLUMNS);
@@ -156,17 +156,14 @@ class ContractsDataTable extends DataTable
      */
     public function html()
     {
-        $builder = $this->builder();
-
-        $builder->setTableId('contracts-list-datatable');
-        $builder->addTableClass('table');
-        $builder->columns($this->getColumns());
-        $builder->minifiedAjax();
-        $builder->dom('Bfrtip');
-        $builder->orderBy(0);
-        $builder->scrollX(true);
-
-        return $builder;
+        return $this->builder()
+            ->setTableId('contracts-list-datatable')
+            ->addTableClass('subscription-table responsive-table highlight')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+//            ->scrollX(true)
+            ->dom('Bfrtip')
+            ->orderBy(0);
     }
 
     /**

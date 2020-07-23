@@ -20,7 +20,7 @@
     </div>
     <div class="row">
         <div class="col s12 display-flex justify-content-end mt-3">
-            <button type="submit" class="btn indigo">{{ isset($client) ? __('Update') : __('Save') }}</button>
+            <button type="submit" class="btn indigo mr-3">{{ isset($client) ? __('Update') : __('Save') }}</button>
             <a href="{{ url()->previous() }}" class="btn btn-light">{{ __('Cancel') }}</a>
         </div>
     </div>

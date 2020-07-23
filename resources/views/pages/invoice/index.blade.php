@@ -59,6 +59,27 @@
                         <x-reset-filters/>
                     </div>
                 </div>
+                <div class="row col s12 l6">
+                    <div class="col m4 l3 xl3 mb-3">
+                        <x-filter
+                                table="invoices-list-datatable"
+                                :options="$status"
+                                url="{{ route('invoices.index') }}"
+                                name="status_filter"
+                                title="Filter By Status"
+                                className="filter-btn invoice-filter-action"
+                        />
+                    </div>
+                    <div class="col m4 l3 xl3">
+                        <x-filter
+                                table="invoices-list-datatable"
+                                :options="$clients"
+                                url="{{ route('invoices.index') }}"
+                                name="client_filter"
+                                title="Filter By Client"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
         <div class="users-list-table">
