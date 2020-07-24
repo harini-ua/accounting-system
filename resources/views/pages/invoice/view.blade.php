@@ -21,18 +21,17 @@
                         <!-- header section -->
                         <div class="row invoice-date-number">
                             <div class="col xl4 s12">
-                                <span class="invoice-number mr-1">Invoice#</span>
-                                <span>000756</span>
+                                <span class="invoice-number mr-1">{{ $invoice->number }}</span>
                             </div>
                             <div class="col xl8 s12">
                                 <div class="invoice-date display-flex align-items-center flex-wrap">
                                     <div class="mr-3">
                                         <small>Date Issue:</small>
-                                        <span>08/10/2019</span>
+                                        <span>{{ \Carbon\Carbon::parse($invoice->created_at)->format('d-m-Y') }}</span>
                                     </div>
                                     <div>
                                         <small>Date Due:</small>
-                                        <span>08/10/2019</span>
+                                        <span>{{ $invoice->plan_income_date }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -43,42 +42,44 @@
                                 <img src="{{asset('images/gallery/pixinvent-logo.png')}}" alt="logo" height="46" width="164">
                             </div>
                             <div class="col m6 s12 pull-m6">
-                                <h4 class="indigo-text">Invoice</h4>
-                                <span>Software Development</span>
+                                <h4 class="indigo-text">{{ __('Invoice') }}</h4>
+                                <span>{{ $invoice->name }}</span>
                             </div>
                         </div>
                         <div class="divider mb-3 mt-3"></div>
                         <!-- invoice address and contact -->
                         <div class="row invoice-info">
                             <div class="col m6 s12">
-                                <h6 class="invoice-from">Bill From</h6>
+                                @if(count($billFrom))
+                                <h6 class="invoice-from">{{ __('Bill From') }}</h6>
                                 <div class="invoice-address">
-                                    <span>Clevision PVT. LTD.</span>
+                                    <span>{{ $billFrom['company'] }}</span>
                                 </div>
                                 <div class="invoice-address">
-                                    <span>9205 Whitemarsh Street New York, NY 10002</span>
+                                    <span>{{ $billFrom['address'] }}</span>
                                 </div>
                                 <div class="invoice-address">
-                                    <span>hello@clevision.net</span>
+                                    <span>{{ $billFrom['email'] }}</span>
                                 </div>
                                 <div class="invoice-address">
-                                    <span>601-678-8022</span>
+                                    <span>{{ $billFrom['phone'] }}</span>
                                 </div>
+                                @endif
                             </div>
                             <div class="col m6 s12">
                                 <div class="divider show-on-small hide-on-med-and-up mb-3"></div>
-                                <h6 class="invoice-to">Bill To</h6>
+                                <h6 class="invoice-to">{{ __('Bill To') }}</h6>
                                 <div class="invoice-address">
-                                    <span>Pixinvent PVT. LTD.</span>
+                                    <span>{{ $billTo['company'] }}</span>
                                 </div>
                                 <div class="invoice-address">
-                                    <span>203 Sussex St. Suite B Waukegan, IL 60085</span>
+                                    <span>{{ $billTo['address'] }}</span>
                                 </div>
                                 <div class="invoice-address">
-                                    <span>pixinvent@gmail.com</span>
+                                    <span>{{ $billTo['email'] }}</span>
                                 </div>
                                 <div class="invoice-address">
-                                    <span>987-352-5603</span>
+                                    <span>{{ $billTo['phone'] }}</span>
                                 </div>
                             </div>
                         </div>
@@ -88,35 +89,25 @@
                             <table class="striped responsive-table">
                                 <thead>
                                 <tr>
-                                    <th>Item</th>
-                                    <th>Description</th>
-                                    <th>Cost</th>
-                                    <th>Qty</th>
-                                    <th class="right-align">Price</th>
+                                    <th>{{ __('Item') }}</th>
+                                    <th>{{ __('Description') }}</th>
+                                    <th>{{ __('Type') }}</th>
+                                    <th>{{ __('Qty') }}</th>
+                                    <th>{{ __('Rate') }}</th>
+                                    <th class="right-align">{{ __('Sum') }}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                <tr>
-                                    <td>Frest Admin</td>
-                                    <td>HTML Admin Template</td>
-                                    <td>28</td>
-                                    <td>1</td>
-                                    <td class="indigo-text right-align">$28.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Apex Admin</td>
-                                    <td>Anguler Admin Template</td>
-                                    <td>24</td>
-                                    <td>1</td>
-                                    <td class="indigo-text right-align">$24.00</td>
-                                </tr>
-                                <tr>
-                                    <td>Stack Admin</td>
-                                    <td>HTML Admin Template</td>
-                                    <td>24</td>
-                                    <td>1</td>
-                                    <td class="indigo-text right-align">$24.00</td>
-                                </tr>
+                                @foreach($invoice->items as $item)
+                                    <tr>
+                                        <td>{{ $item->title }}</td>
+                                        <td>{{ $item->description }}</td>
+                                        <td>{{ \App\Enums\InvoiceItemType::getDescription($item->type) }}</td>
+                                        <td>{{ $item->qty }}</td>
+                                        <td>{{ \App\Services\Formatter::currency($item->rate, $invoice->account->accountType) }}</td>
+                                        <td class="indigo-text right-align">{{ \App\Services\Formatter::currency($item->sum, $invoice->account->accountType) }}</td>
+                                    </tr>
+                                @endforeach
                                 </tbody>
                             </table>
                         </div>
@@ -130,29 +121,21 @@
                                 <div class="col xl4 m7 s12 offset-xl3">
                                     <ul>
                                         <li class="display-flex justify-content-between">
-                                            <span class="invoice-subtotal-title">Subtotal</span>
-                                            <h6 class="invoice-subtotal-value">$72.00</h6>
+                                            <span class="invoice-subtotal-title">{{ __('Subtotal') }}</span>
+                                            <h6 class="invoice-subtotal-value">{{ \App\Services\Formatter::currency($sum, $invoice->account->accountType) }}</h6>
                                         </li>
                                         <li class="display-flex justify-content-between">
-                                            <span class="invoice-subtotal-title">Discount</span>
-                                            <h6 class="invoice-subtotal-value">- $ 09.60</h6>
-                                        </li>
-                                        <li class="display-flex justify-content-between">
-                                            <span class="invoice-subtotal-title">Tax</span>
-                                            <h6 class="invoice-subtotal-value">21%</h6>
+                                            <span class="invoice-subtotal-title">{{ __('Discount') }}</span>
+                                            <h6 class="invoice-subtotal-value">- {{ \App\Services\Formatter::currency($invoice->discount, $invoice->account->accountType) }}</h6>
                                         </li>
                                         <li class="divider mt-2 mb-2"></li>
                                         <li class="display-flex justify-content-between">
-                                            <span class="invoice-subtotal-title">Invoice Total</span>
-                                            <h6 class="invoice-subtotal-value">$ 61.40</h6>
+                                            <span class="invoice-subtotal-title">{{ __('Invoice Total') }}</span>
+                                            <h6 class="invoice-subtotal-value">{{ \App\Services\Formatter::currency($invoice->total, $invoice->account->accountType) }}</h6>
                                         </li>
                                         <li class="display-flex justify-content-between">
-                                            <span class="invoice-subtotal-title">Paid to date</span>
+                                            <span class="invoice-subtotal-title">{{ __('Paid to date') }}</span>
                                             <h6 class="invoice-subtotal-value">- $ 00.00</h6>
-                                        </li>
-                                        <li class="display-flex justify-content-between">
-                                            <span class="invoice-subtotal-title">Balance (USD)</span>
-                                            <h6 class="invoice-subtotal-value">$ 10,953</h6>
                                         </li>
                                     </ul>
                                 </div>
@@ -166,26 +149,26 @@
                 <div class="card invoice-action-wrapper">
                     <div class="card-content">
                         <div class="invoice-action-btn">
-                            <a href="#"
-                               class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
+                            <a href="#" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
                                 <i class="material-icons mr-4">check</i>
-                                <span class="text-nowrap">Send Invoice</span>
+                                <span class="text-nowrap">{{ __('Send Invoice') }}</span>
                             </a>
                         </div>
                         <div class="invoice-action-btn">
-                            <a href="#" class="btn-block btn btn-light-indigo waves-effect waves-light invoice-print">
-                                <span>Print</span>
+                            <a href="#" class="btn btn-light-indigo waves-effect waves-light display-flex align-items-center justify-content-center invoice-print">
+                                <i class="material-icons mr-5">print</i>
+                                <span>{{ __('Print') }}</span>
                             </a>
                         </div>
                         <div class="invoice-action-btn">
-                            <a href="{{asset('app-invoice-edit')}}" class="btn-block btn btn-light-indigo waves-effect waves-light">
-                                <span>Edit Invoice</span>
+                            <a href="{{ route('invoices.edit', $invoice) }}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                                <span>{{ __('Edit Invoice') }}</span>
                             </a>
                         </div>
                         <div class="invoice-action-btn">
                             <a href="#" class="btn waves-effect waves-light display-flex align-items-center justify-content-center">
                                 <i class="material-icons mr-3">attach_money</i>
-                                <span class="text-nowrap">Add Payment</span>
+                                <span class="text-nowrap">{{ __('Add Payment') }}</span>
                             </a>
                         </div>
                     </div>

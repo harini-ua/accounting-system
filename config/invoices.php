@@ -2,17 +2,20 @@
 
 return [
     'date' => [
-        'format'    => 'Y-m-d',
+        'format' => 'Y-m-d',
     ],
     'serial_number' => [
-        'series'    => 'INV',
+        'series' => 'INV',
         'sequence_padding' => 5,
         'delimiter' => '-',
         // Example: INV-00001
-        'format'    => '{SERIES}{DELIMITER}{SEQUENCE}',
+        'format' => '{SERIES}{DELIMITER}{SEQUENCE}',
     ],
     'paper' => [
-        'size'        => 'a4',
+        'size' => 'a4',
         'orientation' => 'portrait',
     ],
+    'address' => [
+        'format' => '{ADDRESS}, {CITY}, {STATE} {COUNTRY} {POST_CODE}'
+    ]
 ];

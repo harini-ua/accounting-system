@@ -12,15 +12,14 @@ class InvoiceItemSeed extends Seeder
      */
     public function run()
     {
-        \App\Models\Invoice::chunk(1000, function($invoices) {
+        \App\Models\Invoice::chunk(1000, static function($invoices) {
             $allInvoiceItems = [];
-            $invoiceIds = $invoices->pluck('id');
 
-            foreach ($invoiceIds as $invoiceId) {
-                $createdAt = \Illuminate\Support\Carbon::now()->subDays(rand(1, 365));
+            foreach ($invoices as $invoice) {
+                $createdAt = \Illuminate\Support\Carbon::now()->subDays(random_int(1, 365));
                 $invoiceItems = factory(\App\Models\InvoiceItem::class, random_int(3, 6))
                     ->make([
-                        'invoice_id' => $invoiceId,
+                        'invoice_id' => $invoice->id,
                         'created_at' => $createdAt,
                         'updated_at' => $createdAt,
                     ])->toArray();

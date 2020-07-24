@@ -33,7 +33,7 @@ class Invoice extends Model
      *
      * @var array
      */
-    protected $fillable = ['number', 'client_id', 'contract_id', 'wallet_id', 'date', 'plan_income_date', 'status', 'type'];
+    protected $fillable = ['number', 'name', 'client_id', 'contract_id', 'sales_manager_id', 'date', 'status', 'type', 'discount', 'total', 'plan_income_date', 'pay_date'];
 
     /**
      * The attributes that should be cast.
@@ -46,6 +46,7 @@ class Invoice extends Model
         'updated_at' => 'datetime:Y-m-d H:i:s',
         'date' => Date::class,
         'plan_income_date' => Date::class,
+        'plan_date' => Date::class,
     ];
 
     /**
