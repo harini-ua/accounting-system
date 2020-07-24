@@ -34,7 +34,7 @@ class ClientUpdateRequest extends FormRequest
             'address' => 'nullable|string|min:3',
             'city' => 'nullable|string|min:1',
             'state' => 'nullable|string|min:2',
-            'postal_code' => 'nullable|integer',
+            'postal_code' => 'nullable|string|min:3',
             // bank
             'bank_name' => 'nullable|string|min:3',
             'bank_address' => 'nullable|string|min:3',

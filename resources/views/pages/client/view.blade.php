@@ -66,20 +66,18 @@
                             </div>
                         </div>
                         <hr>
-                        @if($client->addresses->count())
+                        @if($address = $client->billingAddress)
                             <div class="row">
                                 <h6 class="col s12"> {{ __('Address') }} </h6>
-                            @foreach($client->addresses as $address)
                                 <!-- Address -->
-                                    <div class="col s12 place mt-4 p-0">
-                                        <div class="col s2 m2 l2"><i class="material-icons">place</i></div>
-                                        <div class="col s10 m10 l10">
-                                            <p class="m-0">{{ $address->postal_code }}, {{ $address->country }}
-                                                , {{ $address->state }}, {{ $address->city }}</p>
-                                            <p class="m-0">{{ $address->address }}</p>
-                                        </div>
+                                <div class="col s12 place mt-4 p-0">
+                                    <div class="col s2 m2 l2"><i class="material-icons">place</i></div>
+                                    <div class="col s10 m10 l10">
+                                        <p class="m-0">{{ $address->postal_code }}, {{ $address->country }}
+                                            , {{ $address->state }}, {{ $address->city }}</p>
+                                        <p class="m-0">{{ $address->address }}</p>
                                     </div>
-                                @endforeach
+                                </div>
                             </div>
                         @endif
                         @if($bank = $client->bank)
