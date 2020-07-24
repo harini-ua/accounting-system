@@ -162,11 +162,6 @@ class InvoicesDataTable extends DataTable
     {
         $dates = [ $this->filterService->getStartDate(), $this->filterService->getEndDate() ];
 
-        $invoiceSums = DB::table('invoice_items')
-            ->select('invoice_id', DB::raw('sum(total) as total'))
-            ->whereBetween('invoice_items.created_at', $dates)
-            ->groupBy('invoice_id');
-
         $paymentSums = DB::table('payments')
             ->select('invoice_id', DB::raw('sum(received_sum) as received_sum, sum(fee) as fee'))
             ->whereBetween('payments.date', $dates)
@@ -174,16 +169,12 @@ class InvoicesDataTable extends DataTable
 
         return $model->with(['contract.client', 'account.wallet', 'account.accountType'])
             ->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
-            ->leftJoinSub($invoiceSums, 'invoice_sums', static function($join) {
-                $join->on('invoice_sums.invoice_id', '=', 'invoices.id');
-            })
             ->leftJoinSub($paymentSums, 'payment_sums', static function($join) {
                 $join->on('payment_sums.invoice_id', '=', 'invoices.id');
             })
             ->whereBetween('invoices.created_at', $dates)
             ->select([
                 'invoices.*',
-                'invoice_sums.total as total',
                 'payment_sums.fee as fee',
                 'payment_sums.received_sum as received_sum'
             ])->newQuery();
