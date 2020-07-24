@@ -10,6 +10,7 @@ class Input extends Component
     public $title;
     public $model;
     public $type;
+    public $field;
 
     /**
      * Input constructor.
@@ -17,13 +18,15 @@ class Input extends Component
      * @param $title
      * @param null $model
      * @param string $type
+     * @param string $field
      */
-    public function __construct($name, $title, $model = null, $type = 'text')
+    public function __construct($name, $title, $model = null, $type = 'text', $field = '')
     {
         $this->name = $name;
         $this->title = $title;
         $this->model = $model;
         $this->type = $type;
+        $this->field = $field ?: $name;
     }
 
     /**
@@ -31,7 +34,7 @@ class Input extends Component
      */
     public function value()
     {
-        return $this->model ? $this->model->{$this->name} : old($this->name);
+        return $this->model ? $this->model->{$this->field} : old($this->name);
     }
 
     /**

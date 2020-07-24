@@ -50,4 +50,12 @@ class Client extends Model
     {
         return $this->morphOne(Address::class, 'addressable')->where('is_billing', true);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function bank()
+    {
+        return $this->hasOne(Bank::class);
+    }
 }

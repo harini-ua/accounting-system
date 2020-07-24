@@ -22,6 +22,7 @@ class Expense extends Model
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
         'plan_date' => Date::class,
+        'real_date' => Date::class,
     ];
 
     protected static function booted()

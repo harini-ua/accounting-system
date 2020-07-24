@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Contract;
 use App\Models\Invoice;
 use App\Services\FilterService;
+use App\Services\Formatter;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Button;
@@ -51,6 +52,15 @@ class IncomeListDataTable extends DataTable
             ->addColumn('sales', function(Invoice $model) {
                 return $model->salesManager->name;
             })
+            ->addColumn('fee', function(Invoice $model) {
+                return Formatter::currency($model->fee, $model->account->accountType);
+            })
+            ->addColumn('total', function(Invoice $model) {
+                return Formatter::currency($model->total, $model->account->accountType);
+            })
+            ->addColumn('received_sum', function(Invoice $model) {
+                return Formatter::currency($model->received_sum, $model->account->accountType);
+            })
             ->rawColumns(['status'])
             ->filterColumn('client', function($query, $keyword) {
                 $contracts = Contract::join('clients', 'contracts.client_id', '=', 'clients.id')
@@ -83,6 +93,15 @@ class IncomeListDataTable extends DataTable
                     });
                 }
             }, true)
+            ->orderColumn('total', function($query, $order) {
+                $query->orderBy('total', $order);
+            })
+            ->orderColumn('fee', function($query, $order) {
+                $query->orderBy('fee', $order);
+            })
+            ->orderColumn('received_sum', function($query, $order) {
+                $query->orderBy('received_sum', $order);
+            })
             ->orderColumn('client', function($query, $order) {
                 $query->join('clients', 'contracts.client_id', '=', 'clients.id')
                     ->orderBy('clients.name', $order);
@@ -127,7 +146,6 @@ class IncomeListDataTable extends DataTable
                 'contract.client',
                 'account.wallet',
                 'salesManager',
-//                'account.accountType'
             ])
             ->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
             ->join('invoice_items', 'invoice_items.invoice_id', '=', 'invoices.id')
@@ -182,7 +200,6 @@ class IncomeListDataTable extends DataTable
             Column::make('plan_income_date')->title('Planning Date of Income')->searchable(false),
             Column::make('pay_date')->title('Date of Payment')->searchable(false),
             Column::make('wallet')->searchable(false),
-//            Column::make('account')->data('account.account_type.name')->searchable(false),
             Column::make('total')->title('Sum')->searchable(false),
             Column::make('fee')->searchable(false),
             Column::make('received_sum')->searchable(false),

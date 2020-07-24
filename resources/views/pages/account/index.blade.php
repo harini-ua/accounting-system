@@ -25,16 +25,7 @@
         <div class="card-panel accounts-page-card-panel">
             <div class="row">
                 <div class="col s12 m12 l3 input-field">
-                    <div class="invoice-filter-action mr-3">
-                        <input type="text" class="datepicker" placeholder="Start date"
-                               value="{{ $startDate->format('d-m-Y') }}">
-                    </div>
-                </div>
-                <div class="col s12 m12 l3 input-field">
-                    <div class="invoice-filter-action mr-3">
-                        <input type="text" class="datepicker" placeholder="End date"
-                               value="{{ $endDate->format('d-m-Y') }}">
-                    </div>
+                    <x-date-filter start="{{ $startDate->format('d-m-Y') }}" end="{{ $endDate->format('d-m-Y') }}" table="accounts-list-datatable"/>
                 </div>
                 <div class="col s12 l6 display-flex align-items-center show-btn">
                     <div class="col s12 m7 input-field">

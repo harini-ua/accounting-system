@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Expense;
 use App\Services\FilterService;
+use App\Services\Formatter;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -33,11 +34,23 @@ class ExpenseDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->addColumn('plan_sum', function(Expense $model) {
+                return Formatter::currency($model->plan_sum, $model->account->accountType);
+            })
+            ->addColumn('real_sum', function(Expense $model) {
+                return Formatter::currency($model->real_sum, $model->account->accountType);
+            })
             ->addColumn('purpose', function(Expense $model) {
                 return mb_strimwidth($model->purpose, 0, 50, '...');
             })
             ->addColumn('action', function(Expense $model) {
                 return view("partials.actions", ['actions'=>['edit', 'copy', 'delete'], 'model' => $model]);
+            })
+            ->orderColumn('plan_sum', function($query, $order) {
+                $query->orderBy('plan_sum', $order);
+            })
+            ->orderColumn('real_sum', function($query, $order) {
+                $query->orderBy('real_sum', $order);
             })
             ->orderColumn('purpose', function($query, $order) {
                 $query->orderBy('purpose', $order);
@@ -106,6 +119,7 @@ class ExpenseDataTable extends DataTable
             Column::make('purpose'),
             Column::make('plan_sum'),
             Column::make('real_sum'),
+            Column::make('real_date'),
             Column::make('wallet')->data('account.wallet.name'),
             Column::make('account')->data('account.account_type.name'),
             Column::make('category')->data('expense_category.name'),
