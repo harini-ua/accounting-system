@@ -1,6 +1,5 @@
 <?php
 
-use Faker\Generator as Faker;
 use Illuminate\Database\Seeder;
 
 class ClientsSeed extends Seeder
@@ -12,11 +11,12 @@ class ClientsSeed extends Seeder
      */
     public function run()
     {
-        $faker = new Faker();
-
         factory(\App\Models\Client::class, 100)->create()
-            ->each(static function (\App\Models\Client $client) use ($faker) {
+            ->each(static function (\App\Models\Client $client) {
                 $client->addresses()->save(factory(\App\Models\Address::class)->make());
+                if (rand(0, 1)) {
+                    $client->bank()->save(factory(\App\Models\Bank::class)->make());
+                }
             }
         );
     }

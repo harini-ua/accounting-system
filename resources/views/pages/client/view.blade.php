@@ -82,6 +82,23 @@
                                 @endforeach
                             </div>
                         @endif
+                        @if($bank = $client->bank)
+                            <hr>
+                            <div class="row">
+                                <h6 class="col s12"> {{ __('Bank Details') }}</h6>
+                                <div class="col s12 padding-2">
+                                    <table class="responsive-table">
+                                        <tbody>
+                                        @if($bank->name)<tr><td>{{ __('Bank') }}:</td><td>{{ $bank->name }}</td></tr>@endif
+                                        @if($bank->address)<tr><td>{{ __('Bank Address') }}:</td><td>{{ $bank->address }}</td></tr>@endif
+                                        @if($bank->account)<tr><td>{{ __('Account #') }}:</td><td>{{ $bank->account }}</td></tr>@endif
+                                        @if($bank->iban)<tr><td>{{ __('IBAN') }}:</td><td>{{ $bank->iban }}</td></tr>@endif
+                                        @if($bank->swift)<tr><td>{{ __('SWIFT CODE') }}:</td><td>{{ $bank->swift }}</td></tr>@endif
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <div class="card user-card-negative-margin" id="feed">
