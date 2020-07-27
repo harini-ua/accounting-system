@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title', "People")
+@section('title', "Former Employees")
 
 {{-- vendor styles --}}
 @section('vendor-style')
@@ -21,19 +21,6 @@
 @section('content')
 
     <section class="users-list-wrapper section">
-        <div class="create-btn invoice-create-btn add-item-btn row">
-            <div class="col">
-                <a href="{{ route('people.former-list') }}" class="btn green waves-effect waves-light invoice-create z-depth-4">
-                    <span class="hide-on-small-only">Former employees</span>
-                </a>
-            </div>
-            <div class="col">
-                <a href="{{ route('people.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
-                    <i class="material-icons">add</i>
-                    <span class="hide-on-small-only">Add</span>
-                </a>
-            </div>
-        </div>
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">

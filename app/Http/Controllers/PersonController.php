@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\FormerPersonDataTable;
 use App\Models\Person;
 use App\DataTables\PersonDataTable;
 use Illuminate\Http\Request;
@@ -24,6 +25,22 @@ class PersonController extends Controller
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
         return $dataTable->render('pages.person.index', compact('pageConfigs', 'breadcrumbs'));
+    }
+
+    /**
+     * @param FormerPersonDataTable $dataTable
+     * @return mixed
+     */
+    public function formerList(FormerPersonDataTable $dataTable)
+    {
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['link' => route('people.index'), 'name' => "People"],
+            ['name' => "Former Employees"]
+        ];
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+        return $dataTable->render('pages.person.former-list', compact('pageConfigs', 'breadcrumbs'));
     }
 
     /**

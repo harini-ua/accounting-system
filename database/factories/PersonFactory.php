@@ -18,7 +18,7 @@ $factory->define(Person::class, function (Faker $faker) {
         'start_date' => $startDate,
 
         'salary' => $faker->randomFloat(2, 100, 5000),
-        'currency' => $faker->randomFloat(2, 23, 33),
+        'currency' => \App\Enums\Currency::getRandomValue(),
         'salary_type' => \App\Enums\SalaryType::getRandomValue(),
         'contract_type' => \App\Enums\PersonContractType::getRandomValue(),
         'salary_type_changed_at' => (! $quitedAt) && rand(0, 1) ? $faker->dateTimeBetween($startDate, 'now') : null,

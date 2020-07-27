@@ -35,10 +35,10 @@ class ExpenseDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('plan_sum', function(Expense $model) {
-                return Formatter::currency($model->plan_sum, $model->account->accountType);
+                return Formatter::currency($model->plan_sum, $model->account->accountType->symbol);
             })
             ->addColumn('real_sum', function(Expense $model) {
-                return Formatter::currency($model->real_sum, $model->account->accountType);
+                return Formatter::currency($model->real_sum, $model->account->accountType->symbol);
             })
             ->addColumn('purpose', function(Expense $model) {
                 return mb_strimwidth($model->purpose, 0, 50, '...');

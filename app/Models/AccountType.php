@@ -180,6 +180,6 @@ class AccountType extends Model
 
         $related = $this->getRelation($relation);
 
-        return $related ? Formatter::currency($related->$field, $this) : 0;
+        return $related ? Formatter::currency($related->$field, $this->symbol) : 0;
     }
 }

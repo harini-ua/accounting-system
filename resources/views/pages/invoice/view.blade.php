@@ -104,8 +104,8 @@
                                         <td>{{ $item->description }}</td>
                                         <td>{{ \App\Enums\InvoiceItemType::getDescription($item->type) }}</td>
                                         <td>{{ $item->qty }}</td>
-                                        <td>{{ \App\Services\Formatter::currency($item->rate, $invoice->account->accountType) }}</td>
-                                        <td class="indigo-text right-align">{{ \App\Services\Formatter::currency($item->sum, $invoice->account->accountType) }}</td>
+                                        <td>{{ \App\Services\Formatter::currency($item->rate, $invoice->account->accountType->symbol) }}</td>
+                                        <td class="indigo-text right-align">{{ \App\Services\Formatter::currency($item->sum, $invoice->account->accountType->symbol) }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -122,16 +122,16 @@
                                     <ul>
                                         <li class="display-flex justify-content-between">
                                             <span class="invoice-subtotal-title">{{ __('Subtotal') }}</span>
-                                            <h6 class="invoice-subtotal-value">{{ \App\Services\Formatter::currency($sum, $invoice->account->accountType) }}</h6>
+                                            <h6 class="invoice-subtotal-value">{{ \App\Services\Formatter::currency($sum, $invoice->account->accountType->symbol) }}</h6>
                                         </li>
                                         <li class="display-flex justify-content-between">
                                             <span class="invoice-subtotal-title">{{ __('Discount') }}</span>
-                                            <h6 class="invoice-subtotal-value">- {{ \App\Services\Formatter::currency($invoice->discount, $invoice->account->accountType) }}</h6>
+                                            <h6 class="invoice-subtotal-value">- {{ \App\Services\Formatter::currency($invoice->discount, $invoice->account->accountType->symbol) }}</h6>
                                         </li>
                                         <li class="divider mt-2 mb-2"></li>
                                         <li class="display-flex justify-content-between">
                                             <span class="invoice-subtotal-title">{{ __('Invoice Total') }}</span>
-                                            <h6 class="invoice-subtotal-value">{{ \App\Services\Formatter::currency($invoice->total, $invoice->account->accountType) }}</h6>
+                                            <h6 class="invoice-subtotal-value">{{ \App\Services\Formatter::currency($invoice->total, $invoice->account->accountType->symbol) }}</h6>
                                         </li>
                                         <li class="display-flex justify-content-between">
                                             <span class="invoice-subtotal-title">{{ __('Paid to date') }}</span>

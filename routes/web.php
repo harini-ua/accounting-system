@@ -100,6 +100,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('expenses', 'ExpenseController')->except(['show']);
 
     // People
+    Route::get('/people/former-list', 'PersonController@formerList')->name('people.former-list');
     Route::resource('people', 'PersonController');
 });
 
