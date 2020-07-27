@@ -26,7 +26,6 @@ class Totals extends Component
         $this->titleColor = $titleColor;
     }
 
-
     /**
      * Get the view / contents that represent the component.
      *

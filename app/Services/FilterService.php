@@ -98,7 +98,8 @@ class FilterService
      */
     public function filterInvoicedSum($query)
     {
-        $query->whereBetween('invoice_items.created_at', [
+        // @TODO Please check date for income
+        $query->whereBetween('invoices.created_at', [
             $this->getStartOfMonthDate(),
             $this->getEndOfMonthDate()
         ]);

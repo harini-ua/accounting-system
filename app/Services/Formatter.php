@@ -2,28 +2,30 @@
 
 namespace App\Services;
 
+use App\Models\AccountType;
 use App\Models\Address;
 
 class Formatter
 {
     /**
-     * @param $value
-     * @param $accountType
+     * @param string $value
+     * @param AccountType $accountType
      * @return string
      */
-    public static function currency($value, $accountType)
+    public static function currency($value, AccountType $accountType)
     {
         return $accountType->symbol . ' ' . number_format($value, 2, ',', ' ');
     }
 
     /**
      * @param Address $address
+     * @param string  $type
      *
      * @return string
      */
-    public static function address(Address $address)
+    public static function address(Address $address, $type = 'invoices')
     {
-        $address_format = config('invoices.address.format');
+        $address_format = config($type.'.address.format');
 
         return strtr($address_format, [
             '{ADDRESS}'   => $address->address,

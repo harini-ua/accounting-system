@@ -103,7 +103,8 @@ class IncomesDataTable extends DataTable
      * Get query source of dataTable.
      *
      * @param \App\Income $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     *
+     * @return \Illuminate\Database\Query\Builder
      */
     public function query(Income $model)
     {

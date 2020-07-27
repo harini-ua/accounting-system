@@ -100,4 +100,17 @@ class Invoice extends Model
     {
         return $this->belongsTo(User::class, 'sales_manager_id');
     }
+
+    /**
+     * Recalculates total and tax based on lines
+     *
+     * @return Invoice
+     */
+    public function recalculate()
+    {
+        $this->total = $this->items()->sum('sum') - $this->discount;
+        $this->save();
+
+        return $this;
+    }
 }

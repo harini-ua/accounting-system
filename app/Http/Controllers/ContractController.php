@@ -14,16 +14,6 @@ use App\User;
 class ContractController extends Controller
 {
     /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //..
-    }
-
-    /**
      * Display a listing of the clients.
      *
      * @param ContractsDataTable $dataTable
@@ -63,7 +53,7 @@ class ContractController extends Controller
             ['name' => __('Create')]
         ];
 
-        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
         $clients = Client::all()
             ->sortBy('name')
@@ -112,7 +102,7 @@ class ContractController extends Controller
             ['name' => $contract->name]
         ];
 
-        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
         $contract->load(['client', 'manager', 'invoices']);
 
@@ -138,7 +128,7 @@ class ContractController extends Controller
             ['name' => __('Update')]
         ];
 
-        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
         $contract->load('client');
 

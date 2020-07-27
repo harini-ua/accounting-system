@@ -100,7 +100,8 @@ class AccountsDataTable extends DataTable
      * Get query source of dataTable.
      *
      * @param Account $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     *
+     * @return \Illuminate\Database\Query\Builder
      */
     public function query(Account $model)
     {

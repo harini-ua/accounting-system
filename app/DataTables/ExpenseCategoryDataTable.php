@@ -29,7 +29,7 @@ class ExpenseCategoryDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\ExpenseCategory $model
+     * @param ExpenseCategory $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(ExpenseCategory $model)

@@ -7,8 +7,8 @@ use Faker\Generator as Faker;
 $factory->define(\App\Models\InvoiceItem::class, static function (Faker $faker, $data) {
 
     $type = \App\Enums\InvoiceItemType::getRandomValue();
-    $qty = (\App\Enums\InvoiceItemType::HOURLY === $type) ? random_int(10, 100) : 1;
-    $rate = random_int(5, 25);
+    $qty = (\App\Enums\InvoiceItemType::HOURLY === $type) ? random_int(50, 160) : 1;
+    $rate = (\App\Enums\InvoiceItemType::HOURLY === $type) ? random_int(10, 25) : random_int(160, 5000);
     $sum = $rate * $qty;
 
     return [
@@ -17,6 +17,6 @@ $factory->define(\App\Models\InvoiceItem::class, static function (Faker $faker, 
         'qty' => $qty,
         'rate' => $rate,
         'sum' => $sum,
-        'type' => \App\Enums\InvoiceItemType::getRandomValue(),
+        'type' => $type,
     ];
 });

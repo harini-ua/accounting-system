@@ -78,7 +78,8 @@ class ExpenseDataTable extends DataTable
      * Get query source of dataTable.
      *
      * @param Expense $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     *
+     * @return \Illuminate\Database\Query\Builder
      */
     public function query(Expense $model)
     {

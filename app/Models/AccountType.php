@@ -104,11 +104,9 @@ class AccountType extends Model
     public function invoicedSum()
     {
         return $this->hasOne(Account::class)
-            ->selectRaw('sum(invoice_items.total) as sum, account_type_id')
+            ->selectRaw('sum(invoices.total) as sum, account_type_id')
             ->join('invoices', 'invoices.account_id', '=', 'accounts.id')
-            ->join('invoice_items', 'invoice_items.invoice_id', '=', 'invoices.id')
             ->whereNull('invoices.deleted_at')
-            ->whereNull('invoice_items.deleted_at')
             ->groupBy('account_type_id');
     }
 

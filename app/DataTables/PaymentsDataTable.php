@@ -73,7 +73,6 @@ class PaymentsDataTable extends DataTable
             ->scrollX(true)
             ->languageSearchPlaceholder('Search Invoice')
             ->orderBy(0);
-
     }
 
     /**
