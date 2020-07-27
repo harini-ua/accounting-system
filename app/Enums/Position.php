@@ -14,6 +14,7 @@ use BenSampo\Enum\Enum;
  * @method static static Developer()
  * @method static static SysAdmin()
  * @method static static Accountant()
+ * @method static static Designer()
  */
 final class Position extends Enum implements LocalizedEnum
 {
@@ -25,4 +26,5 @@ final class Position extends Enum implements LocalizedEnum
     const Developer = 6;
     const SysAdmin = 7;
     const Accountant = 8;
+    const Designer = 9;
 }
