@@ -86,6 +86,13 @@
             "slug": "expenses",
             "icon": "money_off",
             "i18n": "Expenses"
+        },
+        {
+            "url": "people",
+            "name": "People",
+            "slug": "people",
+            "icon": "people",
+            "i18n": "People"
         }
     ]
 }

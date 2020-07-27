@@ -99,5 +99,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('expense-categories', 'ExpenseCategoryController')->except(['create', 'show']);
     Route::resource('expenses', 'ExpenseController')->except(['show']);
 
+    // People
+    Route::resource('people', 'PersonController');
 });
 
