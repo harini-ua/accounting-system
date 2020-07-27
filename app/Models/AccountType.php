@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
+use App\Services\FilterService;
 use App\Services\Formatter;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Class AccountType
@@ -103,9 +105,20 @@ class AccountType extends Model
      */
     public function invoicedSum()
     {
+        $filterService = app()->make(FilterService::class);
+        $dates = [$filterService->getStartOfMonthDate(), $filterService->getEndOfMonthDate()];
+        $invoiceSums = DB::table('invoice_items')
+            ->select('invoice_id', DB::raw('sum(sum) as total'))
+            ->whereBetween('invoice_items.created_at', $dates)
+            ->whereNull('invoice_items.deleted_at')
+            ->groupBy('invoice_id');
+
         return $this->hasOne(Account::class)
-            ->selectRaw('sum(invoices.total) as sum, account_type_id')
+            ->selectRaw('sum(invoice_sums.total - invoices.discount * invoice_sums.total / (invoices.total + invoices.discount)) as sum, account_type_id')
             ->join('invoices', 'invoices.account_id', '=', 'accounts.id')
+            ->leftJoinSub($invoiceSums, 'invoice_sums', function($join) {
+                $join->on('invoice_sums.invoice_id', '=', 'invoices.id');
+            })
             ->whereNull('invoices.deleted_at')
             ->groupBy('account_type_id');
     }
