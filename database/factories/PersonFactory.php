@@ -10,7 +10,7 @@ $factory->define(Person::class, function (Faker $faker) {
     $startDate = $faker->dateTimeBetween('-5 years', 'now');
     $quitedAt = ! rand(0, 3) ? $faker->dateTimeBetween($startDate, 'now') : null;
     $salaryChangedAt = (! $quitedAt) && rand(0, 1) ? $faker->dateTimeBetween($startDate, 'now') : null;
-    $longVacationStartedAt = (! $quitedAt) && rand(0, 2) ? $faker->dateTimeBetween($startDate, 'now') : null;
+    $longVacationStartedAt = (! $quitedAt) && (! rand(0, 4)) ? $faker->dateTimeBetween($startDate, 'now') : null;
 
     return [
         'name' => $faker->name,
