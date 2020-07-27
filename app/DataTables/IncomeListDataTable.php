@@ -53,13 +53,13 @@ class IncomeListDataTable extends DataTable
                 return $model->salesManager->name;
             })
             ->addColumn('fee', function(Invoice $model) {
-                return Formatter::currency($model->fee, $model->account->accountType);
+                return Formatter::currency($model->fee, $model->account->accountType->symbol);
             })
             ->addColumn('period_total', function(Invoice $model) {
-                return Formatter::currency($model->period_total, $model->account->accountType);
+                return Formatter::currency($model->period_total, $model->account->accountType->symbol);
             })
             ->addColumn('received_sum', function(Invoice $model) {
-                return Formatter::currency($model->received_sum, $model->account->accountType);
+                return Formatter::currency($model->received_sum, $model->account->accountType->symbol);
             })
             ->rawColumns(['status'])
             ->filterColumn('client', function($query, $keyword) {

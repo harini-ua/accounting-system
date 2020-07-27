@@ -12,6 +12,6 @@ $factory->define(\App\Models\Address::class, static function (Faker $faker) {
         'address' => $faker->address,
         'postal_code' => $faker->postcode,
         'is_primary' => $faker->boolean,
-        'is_billing' => $faker->boolean,
+        'is_billing' => 1,
     ];
 });

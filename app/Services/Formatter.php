@@ -9,12 +9,12 @@ class Formatter
 {
     /**
      * @param string $value
-     * @param AccountType $accountType
+     * @param string $symbol
      * @return string
      */
-    public static function currency($value, AccountType $accountType)
+    public static function currency($value, string $symbol)
     {
-        return $accountType->symbol . ' ' . number_format($value, 2, ',', ' ');
+        return $symbol . ' ' . number_format($value, 2, ',', ' ');
     }
 
     /**

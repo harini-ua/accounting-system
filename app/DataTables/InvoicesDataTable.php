@@ -81,15 +81,15 @@ class InvoicesDataTable extends DataTable
         });
 
         $dataTable->addColumn('total', static function(Invoice $model) {
-            return Formatter::currency($model->total, $model->account->accountType);
+            return Formatter::currency($model->total, $model->account->accountType->symbol);
         });
 
         $dataTable->addColumn('fee', static function(Invoice $model) {
-            return Formatter::currency($model->fee, $model->account->accountType);
+            return Formatter::currency($model->fee, $model->account->accountType->symbol);
         });
 
         $dataTable->addColumn('received_sum', static function(Invoice $model) {
-            return Formatter::currency($model->received_sum, $model->account->accountType);
+            return Formatter::currency($model->received_sum, $model->account->accountType->symbol);
         });
 
         $dataTable->addColumn('action', static function(Invoice $model) {
