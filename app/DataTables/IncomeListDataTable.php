@@ -53,13 +53,13 @@ class IncomeListDataTable extends DataTable
                 return $model->salesManager->name;
             })
             ->addColumn('fee', function(Invoice $model) {
-                return Formatter::currency($model->fee, $model->account->accountType);
+                return Formatter::currency($model->fee, $model->account->accountType->symbol);
             })
-            ->addColumn('total', function(Invoice $model) {
-                return Formatter::currency($model->total, $model->account->accountType);
+            ->addColumn('period_total', function(Invoice $model) {
+                return Formatter::currency($model->period_total, $model->account->accountType->symbol);
             })
             ->addColumn('received_sum', function(Invoice $model) {
-                return Formatter::currency($model->received_sum, $model->account->accountType);
+                return Formatter::currency($model->received_sum, $model->account->accountType->symbol);
             })
             ->rawColumns(['status'])
             ->filterColumn('client', function($query, $keyword) {
@@ -93,8 +93,8 @@ class IncomeListDataTable extends DataTable
                     });
                 }
             }, true)
-            ->orderColumn('total', function($query, $order) {
-                $query->orderBy('total', $order);
+            ->orderColumn('period_total', function($query, $order) {
+                $query->orderBy('period_total', $order);
             })
             ->orderColumn('fee', function($query, $order) {
                 $query->orderBy('fee', $order);
@@ -131,6 +131,11 @@ class IncomeListDataTable extends DataTable
     {
         $dates = [$this->filterService->getStartOfMonthDate(), $this->filterService->getEndOfMonthDate()];
 
+        $invoiceSums = DB::table('invoice_items')
+            ->select('invoice_id', DB::raw('sum(sum) as total'))
+            ->whereBetween('invoice_items.created_at', $dates)
+            ->groupBy('invoice_id');
+
         $paymentSums = DB::table('payments')
             ->select('invoice_id', DB::raw('sum(received_sum) as received_sum, sum(fee) as fee'))
             ->whereBetween('payments.date', $dates)
@@ -144,12 +149,16 @@ class IncomeListDataTable extends DataTable
             ])
             ->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
             ->join('invoice_items', 'invoice_items.invoice_id', '=', 'invoices.id')
+            ->leftJoinSub($invoiceSums, 'invoice_sums', function($join) {
+                $join->on('invoice_sums.invoice_id', '=', 'invoices.id');
+            })
             ->leftJoinSub($paymentSums, 'payment_sums', function($join) {
                 $join->on('payment_sums.invoice_id', '=', 'invoices.id');
             })
             ->leftJoin('payments', 'payments.invoice_id', '=', 'invoices.id')
             ->select(['invoices.*'])
             ->selectRaw("payment_sums.fee as fee")
+            ->selectRaw("invoice_sums.total - invoices.discount * invoice_sums.total / (invoices.total + invoices.discount) as period_total")
             ->selectRaw("payment_sums.received_sum as received_sum")
             ->groupBy('id')
             ->whereNull('contracts.deleted_at')
@@ -192,7 +201,7 @@ class IncomeListDataTable extends DataTable
             Column::make('plan_income_date')->title('Planning Date of Income')->searchable(false),
             Column::make('pay_date')->title('Date of Payment')->searchable(false),
             Column::make('wallet')->searchable(false),
-            Column::make('total')->title('Sum')->searchable(false),
+            Column::make('period_total')->title('Sum')->searchable(false),
             Column::make('fee')->searchable(false),
             Column::make('received_sum')->searchable(false),
             Column::make('status')->searchable(false),

@@ -99,5 +99,9 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('expense-categories', 'ExpenseCategoryController')->except(['create', 'show']);
     Route::resource('expenses', 'ExpenseController')->except(['show']);
 
+    // People
+    Route::get('/people/former-list', 'PersonController@formerList')->name('people.former-list');
+    Route::post('people/change-salary-type/{person}', 'PersonController@changeSalaryType')->name('people.change-salary-type');
+    Route::resource('people', 'PersonController');
 });
 

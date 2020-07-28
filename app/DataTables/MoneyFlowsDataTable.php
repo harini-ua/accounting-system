@@ -30,13 +30,13 @@ class MoneyFlowsDataTable extends DataTable
                 return mb_strimwidth($model->comment, 0, 50, '...');
             })
             ->addColumn('sum_from', function(MoneyFlow $model) {
-                return Formatter::currency($model->sum_from, $model->accountFrom->accountType);
+                return Formatter::currency($model->sum_from, $model->accountFrom->accountType->symbol);
             })
             ->addColumn('sum_to', function(MoneyFlow $model) {
-                return Formatter::currency($model->sum_to, $model->accountTo->accountType);
+                return Formatter::currency($model->sum_to, $model->accountTo->accountType->symbol);
             })
             ->addColumn('fee', function(MoneyFlow $model) {
-                return Formatter::currency($model->fee, $model->accountFrom->accountType);
+                return Formatter::currency($model->fee, $model->accountFrom->accountType->symbol);
             })
             ->filterColumn('wallet_from', function($query, $keyword) {
                 $accounts = Account::join('wallets', 'wallets.id', '=', 'accounts.wallet_id')

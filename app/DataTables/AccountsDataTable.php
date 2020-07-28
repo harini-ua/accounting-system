@@ -37,13 +37,13 @@ class AccountsDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('start_sum', function(Account $account) {
-                return Formatter::currency($account->start_sum, $account->accountType);
+                return Formatter::currency($account->start_sum, $account->accountType->symbol);
             })
             ->addColumn('income', function(Account $account) {
-                return Formatter::currency($account->income, $account->accountType);
+                return Formatter::currency($account->income, $account->accountType->symbol);
             })
             ->addColumn('expenses', function(Account $account) {
-                return Formatter::currency($account->expenses, $account->accountType);
+                return Formatter::currency($account->expenses, $account->accountType->symbol);
             })
             ->addColumn('status', function(Account $model) {
                 return $model->status
@@ -51,7 +51,7 @@ class AccountsDataTable extends DataTable
                     : '<span class="chip lighten-5 red red-text">Inactive</span>';
             })
             ->addColumn('balance', function(Account $model) {
-                return Formatter::currency($model->balance, $model->accountType);
+                return Formatter::currency($model->balance, $model->accountType->symbol);
             })
             ->addColumn('action', function(Account $account) {
                 return view("partials.actions", ['actions'=>['edit'], 'model' => $account]);

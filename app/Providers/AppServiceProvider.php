@@ -6,6 +6,7 @@ use App\Models\Contract;
 use App\Models\Invoice;
 use App\Observers\ContractObserver;
 use App\Observers\InvoiceObserver;
+use App\Services\FilterService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -17,7 +18,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton(FilterService::class);
     }
 
     /**

@@ -22,30 +22,32 @@
 
 {{-- page content --}}
 @section('content')
-    <x-totals :options="$accountTypes" relation="planningSum"/>
     <!-- Sidebar Area Starts -->
 
     <!-- Sidebar Area Ends -->
     <!-- list -->
-    <section class="list-wrapper section">
-        <div class="card-panel accounts-page-card-panel">
-            <div class="row">
-                <div class="col s12 m12 l6 input-field">
-                    <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-table"/>
 
-                </div>
-                <div class="col s12 l6 display-flex align-items-center show-btn">
-                    <x-filter
-                            table="incomes-table"
-                            :options="$clients"
-                            url="{{ route('incomes.index') }}"
-                            name="client_filter"
-                            title="Filter by Client"
-                    />
-                    <x-reset-filters/>
-                </div>
-            </div>
+    <div class="card-panel filter-panel accounts-page-card-panel">
+        <div class="filter-block">
+            <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-table"/>
+
+
+            <x-filter
+                    table="incomes-table"
+                    :options="$clients"
+                    url="{{ route('incomes.index') }}"
+                    name="client_filter"
+                    title="Filter by Client"
+            />
         </div>
+        <x-reset-filters/>
+
+    </div>
+
+    <x-totals :options="$accountTypes" relation="planningSum"/>
+
+    <section class="list-wrapper section">
+
         <div class="page-layout">
             <div class="card">
                 <div class="card-content">

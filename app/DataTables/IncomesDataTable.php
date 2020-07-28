@@ -37,7 +37,7 @@ class IncomesDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('plan_sum', function(Income $model) {
-                return Formatter::currency($model->plan_sum, $model->account->accountType);
+                return Formatter::currency($model->plan_sum, $model->account->accountType->symbol);
             })
             ->addColumn('client', function(Income $model) {
                 return view('partials.view-link', ['model' => $model->contract->client]);

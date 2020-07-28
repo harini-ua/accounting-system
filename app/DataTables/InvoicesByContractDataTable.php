@@ -56,15 +56,15 @@ class InvoicesByContractDataTable extends DataTable
         });
 
         $dataTable->addColumn('total', static function(Invoice $model) {
-            return Formatter::currency($model->total, $model->account->accountType);
+            return Formatter::currency($model->total, $model->account->accountType->symbol);
         });
 
         $dataTable->addColumn('fee', static function(Invoice $model) {
-            return Formatter::currency($model->fee, $model->account->accountType);
+            return Formatter::currency($model->fee, $model->account->accountType->symbol);
         });
 
         $dataTable->addColumn('received_sum', static function(Invoice $model) {
-            return Formatter::currency($model->received_sum, $model->account->accountType);
+            return Formatter::currency($model->received_sum, $model->account->accountType->symbol);
         });
 
         $dataTable->addColumn('status', static function(Invoice $model) {
@@ -164,8 +164,8 @@ class InvoicesByContractDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('invoices-list-datatable')
-            ->addTableClass('table')
+            ->setTableId('invoices-list-datatable ')
+            ->addTableClass('table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->searching(false)
@@ -177,8 +177,7 @@ class InvoicesByContractDataTable extends DataTable
 //                $(api.column(6).footer()).html(payload.total_fee);
 //                $(api.column(7).footer()).html(payload.total_received_sum);
 //            }')
-            ->orderBy(0)
-            ->scrollX(true);
+            ->orderBy(0);
     }
 
     /**
