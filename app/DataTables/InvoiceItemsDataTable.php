@@ -70,7 +70,6 @@ class InvoiceItemsDataTable extends DataTable
             ->minifiedAjax()
             ->dom('Bftrip')
             ->languageSearch('')
-//            ->scrollX(true)
             ->languageSearchPlaceholder('Search Invoice')
             ->orderBy(0);
     }

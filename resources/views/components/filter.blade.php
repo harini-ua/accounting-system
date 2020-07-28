@@ -1,6 +1,6 @@
-<div class="{{ $className }}" data-table="{{ $table }}" data-url="{{ $url }}" data-name="{{ $name }}">
+<div class="{{ $className }} custom-filter-btn" data-table="{{ $table }}" data-url="{{ $url }}" data-name="{{ $name }}">
     <!-- Dropdown Trigger -->
-    <a class="dropdown-trigger btn waves-effect waves-light purple darken-1 border-round display-flex align-items-center justify-content-center full-width" href="#"
+    <a class="dropdown-trigger btn waves-effect waves-light purple darken-1 full-width" href="#"
        data-target="btn-filter-{{ $table }}-{{ $id }}">
         <span>{{ $title }}</span>
         <i class="material-icons">keyboard_arrow_down</i>

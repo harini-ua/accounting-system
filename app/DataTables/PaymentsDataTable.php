@@ -65,12 +65,11 @@ class PaymentsDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('payments-list-datatable')
-            ->addTableClass('table payment-data-table white border-radius-4 pt-1')
+            ->addTableClass('table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
-            ->dom('<"top display-flex mb-2"<"action-filters"f><"actions action-btns display-flex align-items-center">><"clear">rt<"bottom"p>')
+            ->dom('Bfrtip')
             ->languageSearch('')
-            ->scrollX(true)
             ->languageSearchPlaceholder('Search Invoice')
             ->orderBy(0);
     }

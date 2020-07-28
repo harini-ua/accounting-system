@@ -98,11 +98,10 @@ class ExpenseDataTable extends DataTable
     {
         return $this->builder()
                     ->setTableId('expense-datatable-table')
-                    ->addTableClass('table')
+                    ->addTableClass('table responsive-table highlight')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->scrollX(true)
                     ->searching(false)
                     ->orderBy(0);
     }

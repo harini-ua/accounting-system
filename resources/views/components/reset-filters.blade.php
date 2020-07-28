@@ -1,3 +1,3 @@
-<div class="col s12 m8">
-    <a href="{{ url()->current() }}" class="btn btn-block indigo waves-effect waves-light">Reset</a>
+<div>
+    <a href="{{ url()->current() }}" class=" reset-btn btn btn-block waves-effect waves-light">Reset</a>
 </div>
