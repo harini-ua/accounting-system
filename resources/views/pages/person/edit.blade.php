@@ -72,63 +72,26 @@
         <div class="card quill-wrapper">
             <div class="card-content pt-0">
                 <div class="card-header display-flex pb-2">
-                    <h3 class="card-title contact-title-label">Create New Contact</h3>
+                    <h3 class="card-title contact-title-label">Change salary type</h3>
                     <div class="close close-icon">
                         <i class="material-icons">close</i>
                     </div>
                 </div>
                 <div class="divider"></div>
                 <!-- form start -->
-                <form class="edit-contact-item mb-5 mt-5">
+                <form name="change-salary-type" class="edit-contact-item mb-5 mt-5" method="post" action="{{ route('people.change-salary-type', $model) }}">
+                    @csrf
                     <div class="row">
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix"> perm_identity </i>
-                            <input id="first_name" type="text" class="validate">
-                            <label for="first_name">First Name</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix"> perm_identity </i>
-                            <input id="last_name" type="text" class="validate">
-                            <label for="last_name">Last Name</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix"> business </i>
-                            <input id="company" type="text" class="validate">
-                            <label for="company">Company</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix"> business_center </i>
-                            <input id="business" type="text" class="validate">
-                            <label for="business">Job Title</label>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix"> email </i>
-                            <input id="email" type="email" class="validate">
-                            <label for="email">Email</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix"> call </i>
-                            <input id="phone" type="text" class="validate">
-                            <label for="phone">Phone</label>
-                        </div>
-                        <div class="input-field col s12">
-                            <i class="material-icons prefix"> note </i>
-                            <input id="notes" type="text" class="validate">
-                            <label for="notes">Notes</label>
-                        </div>
+                        <x-date name="salary_type_changed_at" title="Date" :model="$model"></x-date>
+                        <x-select name="salary_type" title="Salary type" :options="$salaryTypes" :model="$model"></x-select>
                     </div>
                 </form>
+                <!-- form start end-->
                 <div class="card-action pl-0 pr-0 right-align">
                     <button class="btn-small waves-effect waves-light add-contact">
-                        <span>Add Contact</span>
-                    </button>
-                    <button class="btn-small waves-effect waves-light update-contact display-none">
-                        <span>Update Contact</span>
+                        <span>Save Changes</span>
                     </button>
                 </div>
-                <!-- form start end-->
             </div>
         </div>
     </div>

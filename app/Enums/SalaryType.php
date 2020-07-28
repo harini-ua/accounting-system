@@ -17,6 +17,6 @@ final class SalaryType extends Enum implements LocalizedEnum
 
     const Fixed40 = 'fixed_40';
     const Fixed30 = 'fixed_30';
-    const Fixed20 = 'fixed_30';
+    const Fixed20 = 'fixed_20';
     const Hourly = 'hourly';
 }

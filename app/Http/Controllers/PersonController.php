@@ -7,6 +7,7 @@ use App\Enums\PersonContractType;
 use App\Enums\Position;
 use App\Enums\Currency;
 use App\Enums\SalaryType;
+use App\Http\Requests\Person\ChangeSalaryTypeRequest;
 use App\Http\Requests\Person\PersonRequest;
 use App\Models\Person;
 use App\DataTables\PersonDataTable;
@@ -145,5 +146,18 @@ class PersonController extends Controller
             return response()->json(['success'=>true]);
         }
         return response()->json(['success'=>false]);
+    }
+
+    /**
+     * @param ChangeSalaryTypeRequest $request
+     * @param Person $person
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changeSalaryType(ChangeSalaryTypeRequest $request, Person $person)
+    {
+        $person->fill($request->all());
+        $person->save();
+
+        return response()->json(['success'=>true]);
     }
 }

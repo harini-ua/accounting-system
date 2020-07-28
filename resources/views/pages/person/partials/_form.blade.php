@@ -1,6 +1,6 @@
 <!-- form start -->
 @php($model = $model ?? null)
-<form method="POST" action="{{ $model ? route('people.update', $model) : route('people.store') }}">
+<form name="main-form" method="POST" action="{{ $model ? route('people.update', $model) : route('people.store') }}">
     @csrf
     @if($model)
         @method('PUT')
