@@ -141,14 +141,17 @@ class WalletController extends Controller
      */
     public function walletAccounts($walletId)
     {
-        return Account::with('accountType')
-            ->where('wallet_id', '=', $walletId)
-            ->get()
-            ->map(function($account) {
+        $accounts = Account::with(['accountType' => static function($query) {
+            $query->orderBy('name');
+        }])
+            ->where('wallet_id', $walletId)->get()
+            ->map(static function($account) {
                 return [
                     'id' => $account->id,
                     'name' => $account->accountType->name,
                 ];
             });
+
+        return $accounts->prepend(['id' => '', 'name' => __('- Select Account -')]);
     }
 }

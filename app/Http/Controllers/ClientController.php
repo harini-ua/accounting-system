@@ -185,14 +185,16 @@ class ClientController extends Controller
      */
     public function clientContracts($clientId)
     {
-        return Contract::where('client_id', '=', $clientId)
-            ->get()
-            ->map(function($contract) {
+        $contracts = Contract::where('client_id', $clientId)
+            ->orderBy('name')->get()
+            ->map(static function($contract) {
                 return [
                     'id' => $contract->id,
                     'name' => $contract->name,
                 ];
             });
+
+        return $contracts->prepend(['id' => '', 'name' => __('- Select Contract -')]);
     }
 
     /**

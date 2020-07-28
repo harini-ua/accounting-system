@@ -55,8 +55,8 @@ class IncomeController extends Controller
         ];
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
-        $clients = Client::with('contracts')->get();
-        $wallets = Wallet::with('accounts.accountType')->get();
+        $clients = Client::with('contracts')->orderBy('name')->get();
+        $wallets = Wallet::with('accounts.accountType')->orderBy('name')->get();
 
         $filterService = $dataTable->filterService;
         $accountTypes = AccountType::with([

@@ -4,6 +4,12 @@
 {{-- page title --}}
 @section('title','Edit Income')
 
+{{-- vendor styles --}}
+@section('vendor-style')
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2-materialize.css')}}">
+@endsection
+
 {{-- page content --}}
 @section('content')
 <!-- edit start -->
@@ -26,7 +32,7 @@
                                         firstTitle="Client"
                                         secondName="contract_id"
                                         secondTitle="Contract"
-                                        dataUrl="/clients/clientContracts"
+                                        dataUrl="/clients/[id]/contracts"
                                         view="components.linked-selects.clients-contracts"
                                         :options="$clients"
                                         :model="$income"
@@ -36,7 +42,7 @@
                                         firstTitle="Wallet"
                                         secondName="account_id"
                                         secondTitle="Account"
-                                        dataUrl="/wallets/walletAccounts"
+                                        dataUrl="/wallets/[id]/accounts"
                                         view="components.linked-selects.wallets-accounts"
                                         :options="$wallets"
                                         :model="$income"
@@ -65,6 +71,13 @@
     </div>
 </div>
 <!-- edit ends -->
+@endsection
+
+{{-- vendor scripts --}}
+@section('vendor-script')
+    <script src="{{asset('js/scripts/form-select2.js')}}"></script>
+    <script src="{{asset('vendors/select2/select2.full.min.js')}}"></script>
+    <script src="{{asset('vendors/jquery-validation/jquery.validate.min.js')}}"></script>
 @endsection
 
 {{-- page scripts --}}

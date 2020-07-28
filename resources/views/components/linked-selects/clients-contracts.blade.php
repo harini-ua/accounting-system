@@ -1,41 +1,39 @@
-<div class="col s12 input-field">
-    <select id="{{ $firstName }}" name="{{ $firstName }}" class="linked" data-url="{{ $url }}">
-        @if($model)
-            @foreach ($options as $client)
-                <option {{ $model->contract->client_id == $client->id ? 'selected' : '' }}
-                        value="{{ $client->id }}">
-                    {{ $client->name }}
-                </option>
-            @endforeach
-        @else
-            @foreach ($options as $client)
-                <option {{ old($firstName) == $client->id ? 'selected' : '' }}
-                        value="{{ $client->id }}">
-                    {{ $client->name }}
-                </option>
-            @endforeach
+<div class="s12 input-field">
+    <select id="{{ $firstName }}" name="{{ $firstName }}" data-placeholder="{{ __('- Select '.$firstTitle.' -') }}" class="select2 browser-default linked" data-url="{{ $url }}">
+        @if(count($options))
+            <option class="first_default">{{ __('- Select '.$firstTitle.' -') }}</option>
+            @if($model)
+                @foreach ($options as $client)
+                    <option {{ $model->contract->client_id == $client->id ? 'selected' : '' }}
+                            value="{{ $client->id }}">
+                        {{ $client->name }}
+                    </option>
+                @endforeach
+            @else
+                @foreach ($options as $client)
+                    <option {{ old($firstName) == $client->id ? 'selected' : '' }}
+                            value="{{ $client->id }}">
+                        {{ $client->name }}
+                    </option>
+                @endforeach
+            @endif
         @endif
     </select>
-    <label for="{{ $firstName }}">{{ $firstTitle }}</label>
 </div>
-<div class="col s12 input-field">
-    <select id="{{ $secondName }}" name="{{ $secondName }}" data-linked="{{ $firstName }}">
+
+<div class="s12 input-field">
+    <select id="{{ $secondName }}" name="{{ $secondName }}" data-placeholder="{{ __('- Select '.$secondTitle.' -') }}" class="select2 browser-default" data-linked="{{ $firstName }}">
         @if($model)
-            @foreach ($options->find($model->contract->client_id)->contracts as $contract)
+            @php $contracts = $options->find($model->contract->client_id)->contracts; @endphp
+            @if(count($contracts))
+                <option class="first_default">{{ __('- Select '.$secondTitle.' -') }}</option>
+                @foreach ($contracts as $contract)
                 <option {{ $model->contract_id == $contract->id ? 'selected' : '' }}
                         value="{{ $contract->id }}">
                     {{ $contract->name }}
                 </option>
-            @endforeach
-        @else
-            @php($client = old($firstName) ? $options->find(old($firstName)) : $options->first())
-            @foreach ($client->contracts as $contract)
-                <option {{ old($secondName) == $contract->id ? 'selected' : '' }}
-                        value="{{ $contract->id }}">
-                    {{ $contract->name }}
-                </option>
-            @endforeach
+                @endforeach
+            @endif
         @endif
     </select>
-    <label for="{{ $secondName }}">{{ $secondTitle }}</label>
 </div>

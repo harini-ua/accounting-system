@@ -17,5 +17,10 @@ return [
     ],
     'address' => [
         'format' => '{ADDRESS}, {CITY}, {STATE} {COUNTRY} {POST_CODE}'
+    ],
+    'logo' => [
+        'src' => 'https://dummyimage.com/200x100/aaa/fff.png&text=Seller+Logo',
+        'height' => 100,
+        'width' => 200,
     ]
 ];

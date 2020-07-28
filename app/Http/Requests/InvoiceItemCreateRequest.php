@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\InvoiceItemType;
+use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 
 class InvoiceItemCreateRequest extends FormRequest
@@ -25,6 +27,10 @@ class InvoiceItemCreateRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:100',
+            'description' => 'string',
+            'type' =>  ['required', new EnumValue(InvoiceItemType::class)],
+            'qrt' => 'required|integer',
+            'rate' => 'required|numeric',
         ];
     }
 }
