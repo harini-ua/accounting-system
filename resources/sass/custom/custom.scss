@@ -9,32 +9,104 @@ NOTE:
 ------
 PLACE HERE YOUR OWN CSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+body {
+  background-color: rgba(16, 16, 255, 0.07);
+}
 
 #main {
   min-height: calc(100vh - 116px);
 }
 
+@media screen and (max-width: 768px) {
+  th {
+    padding: 0 15px 0 5px !important;
+    height: 40px;
+  }
 
-  @media screen and (max-width: 768px) {
-    th {
-      padding: 0 15px  0 5px !important;
-      height: 40px;
-    }
-
-    td {
-      padding: 0 !important;
-      height: 41px;
-      &:last-child {
-        margin-bottom: 20px;
-      }
-    }
-
-    th, td {
-      display: flex !important;
-      align-items: center !important;
+  td {
+    padding: 0 !important;
+    height: 41px;
+    &:last-child {
+      margin-bottom: 20px;
     }
   }
 
+  th, td {
+    display: flex !important;
+    align-items: center !important;
+  }
+}
+
+.btn {
+  height: 40px;
+}
+
+.custom-filter-btn {
+  min-width: 200px;
+  margin-right: 15px;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  a {
+    width: 100%;
+  }
+  @media screen and (max-width: 768px) {
+    margin-bottom: 15px;
+  }
+  @media screen and (max-width: 540px) {
+    width: 100%;
+    margin-right: 0;
+
+  }
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.filter-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 120px;
+  flex-wrap: wrap;
+
+  .filter-block {
+    display: flex;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    @media screen and (max-width: 768px) {
+      justify-content: space-between;
+      width: 100%;
+    }
+  }
+}
+
+.reset-btn {
+  min-width: 200px;
+  background-color: transparent;
+  border: solid 2px #3f51b5;
+  font-weight: bold;
+  color: #3f51b5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none;
+  max-width: 100px;
+  float: right;
+  margin-bottom: 10px;
+  @media screen and (max-width: 1300px) {
+    max-width: 100px;
+    min-width: 0;
+  }
+  @media screen and (max-width: 768px) {
+    max-width: 100%;
+    width: 100%;
+  }
+  &:hover {
+    background-color: #3f51b5;
+    color: white;
+  }
+}
 
 table.dataTable thead .sorting_desc {
   @media screen and (max-width: 738px) {

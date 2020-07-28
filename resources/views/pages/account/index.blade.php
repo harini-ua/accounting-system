@@ -22,34 +22,30 @@
 @section('content')
     <div class="animate fadeUp">
         <x-totals :options="$accountTypes" relation="accountsSum"/>
-        <div class="card-panel accounts-page-card-panel">
-            <div class="row">
-                <div class="col s12 m12 l3 input-field">
-                    <div class="invoice-filter-action mr-3">
-                        <input type="text" class="datepicker" placeholder="Start date"
-                               value="{{ $startDate->format('d-m-Y') }}">
-                    </div>
+        <div class="card-panel filter-panel accounts-page-card-panel">
+            <div class="filter-block">
+
+                <div class="invoice-filter-action mr-3">
+                    <input type="text" class="datepicker" placeholder="Start date"
+                           value="{{ $startDate->format('d-m-Y') }}">
                 </div>
-                <div class="col s12 m12 l3 input-field">
-                    <div class="invoice-filter-action mr-3">
-                        <input type="text" class="datepicker" placeholder="End date"
-                               value="{{ $endDate->format('d-m-Y') }}">
-                    </div>
+
+                <div class="invoice-filter-action mr-3">
+                    <input type="text" class="datepicker" placeholder="End date"
+                           value="{{ $endDate->format('d-m-Y') }}">
                 </div>
-                <div class="col s12 l6 display-flex align-items-center show-btn">
-                    <div class="col s12 m7 input-field">
-                        <x-filter
-                                table="accounts-list-datatable"
-                                :options="$wallets"
-                                url="{{ route('accounts.index') }}"
-                                name="wallet_filter"
-                                title="Filter by Wallet"
-                        />
-                    </div>
-                    <x-reset-filters/>
-                </div>
+                <x-filter
+                        table="accounts-list-datatable"
+                        :options="$wallets"
+                        url="{{ route('accounts.index') }}"
+                        name="wallet_filter"
+                        title="Filter by Wallet"
+                />
             </div>
+            <x-reset-filters/>
         </div>
+
+
         <section class="users-list-wrapper section">
             <div class="users-list-table">
                 <div class="card">
