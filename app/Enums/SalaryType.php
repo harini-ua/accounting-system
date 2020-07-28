@@ -13,6 +13,8 @@ use BenSampo\Enum\Enum;
  */
 final class SalaryType extends Enum implements LocalizedEnum
 {
+    use CollectionTrait;
+
     const Fixed40 = 'fixed_40';
     const Fixed30 = 'fixed_30';
     const Fixed20 = 'fixed_30';
