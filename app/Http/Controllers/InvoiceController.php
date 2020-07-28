@@ -6,6 +6,7 @@ use App\DataTables\InvoicesDataTable;
 use App\Enums\InvoiceStatus;
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Services\Formatter;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -22,7 +23,7 @@ class InvoiceController extends Controller
     public function index(InvoicesDataTable $dataTable)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => __("Home")],
+            ['link' => route('home'), 'name' => __('Home')],
             ['name' => __("Invoices")]
         ];
 
@@ -77,9 +78,32 @@ class InvoiceController extends Controller
      */
     public function show(Invoice $invoice)
     {
-        $pageConfigs = ['pageHeader' => true];
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('invoices.index'), 'name' => __('Invoices')],
+            ['name' => $invoice->name],
+        ];
 
-        return view('pages.invoice.view', compact('pageConfigs', 'invoice'));
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+        $invoice->load(['items', 'contract.client.billingAddress', 'account.accountType']);
+
+        $client = $invoice->contract->client;
+
+        $billFrom = [];
+
+        $billTo = [
+            'company' => $client->company_name,
+            'address' => Formatter::address($client->billingAddress),
+            'email' => $client->email,
+            'phone' => $client->phone,
+        ];
+
+        $sum = $invoice->items()->sum('sum');
+
+        return view('pages.invoice.view', compact(
+            'breadcrumbs', 'pageConfigs', 'invoice', 'billFrom', 'billTo', 'sum'
+        ));
     }
 
     /**
@@ -91,11 +115,17 @@ class InvoiceController extends Controller
      */
     public function edit(Invoice $invoice)
     {
-        $pageConfigs = ['pageHeader' => true];
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('invoices.index'), 'name' => __('Invoices')],
+            ['name' => $invoice->name],
+        ];
+
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
         $invoice->load('contract');
 
-        return view('pages.invoice.update', compact('pageConfigs', 'invoice'));
+        return view('pages.invoice.update', compact('breadcrumbs', 'pageConfigs', 'invoice'));
     }
 
     /**

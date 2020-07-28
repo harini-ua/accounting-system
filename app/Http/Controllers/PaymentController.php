@@ -18,9 +18,17 @@ class PaymentController extends Controller
      */
     public function index(PaymentsDataTable $dataTable)
     {
-        $pageConfigs = ['pageHeader' => true];
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __('Home')],
+            ['name' => __("Payments")]
+        ];
 
-        return $dataTable->render('pages.payments.index', compact('pageConfigs'));
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+
+        return $dataTable->render('pages.payments.index', compact(
+            'breadcrumbs', 'pageConfigs'
+        ));
     }
 
     /**
@@ -30,9 +38,17 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        $pageConfigs = ['pageHeader' => true];
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => 'javascript:void(0)', 'name' => __('Payment')],
+            ['name' => __('Create')]
+        ];
 
-        return view('pages.payments.create', compact('pageConfigs'));
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+        return view('pages.payments.create', compact(
+            'breadcrumbs', 'pageConfigs'
+        ));
     }
 
     /**
@@ -72,9 +88,17 @@ class PaymentController extends Controller
      */
     public function show(Payment $payment)
     {
-        $pageConfigs = ['pageHeader' => true];
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => 'javascript:void(0)', 'name' => __('Payment')],
+            ['name' => __('Update')]
+        ];
 
-        return view('pages.payments.view', compact('pageConfigs', 'payment'));
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+        return view('pages.payments.view', compact(
+            'breadcrumbs', 'pageConfigs', 'payment'
+        ));
     }
 
     /**
@@ -86,7 +110,7 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment)
     {
-        $pageConfigs = ['pageHeader' => true];
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
         $payment->load('contract');
 

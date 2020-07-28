@@ -16,6 +16,7 @@ class CreateExpensesTable extends Migration
         Schema::create('expenses', function (Blueprint $table) {
             $table->id();
             $table->date('plan_date');
+            $table->date('real_date')->nullable();
             $table->string('purpose');
             $table->decimal('plan_sum', 15,2)->nullable();
             $table->decimal('real_sum', 15,2)->nullable();

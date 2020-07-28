@@ -20,14 +20,15 @@ class IncomeSeeder extends Seeder
         $createdAt = \Illuminate\Support\Carbon::now();
 
         foreach ($contractIds as $contractId) {
-            $contractIncomes = factory(Income::class, rand(5, 10))->make([
+            $contractIncomes = factory(Income::class, random_int(5, 10))->make([
                 'contract_id' => $contractId,
-                'account_id' => function() use ($accountIds) {
+                'account_id' => static function() use ($accountIds) {
                     return $accountIds[array_rand($accountIds)];
                 },
                 'created_at' => $createdAt,
                 'updated_at' => $createdAt,
             ])->toArray();
+
             $incomes = array_merge($incomes, $contractIncomes);
         }
 

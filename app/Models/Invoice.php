@@ -33,7 +33,7 @@ class Invoice extends Model
      *
      * @var array
      */
-    protected $fillable = ['number', 'client_id', 'contract_id', 'wallet_id', 'date', 'plan_income_date', 'status', 'type'];
+    protected $fillable = ['number', 'name', 'client_id', 'contract_id', 'sales_manager_id', 'date', 'status', 'type', 'discount', 'total', 'plan_income_date', 'pay_date'];
 
     /**
      * The attributes that should be cast.
@@ -44,7 +44,9 @@ class Invoice extends Model
         'number' => InvoiceNumber::class,
         'created_at' => 'datetime:Y-m-d H:i:s',
         'updated_at' => 'datetime:Y-m-d H:i:s',
+        'date' => Date::class,
         'plan_income_date' => Date::class,
+        'plan_date' => Date::class,
     ];
 
     /**
@@ -97,5 +99,18 @@ class Invoice extends Model
     public function salesManager()
     {
         return $this->belongsTo(User::class, 'sales_manager_id');
+    }
+
+    /**
+     * Recalculates total and tax based on lines
+     *
+     * @return Invoice
+     */
+    public function recalculate()
+    {
+        $this->total = $this->items()->sum('sum') - $this->discount;
+        $this->save();
+
+        return $this;
     }
 }

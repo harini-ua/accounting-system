@@ -24,16 +24,7 @@
         <x-totals :options="$accountTypes" relation="accountsSum"/>
         <div class="card-panel filter-panel accounts-page-card-panel">
             <div class="filter-block">
-
-                <div class="invoice-filter-action mr-3">
-                    <input type="text" class="datepicker" placeholder="Start date"
-                           value="{{ $startDate->format('d-m-Y') }}">
-                </div>
-
-                <div class="invoice-filter-action mr-3">
-                    <input type="text" class="datepicker" placeholder="End date"
-                           value="{{ $endDate->format('d-m-Y') }}">
-                </div>
+                    <x-date-filter start="{{ $startDate->format('d-m-Y') }}" end="{{ $endDate->format('d-m-Y') }}" table="accounts-list-datatable"/>
                 <x-filter
                         table="accounts-list-datatable"
                         :options="$wallets"
@@ -44,8 +35,6 @@
             </div>
             <x-reset-filters/>
         </div>
-
-
         <section class="users-list-wrapper section">
             <div class="users-list-table">
                 <div class="card">

@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Contract;
 use App\Models\Invoice;
 use App\Services\FilterService;
+use App\Services\Formatter;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Button;
@@ -51,6 +52,15 @@ class IncomeListDataTable extends DataTable
             ->addColumn('sales', function(Invoice $model) {
                 return $model->salesManager->name;
             })
+            ->addColumn('fee', function(Invoice $model) {
+                return Formatter::currency($model->fee, $model->account->accountType->symbol);
+            })
+            ->addColumn('period_total', function(Invoice $model) {
+                return Formatter::currency($model->period_total, $model->account->accountType->symbol);
+            })
+            ->addColumn('received_sum', function(Invoice $model) {
+                return Formatter::currency($model->received_sum, $model->account->accountType->symbol);
+            })
             ->rawColumns(['status'])
             ->filterColumn('client', function($query, $keyword) {
                 $contracts = Contract::join('clients', 'contracts.client_id', '=', 'clients.id')
@@ -83,6 +93,15 @@ class IncomeListDataTable extends DataTable
                     });
                 }
             }, true)
+            ->orderColumn('period_total', function($query, $order) {
+                $query->orderBy('period_total', $order);
+            })
+            ->orderColumn('fee', function($query, $order) {
+                $query->orderBy('fee', $order);
+            })
+            ->orderColumn('received_sum', function($query, $order) {
+                $query->orderBy('received_sum', $order);
+            })
             ->orderColumn('client', function($query, $order) {
                 $query->join('clients', 'contracts.client_id', '=', 'clients.id')
                     ->orderBy('clients.name', $order);
@@ -113,7 +132,7 @@ class IncomeListDataTable extends DataTable
         $dates = [$this->filterService->getStartOfMonthDate(), $this->filterService->getEndOfMonthDate()];
 
         $invoiceSums = DB::table('invoice_items')
-            ->select('invoice_id', DB::raw('sum(total) as total'))
+            ->select('invoice_id', DB::raw('sum(sum) as total'))
             ->whereBetween('invoice_items.created_at', $dates)
             ->groupBy('invoice_id');
 
@@ -127,7 +146,6 @@ class IncomeListDataTable extends DataTable
                 'contract.client',
                 'account.wallet',
                 'salesManager',
-//                'account.accountType'
             ])
             ->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
             ->join('invoice_items', 'invoice_items.invoice_id', '=', 'invoices.id')
@@ -138,8 +156,9 @@ class IncomeListDataTable extends DataTable
                 $join->on('payment_sums.invoice_id', '=', 'invoices.id');
             })
             ->leftJoin('payments', 'payments.invoice_id', '=', 'invoices.id')
-            ->select(['invoices.*', 'invoice_sums.total as total'])
+            ->select(['invoices.*'])
             ->selectRaw("payment_sums.fee as fee")
+            ->selectRaw("invoice_sums.total - invoices.discount * invoice_sums.total / (invoices.total + invoices.discount) as period_total")
             ->selectRaw("payment_sums.received_sum as received_sum")
             ->groupBy('id')
             ->whereNull('contracts.deleted_at')
@@ -182,8 +201,7 @@ class IncomeListDataTable extends DataTable
             Column::make('plan_income_date')->title('Planning Date of Income')->searchable(false),
             Column::make('pay_date')->title('Date of Payment')->searchable(false),
             Column::make('wallet')->searchable(false),
-//            Column::make('account')->data('account.account_type.name')->searchable(false),
-            Column::make('total')->title('Sum')->searchable(false),
+            Column::make('period_total')->title('Sum')->searchable(false),
             Column::make('fee')->searchable(false),
             Column::make('received_sum')->searchable(false),
             Column::make('status')->searchable(false),

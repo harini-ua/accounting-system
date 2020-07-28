@@ -28,11 +28,18 @@ class ClientCreateRequest extends FormRequest
             'company_name' => 'required|string|min:2',
             'email' => 'required|email|unique:clients,email',
             'phone' => 'required|string|unique:clients,phone',
+            // address
             'country' => 'nullable|string|min:2',
             'address' => 'nullable|string|min:3',
             'city' => 'nullable|string|min:1',
             'state' => 'nullable|string|min:2',
-            'postal_code' => 'nullable|integer',
+            'postal_code' => 'nullable|string|min:3',
+            // bank
+            'bank_name' => 'nullable|string|min:3',
+            'bank_address' => 'nullable|string|min:3',
+            'account' => 'nullable|string|min:3|max:100',
+            'iban' => 'nullable|string|min:8|max:34',
+            'swift' => 'nullable|string|min:8|max:11',
         ];
     }
 }

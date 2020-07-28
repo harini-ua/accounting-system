@@ -25,6 +25,8 @@ class CreateInvoicesTable extends Migration
                 ->default(\App\Enums\InvoiceStatus::DRAFT);
             $table->string('type', 20)
                 ->default(\App\Enums\InvoiceType::DEFAULT);
+            $table->decimal('discount', 15,2)->nullable();
+            $table->decimal('total', 15,2);
             $table->date('plan_income_date');
             $table->date('pay_date');
             $table->timestamps();

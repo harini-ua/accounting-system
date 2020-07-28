@@ -7,8 +7,11 @@ use App\DataTables\ContractsDataTable;
 use App\Enums\ContractStatus;
 use App\Http\Requests\ClientCreateRequest;
 use App\Http\Requests\ClientUpdateRequest;
+use App\Models\Address;
+use App\Models\Bank;
 use App\Models\Client;
 use App\Models\Contract;
+use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
@@ -72,7 +75,8 @@ class ClientController extends Controller
         $client->fill($request->all());
         $client->save();
 
-        $client->billingAddress()->create($request->only(['country', 'city', 'state', 'address', 'postal_code']));
+        $this->attachBillingAddress($request, $client);
+        $this->attachBank($request, $client);
 
         alert()->success($client->name, __('Create client has been successful'));
 
@@ -144,7 +148,8 @@ class ClientController extends Controller
         $client->fill($request->all());
         $client->save();
 
-        $client->billingAddress()->update($request->only(['country', 'city', 'state', 'address', 'postal_code']));
+        $this->attachBillingAddress($request, $client);
+        $this->attachBank($request, $client);
 
         alert()->success($client->name, __('Client data has been update successful'));
 
@@ -188,5 +193,33 @@ class ClientController extends Controller
                     'name' => $contract->name,
                 ];
             });
+    }
+
+    /**
+     * @param Request $request
+     * @param Client $client
+     */
+    private function attachBank(Request $request, Client $client)
+    {
+        if ($request->anyFilled(['bank_name', 'bank_address', 'account', 'iban', 'swift'])) {
+            $bank = $client->bank ?: new Bank;
+            $bank->fill($request->only(['account', 'iban', 'swift']));
+            $bank->name = $request->bank_name;
+            $bank->address = $request->bank_address;
+            $client->bank()->save($bank);
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @param Client $client
+     */
+    private function attachBillingAddress(Request $request, Client $client)
+    {
+        if ($request->anyFilled(['country', 'city', 'state', 'address', 'postal_code'])) {
+            $address = $client->billingAddress ?: new Address;
+            $address->fill($request->only(['country', 'city', 'state', 'address', 'postal_code']));
+            $client->billingAddress()->save($address);
+        }
     }
 }

@@ -29,7 +29,7 @@
             </a>
         </div>
         <div class="card-panel filter-panel accounts-page-card-panel">
-            <div class="filter-block">
+            <div class="filter-block flex-wrap-important">
                 <x-filter
                         table="contracts-list-datatable"
                         :options="$status"
@@ -52,8 +52,9 @@
                         name="sales_managers_filter"
                         title="By Sales Manager"
                 />
+
             </div>
-            <button type="button" class="btn btn-block reset-btn">Reset</button>
+            <x-reset-filters/>
         </div>
         <div class="users-list-table">
             <div class="card">

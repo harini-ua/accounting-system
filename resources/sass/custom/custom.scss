@@ -63,6 +63,22 @@ body {
   }
 }
 
+.flex-wrap-important {
+  flex-wrap: wrap !important;
+}
+
+.totals-content {
+  background-color: #fff;
+}
+
+.checkbox-filter {
+  margin-left: 15px;
+  @media screen and (max-width: 768px) {
+    margin-bottom: 15px;
+  }
+
+}
+
 .filter-panel {
   display: flex;
   align-items: center;
@@ -73,9 +89,55 @@ body {
   .filter-block {
     display: flex;
     margin-bottom: 10px;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    &-buttons {
+      display: flex;
+      width: min-content;
+      @media screen and (max-width: 768px) {
+        flex-wrap: wrap;
+        .custom-filter-btn {
+          margin-right: 0;
+        }
+      }
+      @media screen and (max-width: 540px) {
+        width: 100%;
+      }
+    }
+    @media screen and (max-width: 1200px) {
+      justify-content: space-between;
+      width: 100%;
+
+    }
     @media screen and (max-width: 768px) {
       justify-content: space-between;
+      width: 100%;
+    }
+    @media screen and (max-width: 540px) {
+      flex-wrap: wrap;
+    }
+  }
+}
+
+.date-filter {
+  display: flex;
+  margin-right: 15px;
+  min-width: 180px;
+  @media screen and (max-width: 768px) {
+    flex-direction: column;
+  }
+  @media screen and (max-width: 540px) {
+    width: 100%;
+    //flex-wrap: wrap;
+    flex-direction: row;
+    margin-right: 0;
+  }
+  &-block {
+    margin-right: 15px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+    @media screen and (max-width: 768px) {
       width: 100%;
     }
   }
@@ -142,7 +204,7 @@ table.dataTable thead .sorting_desc {
 
 .create-btn {
   position: absolute;
-  top: -25px;
+  top: -30px;
   right: 0;
   .btn {
     display: flex;

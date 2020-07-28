@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Contract;
 use App\Models\Income;
 use App\Services\FilterService;
+use App\Services\Formatter;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -35,6 +36,9 @@ class IncomesDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->addColumn('plan_sum', function(Income $model) {
+                return Formatter::currency($model->plan_sum, $model->account->accountType->symbol);
+            })
             ->addColumn('client', function(Income $model) {
                 return view('partials.view-link', ['model' => $model->contract->client]);
             })
@@ -64,6 +68,9 @@ class IncomesDataTable extends DataTable
                     ->pluck('contracts.id')
                     ->toArray();
                 $query->whereIn('contract_id', $contracts);
+            })
+            ->orderColumn('plan_sum', function($query, $order) {
+                $query->orderBy('plan_sum', $order);
             })
             ->orderColumn('client', function($query, $order) {
                 $query->join('contracts', 'contracts.id', '=', 'incomes.contract_id')
@@ -96,7 +103,8 @@ class IncomesDataTable extends DataTable
      * Get query source of dataTable.
      *
      * @param \App\Income $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     *
+     * @return \Illuminate\Database\Query\Builder
      */
     public function query(Income $model)
     {
@@ -119,9 +127,7 @@ class IncomesDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->languageSearch('')
-                    ->languageSearchPlaceholder('Search income')
-//                    ->responsive(true)
+                    ->languageSearch('Search')
                     ->orderBy(0);
     }
 

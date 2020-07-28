@@ -30,13 +30,13 @@ class MoneyFlowsDataTable extends DataTable
                 return mb_strimwidth($model->comment, 0, 50, '...');
             })
             ->addColumn('sum_from', function(MoneyFlow $model) {
-                return Formatter::currency($model->sum_from, $model->accountFrom->accountType);
+                return Formatter::currency($model->sum_from, $model->accountFrom->accountType->symbol);
             })
             ->addColumn('sum_to', function(MoneyFlow $model) {
-                return Formatter::currency($model->sum_to, $model->accountTo->accountType);
+                return Formatter::currency($model->sum_to, $model->accountTo->accountType->symbol);
             })
             ->addColumn('fee', function(MoneyFlow $model) {
-                return Formatter::currency($model->fee, $model->accountFrom->accountType);
+                return Formatter::currency($model->fee, $model->accountFrom->accountType->symbol);
             })
             ->filterColumn('wallet_from', function($query, $keyword) {
                 $accounts = Account::join('wallets', 'wallets.id', '=', 'accounts.wallet_id')
@@ -51,6 +51,15 @@ class MoneyFlowsDataTable extends DataTable
                     ->pluck('accounts.id')
                     ->toArray();
                 $query->whereIn('account_to_id', $accounts);
+            })
+            ->orderColumn('sum_from', function($query, $order) {
+                $query->orderBy('sum_from', $order);
+            })
+            ->orderColumn('sum_to', function($query, $order) {
+                $query->orderBy('sum_to', $order);
+            })
+            ->orderColumn('fee', function($query, $order) {
+                $query->orderBy('fee', $order);
             })
             ->orderColumn('wallet_from', function($query, $order) {
                 $query->join('accounts', 'accounts.id', '=', 'money_flows.account_from_id')

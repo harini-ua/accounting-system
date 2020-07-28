@@ -6,7 +6,7 @@
         @foreach ($options as $option)
             <div class="col s12 m6 xl3">
                 <div class="black-text">
-                    <div class="card z-depth-0 grey lighten-3 faq-card">
+                    <div class="card z-depth-0 white lighten-3 faq-card">
                         <div class="card-content center-align">
                             {{ $option->name }}: {{ $option->$relation }}
                         </div>

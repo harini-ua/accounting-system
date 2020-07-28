@@ -22,4 +22,29 @@ final class InvoiceItemType extends Enum implements LocalizedEnum
 
         return parent::getDescription($value);
     }
+
+
+    /**
+     * Get the color values for an type
+     *
+     * @param string $status
+     * @param string $value
+     *
+     * @return string
+     */
+    public static function getColor($status, $value = 'hash'): string
+    {
+        switch ($status) {
+            case self::HOURLY:
+                $values = ['blue', '#2196f3'];
+                break;
+            case self::FIXED:
+            default:
+                $values = ['green', '#4caf50'];
+        }
+
+        $values = array_combine(['class', 'hash'], $values);
+
+        return $values[$value];
+    }
 }

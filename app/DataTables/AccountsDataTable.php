@@ -3,9 +3,10 @@
 namespace App\DataTables;
 
 use App\Models\Account;
-use App\Models\AccountType;
 use App\Models\Wallet;
+use App\Services\FilterService;
 use App\Services\Formatter;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -14,6 +15,17 @@ use Yajra\DataTables\Services\DataTable;
 
 class AccountsDataTable extends DataTable
 {
+    public $filterService;
+
+    /**
+     * IncomeListDataTable constructor.
+     * @param FilterService $filterService
+     */
+    public function __construct(FilterService $filterService)
+    {
+        $this->filterService = $filterService;
+    }
+
     /**
      * Build DataTable class.
      *
@@ -24,13 +36,14 @@ class AccountsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->addColumn('start_sum', function(Account $account) {
+                return Formatter::currency($account->start_sum, $account->accountType->symbol);
+            })
             ->addColumn('income', function(Account $account) {
-                // todo: calculating income for period
-                return 0;
+                return Formatter::currency($account->income, $account->accountType->symbol);
             })
             ->addColumn('expenses', function(Account $account) {
-                // todo: calculating expenses for period
-                return 0;
+                return Formatter::currency($account->expenses, $account->accountType->symbol);
             })
             ->addColumn('status', function(Account $model) {
                 return $model->status
@@ -38,7 +51,7 @@ class AccountsDataTable extends DataTable
                     : '<span class="chip lighten-5 red red-text">Inactive</span>';
             })
             ->addColumn('balance', function(Account $model) {
-                return Formatter::currency($model->balance, $model->accountType);
+                return Formatter::currency($model->balance, $model->accountType->symbol);
             })
             ->addColumn('action', function(Account $account) {
                 return view("partials.actions", ['actions'=>['edit'], 'model' => $account]);
@@ -61,6 +74,18 @@ class AccountsDataTable extends DataTable
                     ->toArray();
                 $query->whereIn('wallet_id', $wallets);
             })
+            ->orderColumn('start_sum', function($query, $order) {
+                $query->orderBy('start_sum', $order);
+            })
+            ->orderColumn('income', function($query, $order) {
+                $query->orderBy('income', $order);
+            })
+            ->orderColumn('expenses', function($query, $order) {
+                $query->orderBy('expenses', $order);
+            })
+            ->orderColumn('balance', function($query, $order) {
+                $query->orderBy('balance', $order);
+            })
             ->orderColumn('wallet', function($query, $order) {
                 $query->join('wallets', 'wallets.id', '=', 'accounts.wallet_id')
                     ->orderBy('wallets.name', $order);
@@ -74,12 +99,39 @@ class AccountsDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Account $model
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param Account $model
+     *
+     * @return \Illuminate\Database\Query\Builder
      */
     public function query(Account $model)
     {
-        return $model->newQuery()->with(['wallet', 'accountType']);
+        $dates = [$this->filterService->getStartDate(), $this->filterService->getEndDate()];
+
+        $receivedSums = DB::table('invoices')
+            ->join('payments', 'payments.invoice_id', '=', 'invoices.id')
+            ->select(['invoices.account_id as account_id', DB::raw('sum(payments.received_sum) as income')])
+            ->whereBetween('payments.date', $dates)
+            ->groupBy('account_id');
+
+        $expenseSums = DB::table('expenses')
+            ->select(['account_id', DB::raw('sum(real_sum) as expenses')])
+            ->whereBetween('expenses.real_date', $dates)
+            ->groupBy('account_id');
+
+        return $model->with(['wallet', 'accountType'])
+            ->leftJoinSub($receivedSums, 'invoice_sums', function($join) {
+                $join->on('invoice_sums.account_id', '=', 'accounts.id');
+            })
+            ->leftJoinSub($expenseSums, 'expense_sums', function($join) {
+                $join->on('expense_sums.account_id', '=', 'accounts.id');
+            })
+            ->select([
+                'accounts.*',
+                'invoice_sums.income',
+                'expense_sums.expenses',
+                DB::raw('(balance - (case when income > 0 then income else 0 end) + (case when expenses > 0 then expenses else 0 end)) as start_sum'),
+            ])
+            ->newQuery();
     }
 
     /**

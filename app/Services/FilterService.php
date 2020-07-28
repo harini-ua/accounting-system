@@ -98,10 +98,6 @@ class FilterService
      */
     public function filterInvoicedSum($query)
     {
-        $query->whereBetween('invoice_items.created_at', [
-            $this->getStartOfMonthDate(),
-            $this->getEndOfMonthDate()
-        ]);
         $this->filterClient($query);
         $this->filterWallet($query);
         $this->filterReceived($query);
@@ -150,6 +146,17 @@ class FilterService
             $this->getStartDate(),
             $this->getEndDate()
         ]);
+
+        return $query;
+    }
+
+    /**
+     * @param $query
+     * @return mixed
+     */
+    public function filterAccountsSum($query)
+    {
+        $this->filterWallet($query);
 
         return $query;
     }

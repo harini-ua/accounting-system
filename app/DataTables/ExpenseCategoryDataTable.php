@@ -29,7 +29,7 @@ class ExpenseCategoryDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\ExpenseCategory $model
+     * @param ExpenseCategory $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(ExpenseCategory $model)
@@ -46,11 +46,10 @@ class ExpenseCategoryDataTable extends DataTable
     {
         return $this->builder()
                     ->setTableId('expense-category-table')
-                    ->addTableClass('table')
+                    ->addTableClass('table responsive-table highlight')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
-                    ->scrollX(true)
                     ->orderBy(0);
     }
 

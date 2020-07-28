@@ -66,20 +66,35 @@
                             </div>
                         </div>
                         <hr>
-                        @if($client->addresses->count())
+                        @if($address = $client->billingAddress)
                             <div class="row">
                                 <h6 class="col s12"> {{ __('Address') }} </h6>
-                            @foreach($client->addresses as $address)
                                 <!-- Address -->
-                                    <div class="col s12 place mt-4 p-0">
-                                        <div class="col s2 m2 l2"><i class="material-icons">place</i></div>
-                                        <div class="col s10 m10 l10">
-                                            <p class="m-0">{{ $address->postal_code }}, {{ $address->country }}
-                                                , {{ $address->state }}, {{ $address->city }}</p>
-                                            <p class="m-0">{{ $address->address }}</p>
-                                        </div>
+                                <div class="col s12 place mt-4 p-0">
+                                    <div class="col s2 m2 l2"><i class="material-icons">place</i></div>
+                                    <div class="col s10 m10 l10">
+                                        <p class="m-0">{{ $address->postal_code }}, {{ $address->country }}
+                                            , {{ $address->state }}, {{ $address->city }}</p>
+                                        <p class="m-0">{{ $address->address }}</p>
                                     </div>
-                                @endforeach
+                                </div>
+                            </div>
+                        @endif
+                        @if($bank = $client->bank)
+                            <hr>
+                            <div class="row">
+                                <h6 class="col s12"> {{ __('Bank Details') }}</h6>
+                                <div class="col s12 padding-2">
+                                    <table class="responsive-table">
+                                        <tbody>
+                                        @if($bank->name)<tr><td>{{ __('Bank') }}:</td><td>{{ $bank->name }}</td></tr>@endif
+                                        @if($bank->address)<tr><td>{{ __('Bank Address') }}:</td><td>{{ $bank->address }}</td></tr>@endif
+                                        @if($bank->account)<tr><td>{{ __('Account #') }}:</td><td>{{ $bank->account }}</td></tr>@endif
+                                        @if($bank->iban)<tr><td>{{ __('IBAN') }}:</td><td>{{ $bank->iban }}</td></tr>@endif
+                                        @if($bank->swift)<tr><td>{{ __('SWIFT CODE') }}:</td><td>{{ $bank->swift }}</td></tr>@endif
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         @endif
                     </div>

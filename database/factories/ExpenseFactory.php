@@ -3,14 +3,19 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 
 use App\Models\Expense;
+use Illuminate\Support\Carbon;
 use Faker\Generator as Faker;
 
 $factory->define(Expense::class, function (Faker $faker) {
     $planSum = $faker->randomFloat(2, 100, 10000);
+    $realSum = $planSum * $faker->randomFloat(1, 0, 1);
+    $planDate = Carbon::now()->addMonth()->subDays(rand(0, 395));
+    $realDate = $realSum ? (clone $planDate)->addDays(rand(0, 10)) : null;
     return [
-        'plan_date' => $faker->dateTimeBetween('-1 year', '+ 1 month'),
+        'plan_date' => $planDate,
+        'real_date' => $realDate,
         'purpose' => $faker->sentence,
         'plan_sum' => $planSum,
-        'real_sum' => $planSum * $faker->randomFloat(1, 0, 1),
+        'real_sum' => $realSum,
     ];
 });

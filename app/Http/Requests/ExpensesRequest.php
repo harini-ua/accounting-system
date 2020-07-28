@@ -25,6 +25,7 @@ class ExpensesRequest extends FormRequest
     {
         return [
             'plan_date' => 'required|date_format:d-m-Y',
+            'real_date' => 'nullable|date_format:d-m-Y',
             'purpose' => 'required|string|min:3',
             'plan_sum' => 'nullable|numeric',
             'real_sum' => 'nullable|numeric',
