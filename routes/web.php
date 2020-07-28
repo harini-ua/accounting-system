@@ -101,6 +101,7 @@ Route::middleware(['auth'])->group(function() {
 
     // People
     Route::get('/people/former-list', 'PersonController@formerList')->name('people.former-list');
+    Route::post('people/change-salary-type/{person}', 'PersonController@changeSalaryType')->name('people.change-salary-type');
     Route::resource('people', 'PersonController');
 });
 

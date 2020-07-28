@@ -4,6 +4,7 @@ namespace App\Enums;
 
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
+use Illuminate\Support\Collection;
 
 /**
  * @method static static CEO()
@@ -18,6 +19,8 @@ use BenSampo\Enum\Enum;
  */
 final class Position extends Enum implements LocalizedEnum
 {
+    use CollectionTrait;
+
     const CEO = 1;
     const COO = 2;
     const ProjectManager = 3;

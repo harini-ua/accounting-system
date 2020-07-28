@@ -21,6 +21,13 @@
 @section('content')
 
     <section class="users-list-wrapper section">
+        <div class="create-btn invoice-create-btn add-item-btn row">
+            <div class="col">
+                <a href="{{ route('people.index') }}" class="btn green waves-effect waves-light invoice-create z-depth-4">
+                    <span class="hide-on-small-only">People</span>
+                </a>
+            </div>
+        </div>
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">

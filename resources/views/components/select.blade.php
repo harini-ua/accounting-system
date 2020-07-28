@@ -1,5 +1,5 @@
 <div class="col s12 input-field">
-    <select id="{{ $name }}" name="{{ $name }}" {{ $disabled() }}>
+    <select name="{{ $name }}" {{ $disabled() }}>
         @if($model)
             @foreach ($options as $option)
                 <option {{ $selected($option) }}

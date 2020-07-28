@@ -11,23 +11,29 @@ $factory->define(Person::class, function (Faker $faker) {
     $quitedAt = ! rand(0, 3) ? $faker->dateTimeBetween($startDate, 'now') : null;
     $salaryChangedAt = (! $quitedAt) && rand(0, 1) ? $faker->dateTimeBetween($startDate, 'now') : null;
     $longVacationStartedAt = (! $quitedAt) && (! rand(0, 4)) ? $faker->dateTimeBetween($startDate, 'now') : null;
+    $salary = $faker->randomFloat(2, 100, 5000);
 
     return [
         'name' => $faker->name,
         'position_id' => \App\Enums\Position::getRandomValue(),
         'start_date' => $startDate,
+        'department' => $faker->jobTitle,
+        'skills' => $faker->sentence,
+        'certifications' => rand(0, 1) ? $faker->sentence : null,
 
-        'salary' => $faker->randomFloat(2, 100, 5000),
+        'salary' => $salary,
         'currency' => \App\Enums\Currency::getRandomValue(),
         'salary_type' => \App\Enums\SalaryType::getRandomValue(),
         'contract_type' => \App\Enums\PersonContractType::getRandomValue(),
         'salary_type_changed_at' => (! $quitedAt) && rand(0, 1) ? $faker->dateTimeBetween($startDate, 'now') : null,
         'salary_changed_at' => $salaryChangedAt,
         'salary_change_reason' => $salaryChangedAt ? $faker->sentence : null,
+        'last_salary' => $salaryChangedAt ? $salary * 0.75 : null,
 
         'growth_plan' => $faker->boolean,
         'tech_lead' => $faker->boolean,
         'team_lead' => $faker->boolean,
+        'bonuses' => $faker->boolean,
 
         'long_vacation_started_at' => $longVacationStartedAt,
         'long_vacation_reason' => $longVacationStartedAt ? $faker->sentence : null,

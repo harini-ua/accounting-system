@@ -49,4 +49,10 @@ return [
         \App\Enums\PersonContractType::Contract => 'Contract',
         \App\Enums\PersonContractType::Employee => 'Employee',
     ],
+
+    \App\Enums\Currency::class => [
+        \App\Enums\Currency::USD => 'USD',
+        \App\Enums\Currency::EUR => 'EUR',
+        \App\Enums\Currency::UAH => 'UAH',
+    ],
 ];

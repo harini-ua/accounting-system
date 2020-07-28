@@ -13,6 +13,8 @@ use BenSampo\Enum\Enum;
  */
 final class PersonContractType extends Enum implements LocalizedEnum
 {
+    use CollectionTrait;
+
     const Individual2 = 'individual_2';
     const Individual3 = 'individual_3';
     const Contract = 'contract';
