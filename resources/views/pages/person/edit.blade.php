@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title','Wallet' )
+@section('title','Person' )
 
 {{-- page styles --}}
 @section('page-style')
@@ -51,7 +51,8 @@
                             </a>
                         </div>
                         <div class="invoice-action-btn">
-                            <a href="#" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                            <a href="#" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
+                                <i class="material-icons mr-3">attach_money</i>
                                 <span>Final payslip</span>
                             </a>
                         </div>

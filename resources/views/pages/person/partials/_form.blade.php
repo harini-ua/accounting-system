@@ -33,7 +33,7 @@
             <div class="row">
                 <h4 class="card-title">{{ __('Salary raising') }}</h4>
                 <x-date name="salary_changed_at" title="Date" :model="$model"></x-date>
-                <x-input name="last_salary" title="Last salary" :model="$model"></x-input>
+                <x-input name="last_salary" title="Previous salary" :model="$model"></x-input>
                 <x-input name="salary_change_reason" title="Reason" :model="$model"></x-input>
             </div>
         </div>
