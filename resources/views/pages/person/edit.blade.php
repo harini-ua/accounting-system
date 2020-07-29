@@ -30,17 +30,17 @@
                                 <span>Change salary type</span>
                             </a>
                         </div>
-                        <div class="invoice-action-btn">
+                        <div id="change-contract-type-button" class="invoice-action-btn">
                             <a href="#" class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <span>Change type of contract</span>
                             </a>
                         </div>
-                        <div class="invoice-action-btn">
+                        <div id="make-former-button" class="invoice-action-btn">
                             <a href="#" class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <span>Make former employee</span>
                             </a>
                         </div>
-                        <div class="invoice-action-btn">
+                        <div id="long-vacation-button" class="invoice-action-btn">
                             <a href="#" class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <span>Long-term vacation</span>
                             </a>
@@ -68,34 +68,29 @@
         </div>
     </section>
 
-    <!--  Contact sidebar -->
-    <div id="change-salary-type-sidebar" class="contact-compose-sidebar">
-        <div class="card quill-wrapper">
-            <div class="card-content pt-0">
-                <div class="card-header display-flex pb-2">
-                    <h3 class="card-title contact-title-label">Change salary type</h3>
-                    <div class="close close-icon">
-                        <i class="material-icons">close</i>
-                    </div>
-                </div>
-                <div class="divider"></div>
-                <!-- form start -->
-                <form name="change-salary-type" class="edit-contact-item mb-5 mt-5" method="post" action="{{ route('people.change-salary-type', $model) }}">
-                    @csrf
-                    <div class="row">
-                        <x-date name="salary_type_changed_at" title="Date" :model="$model"></x-date>
-                        <x-select name="salary_type" title="Salary type" :options="$salaryTypes" :model="$model"></x-select>
-                    </div>
-                </form>
-                <!-- form start end-->
-                <div class="card-action pl-0 pr-0 right-align">
-                    <button class="btn-small waves-effect waves-light add-contact">
-                        <span>Save Changes</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <x-sidebar-form id="change-salary-type" title="Change salary type" :model="$model">
+        <x-date name="salary_type_changed_at" title="Date" :model="$model"></x-date>
+        <x-select name="salary_type" title="Salary type" :options="$salaryTypes" :model="$model"></x-select>
+    </x-sidebar-form>
+
+    <x-sidebar-form id="change-contract-type" title="Change type of contract" :model="$model">
+        <x-date name="contract_type_changed_at" title="Date" :model="$model"></x-date>
+        <x-select name="contract_type" title="Type og Contract" :options="$contractTypes" :model="$model"></x-select>
+    </x-sidebar-form>
+
+    <x-sidebar-form id="make-former" title="Make former employee" :model="$model">
+        <x-date name="quited_at" title="Date" :model="$model"></x-date>
+        <x-input name="quit_reason" title="Reason" :model="$model"></x-input>
+    </x-sidebar-form>
+
+    <x-sidebar-form id="long-vacation" title="Long-term vacation" :model="$model">
+        <x-date name="long_vacation_started_at" title="Date" :model="$model"></x-date>
+        <x-input name="long_vacation_reason" title="Reason" :model="$model"></x-input>
+        <x-input name="long_vacation_comment" title="Comments" :model="$model"></x-input>
+        <x-input name="long_vacation_compensation" title="Compensation" :model="$model"></x-input>
+        <x-date name="long_vacation_finished_at" title="Planning date of coming back to the office" :model="$model"></x-date>
+    </x-sidebar-form>
+
 @endsection
 
 {{-- page scripts --}}

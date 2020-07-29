@@ -15,6 +15,7 @@ class Person extends Model
 
     protected $casts = [
         'start_date' => Date::class,
+        'contract_type_changed_at' => Date::class,
         'salary_type_changed_at' => Date::class,
         'salary_changed_at' => Date::class,
         'long_vacation_started_at' => Date::class,
