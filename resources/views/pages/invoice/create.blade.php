@@ -67,25 +67,25 @@
                             <div class="col l6 s12">
                                 <h6>{{ __('Client / Contract') }}</h6>
                                 <x-linked-selects
-                                        firstName="client_id"
-                                        firstTitle="Client"
-                                        secondName="contract_id"
-                                        secondTitle="Contract"
-                                        dataUrl="/clients/[id]/contracts"
-                                        view="components.linked-selects.clients-contracts"
-                                        :options="$clients"
+                                    firstName="client_id"
+                                    firstTitle="Client"
+                                    secondName="contract_id"
+                                    secondTitle="Contract"
+                                    dataUrl="/clients/[id]/contracts"
+                                    view="components.linked-selects.clients-contracts"
+                                    :options="$clients"
                                 />
                             </div>
                             <div class="col l6 s12">
                                 <h6>{{ __('Wallet / Account') }}</h6>
                                 <x-linked-selects
-                                        firstName="wallet_id"
-                                        firstTitle="Wallet"
-                                        secondName="account_id"
-                                        secondTitle="Account"
-                                        dataUrl="/wallets/[id]/accounts"
-                                        view="components.linked-selects.wallets-accounts"
-                                        :options="$wallets"
+                                    firstName="wallet_id"
+                                    firstTitle="Wallet"
+                                    secondName="account_id"
+                                    secondTitle="Account"
+                                    dataUrl="/wallets/[id]/accounts"
+                                    view="components.linked-selects.wallets-accounts"
+                                    :options="$wallets"
                                 />
                             </div>
                         </div>

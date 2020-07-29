@@ -4,17 +4,17 @@
             <option class="first_default">{{ __('- Select '.$firstTitle.' -') }}</option>
             @if($model)
                 @foreach ($options as $client)
-                    <option {{ $model->contract->client_id == $client->id ? 'selected' : '' }}
-                            value="{{ $client->id }}">
-                        {{ $client->name }}
-                    </option>
+                <option {{ $model->contract->client_id == $client->id ? 'selected' : '' }}
+                        value="{{ $client->id }}">
+                    {{ $client->name }}
+                </option>
                 @endforeach
             @else
                 @foreach ($options as $client)
-                    <option {{ old($firstName) == $client->id ? 'selected' : '' }}
-                            value="{{ $client->id }}">
-                        {{ $client->name }}
-                    </option>
+                <option {{ old($firstName) == $client->id ? 'selected' : '' }}
+                        value="{{ $client->id }}">
+                    {{ $client->name }}
+                </option>
                 @endforeach
             @endif
         @endif
