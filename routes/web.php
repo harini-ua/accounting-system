@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function() {
 
     // Wallets
     Route::resource('wallets', 'WalletController')->except(['create']);
-    Route::get('wallets/walletAccounts/{walletId}', 'WalletController@walletAccounts');
+    Route::get('wallets/{wallet}/accounts', 'WalletController@walletAccounts')->name('wallets.accounts');
 
     // Accounts
     Route::resource('accounts', 'AccountController')->only(['index', 'edit', 'update']);
@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function() {
         Route::put('/{client}', 'ClientController@update')->name('clients.update');
         Route::delete('/{client}/delete', 'ClientController@destroy')->name('clients.destroy');
 
-        Route::get('clientContracts/{clientId}', 'ClientController@clientContracts');
+        Route::get('/{client}/contracts', 'ClientController@clientContracts')->name('client.contracts');
     });
 
     // CONTRACTS

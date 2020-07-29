@@ -6,7 +6,9 @@ use App\DataTables\InvoicesDataTable;
 use App\Enums\InvoiceStatus;
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\Wallet;
 use App\Services\Formatter;
+use App\User;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -46,9 +48,25 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        $config = config('invoices');
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('invoices.index'), 'name' => __('Invoices')],
+            ['name' => __('Create')],
+        ];
 
-        return view('pages.invoice.create', compact('config'));
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+        $clients = Client::with('contracts')->orderBy('name')->get();
+        $wallets = Wallet::with('accounts.accountType')->orderBy('name')->get();
+
+        $sales = User::where('position_id', 5)->get();
+
+        $config = config('invoices');
+        $image = $config['logo'];
+
+        return view('pages.invoice.create', compact(
+            'breadcrumbs', 'pageConfigs', 'clients', 'wallets', 'sales', 'config', 'image'
+        ));
     }
 
     /**
@@ -81,12 +99,14 @@ class InvoiceController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['link' => route('invoices.index'), 'name' => __('Invoices')],
-            ['name' => $invoice->name],
+            ['name' => $invoice->number],
         ];
 
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
-        $invoice->load(['items', 'contract.client.billingAddress', 'account.accountType']);
+        $invoice->load(['items' => static function ($query) {
+            $query->orderBy('created_at');
+        }, 'contract.client.billingAddress', 'account.accountType']);
 
         $client = $invoice->contract->client;
 
@@ -101,8 +121,11 @@ class InvoiceController extends Controller
 
         $sum = $invoice->items()->sum('sum');
 
+        $config = config('invoices');
+        $image = $config['logo'];
+
         return view('pages.invoice.view', compact(
-            'breadcrumbs', 'pageConfigs', 'invoice', 'billFrom', 'billTo', 'sum'
+            'breadcrumbs', 'pageConfigs', 'invoice', 'billFrom', 'billTo', 'sum', 'config', 'image'
         ));
     }
 
@@ -118,14 +141,30 @@ class InvoiceController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['link' => route('invoices.index'), 'name' => __('Invoices')],
-            ['name' => $invoice->name],
+            ['name' => $invoice->number],
         ];
 
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
-        $invoice->load('contract');
+        $invoice->load(['contract', 'items' => static function ($query) {
+            $query->orderBy('created_at');
+        }], 'payments');
 
-        return view('pages.invoice.update', compact('breadcrumbs', 'pageConfigs', 'invoice'));
+        $clients = Client::with('contracts')->orderBy('name')->get();
+        $wallets = Wallet::with('accounts.accountType')->orderBy('name')->get();
+
+        $sales = User::where('position_id', 5)->get();
+
+        $invoice->client_id = $invoice->contract->client_id;
+        $invoice->wallet_id = $invoice->account->wallet_id;
+
+
+        $config = config('invoices');
+        $image = $config['logo'];
+
+        return view('pages.invoice.update', compact(
+            'breadcrumbs', 'pageConfigs', 'invoice', 'clients', 'wallets', 'sales', 'config', 'image'
+        ));
     }
 
     /**
