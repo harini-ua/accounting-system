@@ -17,12 +17,13 @@ class UsersSeeder extends Seeder
             'password' => bcrypt('123calculator123'),
             'position_id' => 1,
         ]);
-
-        $positions = \App\Models\Position::all();
-        factory(\App\User::class, 100)->create([
-            'position_id' => function() use ($positions) {
-                return $positions->random()->id;
-            }
-        ]);
+        if (app()->isLocal()) {
+            $positions = \App\Models\Position::all();
+            factory(\App\User::class, 100)->create([
+                'position_id' => function() use ($positions) {
+                    return $positions->random()->id;
+                }
+            ]);
+        }
     }
 }
