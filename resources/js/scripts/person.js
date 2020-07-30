@@ -49,4 +49,7 @@ $(document).ready(function() {
     }
 
     handleSidebar('change-salary-type');
+    handleSidebar('change-contract-type');
+    handleSidebar('make-former');
+    handleSidebar('long-vacation');
 });

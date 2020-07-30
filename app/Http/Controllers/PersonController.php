@@ -7,7 +7,10 @@ use App\Enums\PersonContractType;
 use App\Enums\Position;
 use App\Enums\Currency;
 use App\Enums\SalaryType;
+use App\Http\Requests\Person\ChangeContractTypeRequest;
 use App\Http\Requests\Person\ChangeSalaryTypeRequest;
+use App\Http\Requests\Person\LongVacationRequest;
+use App\Http\Requests\Person\MakeFormerRequest;
 use App\Http\Requests\Person\PersonRequest;
 use App\Models\Person;
 use App\DataTables\PersonDataTable;
@@ -158,6 +161,45 @@ class PersonController extends Controller
         $person->fill($request->all());
         $person->save();
 
-        return response()->json(['success'=>true]);
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * @param ChangeContractTypeRequest $request
+     * @param Person $person
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function changeContractType(ChangeContractTypeRequest $request, Person $person)
+    {
+        $person->fill($request->all());
+        $person->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * @param MakeFormerRequest $request
+     * @param Person $person
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function makeFormer(MakeFormerRequest $request, Person $person)
+    {
+        $person->fill($request->all());
+        $person->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * @param LongVacationRequest $request
+     * @param Person $person
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function longVacation(LongVacationRequest $request, Person $person)
+    {
+        $person->fill($request->all());
+        $person->save();
+
+        return response()->json(['success' => true]);
     }
 }
