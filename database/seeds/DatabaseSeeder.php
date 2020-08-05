@@ -15,15 +15,17 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersSeeder::class);
         $this->call(AccountTypesSeeder::class);
         $this->call(WalletTypesSeeder::class);
-        $this->call(WalletsSeeder::class);
-        $this->call(MoneyFlowsSeeder::class);
-        $this->call(ClientsSeed::class);
-        $this->call(ContractsSeed::class);
-        $this->call(InvoicesSeed::class);
-        $this->call(InvoiceItemSeed::class);
-        $this->call(PaymentSeed::class);
-        $this->call(IncomeSeeder::class);
-        $this->call(ExpensesSeeder::class);
-        $this->call(PeopleSeeder::class);
+        if (app()->isLocal()) {
+            $this->call(WalletsSeeder::class);
+            $this->call(MoneyFlowsSeeder::class);
+            $this->call(ClientsSeed::class);
+            $this->call(ContractsSeed::class);
+            $this->call(InvoicesSeed::class);
+            $this->call(InvoiceItemSeed::class);
+            $this->call(PaymentSeed::class);
+            $this->call(IncomeSeeder::class);
+            $this->call(ExpensesSeeder::class);
+            $this->call(PeopleSeeder::class);
+        }
     }
 }
