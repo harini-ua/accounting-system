@@ -36,4 +36,5 @@
             @endif
         @endif
     </select>
+    @error('account_id')<small class="errorTxt1"><div id="account_id-error" class="error">{{ $message }}</div></small>@enderror
 </div>

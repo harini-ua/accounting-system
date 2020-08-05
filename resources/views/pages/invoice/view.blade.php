@@ -137,7 +137,7 @@
                                         </li>
                                         <li class="display-flex justify-content-between">
                                             <span class="invoice-subtotal-title">{{ __('Paid to date') }}</span>
-                                            <h6 class="invoice-subtotal-value">- $ 00.00</h6>
+                                            <h6 class="invoice-subtotal-value">- {{ \App\Services\Formatter::currency($invoice->payments->sum('fee'), $invoice->account->accountType->symbol) }}</h6>
                                         </li>
                                     </ul>
                                 </div>
