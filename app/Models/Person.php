@@ -19,9 +19,35 @@ class Person extends Model
         'salary_type_changed_at' => Date::class,
         'salary_changed_at' => Date::class,
         'long_vacation_started_at' => Date::class,
+        'long_vacation_plan_finished_at' => Date::class,
         'long_vacation_finished_at' => Date::class,
         'quited_at' => Date::class,
     ];
+
+    /**
+     * @var mixed|null
+     */
+    private $long_vacation_started_at;
+    /**
+     * @var mixed|null
+     */
+    private $long_vacation_reason;
+    /**
+     * @var mixed|null
+     */
+    private $long_vacation_compensation;
+    /**
+     * @var mixed|null
+     */
+    private $long_vacation_comment;
+    /**
+     * @var mixed|null
+     */
+    private $long_vacation_plan_finished_at;
+    /**
+     * @var mixed|null
+     */
+    private $long_vacation_finished_at;
 
     protected static function booted()
     {

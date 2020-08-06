@@ -40,7 +40,7 @@ $factory->define(Person::class, function (Faker $faker) {
         'long_vacation_reason' => $longVacationStartedAt ? $faker->sentence : null,
         'long_vacation_compensation' => $longVacationStartedAt ? $faker->randomFloat(2, 100, 5000) : null,
         'long_vacation_comment' => $longVacationStartedAt ? $faker->sentence : null,
-        'long_vacation_finished_at' => $longVacationStartedAt ? $faker->dateTimeBetween($longVacationStartedAt, 'now') : null,
+        'long_vacation_plan_finished_at' => $longVacationStartedAt ? $faker->dateTimeBetween($longVacationStartedAt, 'now') : null,
 
         'quited_at' => $quitedAt,
         'quit_reason' => $quitedAt ? $faker->sentence : null,

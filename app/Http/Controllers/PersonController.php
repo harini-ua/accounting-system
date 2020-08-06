@@ -7,6 +7,7 @@ use App\Enums\PersonContractType;
 use App\Enums\Position;
 use App\Enums\Currency;
 use App\Enums\SalaryType;
+use App\Http\Requests\Person\BackActiveRequest;
 use App\Http\Requests\Person\ChangeContractTypeRequest;
 use App\Http\Requests\Person\ChangeSalaryTypeRequest;
 use App\Http\Requests\Person\LongVacationRequest;
@@ -198,6 +199,25 @@ class PersonController extends Controller
     public function longVacation(LongVacationRequest $request, Person $person)
     {
         $person->fill($request->all());
+        $person->long_vacation_finished_at = null;
+        $person->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * @param BackActiveRequest $request
+     * @param Person $person
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function backToActive(BackActiveRequest $request, Person $person)
+    {
+        $person->fill($request->all());
+        $person->long_vacation_started_at = null;
+        $person->long_vacation_reason = null;
+        $person->long_vacation_compensation = null;
+        $person->long_vacation_comment = null;
+        $person->long_vacation_plan_finished_at = null;
         $person->save();
 
         return response()->json(['success' => true]);

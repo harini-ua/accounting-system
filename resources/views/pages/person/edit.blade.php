@@ -26,29 +26,29 @@
                 <div class="card invoice-action-wrapper animate fadeRight">
                     <div class="card-content">
                         <div id="change-salary-type-button" class="invoice-action-btn">
-                            <a href="#" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <span>Change salary type</span>
-                            </a>
+                            </span>
                         </div>
                         <div id="change-contract-type-button" class="invoice-action-btn">
-                            <a href="#" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <span>Change type of contract</span>
-                            </a>
+                            </span>
                         </div>
                         <div id="make-former-button" class="invoice-action-btn">
-                            <a href="#" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <span>Make former employee</span>
-                            </a>
+                            </span>
                         </div>
-                        <div id="long-vacation-button" class="invoice-action-btn">
-                            <a href="#" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                        <div id="long-vacation-button" class="invoice-action-btn{{ $model->long_vacation_started_at ? ' hide' : '' }}">
+                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <span>Long-term vacation</span>
-                            </a>
+                            </span>
                         </div>
-                        <div class="invoice-action-btn">
-                            <a href="#" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                        <div id="back-to-active-button" class="invoice-action-btn{{ ! $model->long_vacation_started_at ? ' hide' : '' }}">
+                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <span>Back to active employee</span>
-                            </a>
+                            </span>
                         </div>
                         <div class="invoice-action-btn">
                             <a href="#" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
@@ -88,7 +88,11 @@
         <x-input name="long_vacation_reason" title="Reason" :model="$model"></x-input>
         <x-input name="long_vacation_comment" title="Comments" :model="$model"></x-input>
         <x-input name="long_vacation_compensation" title="Compensation" :model="$model"></x-input>
-        <x-date name="long_vacation_finished_at" title="Planning date of coming back to the office" :model="$model"></x-date>
+        <x-date name="long_vacation_plan_finished_at" title="Planning date of coming back to the office" :model="$model"></x-date>
+    </x-sidebar-form>
+
+    <x-sidebar-form id="back-to-active" title="Back to active employee" :model="$model">
+        <x-date name="long_vacation_finished_at" title="Date of the work beginning" :model="$model"></x-date>
     </x-sidebar-form>
 
 @endsection
