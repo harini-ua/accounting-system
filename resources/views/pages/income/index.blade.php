@@ -17,7 +17,7 @@
 @section('page-style')
     <link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-sidebar.css')}}">
     {{--<link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-wallets.css')}}">--}}
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/accounts.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-users.css')}}">
 @endsection
 
 {{-- page content --}}
@@ -98,7 +98,7 @@
                     </div>
                 </div>
             </div>
-            <div class="users-list-table table-wrapper">
+            <div class="users-list-table">
                 <div class="card">
                     <div class="card-content">
                         <div class="responsive-table">
