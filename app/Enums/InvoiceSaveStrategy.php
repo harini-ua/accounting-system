@@ -4,18 +4,20 @@ namespace App\Enums;
 
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
-use Illuminate\Support\Collection;
 
-final class InvoiceStatus extends Enum implements LocalizedEnum
+/**
+ * @method static static OptionOne()
+ * @method static static OptionTwo()
+ * @method static static OptionThree()
+ */
+final class InvoiceSaveStrategy extends Enum implements LocalizedEnum
 {
     use CollectionTrait;
 
-    const DRAFT = 'DRAFT';
+    const SAVE = 'SAVE';
     const SEND = 'SEND';
-    const PAID = 'PAID';
-    const OVERDUE = 'OVERDUE';
-    const CANCELED = 'CANCELED';
-    const DEBT = 'DEBT';
+    const DRAFT = 'DRAFT';
+    const UPDATE = 'UPDATE';
 
     /**
      * Get the description for an enum value
@@ -42,17 +44,11 @@ final class InvoiceStatus extends Enum implements LocalizedEnum
     {
         switch ($status) {
             case self::SEND:
+            case self::UPDATE:
                 $values = ['blue', '#2196f3'];
                 break;
-            case self::PAID:
+            case self::SAVE:
                 $values = ['green', '#4caf50'];
-                break;
-            case self::DEBT:
-            case self::OVERDUE:
-                $values = ['orange', '#ff9800'];
-                break;
-            case self::CANCELED:
-                $values = ['red', '#f44336'];
                 break;
             case self::DRAFT:
             default:

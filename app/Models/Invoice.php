@@ -86,11 +86,19 @@ class Invoice extends Model
     }
 
     /**
-     * Get the items for the blog invoice.
+     * Get the items for the invoice.
      */
     public function items()
     {
         return $this->hasMany(InvoiceItem::class);
+    }
+
+    /**
+     * Get the payments for the invoice.
+     */
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
     }
 
     /**

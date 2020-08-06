@@ -2,7 +2,7 @@ $(document).ready(function() {
 
     $('.linked').change(function() {
         $.ajax({
-            url: this.dataset.url + '/' + this.value,
+            url: this.dataset.url.replace('[id]', this.value),
             type: "GET",
             success: data => {
                 if (data.length) {
@@ -16,9 +16,12 @@ $(document).ready(function() {
     const reloadOptions = (selector, options) => {
         $(selector).html('');
         options.forEach(option => {
-            $(selector).append('<option value="'+option.id+'">'+option.name+'</option>')
+            if (option.id) {
+              $(selector).append('<option value="'+option.id+'">'+option.name+'</option>')
+            } else {
+              $(selector).append('<option class="first_default" selected>'+option.name+'</option>')
+            }
         });
-        $(selector).formSelect();
+        $(selector).select2();
     }
-
 });

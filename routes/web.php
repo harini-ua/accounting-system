@@ -24,7 +24,7 @@ Route::middleware(['auth'])->group(function() {
 
     // Wallets
     Route::resource('wallets', 'WalletController')->except(['create']);
-    Route::get('wallets/walletAccounts/{walletId}', 'WalletController@walletAccounts');
+    Route::get('wallets/{wallet}/accounts', 'WalletController@walletAccounts')->name('wallets.accounts');
 
     // Accounts
     Route::resource('accounts', 'AccountController')->only(['index', 'edit', 'update']);
@@ -42,7 +42,7 @@ Route::middleware(['auth'])->group(function() {
         Route::put('/{client}', 'ClientController@update')->name('clients.update');
         Route::delete('/{client}/delete', 'ClientController@destroy')->name('clients.destroy');
 
-        Route::get('clientContracts/{clientId}', 'ClientController@clientContracts');
+        Route::get('/{client}/contracts', 'ClientController@clientContracts')->name('client.contracts');
     });
 
     // CONTRACTS
@@ -101,6 +101,10 @@ Route::middleware(['auth'])->group(function() {
 
     // People
     Route::get('/people/former-list', 'PersonController@formerList')->name('people.former-list');
+    Route::post('people/change-salary-type/{person}', 'PersonController@changeSalaryType')->name('people.change-salary-type');
+    Route::post('people/change-contract-type/{person}', 'PersonController@changeContractType')->name('people.change-contract-type');
+    Route::post('people/make-former/{person}', 'PersonController@makeFormer')->name('people.make-former');
+    Route::post('people/long-vacation/{person}', 'PersonController@longVacation')->name('people.long-vacation');
     Route::resource('people', 'PersonController');
 });
 

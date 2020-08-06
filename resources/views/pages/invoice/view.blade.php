@@ -38,9 +38,11 @@
                         </div>
                         <!-- logo and title -->
                         <div class="row mt-3 invoice-logo-title">
-                            <div class="col m6 s12 display-flex invoice-logo mt-1 push-m6">
-                                <img src="{{asset('images/gallery/pixinvent-logo.png')}}" alt="logo" height="46" width="164">
-                            </div>
+                            @if($image)
+                                <div class="col m6 s12 invoice-logo display-flex pt-1 push-m6">
+                                    <img src="{{ $image['src'] }}" alt="logo" height="{{ $image['height'] }}" width="{{ $image['width'] }}" />
+                                </div>
+                            @endif
                             <div class="col m6 s12 pull-m6">
                                 <h4 class="indigo-text">{{ __('Invoice') }}</h4>
                                 <span>{{ $invoice->name }}</span>
@@ -135,7 +137,7 @@
                                         </li>
                                         <li class="display-flex justify-content-between">
                                             <span class="invoice-subtotal-title">{{ __('Paid to date') }}</span>
-                                            <h6 class="invoice-subtotal-value">- $ 00.00</h6>
+                                            <h6 class="invoice-subtotal-value">- {{ \App\Services\Formatter::currency($invoice->payments->sum('fee'), $invoice->account->accountType->symbol) }}</h6>
                                         </li>
                                     </ul>
                                 </div>

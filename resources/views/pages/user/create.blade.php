@@ -42,11 +42,11 @@
                                             <small class="errorTxt3">{{ $message }}</small>
                                             @enderror
                                         </div>
-                                        <x-select-old
+                                        <x-select
                                             name="position_id"
                                             title="Position"
                                             :options="$positions"
-                                        ></x-select-old>
+                                        ></x-select>
                                     </div>
                                 </div>
                                 {{--                            <div class="col s12">--}}

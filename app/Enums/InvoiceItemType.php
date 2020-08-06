@@ -47,4 +47,27 @@ final class InvoiceItemType extends Enum implements LocalizedEnum
 
         return $values[$value];
     }
+
+    /**
+     * Get the icon name for an type
+     *
+     * @param string $status
+     *
+     * @return string
+     */
+    public static function getIcon($status)
+    {
+        switch ($status) {
+            case self::HOURLY:
+                $icon = 'timer';
+                break;
+            case self::FIXED:
+                $icon = 'timer_off';
+                break;
+            default:
+                $icon = 'grade';
+        }
+
+        return $icon;
+    }
 }

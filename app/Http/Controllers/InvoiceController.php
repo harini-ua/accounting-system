@@ -3,16 +3,37 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\InvoicesDataTable;
+use App\Enums\InvoiceSaveStrategy;
 use App\Enums\InvoiceStatus;
+use App\Http\Requests\InvoiceCreateRequest;
+use App\Http\Requests\InvoiceItemCreateRequest;
+use App\Http\Requests\InvoiceUpdateRequest;
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\Wallet;
 use App\Services\Formatter;
+use App\Services\InvoiceService;
+use App\User;
 use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Validator;
 
 class InvoiceController extends Controller
 {
+    /** @var InvoiceService $invoiceService */
+    public $invoiceService;
+
+    /**
+     * InvoiceController constructor.
+     *
+     * @param InvoiceService $invoiceService
+     */
+    public function __construct(InvoiceService $invoiceService)
+    {
+        $this->invoiceService = $invoiceService;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -46,25 +67,51 @@ class InvoiceController extends Controller
      */
     public function create()
     {
-        $config = config('invoices');
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('invoices.index'), 'name' => __('Invoices')],
+            ['name' => __('Create')],
+        ];
 
-        return view('pages.invoice.create', compact('config'));
+        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+        $clients = Client::with('contracts')->orderBy('name')->get();
+        $wallets = Wallet::with('accounts.accountType')->orderBy('name')->get();
+
+        $sales = User::where('position_id', 5)->get();
+
+        $config = config('invoices');
+        $image = $config['logo'];
+
+        return view('pages.invoice.create', compact(
+            'breadcrumbs', 'pageConfigs', 'clients', 'wallets', 'sales', 'config', 'image'
+        ));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param InvoiceCreateRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(InvoiceCreateRequest $request)
     {
-        $invoice = new Invoice();
-        $invoice->fill($request->all());
-        $invoice->save();
+        $strategy = $request->get('submit');
+        $invoiceData = $request->except(['client_id', 'wallet_id']);
 
-        alert()->success($invoice->number, __('Create invoice has been successful'));
+        switch ($strategy) {
+            case InvoiceSaveStrategy::SEND:
+                $invoice = $this->invoiceService->send($invoiceData);
+                break;
+            case InvoiceSaveStrategy::DRAFT:
+                $invoice = $this->invoiceService->draft($invoiceData);
+                break;
+            case InvoiceSaveStrategy::SAVE:
+            default:
+                $invoice = $this->invoiceService->save($invoiceData);
+                break;
+        }
 
         return redirect()->route('invoices.show', $invoice);
     }
@@ -81,12 +128,14 @@ class InvoiceController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['link' => route('invoices.index'), 'name' => __('Invoices')],
-            ['name' => $invoice->name],
+            ['name' => $invoice->number],
         ];
 
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
-        $invoice->load(['items', 'contract.client.billingAddress', 'account.accountType']);
+        $invoice->load(['items' => static function ($query) {
+            $query->orderBy('created_at');
+        }, 'contract.client.billingAddress', 'account.accountType']);
 
         $client = $invoice->contract->client;
 
@@ -101,8 +150,11 @@ class InvoiceController extends Controller
 
         $sum = $invoice->items()->sum('sum');
 
+        $config = config('invoices');
+        $image = $config['logo'];
+
         return view('pages.invoice.view', compact(
-            'breadcrumbs', 'pageConfigs', 'invoice', 'billFrom', 'billTo', 'sum'
+            'breadcrumbs', 'pageConfigs', 'invoice', 'billFrom', 'billTo', 'sum', 'config', 'image'
         ));
     }
 
@@ -118,27 +170,52 @@ class InvoiceController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['link' => route('invoices.index'), 'name' => __('Invoices')],
-            ['name' => $invoice->name],
+            ['name' => $invoice->number],
         ];
 
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
-        $invoice->load('contract');
+        $invoice->load(['contract', 'items' => static function ($query) {
+            $query->orderBy('created_at');
+        }], 'payments');
 
-        return view('pages.invoice.update', compact('breadcrumbs', 'pageConfigs', 'invoice'));
+        $clients = Client::with('contracts')->orderBy('name')->get();
+        $wallets = Wallet::with('accounts.accountType')->orderBy('name')->get();
+
+        $sales = User::where('position_id', 5)->get();
+
+        $config = config('invoices');
+        $image = $config['logo'];
+
+        return view('pages.invoice.update', compact(
+            'breadcrumbs', 'pageConfigs', 'invoice', 'clients', 'wallets', 'sales', 'config', 'image'
+        ));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param Invoice                  $invoice
+     * @param InvoiceUpdateRequest $request
+     * @param Invoice              $invoice
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Invoice $invoice)
+    public function update(InvoiceUpdateRequest $request, Invoice $invoice)
     {
-        $invoice->fill($request->all());
+        $strategy = $request->get('submit');
+        $invoiceData = $request->except(['client_id', 'wallet_id']);
+
+        switch ($strategy) {
+            case InvoiceSaveStrategy::SEND:
+                $invoice = $this->invoiceService->send($invoiceData);
+                break;
+            case InvoiceSaveStrategy::UPDATE:
+            default:
+                $invoice = $this->invoiceService->update($invoice, $invoiceData);
+                break;
+        }
+
+        $invoice->fill($request->except(['client_id', 'wallet_id']));
         $invoice->save();
 
         alert()->success($invoice->numder, __('Invoice data has been update successful'));
