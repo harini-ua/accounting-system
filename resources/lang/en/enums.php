@@ -6,9 +6,22 @@ return [
         \App\Enums\ContractStatus::CLOSED => 'Closed',
     ],
 
+    \App\Enums\Currency::class => [
+        \App\Enums\Currency::USD => 'USD',
+        \App\Enums\Currency::EUR => 'EUR',
+        \App\Enums\Currency::UAH => 'UAH',
+    ],
+
     \App\Enums\InvoiceItemType::class => [
         \App\Enums\InvoiceItemType::HOURLY => 'Hourly',
         \App\Enums\InvoiceItemType::FIXED => 'Fixed',
+    ],
+
+    \App\Enums\InvoiceSaveStrategy::class => [
+        \App\Enums\InvoiceSaveStrategy::SAVE => 'SAVE',
+        \App\Enums\InvoiceSaveStrategy::SEND => 'SEND',
+        \App\Enums\InvoiceSaveStrategy::DRAFT => 'DRAFT',
+        \App\Enums\InvoiceSaveStrategy::UPDATE => 'UPDATE',
     ],
 
     \App\Enums\InvoiceStatus::class => [
@@ -22,6 +35,13 @@ return [
 
     \App\Enums\InvoiceType::class => [
         \App\Enums\InvoiceType::DEFAULT => 'Default',
+    ],
+
+    \App\Enums\PersonContractType::class => [
+        \App\Enums\PersonContractType::Individual2 => 'Individual II group',
+        \App\Enums\PersonContractType::Individual3 => 'Individual III group',
+        \App\Enums\PersonContractType::Contract => 'Contract',
+        \App\Enums\PersonContractType::Employee => 'Employee',
     ],
 
     \App\Enums\Position::class => [
@@ -41,18 +61,5 @@ return [
         \App\Enums\SalaryType::Fixed30 => 'Fixed 30 hours week',
         \App\Enums\SalaryType::Fixed20 => 'Fixed 20 hours week',
         \App\Enums\SalaryType::Hourly => 'Hourly',
-    ],
-
-    \App\Enums\PersonContractType::class => [
-        \App\Enums\PersonContractType::Individual2 => 'Individual II group',
-        \App\Enums\PersonContractType::Individual3 => 'Individual III group',
-        \App\Enums\PersonContractType::Contract => 'Contract',
-        \App\Enums\PersonContractType::Employee => 'Employee',
-    ],
-
-    \App\Enums\Currency::class => [
-        \App\Enums\Currency::USD => 'USD',
-        \App\Enums\Currency::EUR => 'EUR',
-        \App\Enums\Currency::UAH => 'UAH',
     ],
 ];

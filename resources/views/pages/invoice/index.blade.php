@@ -40,7 +40,6 @@
                             url="{{ route('invoices.index') }}"
                             name="status_filter"
                             title="Filter By Status"
-                            className="invoice-filter-action"
                     />
 
                     <x-filter

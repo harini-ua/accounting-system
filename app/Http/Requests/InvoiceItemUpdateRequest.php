@@ -26,11 +26,25 @@ class InvoiceItemUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string|max:100',
-            'description' => 'string',
-            'type' =>  ['required', new EnumValue(InvoiceItemType::class)],
-            'qrt' => 'required|integer',
-            'rate' => 'required|numeric',
+            'items.*.title' => 'required|string|max:100',
+            'items.*.type' => ['required', new EnumValue(InvoiceItemType::class)],
+            'items.*.qty' => 'required|integer',
+            'items.*.rate' => 'required|numeric',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'items.*.title' => __('The title field is required.'),
+            'items.*.type' =>  __('The type field is required.'),
+            'items.*.qty' => __('The qrt field is required.'),
+            'items.*.rate' => __('The rate field is required.'),
         ];
     }
 }

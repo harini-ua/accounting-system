@@ -31,7 +31,7 @@
     <x-totals title="Planned" :options="$accountTypes" relation="expensesPlanSum"/>
     <x-totals title="Real" :options="$accountTypes" relation="expensesRealSum"/>
 
-    <section class="users-list-wrapper users-list-wrapper section">
+    <section class="users-list-wrapper section animate fadeUp">
         <div class=" create-btn invoice-create-btn add-item-btn">
             <a href="{{ route('expenses.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
                 <i class="material-icons">add</i>
@@ -46,7 +46,7 @@
                     </div>
                 </div>
             </div>
-        </div>s
+        </div>
     </section>
 
     <!-- Content Area Ends -->

@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\InvoiceStatus;
+use App\Enums\InvoiceSaveStrategy;
 use App\Enums\InvoiceType;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
@@ -27,23 +27,44 @@ class InvoiceUpdateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'name' => 'required|string|max:100',
             'contract_id' => 'required|exists:App\Models\Contract,id',
             'account_id' => 'required|exists:App\Models\Account,id',
             'sales_manager_id' => [
                 'required',
-                Rule::exists('users')->where(static function ($query) {
+                Rule::exists('users', 'id')->where(static function ($query) {
                     $query->where('position_id', 5);
                 })
             ],
             'date' => 'required|date',
-            'status' => ['required', new EnumValue(InvoiceStatus::class)],
-            'type' => ['required', new EnumValue(InvoiceType::class)],
+            'plan_income_date' => 'required|date',
+            'type' => [
+                'required',
+                Rule::in([InvoiceSaveStrategy::UPDATE, InvoiceSaveStrategy::SEND])
+            ],
             'discount' => 'numeric',
             'total' => 'numeric',
-            'plan_income_date' => 'required|date',
-            'pay_date' => 'required|date',
         ];
+
+        $itemRules = (new InvoiceItemUpdateRequest)->rules();
+
+        return array_merge($rules, $itemRules);
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        $messages = [
+            //..
+        ];
+
+        $itemMessages = (new InvoiceItemUpdateRequest)->messages();
+
+        return array_merge($messages, $itemMessages);
     }
 }
