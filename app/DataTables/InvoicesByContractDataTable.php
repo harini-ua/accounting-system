@@ -170,6 +170,7 @@ class InvoicesByContractDataTable extends DataTable
             ->minifiedAjax()
             ->searching(false)
             ->dom('Bfrtip')
+            ->language([ 'processing' => view('partials.preloader-circular')->render() ])
 //            ->footerCallback('function() {
 //                var api = this.api();
 //                var payload = api.ajax.json();

@@ -50,6 +50,7 @@ class ExpenseCategoryDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
+                    ->language([ 'processing' => view('partials.preloader-circular')->render() ])
                     ->orderBy(0);
     }
 

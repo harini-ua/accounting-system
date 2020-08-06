@@ -11,9 +11,11 @@
                     <div class="row mb-3">
                         <div class="hidden">
                             <input type="hidden" name="type" value="{{ \App\Enums\InvoiceType::DEFAULT }}">
-                            <input type="hidden" name="currency[format]" value="{{ config('general.currency.format') }}">
-                            <input type="hidden" name="currency[symbol]" value="{{ isset($invoice) ? $invoice->account->accountType->symbol : null }}">
-                            <script>var accountCurrency = @json($accountCurrency);</script>
+                            <script>
+                              var currencyFormat = {{ config('general.currency.format') }};
+                              var currencySymbol = {{ isset($invoice) ? $invoice->account->accountType->symbol : null }};
+                              var accountCurrency = @json($accountCurrency);
+                            </script>
                         </div>
                         <div class="col xl4 m12 display-flex align-items-center">
                             <input type="text" value="{{ $invoice->number ?? null }}" placeholder="{{ __('INV-00000') }}" disabled>

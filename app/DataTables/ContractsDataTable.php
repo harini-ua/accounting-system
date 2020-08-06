@@ -163,6 +163,7 @@ class ContractsDataTable extends DataTable
             ->minifiedAjax()
 //            ->scrollX(true)
             ->dom('Bfrtip')
+            ->language([ 'processing' => view('partials.preloader-circular')->render() ])
             ->orderBy(0);
     }
 

@@ -69,6 +69,7 @@ class InvoiceItemsDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bftrip')
+            ->language([ 'processing' => view('partials.preloader-circular')->render() ])
             ->languageSearch('')
             ->languageSearchPlaceholder('Search Invoice')
             ->orderBy(0);

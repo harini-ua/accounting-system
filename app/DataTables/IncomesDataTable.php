@@ -127,6 +127,7 @@ class IncomesDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
+                    ->language([ 'processing' => view('partials.preloader-circular')->render() ])
                     ->languageSearch('Search')
                     ->orderBy(0);
     }

@@ -102,6 +102,7 @@ class ExpenseDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
+                    ->language([ 'processing' => view('partials.preloader-circular')->render() ])
                     ->searching(false)
                     ->orderBy(0);
     }
