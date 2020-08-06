@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\InvoiceSaveStrategy;
 use App\Enums\InvoiceType;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
@@ -22,11 +23,9 @@ class InvoiceCreateRequest extends FormRequest
     /**
      * Get the validation rules that apply to the request.
      *
-     * @param InvoiceItemCreateRequest $invoiceItemRequest
-     *
      * @return array
      */
-    public function rules(InvoiceItemCreateRequest $invoiceItemRequest)
+    public function rules()
     {
         $rules = [
             'name' => 'required|string|max:100',
@@ -40,13 +39,32 @@ class InvoiceCreateRequest extends FormRequest
             ],
             'date' => 'required|date',
             'plan_income_date' => 'required|date',
-            'type' => ['required', new EnumValue(InvoiceType::class)],
+            'type' => [
+                'required',
+                Rule::in([InvoiceSaveStrategy::SAVE, InvoiceSaveStrategy::SEND, InvoiceSaveStrategy::DRAFT])
+            ],
             'discount' => 'numeric',
             'total' => 'numeric',
         ];
 
-        $itemRules = $invoiceItemRequest->rules();
+        $itemRules = (new InvoiceItemCreateRequest)->rules();
 
         return array_merge($rules, $itemRules);
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        $messages = [
+            //..
+        ];
+
+        $itemMessages = (new InvoiceItemCreateRequest)->messages();
+
+        return array_merge($messages, $itemMessages);
     }
 }

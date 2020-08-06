@@ -24,34 +24,41 @@
             <div class="invoice-item display-flex mb-1">
                 <div class="invoice-item-filed row pt-1">
                     <div class="col s12 m3 input-field">
-                        <input type="text" name="items[{{ $i }}][title]" value="{{ !empty($items) && $items[$i]->title ? $items[$i]->title : null }}" class="item-title">
+                        <input type="text" name="items[{{ $i }}][title]" value="{{ old("items.$i.title") ?? (!empty($items) && $items[$i]->title) ? $items[$i]->title :  null }}" class="item-title">
                         <label for="title">{{ __('Item Title') }}</label>
                         @error('items.'.$i.'.title')<small class="errorTxt1"><div id="title-error" class="error">{{ $message }}</div></small>@enderror
                     </div>
                     <div class="col m3 s12 input-field">
                         <select name="items[{{ $i }}][type]" class="select2-icons invoice-item-select browser-default item-type">
-                            @foreach(\App\Enums\InvoiceItemType::toSelectArray() as $key => $type)
-                                <option value="{{ $key }}"
-                                        {{ !empty($items) && $items[$i]->type && $key == $items[$i]->type ? 'selected' : '' }}
-                                        data-icon="{{ \App\Enums\InvoiceItemType::getIcon($key) }}">{{ $type }}</option>
+                            @php( $item_type = old("items.$i.type") ?? (!empty($items) && $items[$i]->type) ?? null )
+                            @foreach(\App\Enums\InvoiceItemType::toSelectArray() as $type => $value)
+                                <option value="{{ $type }}" {{ $type === $item_type ? 'selected' : '' }}
+                                        data-icon="{{ \App\Enums\InvoiceItemType::getIcon($type) }}">{{ $value }}</option>
                             @endforeach
                         </select>
                         @error('items.'.$i.'.type')<small class="errorTxt1"><div id="title-error" class="error">{{ $message }}</div></small>@enderror
                     </div>
                     <div class="col m2 s12 input-field">
-                        <input type="text" name="items[{{ $i }}][qty]" value="{{ !empty($items) && $items[$i]->qty ? $items[$i]->qty : null }}" class="item-qty" placeholder="0">
+                        <input type="text" name="items[{{ $i }}][qty]"
+                               value="{{ old("items.$i.qty") ?? (!empty($items) && $items[$i]->qty) ? $items[$i]->qty : null }}"
+                               class="item-qty" placeholder="0">
                         @error('items.'.$i.'.qty')<small class="errorTxt1"><div id="title-error" class="error">{{ $message }}</div></small>@enderror
                     </div>
                     <div class="col m2 s12 input-field">
-                        <input type="text" name="items[{{ $i }}][rate]" value="{{ !empty($items) && $items[$i]->rate ? $items[$i]->rate : null }}" class="item-rate" placeholder="$ 0.00">
+                        <input type="text" name="items[{{ $i }}][rate]"
+                               value="{{ old("items.$i.rate") ?? (!empty($items) && $items[$i]->rate) ? $items[$i]->rate : null }}"
+                               class="item-rate" placeholder="$ 0.00">
                         @error('items.'.$i.'.rate')<small class="errorTxt1"><div id="title-error" class="error">{{ $message }}</div></small>@enderror
                     </div>
                     <div class="col m2 s12 input-field">
-                        <input type="text" name="items[{{ $i }}][sum]" value="{{ !empty($items) && $items[$i]->sum ? $items[$i]->sum : null }}" class="item-sum"  placeholder="$ 0.00" disabled>
+                        <input type="text" name="items[{{ $i }}][sum]"
+                               value="{{ old("items.$i.sum") ?? (!empty($items) && $items[$i]->sum) ? $items[$i]->sum : null }}"
+                               class="item-sum"  placeholder="$ 0.00" disabled>
                         @error('items.'.$i.'.sum')<small class="errorTxt1"><div id="title-error" class="error">{{ $message }}</div></small>@enderror
                     </div>
                     <div class="col m12 s12 input-field">
-                        <textarea name="items[{{ $i }}][description]" class="item-description materialize-textarea">{{ !empty($items) && $items[$i]->description ? $items[$i]->description : null }}</textarea>
+                        <textarea name="items[{{ $i }}][description]" class="item-description materialize-textarea">
+{{ old("items.$i.description") ?? (!empty($items) && $items[$i]->description) ? $items[$i]->description : null }}</textarea>
                         <label for="description">{{ __('Item Description') }}</label>
                         @error('items.'.$i.'.description')<small class="errorTxt1"><div id="title-error" class="error">{{ $message }}</div></small>@enderror
                     </div>

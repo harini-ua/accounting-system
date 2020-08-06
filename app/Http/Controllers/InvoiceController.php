@@ -8,6 +8,8 @@ use App\Enums\InvoiceStatus;
 use App\Http\Requests\InvoiceCreateRequest;
 use App\Http\Requests\InvoiceItemCreateRequest;
 use App\Http\Requests\InvoiceUpdateRequest;
+use App\Models\Account;
+use App\Models\AccountType;
 use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\Wallet;
@@ -83,8 +85,11 @@ class InvoiceController extends Controller
         $config = config('invoices');
         $image = $config['logo'];
 
+        $accountCurrency = Account::with('accountType')->get()
+            ->pluck('accountType.symbol', 'id');
+
         return view('pages.invoice.create', compact(
-            'breadcrumbs', 'pageConfigs', 'clients', 'wallets', 'sales', 'config', 'image'
+            'breadcrumbs', 'pageConfigs', 'clients', 'wallets', 'sales', 'config', 'image', 'accountCurrency'
         ));
     }
 
@@ -94,6 +99,7 @@ class InvoiceController extends Controller
      * @param InvoiceCreateRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function store(InvoiceCreateRequest $request)
     {
@@ -187,8 +193,11 @@ class InvoiceController extends Controller
         $config = config('invoices');
         $image = $config['logo'];
 
+        $accountCurrency = Account::with('accountType')->get()
+            ->pluck('accountType.symbol', 'id');
+
         return view('pages.invoice.update', compact(
-            'breadcrumbs', 'pageConfigs', 'invoice', 'clients', 'wallets', 'sales', 'config', 'image'
+            'breadcrumbs', 'pageConfigs', 'invoice', 'clients', 'wallets', 'sales', 'config', 'image', 'accountCurrency'
         ));
     }
 

@@ -8,13 +8,21 @@ use App\Models\Address;
 class Formatter
 {
     /**
-     * @param string $value
-     * @param string $symbol
+     * @param string      $value
+     * @param string|null $symbol
+     *
      * @return string
      */
-    public static function currency($value, string $symbol)
+    public static function currency($value, $symbol = null)
     {
-        return $symbol . ' ' . number_format($value, 2, ',', ' ');
+        $currency_format = config('general.currency.format');
+        $delimiter = config('general.currency.delimiter');
+
+        return strtr($currency_format, [
+            '{SYMBOL}'    => $symbol,
+            '{DELIMITER}' => $symbol ? $delimiter : null,
+            '{VALUE}'     => number_format($value, 2, ',', ' '),
+        ]);
     }
 
     /**

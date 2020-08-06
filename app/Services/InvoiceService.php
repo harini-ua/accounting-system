@@ -53,12 +53,17 @@ class InvoiceService
         }
         unset($invoiceData['items']);
 
-        DB::beginTransaction();
-        $invoice->update($invoiceData);
-        DB::commit();
-        $invoice->items()->delete();
-        $invoice->items()->saveMany($invoiceItems);
-        DB::rollBack();
+        try {
+            DB::beginTransaction();
+            $invoice->update($invoiceData);
+            DB::commit();
+            $invoice->items()->delete();
+            $invoice->items()->saveMany($invoiceItems);
+            DB::commit();
+        } catch (\Exception $exception) {
+            DB::rollBack();
+            throw $exception;
+        }
 
         alert()->success($invoice->number, __('Update invoice has been successful'));
 
@@ -77,7 +82,6 @@ class InvoiceService
         $invoice = new Invoice();
 
         //..
-
 
         alert()
             ->success(

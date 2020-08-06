@@ -11,6 +11,9 @@
                     <div class="row mb-3">
                         <div class="hidden">
                             <input type="hidden" name="type" value="{{ \App\Enums\InvoiceType::DEFAULT }}">
+                            <input type="hidden" name="currency[format]" value="{{ config('general.currency.format') }}">
+                            <input type="hidden" name="currency[symbol]" value="{{ isset($invoice) ? $invoice->account->accountType->symbol : null }}">
+                            <script>var accountCurrency = @json($accountCurrency);</script>
                         </div>
                         <div class="col xl4 m12 display-flex align-items-center">
                             <input type="text" value="{{ $invoice->number ?? null }}" placeholder="{{ __('INV-00000') }}" disabled>
@@ -21,7 +24,7 @@
                                     <small>{{ __('Invoice Date') }}</small>
                                     <div class="display-flex ml-4">
                                         <input type="text" name="date"
-                                               value="{{ isset($invoice) ? $invoice->date : (old('date')) ?? \Carbon\Carbon::now()->format(config('invoices.date.format')) }}"
+                                               value="{{ old('date') ?? $invoice->date ?? \Carbon\Carbon::now()->format(config('invoices.date.format')) }}"
                                                class="datepicker mr-2 mb-1"
                                                placeholder="{{ __('Select Date') }}">
                                         @error('date')<small class="errorTxt1"><div id="date-error" class="error">{{ $message }}</div></small>@enderror
@@ -30,7 +33,10 @@
                                 <div class="display-flex align-items-center">
                                     <small>{{ __('Plan Income Date') }}</small>
                                     <div class="display-flex ml-4">
-                                        <input type="text" name="plan_income_date" value="{{ $invoice->plan_income_date ?? (old('plan_income_date')) ?? null }}" class="datepicker mb-1" placeholder="{{ __('Select Date') }}">
+                                        <input type="text" name="plan_income_date"
+                                               value="{{ old('plan_income_date') ?? $invoice->plan_income_date ?? null }}"
+                                               class="datepicker mr-2 mb-1"
+                                               placeholder="{{ __('Select Date') }}">
                                         @error('plan_income_date')<small class="errorTxt1"><div id="plan_income_date-error" class="error">{{ $message }}</div></small>@enderror
                                     </div>
                                 </div>
@@ -47,7 +53,7 @@
                         <div class="col m6 s12 pull-m6">
                             <h4 class="indigo-text">Invoice</h4>
                             <div class="input-field">
-                                <input name="name" value="{{ $invoice->name ?? (old('name')) ?? null }}" type="text">
+                                <input name="name" value="{{ old('name') ?? $invoice->name ?? null }}" type="text">
                                 <label for="name" data-error="wrong" data-success="right">{{ __('Invoice Name') }}</label>
                                 @error('name')<small class="errorTxt1"><div id="name-error" class="error">{{ $message }}</div></small>@enderror
                             </div>
@@ -93,13 +99,13 @@
                         <div class="row">
                             <div class="col m5 s12">
                                 <div class="input-field">
-                                    <input name="discount" type="text" value="{{ $invoice->discount ?? (old('discount')) ?? null }}" placeholder="{{ __('0.00') }}">
+                                    <input name="discount" type="text" value="{{ old('discount') ?? $invoice->discount ?? null }}" placeholder="{{ __('0.00') }}">
                                     <label for="discount">{{ __('Discount') }}</label>
                                 </div>
                                 <div class="input-field">
                                     <select name="sales_manager_id" class="select2 invoice-item-select browser-default">
                                         <option value="">{{ __('- Select Sales Manager -') }}</option>
-                                        @php( $sales_manager_id = isset($invoice) && $invoice->sales_manager_id ?? (old('discount')) ?? null )
+                                        @php( $sales_manager_id = old('sales_manager_id') ?? (isset($invoice) && $invoice->sales_manager_id) ?? null )
                                         @foreach($sales as $user)
                                             <option value="{{ $user->id }}" {{ isset($invoice) && $sales_manager_id == $user->id  ? 'selected' : '' }}>{{ $user->name }}</option>
                                         @endforeach
@@ -111,27 +117,27 @@
                                 <ul>
                                     <li class="display-flex justify-content-between">
                                         <span class="invoice-subtotal-title">{{ __('Subtotal') }}</span>
-                                        <h6 class="invoice-subtotal-value">$ {{ isset($invoice) ? $invoice->items->sum('sum') : '00.00' }}</h6>
+                                        <h6 class="invoice-subtotal-value">{{ \App\Services\Formatter::currency(isset($invoice) ? $invoice->items->sum('sum') : null, isset($invoice) ? $invoice->account->accountType->symbol : null) }}</h6>
                                     </li>
                                     <li class="display-flex justify-content-between">
                                         <span class="invoice-subtotal-title">{{ __('Discount') }}</span>
-                                        <h6 class="invoice-subtotal-value">- $ {{ isset($invoice) ? $invoice->discount : '00.00' }}</h6>
+                                        <h6 class="invoice-subtotal-value">- {{ \App\Services\Formatter::currency(isset($invoice) ? $invoice->discount : null, isset($invoice) ? $invoice->account->accountType->symbol : null) }}</h6>
                                     </li>
                                     <li>
                                         <div class="divider mt-2 mb-2"></div>
                                     </li>
                                     <li class="display-flex justify-content-between">
                                         <span class="invoice-subtotal-title">{{ __('Invoice Total') }}</span>
-                                        <h6 class="invoice-subtotal-value">$ {{ isset($invoice) ? $invoice->items->sum('sum') - $invoice->discount : '00.00' }}</h6>
+                                        <h6 class="invoice-subtotal-value">{{ \App\Services\Formatter::currency(isset($invoice) ? $invoice->items->sum('sum') - $invoice->discount : null, isset($invoice) ? $invoice->account->accountType->symbol : null) }}</h6>
                                     </li>
                                     @if(isset($invoice))
                                         <li class="display-flex justify-content-between">
                                             <span class="invoice-subtotal-title">{{ __('Paid to date') }}</span>
-                                            <h6 class="invoice-subtotal-value">- $ {{ isset($invoice) ? $invoice->payments->sum('fee') : '00.00' }}</h6>
+                                            <h6 class="invoice-subtotal-value">- {{ \App\Services\Formatter::currency(isset($invoice) ? $invoice->payments->sum('fee') : null, isset($invoice) ? $invoice->account->accountType->symbol : null) }}</h6>
                                         </li>
                                         <li class="display-flex justify-content-between">
                                             <span class="invoice-subtotal-title">{{ __('Balance (USD)') }}</span>
-                                            <h6 class="invoice-subtotal-value">$ 00,000</h6>
+                                            <h6 class="invoice-subtotal-value">{{ \App\Services\Formatter::currency(isset($invoice) ? $invoice->payments->sum('fee') : null, isset($invoice) ? $invoice->account->accountType->symbol : null) }}</h6>
                                         </li>
                                     @endif
                                 </ul>
