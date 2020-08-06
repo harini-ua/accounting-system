@@ -44,6 +44,7 @@ class CreatePeopleTable extends Migration
             $table->string('long_vacation_reason')->nullable();
             $table->decimal('long_vacation_compensation', 7,2)->nullable();
             $table->string('long_vacation_comment')->nullable();
+            $table->date('long_vacation_plan_finished_at')->nullable();
             $table->date('long_vacation_finished_at')->nullable();
             // Quit
             $table->date('quited_at')->nullable();
