@@ -86,7 +86,9 @@ class FormerPersonDataTable extends DataTable
                     ->addTableClass('subscription-table responsive-table highlight')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    ->dom('Bfrtip');
+                    ->dom('Bfrtip')
+                    ->language([ 'processing' => view('partials.preloader-circular')->render() ])
+        ;
     }
 
     /**

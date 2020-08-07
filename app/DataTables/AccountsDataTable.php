@@ -147,6 +147,7 @@ class AccountsDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
+                    ->language([ 'processing' => view('partials.preloader-circular')->render() ])
                     ->orderBy(0);
 //                    -> scrollX(true);
     }

@@ -3,7 +3,6 @@
 /* user list css */
 /*--------------*/
 
-
 .users-list-wrapper {
   // icons vertically middle
     i {
@@ -39,6 +38,7 @@
       }
     }
 
+
     .dataTable {
       border-collapse: collapse;
 
@@ -68,6 +68,17 @@
           box-shadow: 0px 0px 8px 0px #3f51b5;
           color: white !important;
         }
+      }
+    }
+
+    .dataTables_processing {
+      top: 0% !important;
+      height: 100% !important;
+      background-color: white !important;
+      opacity: 0.7 !important;
+      .preloader-wrapper {
+        top: 50%;
+        position: absolute;
       }
     }
   }
