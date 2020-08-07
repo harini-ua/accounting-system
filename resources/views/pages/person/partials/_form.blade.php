@@ -22,12 +22,21 @@
             </div>
         </div>
         <div class="col s12 m6">
-            <div class="row mb-10">
-                <h4 class="card-title">{{ __('Additional information') }}</h4>
+            <h4 class="card-title">{{ __('Additional information') }}</h4>
+            <div class="row">
                 <x-checkbox name="growth_plan" title="Professional Growth plan" :model="$model"></x-checkbox>
+            </div>
+            <div class="row">
                 <x-checkbox name="tech_lead" title="Tech Lead" :model="$model"></x-checkbox>
+            </div>
+            <div class="row">
                 <x-checkbox name="team_lead" title="Team Lead" :model="$model"></x-checkbox>
+            </div>
+            <div class="row">
                 <x-checkbox name="bonuses" title="Bonuses" :model="$model"></x-checkbox>
+            </div>
+            <div class="row mt-10">
+                <x-select name="recruiter_id" title="Recruiter" :options="$recruiters" :model="$model" firstTitle="Recruiter"></x-select>
             </div>
             <div class="divider mb-5"></div>
             <div class="row">

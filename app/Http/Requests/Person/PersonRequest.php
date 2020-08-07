@@ -7,6 +7,7 @@ use App\Enums\PersonContractType;
 use App\Enums\Position;
 use App\Enums\SalaryType;
 use BenSampo\Enum\Rules\EnumValue;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class PersonRequest extends FormRequest
@@ -46,6 +47,12 @@ class PersonRequest extends FormRequest
             'tech_lead' => 'boolean',
             'team_lead' => 'boolean',
             'bonuses' => 'boolean',
+            'recruiter_id' => [
+                'nullable',
+                Rule::exists('users', 'id')->where(function ($query) {
+                    $query->where('position_id', Position::Recruiter());
+                }),
+            ],
         ];
     }
 }

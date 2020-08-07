@@ -1,5 +1,8 @@
 <div class="col s12 input-field">
     <select name="{{ $name }}" {{ $disabled() }}>
+        @if($isDefaultOption())
+            <option class="first_default" value="">{{ $defaultOptionName }}</option>
+        @endif
         @if($model)
             @foreach ($options as $option)
                 <option {{ $selected($option) }}

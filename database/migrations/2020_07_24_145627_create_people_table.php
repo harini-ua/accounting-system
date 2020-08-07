@@ -39,6 +39,7 @@ class CreatePeopleTable extends Migration
             $table->boolean('tech_lead')->default(false);
             $table->boolean('team_lead')->default(false);
             $table->boolean('bonuses')->default(false);
+            $table->unsignedBigInteger('recruiter_id')->nullable();
             // Long-term vacation
             $table->date('long_vacation_started_at')->nullable();
             $table->string('long_vacation_reason')->nullable();
@@ -54,6 +55,7 @@ class CreatePeopleTable extends Migration
             $table->softDeletes();
 
             $table->foreign('user_id')->on('users')->references('id')->onDelete('set null');
+            $table->foreign('recruiter_id')->on('users')->references('id')->onDelete('set null');
         });
     }
 

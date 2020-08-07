@@ -14,6 +14,7 @@ use App\Http\Requests\Person\LongVacationRequest;
 use App\Http\Requests\Person\MakeFormerRequest;
 use App\Http\Requests\Person\PersonRequest;
 use App\Models\Person;
+use App\User;
 use App\DataTables\PersonDataTable;
 use Illuminate\Http\Request;
 
@@ -105,9 +106,10 @@ class PersonController extends Controller
         $currencies = Currency::toCollection();
         $salaryTypes = SalaryType::toCollection();
         $contractTypes = PersonContractType::toCollection();
+        $recruiters = User::where('position_id', Position::Recruiter())->get();
 
         return view('pages.person.edit', compact('breadcrumbs', 'pageConfigs', 'model', 'positions',
-            'currencies', 'salaryTypes', 'contractTypes'
+            'currencies', 'salaryTypes', 'contractTypes', 'recruiters'
         ));
     }
 
