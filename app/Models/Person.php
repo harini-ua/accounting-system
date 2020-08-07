@@ -48,6 +48,38 @@ class Person extends Model
      * @var mixed|null
      */
     private $long_vacation_finished_at;
+    /**
+     * @var int|mixed
+     */
+    private $growth_plan;
+    /**
+     * @var int|mixed
+     */
+    private $team_lead;
+    /**
+     * @var int|mixed
+     */
+    private $team_lead_reward;
+    /**
+     * @var int|mixed
+     */
+    private $tech_lead;
+    /**
+     * @var int|mixed
+     */
+    private $bonuses;
+    /**
+     * @var int|mixed
+     */
+    private $tech_lead_reward;
+    /**
+     * @var int|mixed
+     */
+    private $bonuses_reward;
+    /**
+     * @var mixed|null
+     */
+    private $long_vacation_compensation_sum;
 
     protected static function booted()
     {

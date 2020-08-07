@@ -26,7 +26,8 @@ class LongVacationRequest extends FormRequest
         return [
             'long_vacation_started_at' => 'required|date_format:d-m-Y',
             'long_vacation_reason' => 'required|string|min:3',
-            'long_vacation_compensation' => 'nullable|numeric',
+            'long_vacation_compensation' => 'boolean',
+            'long_vacation_compensation_sum' => 'nullable|numeric|max:99999.99|min:0',
             'long_vacation_comment' => 'nullable|string|min:3',
             'long_vacation_plan_finished_at' => 'nullable|date_format:d-m-Y',
         ];
