@@ -16,6 +16,7 @@ use Illuminate\Support\Collection;
  * @method static static SysAdmin()
  * @method static static Accountant()
  * @method static static Designer()
+ * @method static static Recruiter()
  */
 final class Position extends Enum implements LocalizedEnum
 {
@@ -30,4 +31,5 @@ final class Position extends Enum implements LocalizedEnum
     const SysAdmin = 7;
     const Accountant = 8;
     const Designer = 9;
+    const Recruiter = 10;
 }

@@ -22,14 +22,14 @@ class CreatePeopleTable extends Migration
             $table->date('start_date');
             $table->text('skills')->nullable();
             $table->text('certifications')->nullable();
-            // salary
+            // Salary
             $table->decimal('salary', 7,2);
             $table->string('currency', 5)->default(\App\Enums\Currency::USD);
             $table->decimal('rate', 4,2);
             $table->string('salary_type', 10)->default(\App\Enums\SalaryType::Fixed40);
             $table->string('contract_type', 15)->default(\App\Enums\PersonContractType::Individual2);
             $table->date('contract_type_changed_at')->nullable();
-            // salary changed
+            // Salary changed
             $table->date('salary_type_changed_at')->nullable();
             $table->date('salary_changed_at')->nullable();
             $table->string('salary_change_reason')->nullable();
@@ -37,12 +37,17 @@ class CreatePeopleTable extends Migration
             // Additional information
             $table->boolean('growth_plan')->default(false);
             $table->boolean('tech_lead')->default(false);
+            $table->decimal('tech_lead_reward', 7,2)->nullable();
             $table->boolean('team_lead')->default(false);
+            $table->decimal('team_lead_reward', 7,2)->nullable();
             $table->boolean('bonuses')->default(false);
+            $table->smallInteger('bonuses_reward')->nullable();
+            $table->unsignedBigInteger('recruiter_id')->nullable();
             // Long-term vacation
             $table->date('long_vacation_started_at')->nullable();
             $table->string('long_vacation_reason')->nullable();
-            $table->decimal('long_vacation_compensation', 7,2)->nullable();
+            $table->boolean('long_vacation_compensation')->default(false);
+            $table->decimal('long_vacation_compensation_sum', 7,2)->nullable();
             $table->string('long_vacation_comment')->nullable();
             $table->date('long_vacation_plan_finished_at')->nullable();
             $table->date('long_vacation_finished_at')->nullable();
@@ -54,6 +59,7 @@ class CreatePeopleTable extends Migration
             $table->softDeletes();
 
             $table->foreign('user_id')->on('users')->references('id')->onDelete('set null');
+            $table->foreign('recruiter_id')->on('users')->references('id')->onDelete('set null');
         });
     }
 

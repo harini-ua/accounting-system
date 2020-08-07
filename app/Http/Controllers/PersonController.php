@@ -14,6 +14,7 @@ use App\Http\Requests\Person\LongVacationRequest;
 use App\Http\Requests\Person\MakeFormerRequest;
 use App\Http\Requests\Person\PersonRequest;
 use App\Models\Person;
+use App\User;
 use App\DataTables\PersonDataTable;
 use Illuminate\Http\Request;
 
@@ -105,9 +106,10 @@ class PersonController extends Controller
         $currencies = Currency::toCollection();
         $salaryTypes = SalaryType::toCollection();
         $contractTypes = PersonContractType::toCollection();
+        $recruiters = User::where('position_id', Position::Recruiter())->get();
 
         return view('pages.person.edit', compact('breadcrumbs', 'pageConfigs', 'model', 'positions',
-            'currencies', 'salaryTypes', 'contractTypes'
+            'currencies', 'salaryTypes', 'contractTypes', 'recruiters'
         ));
     }
 
@@ -126,12 +128,15 @@ class PersonController extends Controller
         }
         if (!$request->filled('team_lead')) {
             $person->team_lead = 0;
+            $person->team_lead_reward = 0;
         }
         if (!$request->filled('tech_lead')) {
             $person->tech_lead = 0;
+            $person->tech_lead_reward = 0;
         }
         if (!$request->filled('bonuses')) {
             $person->bonuses = 0;
+            $person->bonuses_reward = 0;
         }
         $person->save();
 
@@ -199,6 +204,10 @@ class PersonController extends Controller
     public function longVacation(LongVacationRequest $request, Person $person)
     {
         $person->fill($request->all());
+        if (!$request->filled('long_vacation_compensation')) {
+            $person->long_vacation_compensation = 0;
+            $person->long_vacation_compensation_sum = 0;
+        }
         $person->long_vacation_finished_at = null;
         $person->save();
 
@@ -215,7 +224,8 @@ class PersonController extends Controller
         $person->fill($request->all());
         $person->long_vacation_started_at = null;
         $person->long_vacation_reason = null;
-        $person->long_vacation_compensation = null;
+        $person->long_vacation_compensation = false;
+        $person->long_vacation_compensation_sum = null;
         $person->long_vacation_comment = null;
         $person->long_vacation_plan_finished_at = null;
         $person->save();

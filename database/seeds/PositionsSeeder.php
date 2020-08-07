@@ -39,5 +39,8 @@ class PositionsSeeder extends Seeder
         Position::create([
             'name' => 'Designer',
         ]);
+        Position::create([
+            'name' => 'Recruiter',
+        ]);
     }
 }

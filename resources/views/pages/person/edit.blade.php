@@ -40,7 +40,7 @@
                                 <span>Make former employee</span>
                             </span>
                         </div>
-                        <div id="long-vacation-button" class="invoice-action-btn{{ $model->long_vacation_started_at ? ' hide' : '' }}">
+                        <div id="long-vacation-button" class="invoice-action-btn">
                             <span class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <span>Long-term vacation</span>
                             </span>
@@ -87,7 +87,16 @@
         <x-date name="long_vacation_started_at" title="Date" :model="$model"></x-date>
         <x-input name="long_vacation_reason" title="Reason" :model="$model"></x-input>
         <x-input name="long_vacation_comment" title="Comments" :model="$model"></x-input>
-        <x-input name="long_vacation_compensation" title="Compensation" :model="$model"></x-input>
+        <div class="col s12 mb-5">
+            <x-checkbox-input checkboxName="long_vacation_compensation" :model="$model">
+                <x-slot name="checkbox">
+                    <x-checkbox name="long_vacation_compensation" title="Compensation" :model="$model"></x-checkbox>
+                </x-slot>
+                <x-slot name="input">
+                    <x-input name="long_vacation_compensation_sum" title="Compensation sum" :model="$model"></x-input>
+                </x-slot>
+            </x-checkbox-input>
+        </div>
         <x-date name="long_vacation_plan_finished_at" title="Planning date of coming back to the office" :model="$model"></x-date>
     </x-sidebar-form>
 
@@ -99,5 +108,6 @@
 
 {{-- page scripts --}}
 @section('page-script')
+    <script src="{{asset('js/scripts/checkbox-input.js')}}"></script>
     <script src="{{asset('js/scripts/person.js')}}"></script>
 @endsection

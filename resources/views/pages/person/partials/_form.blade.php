@@ -22,14 +22,42 @@
             </div>
         </div>
         <div class="col s12 m6">
-            <div class="row mb-10">
-                <h4 class="card-title">{{ __('Additional information') }}</h4>
+            <h4 class="card-title">{{ __('Additional information') }}</h4>
+            <div class="row">
                 <x-checkbox name="growth_plan" title="Professional Growth plan" :model="$model"></x-checkbox>
-                <x-checkbox name="tech_lead" title="Tech Lead" :model="$model"></x-checkbox>
-                <x-checkbox name="team_lead" title="Team Lead" :model="$model"></x-checkbox>
-                <x-checkbox name="bonuses" title="Bonuses" :model="$model"></x-checkbox>
             </div>
-            <div class="divider mb-5"></div>
+
+            <x-checkbox-input checkboxName="tech_lead" :model="$model">
+                <x-slot name="checkbox">
+                    <x-checkbox name="tech_lead" title="Tech Lead" :model="$model"></x-checkbox>
+                </x-slot>
+                <x-slot name="input">
+                    <x-input name="tech_lead_reward" title="Tech Lead Reward" :model="$model"></x-input>
+                </x-slot>
+            </x-checkbox-input>
+
+            <x-checkbox-input checkboxName="team_lead" :model="$model">
+                <x-slot name="checkbox">
+                    <x-checkbox name="team_lead" title="Team Lead" :model="$model"></x-checkbox>
+                </x-slot>
+                <x-slot name="input">
+                    <x-input name="team_lead_reward" title="Team Lead Reward" :model="$model"></x-input>
+                </x-slot>
+            </x-checkbox-input>
+
+            <x-checkbox-input checkboxName="bonuses" :model="$model">
+                <x-slot name="checkbox">
+                    <x-checkbox name="bonuses" title="Bonuses" :model="$model"></x-checkbox>
+                </x-slot>
+                <x-slot name="input">
+                    <x-input name="bonuses_reward" title="Bonuses %" :model="$model"></x-input>
+                </x-slot>
+            </x-checkbox-input>
+
+            <div class="row mt-8">
+                <x-select name="recruiter_id" title="Recruiter" :options="$recruiters" :model="$model" firstTitle="Recruiter"></x-select>
+            </div>
+            <div class="divider mb-5 mt-8"></div>
             <div class="row">
                 <h4 class="card-title">{{ __('Salary raising') }}</h4>
                 <x-date name="salary_changed_at" title="Date" :model="$model"></x-date>

@@ -73,6 +73,9 @@ $(document).ready(function() {
                 element.value = '';
                 if (element.type == 'select-one') {
                     $(element).formSelect();
+                } else if (element.type == 'checkbox') {
+                    $(element).prop('checked', false);
+                    $('[data-checkbox="'+$(element).attr('name')+'"]').addClass('hide');
                 }
             });
         }
@@ -83,7 +86,6 @@ $(document).ready(function() {
     handleSidebar('make-former');
     handleSidebar('long-vacation', function(form) {
         $('#back-to-active-button').removeClass('hide');
-        $('#long-vacation-button').addClass('hide');
         clearForm('back-to-active');
     });
     handleSidebar('back-to-active',  function(form) {
