@@ -6,6 +6,7 @@ use App\Casts\Date;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Enums\Position;
 
 class Person extends Model
 {
@@ -80,6 +81,18 @@ class Person extends Model
      * @var mixed|null
      */
     private $long_vacation_compensation_sum;
+    /**
+     * @var mixed
+     */
+    private $currency;
+    /**
+     * @var mixed|null
+     */
+    private $quited_at;
+    /**
+     * @var mixed|null
+     */
+    private $quit_reason;
 
     protected static function booted()
     {
@@ -94,5 +107,13 @@ class Person extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function recruiter()
+    {
+        return $this->belongsTo(User::class)->where('position_id', Position::Recruiter());
     }
 }

@@ -23,7 +23,7 @@ class CreatePeopleTable extends Migration
             $table->text('skills')->nullable();
             $table->text('certifications')->nullable();
             // Salary
-            $table->decimal('salary', 7,2);
+            $table->decimal('salary', 9,2);
             $table->string('currency', 5)->default(\App\Enums\Currency::USD);
             $table->decimal('rate', 4,2);
             $table->string('salary_type', 10)->default(\App\Enums\SalaryType::Fixed40);
@@ -33,13 +33,13 @@ class CreatePeopleTable extends Migration
             $table->date('salary_type_changed_at')->nullable();
             $table->date('salary_changed_at')->nullable();
             $table->string('salary_change_reason')->nullable();
-            $table->decimal('last_salary', 7,2)->nullable();
+            $table->decimal('last_salary', 9,2)->nullable();
             // Additional information
             $table->boolean('growth_plan')->default(false);
             $table->boolean('tech_lead')->default(false);
-            $table->decimal('tech_lead_reward', 7,2)->nullable();
+            $table->decimal('tech_lead_reward', 9,2)->nullable();
             $table->boolean('team_lead')->default(false);
-            $table->decimal('team_lead_reward', 7,2)->nullable();
+            $table->decimal('team_lead_reward', 9,2)->nullable();
             $table->boolean('bonuses')->default(false);
             $table->smallInteger('bonuses_reward')->nullable();
             $table->unsignedBigInteger('recruiter_id')->nullable();
@@ -47,7 +47,7 @@ class CreatePeopleTable extends Migration
             $table->date('long_vacation_started_at')->nullable();
             $table->string('long_vacation_reason')->nullable();
             $table->boolean('long_vacation_compensation')->default(false);
-            $table->decimal('long_vacation_compensation_sum', 7,2)->nullable();
+            $table->decimal('long_vacation_compensation_sum', 9,2)->nullable();
             $table->string('long_vacation_comment')->nullable();
             $table->date('long_vacation_plan_finished_at')->nullable();
             $table->date('long_vacation_finished_at')->nullable();
