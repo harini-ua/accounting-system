@@ -61,18 +61,34 @@ class PersonController extends Controller
      */
     public function create()
     {
-        //
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['link' => route('people.index'), 'name' => "People"],
+            ['name' => "Add Person"]
+        ];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $positions = Position::toCollection();
+        $currencies = Currency::toCollection();
+        $salaryTypes = SalaryType::toCollection();
+        $contractTypes = PersonContractType::toCollection();
+        $recruiters = User::where('position_id', Position::Recruiter())->get();
+
+        return view('pages.person.create', compact('breadcrumbs', 'pageConfigs', 'positions',
+            'currencies', 'salaryTypes', 'contractTypes', 'recruiters'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  PersonRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PersonRequest $request)
     {
-        //
+        $person = Person::create($request->all());
+
+        return redirect()->route('people.show', $person);
     }
 
     /**
