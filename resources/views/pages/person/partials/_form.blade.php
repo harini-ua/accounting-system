@@ -19,8 +19,10 @@
                 <x-select name="currency" title="Currency" :options="$currencies" :model="$model"></x-select>
                 <x-textarea name="skills" title="Skills" :model="$model"></x-textarea>
                 <x-textarea name="certifications" title="Certifications" :model="$model"></x-textarea>
-                <x-select name="salary_type" title="Salary type" :options="$salaryTypes" :model="$model"></x-select>
-                <x-select name="contract_type" title="Type of contract" :options="$contractTypes" :model="$model"></x-select>
+                @if(!$model)
+                    <x-select name="salary_type" title="Salary type" :options="$salaryTypes" :model="$model"></x-select>
+                    <x-select name="contract_type" title="Type of contract" :options="$contractTypes" :model="$model"></x-select>
+                @endif
                 {{-- main info end --}}
             </div>
         </div>

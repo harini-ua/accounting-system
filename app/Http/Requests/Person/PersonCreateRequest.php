@@ -10,7 +10,7 @@ use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PersonRequest extends FormRequest
+class PersonCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

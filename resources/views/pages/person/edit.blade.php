@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title','Person' )
+@section('title','Edit Person' )
 
 {{-- page styles --}}
 @section('page-style')
@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </div>
-            <!-- action  -->
+            <!-- actions start  -->
             <div class="col xl3 m4 s12">
                 <div class="card invoice-action-wrapper animate fadeRight">
                     <div class="card-content">
@@ -65,9 +65,11 @@
                     </div>
                 </div>
             </div>
+            <!-- actions end  -->
         </div>
     </section>
 
+    <!-- sidebar forms start  -->
     <x-sidebar-form id="change-salary-type" title="Change salary type" :model="$model">
         <x-date name="salary_type_changed_at" title="Date" :model="$model"></x-date>
         <x-select name="salary_type" title="Salary type" :options="$salaryTypes" :model="$model"></x-select>
@@ -103,6 +105,7 @@
     <x-sidebar-form id="back-to-active" title="Back to active employee" :model="$model">
         <x-date name="long_vacation_finished_at" title="Date of the work beginning" :model="$model"></x-date>
     </x-sidebar-form>
+    <!-- sidebar forms end  -->
 
 @endsection
 
