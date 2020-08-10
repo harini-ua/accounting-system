@@ -12,8 +12,10 @@ use App\Http\Requests\Person\ChangeContractTypeRequest;
 use App\Http\Requests\Person\ChangeSalaryTypeRequest;
 use App\Http\Requests\Person\LongVacationRequest;
 use App\Http\Requests\Person\MakeFormerRequest;
-use App\Http\Requests\Person\PersonRequest;
+use App\Http\Requests\Person\PersonCreateRequest;
+use App\Http\Requests\Person\PersonUpdateRequest;
 use App\Models\Person;
+use App\User;
 use App\DataTables\PersonDataTable;
 use Illuminate\Http\Request;
 
@@ -60,29 +62,58 @@ class PersonController extends Controller
      */
     public function create()
     {
-        //
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['link' => route('people.index'), 'name' => "People"],
+            ['name' => "Add Person"]
+        ];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $positions = Position::toCollection();
+        $currencies = Currency::toCollection();
+        $salaryTypes = SalaryType::toCollection();
+        $contractTypes = PersonContractType::toCollection();
+        $recruiters = User::where('position_id', Position::Recruiter())->get();
+
+        return view('pages.person.create', compact('breadcrumbs', 'pageConfigs', 'positions',
+            'currencies', 'salaryTypes', 'contractTypes', 'recruiters'));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  PersonCreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PersonCreateRequest $request)
     {
-        //
+        $person = Person::create($request->all());
+
+        return redirect()->route('people.show', $person);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Person $person
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Person $person)
     {
-        //
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['link' => route('people.index'), 'name' => "People"],
+            ['name' => "View Person"]
+        ];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $symbol = Currency::symbol($person->currency);
+        $salaryTypes = SalaryType::toCollection();
+        $contractTypes = PersonContractType::toCollection();
+
+        return view('pages.person.show', compact('breadcrumbs', 'pageConfigs', 'person', 'salaryTypes',
+            'contractTypes', 'symbol'
+        ));
     }
 
     /**
@@ -105,33 +136,37 @@ class PersonController extends Controller
         $currencies = Currency::toCollection();
         $salaryTypes = SalaryType::toCollection();
         $contractTypes = PersonContractType::toCollection();
+        $recruiters = User::where('position_id', Position::Recruiter())->get();
 
         return view('pages.person.edit', compact('breadcrumbs', 'pageConfigs', 'model', 'positions',
-            'currencies', 'salaryTypes', 'contractTypes'
+            'currencies', 'salaryTypes', 'contractTypes', 'recruiters'
         ));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  PersonRequest $request
+     * @param  PersonUpdateRequest $request
      * @param  Person $person
      * @return \Illuminate\Http\Response
      */
-    public function update(PersonRequest $request, Person $person)
+    public function update(PersonUpdateRequest $request, Person $person)
     {
         $person->fill($request->all());
         if (!$request->filled('growth_plan')) {
-            $person->growth_plan = 0;
+            $person->growth_plan = false;
         }
         if (!$request->filled('team_lead')) {
-            $person->team_lead = 0;
+            $person->team_lead = false;
+            $person->team_lead_reward = null;
         }
         if (!$request->filled('tech_lead')) {
-            $person->tech_lead = 0;
+            $person->tech_lead = false;
+            $person->tech_lead_reward = null;
         }
         if (!$request->filled('bonuses')) {
-            $person->bonuses = 0;
+            $person->bonuses = false;
+            $person->bonuses_reward = null;
         }
         $person->save();
 
@@ -186,6 +221,7 @@ class PersonController extends Controller
     public function makeFormer(MakeFormerRequest $request, Person $person)
     {
         $person->fill($request->all());
+        $person->long_vacation_finished_at = null;
         $person->save();
 
         return response()->json(['success' => true]);
@@ -199,6 +235,10 @@ class PersonController extends Controller
     public function longVacation(LongVacationRequest $request, Person $person)
     {
         $person->fill($request->all());
+        if (!$request->filled('long_vacation_compensation')) {
+            $person->long_vacation_compensation = false;
+            $person->long_vacation_compensation_sum = null;
+        }
         $person->long_vacation_finished_at = null;
         $person->save();
 
@@ -215,9 +255,13 @@ class PersonController extends Controller
         $person->fill($request->all());
         $person->long_vacation_started_at = null;
         $person->long_vacation_reason = null;
-        $person->long_vacation_compensation = null;
+        $person->long_vacation_compensation = false;
+        $person->long_vacation_compensation_sum = null;
         $person->long_vacation_comment = null;
         $person->long_vacation_plan_finished_at = null;
+
+        $person->quited_at = null;
+        $person->quit_reason = null;
         $person->save();
 
         return response()->json(['success' => true]);

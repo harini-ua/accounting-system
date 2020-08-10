@@ -88,6 +88,7 @@ class FormerPersonDataTable extends DataTable
                     ->minifiedAjax()
                     ->dom('Bfrtip')
                     ->language([ 'processing' => view('partials.preloader-circular')->render() ])
+                    ->orderBy(0, 'desc')
         ;
     }
 

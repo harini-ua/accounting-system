@@ -25,7 +25,7 @@ $(document).ready(function() {
                         text  : resp.message,
                         type  : resp.success === false ? 'error' : 'success',
                     });
-                    updateMainForm(form.elements);
+                    updateMainForm(form);
                     if (typeof callback === 'function') {
                         callback(form);
                     }
@@ -51,17 +51,21 @@ $(document).ready(function() {
         });
     }
 
-    function updateMainForm(elements)
+    function updateMainForm(form)
     {
         const mainForm = document.forms['main-form'];
-        Array.prototype.forEach.call(elements, element => {
-            const mainFormElement = mainForm.elements[element.name];
-            if (mainFormElement) {
-                mainForm.elements[element.name].value = element.value;
-                if (mainFormElement.type == 'select-one') {
-                    $(mainFormElement).formSelect();
+        Array.prototype.forEach.call(form.elements, element => {
+            if (mainForm) {
+                const mainFormElement = mainForm.elements[element.name];
+                if (mainFormElement) {
+                    mainForm.elements[element.name].value = element.value;
+                    if (mainFormElement.type == 'select-one') {
+                        $(mainFormElement).formSelect();
+                    }
                 }
             }
+            // update field in view page
+            viewUpdate(element, form);
         });
     }
 
@@ -70,25 +74,84 @@ $(document).ready(function() {
         const form = document.forms[id];
         if (form) {
             Array.prototype.forEach.call(form.elements, element => {
-                element.value = '';
                 if (element.type == 'select-one') {
+                    element.value = '';
                     $(element).formSelect();
+                } else if (element.type == 'checkbox') {
+                    $(element).prop('checked', false);
+                    $('[data-checkbox="'+$(element).attr('name')+'"]').addClass('hide');
+                } else {
+                    element.value = '';
                 }
             });
         }
     }
 
+    function viewUpdate(element, form)
+    {
+        switch ($(form).attr('name')) {
+            case 'long-vacation':
+                $('[data-name="long_vacation_finished_at"]').closest('tr').addClass('hide');
+                break;
+            case 'back-to-active':
+                $('[data-name="long_vacation_started_at"]').closest('tr').addClass('hide');
+                $('[data-name="long_vacation_reason"]').closest('tr').addClass('hide');
+                $('[data-name="long_vacation_compensation_sum"]').closest('tr').addClass('hide');
+                $('[data-name="long_vacation_comment"]').closest('tr').addClass('hide');
+                $('[data-name="long_vacation_plan_finished_at"]').closest('tr').addClass('hide');
+
+                $('[data-name="quited_at"]').closest('.info-block').addClass('hide');
+                break;
+            case 'make-former':
+                $('[data-name="long_vacation_plan_finished_at"]').closest('.info-block').addClass('hide');
+                break;
+        }
+        viewFieldUpdate(element, form);
+    }
+
+    function viewFieldUpdate(element, form)
+    {
+        const field = $('[data-name="'+element.name+'"]');
+        if (element.value) {
+            let text = element.value;
+            if (element.type == 'select-one') {
+                text = $(form).find('[value="'+element.value+'"]').text();
+            }
+            if (field.attr('data-currency')) {
+                text = formatCurrency(text, field.attr('data-currency'))
+            }
+            field.text(text);
+            field.closest('tr').removeClass('hide');
+            field.closest('.info-block').removeClass('hide');
+        } else {
+            field.closest('tr').addClass('hide');
+        }
+    }
+
+    function formatCurrency(value, currency)
+    {
+        const numberFormat = new Intl.NumberFormat('ru-RU', {
+            style: 'currency',
+            currency: currency,
+            currencyDisplay: 'symbol'
+        });
+        return numberFormat.format(value);
+    }
+
     handleSidebar('change-salary-type');
     handleSidebar('change-contract-type');
-    handleSidebar('make-former');
+    handleSidebar('make-former', function(form) {
+        $('#back-to-active-button').removeClass('hide');
+        clearForm('back-to-active');
+    });
     handleSidebar('long-vacation', function(form) {
         $('#back-to-active-button').removeClass('hide');
-        $('#long-vacation-button').addClass('hide');
         clearForm('back-to-active');
     });
     handleSidebar('back-to-active',  function(form) {
         $('#back-to-active-button').addClass('hide');
         $('#long-vacation-button').removeClass('hide');
         clearForm('long-vacation');
+        clearForm('make-former');
     });
 });

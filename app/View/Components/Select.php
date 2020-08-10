@@ -11,6 +11,7 @@ class Select extends Component
     public $options;
     public $model;
     public $disabled;
+    public $firstTitle;
 
     /**
      * Select constructor.
@@ -19,14 +20,16 @@ class Select extends Component
      * @param $options
      * @param $model
      * @param bool $disabled
+     * @param $firstTitle
      */
-    public function __construct($name, $title, $options, $model = null, $disabled = false)
+    public function __construct($name, $title, $options, $model = null, $disabled = false, $firstTitle = '')
     {
         $this->name = $name;
         $this->title = $title;
         $this->options = $options;
         $this->model = $model;
         $this->disabled = $disabled;
+        $this->firstTitle = $firstTitle;
     }
 
     /**
@@ -44,6 +47,22 @@ class Select extends Component
     public function disabled()
     {
         return $this->disabled ? 'disabled' : '';
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDefaultOption()
+    {
+        return (bool) $this->firstTitle;
+    }
+
+    /**
+     * @return array|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Translation\Translator|string|null
+     */
+    public function defaultOptionName()
+    {
+        return $this->firstTitle ? __("- Select {$this->firstTitle} -") : __("- Select -");
     }
 
     /**
