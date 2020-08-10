@@ -25,9 +25,9 @@ class PaymentUpdateRequest extends FormRequest
     {
         return [
             'invoice_id' => 'required|exists:invoices,id',
-            'fee' => 'required|regex:^(?:[1-9]\d+|\d)(?:\,\d\d)?$',
-            'received_sum' => 'required|regex:^(?:[1-9]\d+|\d)(?:\,\d\d)?$',
-            'date' => 'required|date_format:d-m-Y',
+            'fee' => 'required|numeric',
+            'received_sum' => 'required|numeric',
+            'date' => 'required|date',
         ];
     }
 }

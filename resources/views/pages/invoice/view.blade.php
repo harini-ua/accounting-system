@@ -48,7 +48,7 @@
                                 <span>{{ $invoice->name }}</span>
                             </div>
                         </div>
-                        <div class="divider mb-3 mt-3"></div>
+
                         <!-- invoice address and contact -->
                         <div class="row invoice-info">
                             <div class="col m6 s12">
@@ -106,8 +106,8 @@
                                         <td>{{ $item->description }}</td>
                                         <td>{{ \App\Enums\InvoiceItemType::getDescription($item->type) }}</td>
                                         <td>{{ $item->qty }}</td>
-                                        <td>{{ \App\Services\Formatter::currency($item->rate, $invoice->account->accountType->symbol) }}</td>
-                                        <td class="indigo-text right-align">{{ \App\Services\Formatter::currency($item->sum, $invoice->account->accountType->symbol) }}</td>
+                                        <td>{!! \App\Services\Formatter::currency($item->rate, $invoice->account->accountType->symbol, true) !!}</td>
+                                        <td class="indigo-text right-align">{!! \App\Services\Formatter::currency($item->sum, $invoice->account->accountType->symbol, true) !!}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -124,20 +124,20 @@
                                     <ul>
                                         <li class="display-flex justify-content-between">
                                             <span class="invoice-subtotal-title">{{ __('Subtotal') }}</span>
-                                            <h6 class="invoice-subtotal-value">{{ \App\Services\Formatter::currency($sum, $invoice->account->accountType->symbol) }}</h6>
+                                            <h6 class="invoice-subtotal-value currency">{!! \App\Services\Formatter::currency($sum, $invoice->account->accountType->symbol, true) !!}</h6>
                                         </li>
                                         <li class="display-flex justify-content-between">
-                                            <span class="invoice-subtotal-title">{{ __('Discount') }}</span>
-                                            <h6 class="invoice-subtotal-value">- {{ \App\Services\Formatter::currency($invoice->discount, $invoice->account->accountType->symbol) }}</h6>
+                                            <span class="invoice-discount-title">{{ __('Discount') }}</span>
+                                            <h6 class="invoice-discount-value currency">- {!! \App\Services\Formatter::currency($invoice->discount, $invoice->account->accountType->symbol, true) !!}</h6>
                                         </li>
                                         <li class="divider mt-2 mb-2"></li>
                                         <li class="display-flex justify-content-between">
-                                            <span class="invoice-subtotal-title">{{ __('Invoice Total') }}</span>
-                                            <h6 class="invoice-subtotal-value">{{ \App\Services\Formatter::currency($invoice->total, $invoice->account->accountType->symbol) }}</h6>
+                                            <span class="invoice-total-title">{{ __('Invoice Total') }}</span>
+                                            <h6 class="invoice-total-value currency">{!! \App\Services\Formatter::currency($invoice->total, $invoice->account->accountType->symbol, true) !!}</h6>
                                         </li>
                                         <li class="display-flex justify-content-between">
-                                            <span class="invoice-subtotal-title">{{ __('Paid to date') }}</span>
-                                            <h6 class="invoice-subtotal-value">- {{ \App\Services\Formatter::currency($invoice->payments->sum('fee'), $invoice->account->accountType->symbol) }}</h6>
+                                            <span class="invoice-paid-title">{{ __('Paid to date') }}</span>
+                                            <h6 class="invoice-paid-value currency" data-paid="{{ $invoice->payments->sum('fee') }}">- {!! \App\Services\Formatter::currency($invoice->payments->sum('fee'), $invoice->account->accountType->symbol, true) !!}</h6>
                                         </li>
                                     </ul>
                                 </div>
@@ -147,7 +147,7 @@
                 </div>
             </div>
             <!-- invoice action  -->
-            <div class="col xl3 m4 s12">
+            <div class="col xl3 m4 s12" id="action">
                 <div class="card invoice-action-wrapper">
                     <div class="card-content">
                         <div class="invoice-action-btn">
@@ -167,17 +167,23 @@
                                 <span>{{ __('Edit Invoice') }}</span>
                             </a>
                         </div>
-                        <div class="invoice-action-btn">
-                            <a href="#" class="btn waves-effect waves-light display-flex align-items-center justify-content-center">
-                                <i class="material-icons mr-3">attach_money</i>
-                                <span class="text-nowrap">{{ __('Add Payment') }}</span>
-                            </a>
+                        <div id="payment-button" class="invoice-action-btn">
+                            <span class="btn-block btn waves-effect waves-light display-flex align-items-center justify-content-center">
+                                <span>{{ __('Add Payment') }}</span>
+                            </span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <x-sidebar-form id="payment" title="{{ __('Payment') }}" :model="$invoice" button="{{ __('Create') }}">
+        <x-date name="date" title="{{ __('Date of payment') }}" :model="$invoice"></x-date>
+        <x-input name="fee" title="{{ __('Fee') }}" :model="$invoice"></x-input>
+        <x-input name="received_sum" title="{{ __('Received sum') }}" :model="$invoice"></x-input>
+    </x-sidebar-form>
+
 @endsection
 
 {{-- page scripts --}}

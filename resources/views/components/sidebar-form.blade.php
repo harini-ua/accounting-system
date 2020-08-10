@@ -9,7 +9,7 @@
             </div>
             <div class="divider"></div>
             <!-- form start -->
-            <form name="{{ $id }}" class="edit-contact-item mb-5 mt-5" method="post" action="{{ route("people.$id", $model) }}">
+            <form name="{{ $id }}" class="edit-contact-item mb-5 mt-5" method="post" action="{{ route("$resource.$id", $model) }}">
                 @csrf
                 <div class="row">
                     {{ $slot }}
@@ -18,7 +18,7 @@
             <!-- form start end-->
             <div class="card-action pl-0 pr-0 right-align">
                 <button class="btn-small waves-effect waves-light add-contact">
-                    <span>Save Changes</span>
+                    <span>{{ $button }}</span>
                 </button>
             </div>
         </div>

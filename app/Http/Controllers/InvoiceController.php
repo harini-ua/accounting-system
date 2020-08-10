@@ -8,10 +8,12 @@ use App\Enums\InvoiceStatus;
 use App\Http\Requests\InvoiceCreateRequest;
 use App\Http\Requests\InvoiceItemCreateRequest;
 use App\Http\Requests\InvoiceUpdateRequest;
+use App\Http\Requests\PaymentCreateRequest;
 use App\Models\Account;
 use App\Models\AccountType;
 use App\Models\Client;
 use App\Models\Invoice;
+use App\Models\Payment;
 use App\Models\Wallet;
 use App\Services\Formatter;
 use App\Services\InvoiceService;
@@ -251,6 +253,27 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Add invoice payment.
+     *
+     * @param Invoice              $invoice
+     * @param PaymentCreateRequest $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function payment(Invoice $invoice, PaymentCreateRequest $request)
+    {
+        $payment = new Payment();
+        $payment->fill($request->all());
+
+        $invoice->payments()->save($payment);
+
+        return response()->json([
+            'success' => true,
+            'message' => __('Payment has been created successfully.')
+        ]);
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param Invoice $invoice
@@ -263,7 +286,7 @@ class InvoiceController extends Controller
         if ($invoice->delete()) {
             return response()->json([
                 'success' => true,
-                'message' => __('Payment has been deleted successfully.')
+                'message' => __('Invoice has been deleted successfully.')
             ]);
         }
 

@@ -254,6 +254,92 @@ $invoice-border-color:#e8e8e8;
   }
 }
 
+// contact compose sidebar
+.contact-compose-sidebar{
+    /* contact sidebar */
+    box-shadow: -8px 0 18px 0 rgba(25,42,70,0.13);
+    width: 24.8rem;
+    background-color: white;
+    position: fixed;
+    transform: translateX(110%);
+    transition: all .3s ease;
+    z-index: 1003;
+    right: 2rem;
+    left: auto;
+    bottom: 0;
+    top: -1px;
+    opacity: 0;
+    // contact-compose-sidebar - display
+    &.show{
+        opacity: 1;
+        transform: translateX(9%) translateY(1px);
+    }
+    // Close Icon
+    .card{
+        box-shadow: none;
+        .card-header{
+            justify-content: space-between;
+            align-items: center;
+            .close-icon{
+                cursor: pointer;
+                i{
+                    font-size: 1.2rem;
+                }
+                &:focus{
+                    outline: none;
+                }
+            }
+        }
+    }
+    // Edit contact sidebar Items
+    .edit-contact-item{
+        // Custom-file label background
+        .file-field{
+            display: flex;
+            align-items: center;
+            .btn-file{
+                height: 2rem;
+                line-height: 2rem;
+            }
+        }
+        // select options
+        select{
+            option{
+                font-weight: 700;
+                height: 32px;
+                width: 50px
+            }
+        }
+        .dropdown-content{
+            width: 185.906px !important;
+        }
+    }
+    // upadate and add button
+    .add-contact,
+    .update-contact{
+        background-color: $primary-color;
+    }
+}
+// contact sidebara overlay
+
+.contact-overlay{
+    /* contact overlay */
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    z-index: 999;
+    visibility: hidden;
+    opacity: 0;
+    &.show{
+        visibility: visible;
+        transition: all .3s ease;
+        opacity: 1;
+        background-color: rgba(#000, 0.2);
+    }
+}
+
 @media (min-width:600px){
   /* responsive table*/ 
   .responsive-table{

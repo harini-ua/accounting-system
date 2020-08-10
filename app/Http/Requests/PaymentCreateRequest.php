@@ -24,9 +24,8 @@ class PaymentCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'invoice_id' => 'required|exists:invoices,id',
-            'fee' => 'required|regex:^(?:[1-9]\d+|\d)(?:\,\d\d)?$',
-            'received_sum' => 'required|regex:^(?:[1-9]\d+|\d)(?:\,\d\d)?$',
+            'fee' => 'required|numeric',
+            'received_sum' => 'required|numeric',
             'date' => 'required|date',
         ];
     }

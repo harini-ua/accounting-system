@@ -88,21 +88,9 @@ class InvoicesByContractDataTable extends DataTable
 
         $dataTable->rawColumns(self::COLUMNS);
 
-        $dataTable->filter(function($query) {
-            if ($this->request->has('client_filter')) {
-                $query->join('clients', 'contracts.client_id', '=', 'clients.id')
-                    ->where('clients.id', '=', $this->request->input('client_filter'));
-            }
-            if ($this->request->has('status_filter')) {
-                $query->where('invoices.status', $this->request->input('status_filter'));
-            }
-            if ($this->request->has('start_date')) {
-                $query->where('invoices.plan_income_date', '>=', \Illuminate\Support\Carbon::parse($this->request->input('start_date'))->startOfMonth());
-            }
-            if ($this->request->has('end_date')) {
-                $query->where('invoices.plan_income_date', '<=', Carbon::parse($this->request->input('end_date'))->endOfMonth());
-            }
-        }, true);
+        $dataTable->orderColumn('number', static function($query, $order) {
+            $query->orderBy('invoices.id', $order);
+        });
 
         $dataTable->orderColumn('client', static function($query, $order) {
             $query->join('clients', 'contracts.client_id', '=', 'clients.id')
@@ -117,6 +105,10 @@ class InvoicesByContractDataTable extends DataTable
             $query->join('accounts', 'accounts.id', '=', 'invoices.account_id')
                 ->join('wallets', 'wallets.id', '=', 'accounts.wallet_id')
                 ->orderBy('wallets.name', $order);
+        });
+
+        $dataTable->orderColumn('total', static function($query, $order) {
+            $query->orderBy('invoices.total', $order);
         });
 
         $dataTable->orderColumn('status', static function($query, $order) {
@@ -164,7 +156,7 @@ class InvoicesByContractDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('invoices-list-datatable ')
+            ->setTableId('invoices-list-datatable')
             ->addTableClass('table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()

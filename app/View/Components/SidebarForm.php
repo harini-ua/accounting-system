@@ -10,18 +10,30 @@ class SidebarForm extends Component
     public $id;
     public $title;
     public $model;
+    public $button;
 
     /**
      * SidebarForm constructor.
+     *
      * @param $id
      * @param $title
      * @param $model
+     * @param $button
      */
-    public function __construct($id, $title, $model)
+    public function __construct($id, $title, $model, $button = null)
     {
         $this->id = $id;
         $this->title = $title;
         $this->model = $model;
+        $this->button = $button ?? __('Save Changes');
+    }
+
+    /**
+     * @return string
+     */
+    public function resource()
+    {
+        return $this->model->getTable();
     }
 
     /**

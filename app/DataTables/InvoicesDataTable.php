@@ -23,6 +23,7 @@ class InvoicesDataTable extends DataTable
         'contract',
         'date',
         'wallet',
+        'total',
         'status'
     ];
 
@@ -125,6 +126,10 @@ class InvoicesDataTable extends DataTable
             }
         }, true);
 
+        $dataTable->orderColumn('number', static function($query, $order) {
+            $query->orderBy('invoices.id', $order);
+        });
+
         $dataTable->orderColumn('client', static function($query, $order) {
             $query->join('clients', 'contracts.client_id', '=', 'clients.id')
                 ->orderBy('clients.name', $order);
@@ -138,6 +143,10 @@ class InvoicesDataTable extends DataTable
             $query->join('accounts', 'accounts.id', '=', 'invoices.account_id')
                 ->join('wallets', 'wallets.id', '=', 'accounts.wallet_id')
                 ->orderBy('wallets.name', $order);
+        });
+
+        $dataTable->orderColumn('total', static function($query, $order) {
+            $query->orderBy('invoices.total', $order);
         });
 
         $dataTable->orderColumn('status', static function($query, $order) {

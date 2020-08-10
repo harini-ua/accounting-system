@@ -65,7 +65,9 @@ Route::middleware(['auth'])->group(function() {
         Route::get('/{invoice}/edit', 'InvoiceController@edit')->name('invoices.edit');
         Route::put('/{invoice}', 'InvoiceController@update')->name('invoices.update');
         Route::delete('/{invoice}/delete', 'InvoiceController@destroy')->name('invoices.destroy');
+
         Route::get('{invoice}/download', 'InvoiceController@download')->name('invoices.download');
+        Route::post('{invoice}/payment', 'InvoiceController@payment')->name('invoices.payment');
     });
 
     // INVOICE-ITEMS
