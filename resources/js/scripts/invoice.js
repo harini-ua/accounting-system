@@ -2,6 +2,97 @@ jQuery(document).ready(function ($) {
   /* Invoice edit and create */
   /* ------------*/
 
+  $('.invoice-view-wrapper').each(function () {
+    let $this = $(this);
+
+    // use default format
+    if (typeof numberFormat !== 'undefined') {
+      let numberFormat = [2, ',', ' '];
+    }
+
+    let invoice = {
+      btn: {
+        print: $this.find(".invoice-print"),
+      }
+    };
+
+    invoice.btn.print.on("click", function () {
+      window.print();
+    })
+
+    function handleSidebar(id, callback = null)
+    {
+      const sidebar = $('#'+id+'-sidebar');
+      $('.contact-compose-sidebar .close-icon').click(function() {
+        sidebar.removeClass('show');
+      });
+
+      $('#'+id+'-button').click(function() {
+        sidebar.addClass('show');
+      });
+
+      sidebar.find('button').click(function(e) {
+        const form = document.forms[id];
+        const formData = new FormData(form);
+        $.ajax({
+          url: form.getAttribute('action'),
+          type: "POST",
+          processData: false,
+          contentType: false,
+          data: formData,
+          success: resp => {
+            sidebar.removeClass('show');
+            swal({
+              title : resp.success === false ? 'Error!' : 'Successfully!',
+              text  : resp.message,
+              type  : resp.success === false ? 'error' : 'success',
+            });
+
+            updateViewInvoice(form.elements);
+
+            if (typeof callback === 'function') {
+              callback(form);
+            }
+
+            form.reset();
+          },
+          error: response => {
+            let text = 'Please try again later!';
+            if (response.responseJSON) {
+              const resp = response.responseJSON;
+              if (resp.message) {
+                text = resp.message;
+              }
+              if (resp.errors) {
+                let errors = '';
+                for (let prop in resp.errors) {
+                  errors += '<br>' + resp.errors[prop][0];
+                }
+                text += errors;
+              }
+            }
+            swal('Error!', text, 'error');
+          }
+        });
+      });
+    }
+
+    handleSidebar('payment');
+
+    function updateViewInvoice(elements)
+    {
+      Array.prototype.forEach.call(elements, element => {
+        if (element.name === 'fee') {
+          $invoicePaidValue = $('.invoice-paid-value.currency .value');
+          $paidToDate = $invoicePaidValue.text().replace(/,/g, '.');
+          $paidToDate = parseFloat($paidToDate) + parseFloat(element.value);
+          $paidToDate = number_format($paidToDate,...numberFormat);
+          $invoicePaidValue.text($paidToDate);
+        }
+      });
+    }
+  });
+
   $('.invoice-edit-wrapper').each(function () {
     const $this = $(this);
 
@@ -31,9 +122,6 @@ jQuery(document).ready(function ($) {
         value: $this.find(".invoice-discount-value .value"),
       },
       total: $this.find(".invoice-total-value .value"),
-      btn: {
-        print: $this.find(".invoice-print"),
-      }
     };
 
     /* item repeater */
@@ -132,103 +220,24 @@ jQuery(document).ready(function ($) {
       invoice.subtotal.text(number_format(sum, ...numberFormat));
       invoice.total.text(number_format(total, ...numberFormat));
     }
-
-    invoice.btn.print.on("click", function () {
-      window.print();
-    })
-
-    function number_format(number,
-      decimals = 2,
-      dec_point = '.',
-      thousands_sep = ','
-    ) {
-      let sign = number < 0 ? '-' : '';
-
-      let s_number = Math.abs(parseInt(number = (+number || 0).toFixed(decimals))) + "";
-      let len = s_number.length;
-      let tchunk = len > 3 ? len % 3 : 0;
-
-      let ch_first = (tchunk ? s_number.substr(0, tchunk) + thousands_sep : '');
-      let ch_rest = s_number.substr(tchunk)
-                            .replace(/(\d\d\d)(?=\d)/g, '$1' + thousands_sep);
-      let ch_last = decimals ?
-        dec_point + (Math.abs(number) - s_number)
-          .toFixed(decimals)
-          .slice(2) :
-        '';
-
-      return sign + ch_first + ch_rest + ch_last;
-    }
   });
 
-  function handleSidebar(id, callback = null)
-  {
-    const sidebar = $('#'+id+'-sidebar');
-    $('.contact-compose-sidebar .close-icon').click(function() {
-      sidebar.removeClass('show');
-    });
-    $('#'+id+'-button').click(function() {
-      sidebar.addClass('show');
-    });
-    sidebar.find('button').click(function(e) {
-      const form = document.forms[id];
-      const formData = new FormData(form);
-      $.ajax({
-        url: form.getAttribute('action'),
-        type: "POST",
-        processData: false,
-        contentType: false,
-        data: formData,
-        success: resp => {
-          sidebar.removeClass('show');
-          swal({
-            title : resp.success === false ? 'Error!' : 'Successfully!',
-            text  : resp.message,
-            type  : resp.success === false ? 'error' : 'success',
-          });
+  function number_format(number, decimals = 2, dec_point = '.', thousands_sep = ',') {
+    let sign = number < 0 ? '-' : '';
 
-          updateViewInvoice(form.elements);
+    let s_number = Math.abs(parseInt(number = (+number || 0).toFixed(decimals))) + "";
+    let len = s_number.length;
+    let tchunk = len > 3 ? len % 3 : 0;
 
-          if (typeof callback === 'function') {
-            callback(form);
-          }
+    let ch_first = (tchunk ? s_number.substr(0, tchunk) + thousands_sep : '');
+    let ch_rest = s_number.substr(tchunk)
+                          .replace(/(\d\d\d)(?=\d)/g, '$1' + thousands_sep);
+    let ch_last = decimals ?
+      dec_point + (Math.abs(number) - s_number)
+        .toFixed(decimals)
+        .slice(2) :
+      '';
 
-          form.reset();
-        },
-        error: response => {
-          let text = 'Please try again later!';
-          if (response.responseJSON) {
-            const resp = response.responseJSON;
-            if (resp.message) {
-              text = resp.message;
-            }
-            if (resp.errors) {
-              let errors = '';
-              for (let prop in resp.errors) {
-                errors += '<br>' + resp.errors[prop][0];
-              }
-              text += errors;
-            }
-          }
-          swal('Error!', text, 'error');
-        }
-      });
-    });
+    return sign + ch_first + ch_rest + ch_last;
   }
-
-  function updateViewInvoice(elements)
-  {
-    Array.prototype.forEach.call(elements, element => {
-      if (element.name === 'fee') {
-        $invoicePaidValue = $('.invoice-paid-value.currency .value');
-        $paidToDate = $invoicePaidValue.text().replace(/,/g, '.');
-        $paidToDate = parseFloat($paidToDate) + parseFloat(element.value);
-        $paidToDate = number_format($paidToDate,2, ',', ' ');
-        $invoicePaidValue.text($paidToDate);
-      }
-    });
-  }
-
-  handleSidebar('payment');
-
 })

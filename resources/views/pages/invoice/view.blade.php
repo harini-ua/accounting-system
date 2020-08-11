@@ -189,4 +189,7 @@
 {{-- page scripts --}}
 @section('page-script')
     <script src="{{ asset('js/scripts/invoice.js') }}"></script>
+    <script>
+      const numberFormat = @json(array_values(config('general.number.format')));
+    </script>
 @endsection
