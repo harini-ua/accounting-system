@@ -21,7 +21,14 @@
             <td class="font-weight-900">91</td>
         </tr>
         <tr>
-            <td>Weekend</td>
+            <td>Holidays</td>
+            <td>2</td>
+            <td>0</td>
+            <td>1</td>
+            <td class="font-weight-900">3</td>
+        </tr>
+        <tr>
+            <td>Weekends</td>
             <td>8</td>
             <td>9</td>
             <td>9</td>
