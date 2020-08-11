@@ -11,7 +11,10 @@
                     <div class="row mb-3">
                         <div class="hidden">
                             <input type="hidden" name="type" value="{{ \App\Enums\InvoiceType::DEFAULT }}">
-                            <script> var accountCurrency = @json($accountCurrency);</script>
+                            <script>
+                              const numberFormat = @json(array_values(config('general.number.format')));
+                              const accountCurrency = @json($accountCurrency);
+                            </script>
                         </div>
                         <div class="col xl4 m12 display-flex align-items-center">
                             <input type="text" value="{{ $invoice->number ?? null }}" placeholder="{{ __('INV-00000') }}" disabled>
@@ -118,24 +121,24 @@
                                         <h6 class="invoice-subtotal-value currency">{!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->items->sum('sum') : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
                                     </li>
                                     <li class="display-flex justify-content-between">
-                                        <span class="invoice-subtotal-title">{{ __('Discount') }}</span>
-                                        <h6 class="invoice-subtotal-value currency">- {!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->discount : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
+                                        <span class="invoice-discount-title">{{ __('Discount') }}</span>
+                                        <h6 class="invoice-discount-value currency">- {!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->discount : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
                                     </li>
                                     <li>
                                         <div class="divider mt-2 mb-2"></div>
                                     </li>
                                     <li class="display-flex justify-content-between">
-                                        <span class="invoice-subtotal-title">{{ __('Invoice Total') }}</span>
-                                        <h6 class="invoice-subtotal-value currency">{!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->items->sum('sum') - $invoice->discount : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
+                                        <span class="invoice-total-title">{{ __('Invoice Total') }}</span>
+                                        <h6 class="invoice-total-value currency">{!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->items->sum('sum') - $invoice->discount : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
                                     </li>
                                     @if(isset($invoice))
                                         <li class="display-flex justify-content-between">
-                                            <span class="invoice-subtotal-title">{{ __('Paid to date') }}</span>
-                                            <h6 class="invoice-subtotal-value currency">- {!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->payments->sum('fee') : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
+                                            <span class="invoice-paid-title">{{ __('Paid to date') }}</span>
+                                            <h6 class="invoice-paid-value currency">- {!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->payments->sum('fee') : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
                                         </li>
                                         <li class="display-flex justify-content-between">
-                                            <span class="invoice-subtotal-title">{{ __('Balance (USD)') }}</span>
-                                            <h6 class="invoice-subtotal-value currency">{!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->payments->sum('fee') : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
+                                            <span class="invoice-balance-title">{{ __('Balance (USD)') }}</span>
+                                            <h6 class="invoice-balance-value currency">{!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->payments->sum('fee') : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
                                         </li>
                                     @endif
                                 </ul>

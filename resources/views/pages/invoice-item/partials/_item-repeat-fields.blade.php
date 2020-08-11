@@ -2,7 +2,7 @@
     <div data-repeater-list="items">
     @php $count = $items ? $items->count() : 1 @endphp
     @for($i = 0; $i < $count; $i++)
-        <div class="mb-2" data-repeater-item>
+        <div class="mb-2 invoice-item-wrapper" data-repeater-item>
             <!-- invoice Titles -->
             <div class="row mb-1">
                 <div class="col s3 m3">
@@ -47,13 +47,16 @@
                     <div class="col m2 s12 input-field">
                         <input type="text" name="items[{{ $i }}][rate]"
                                value="{{ old("items.$i.rate") ?? (!empty($items) && $items[$i]->rate) ? $items[$i]->rate : null }}"
-                               class="item-rate" placeholder="$ 0.00">
+                               class="item-rate" placeholder="0.00">
                         @error('items.'.$i.'.rate')<small class="errorTxt1"><div id="title-error" class="error">{{ $message }}</div></small>@enderror
                     </div>
                     <div class="col m2 s12 input-field">
                         <input type="text" name="items[{{ $i }}][sum]"
+                               value="{{ \App\Services\Formatter::currency(old("items.$i.sum") ?? (!empty($items) && $items[$i]->sum) ? $items[$i]->sum : null) }}"
+                               class="item-sum" placeholder="0.00" disabled>
+                        <input type="hidden" name="items[{{ $i }}][raw]"
                                value="{{ old("items.$i.sum") ?? (!empty($items) && $items[$i]->sum) ? $items[$i]->sum : null }}"
-                               class="item-sum"  placeholder="$ 0.00" disabled>
+                               class="item-raw">
                         @error('items.'.$i.'.sum')<small class="errorTxt1"><div id="title-error" class="error">{{ $message }}</div></small>@enderror
                     </div>
                     <div class="col m12 s12 input-field">
