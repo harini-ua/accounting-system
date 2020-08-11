@@ -93,6 +93,13 @@
             "slug": "people",
             "icon": "people",
             "i18n": "People"
+        },
+        {
+            "url": "calendar",
+            "name": "Calendar",
+            "slug": "calendar",
+            "icon": "today",
+            "i18n": "Calendar"
         }
     ]
 }
