@@ -6,10 +6,7 @@ use App\Models\CalendarYear;
 use Faker\Generator as Faker;
 
 $factory->define(CalendarYear::class, function (Faker $faker) {
-
-    static $year = 2020;
-
     return [
-        'name' => $year++,
+        //
     ];
 });

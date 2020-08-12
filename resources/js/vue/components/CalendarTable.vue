@@ -3,10 +3,8 @@
         <thead>
         <tr>
             <th></th>
-            <th>January</th>
-            <th>February</th>
-            <th>March</th>
-            <th>I quarter</th>
+            <th v-for="month in months">{{ month.name }}</th>
+            <th>{{ quarterName}}</th>
         </tr>
         </thead>
         <tbody>
@@ -15,63 +13,94 @@
         </tr>
         <tr>
             <td>Calendar days</td>
-            <td>31</td>
-            <td>29</td>
-            <td>31</td>
-            <td class="font-weight-900">91</td>
+            <td v-for="month in months" class="cursor-pointer">
+                <editable-cell v-bind:value.sync="month.calendar_days" v-on:update="updateField(month, 'calendar_days', $event)"></editable-cell>
+            </td>
+            <td class="font-weight-900">{{ total('calendar_days') }}</td>
         </tr>
         <tr>
             <td>Holidays</td>
-            <td>2</td>
-            <td>0</td>
-            <td>1</td>
-            <td class="font-weight-900">3</td>
+            <td v-for="month in months">{{ month.holidays }}</td>
+            <td class="font-weight-900">{{ total('holidays') }}</td>
         </tr>
         <tr>
             <td>Weekends</td>
-            <td>8</td>
-            <td>9</td>
-            <td>9</td>
-            <td class="font-weight-900">26</td>
+            <td v-for="month in months">{{ month.weekends }}</td>
+            <td class="font-weight-900">{{ total('weekends') }}</td>
         </tr>
         <tr>
             <td>Non-working days</td>
-            <td>10</td>
-            <td>9</td>
-            <td>10</td>
-            <td class="font-weight-900">29</td>
+            <td v-for="month in months">{{ month.weekends + month.holidays }}</td>
+            <td class="font-weight-900">{{ total('weekends', 'holidays') }}</td>
         </tr>
         <tr>
             <td>Working days</td>
-            <td>21</td>
-            <td>20</td>
-            <td>21</td>
-            <td class="font-weight-900">62</td>
+            <td v-for="month in months">{{ workingDays(month) }}</td>
+            <td class="font-weight-900">{{ totalWorkingDays }}</td>
         </tr>
         <tr>
-            <td class="center-align" colspan="5">Working time</td>
+            <td class="center-align" colspan="5">Working time (hours)</td>
         </tr>
         <tr>
             <td>40 hours week</td>
-            <td>167</td>
-            <td>160</td>
-            <td>168</td>
-            <td class="font-weight-900">495</td>
+            <td v-for="month in months">{{ workingDays(month) * 8 }}</td>
+            <td class="font-weight-900">{{ totalWorkingTime(8)}}</td>
         </tr>
         <tr>
             <td>30 hours week</td>
-            <td>126</td>
-            <td>120</td>
-            <td>126</td>
-            <td class="font-weight-900">372</td>
+            <td v-for="month in months">{{ workingDays(month) * 6 }}</td>
+            <td class="font-weight-900">{{ totalWorkingTime(6)}}</td>
         </tr>
         </tbody>
     </table>
 </template>
 
 <script>
-export default {
 
+import EditableCell from "./EditableCell";
+import axios from 'axios';
+
+export default {
+    components: {EditableCell},
+    props: ['data', 'quarterName'],
+    data() {
+        return {
+            months: this.data
+        }
+    },
+    methods: {
+        total: function(field1, field2) {
+            return this.months.reduce((total, next) => {
+                if (field2) {
+                    return total + next[field1] + next[field2];
+                }
+                return total + next[field1];
+            }, 0);
+        },
+        workingDays: function(month) {
+            return month.calendar_days - month.holidays - month.weekends;
+        },
+        totalWorkingTime: function(hours) {
+            return this.months.reduce((total, next) => {
+                return total + this.workingDays(next) * hours;
+            }, 0);
+        },
+        updateField: function(month, field, value) {
+            axios.put('/calendar/updateMonth/' + month.id, {
+                field: field,
+                value: value,
+            })
+                .then(resp => month[field] = +value)
+                .catch(error => swal('Error!', error.message ? error.message: 'Something went wrong! Please, try again later.', 'error'));
+        },
+    },
+    computed: {
+        totalWorkingDays: function() {
+            return this.months.reduce((total, next) => {
+                return total + this.workingDays(next);
+            }, 0);
+        },
+    },
 }
 </script>
 

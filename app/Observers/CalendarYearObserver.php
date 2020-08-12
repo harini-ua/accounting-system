@@ -12,6 +12,19 @@ use Illuminate\Support\Carbon;
 class CalendarYearObserver
 {
     /**
+     * Handle the calendar year "creating" event.
+     *
+     * @param  CalendarYear  $calendarYear
+     * @return void
+     */
+    public function creating(CalendarYear $calendarYear)
+    {
+        if ($lastCalendarYear = CalendarYear::latest()->first()) {
+            $calendarYear->name = Carbon::createFromDate($lastCalendarYear->name)->addYear()->year;
+        }
+    }
+
+    /**
      * Handle the calendar year "created" event.
      *
      * @param  CalendarYear  $calendarYear
@@ -57,8 +70,8 @@ class CalendarYearObserver
         // Create Calendar months
         foreach (Month::toArray() as $month) {
 
-            $firstDay = Carbon::parse("$month {$calendarYear->id}")->startOfMonth();
-            $lastDay = (clone $firstDay)->endOfMonth();
+            $firstDay = Carbon::parse("$month {$calendarYear->name}")->startOfMonth();
+            $lastDay = (clone $firstDay)->addMonth();
 
             $weekends = $firstDay->diffInDaysFiltered(function(Carbon $date) {
                 return $date->isWeekend();

@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="responsive-table">
-                            <calendar-table></calendar-table>
+                            <calendar-table :data="{{ $firstQuarter }}" quarter-name="I quarter"></calendar-table>
                         </div>
                     </div>
                 </div>

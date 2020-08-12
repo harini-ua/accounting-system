@@ -32,4 +32,38 @@ final class Month extends Enum
     const October = 'October';
     const November = 'November';
     const December = 'December';
+
+    /**
+     * @return string[]
+     */
+    public static function firstQuarter()
+    {
+        return [self::January, self::February, self::March];
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function secondQuarter()
+    {
+        return [self::April, self::May, self::June];
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function thirdQuarter()
+    {
+        return [self::July, self::August, self::September];
+    }
+
+    /**
+     * @return string[]
+     */
+    public static function forthQuarter()
+    {
+        return [self::October, self::November, self::December];
+    }
+
+
 }
