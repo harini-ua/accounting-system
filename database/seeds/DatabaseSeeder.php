@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
         $this->call(UsersSeeder::class);
         $this->call(AccountTypesSeeder::class);
         $this->call(WalletTypesSeeder::class);
+        $this->call(HolidaySeeder::class);
         $this->call(CalendarSeeder::class);
         if (app()->isLocal()) {
             $this->call(WalletsSeeder::class);
