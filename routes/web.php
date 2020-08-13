@@ -113,5 +113,6 @@ Route::middleware(['auth'])->group(function() {
     // Vacation and sick leave
     Route::get('/calendar', 'CalendarController@index');
     Route::put('/calendar/updateMonth/{calendarMonth}', 'CalendarController@updateMonth');
+    Route::resource('holidays', 'HolidayController');
 });
 

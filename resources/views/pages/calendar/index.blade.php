@@ -20,7 +20,7 @@
     <div id="vue-app" class="section">
         <div class="row invoice-view-wrapper">
             {{-- content start --}}
-            <div class="col xl9 m8 s12 animate fadeLeft">
+            <div class="col xl6 m8 s12 animate fadeLeft">
                 <div class="card">
                     <div class="card-content">
                         <div class="responsive-table">
@@ -64,28 +64,25 @@
                 </div>
             </div>
             {{-- content end --}}
+            <div class="col xl4 m8 s12 animate fadeLeft">
+                <div class="card">
+                    <div class="card-content">
+                        <holidays :data="{{ $holidays->toJson() }}"></holidays>
+                    </div>
+                </div>
+            </div>
             {{-- actions start  --}}
-            <div class="col xl3 m4 s12">
+            <div class="col xl2 m4 s12">
                 <div class="card invoice-action-wrapper animate fadeRight">
                     <div class="card-content">
                         <div id="change-salary-type-button" class="invoice-action-btn">
                             <span class="btn-block btn btn-light-indigo waves-effect waves-light">
-                                <span>Change salary type</span>
+                                <span>Add Year</span>
                             </span>
                         </div>
                         <div id="change-contract-type-button" class="invoice-action-btn">
                             <span class="btn-block btn btn-light-indigo waves-effect waves-light">
-                                <span>Change type of contract</span>
-                            </span>
-                        </div>
-                        <div id="make-former-button" class="invoice-action-btn">
-                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
-                                <span>Make former employee</span>
-                            </span>
-                        </div>
-                        <div id="long-vacation-button" class="invoice-action-btn">
-                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
-                                <span>Long-term vacation</span>
+                                <span>Delete Year</span>
                             </span>
                         </div>
                     </div>

@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export const showError = {
     methods: {
         showError: function(error) {
@@ -24,5 +26,35 @@ export const showError = {
 
             swal('Error!', text, 'error');
         },
+    },
+}
+
+export const destroy = {
+    methods: {
+        destroy: function(deleteLink, callback) {
+            swal({
+                title: 'Are you sure?',
+                text: 'Resource will be deleted!',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, delete it!',
+                cancelButtonText: 'No, keep it'
+            }).then((result) => {
+                if (result.value) {
+                    axios.delete(deleteLink)
+                        .then(resp => {
+                            swal({
+                                title : resp.success === false ? 'Error!' : 'Successfully!',
+                                text  : resp.message,
+                                type  : resp.success === false ? 'error' : 'success',
+                            });
+                            callback();
+                        })
+                        .catch((error) => this.showError(error));
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    return false;
+                }
+            });
+        }
     },
 }

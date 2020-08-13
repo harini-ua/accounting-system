@@ -151,7 +151,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
     .calendar-table td {
         text-align: center;
     }
