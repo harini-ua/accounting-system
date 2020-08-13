@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\InvoicesDataTable;
-use App\Enums\InvoiceSaveStrategy;
+use App\DataTables\PaymentsByInvoiceDataTable;
 use App\Enums\InvoiceStatus;
 use App\Http\Requests\InvoiceCreateRequest;
-use App\Http\Requests\InvoiceItemCreateRequest;
 use App\Http\Requests\InvoiceUpdateRequest;
 use App\Http\Requests\PaymentCreateRequest;
 use App\Models\Account;
-use App\Models\AccountType;
 use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\Payment;
@@ -18,10 +16,7 @@ use App\Models\Wallet;
 use App\Services\Formatter;
 use App\Services\InvoiceService;
 use App\User;
-use Barryvdh\DomPDF\PDF;
-use Illuminate\Http\Request;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\Validator;
+use Barryvdh\DomPDF\Facade as PDF;
 
 class InvoiceController extends Controller
 {
@@ -105,21 +100,11 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceCreateRequest $request)
     {
-        $strategy = $request->get('submit');
+        //$validator = Validator::make($request->all(), (new InvoiceCreateRequest)->rules());
+
         $invoiceData = $request->except(['client_id', 'wallet_id']);
 
-        switch ($strategy) {
-            case InvoiceSaveStrategy::SEND:
-                $invoice = $this->invoiceService->send($invoiceData);
-                break;
-            case InvoiceSaveStrategy::DRAFT:
-                $invoice = $this->invoiceService->draft($invoiceData);
-                break;
-            case InvoiceSaveStrategy::SAVE:
-            default:
-                $invoice = $this->invoiceService->save($invoiceData);
-                break;
-        }
+        $invoice = $this->invoiceService->save($invoiceData);
 
         return redirect()->route('invoices.show', $invoice);
     }
@@ -143,7 +128,7 @@ class InvoiceController extends Controller
 
         $invoice->load(['items' => static function ($query) {
             $query->orderBy('created_at');
-        }, 'contract.client.billingAddress', 'account.accountType']);
+        }, 'payments', 'contract.client.billingAddress', 'account.accountType']);
 
         $client = $invoice->contract->client;
 
@@ -161,7 +146,9 @@ class InvoiceController extends Controller
         $config = config('invoices');
         $image = $config['logo'];
 
-        return view('pages.invoice.view', compact(
+        $dataTable = new PaymentsByInvoiceDataTable($invoice);
+
+        return $dataTable->render('pages.invoice.view', compact(
             'breadcrumbs', 'pageConfigs', 'invoice', 'billFrom', 'billTo', 'sum', 'config', 'image'
         ));
     }
@@ -213,21 +200,11 @@ class InvoiceController extends Controller
      */
     public function update(InvoiceUpdateRequest $request, Invoice $invoice)
     {
-        $strategy = $request->get('submit');
+        //$validator = Validator::make($request->all(), (new InvoiceUpdateRequest)->rules());
+
         $invoiceData = $request->except(['client_id', 'wallet_id']);
 
-        switch ($strategy) {
-            case InvoiceSaveStrategy::SEND:
-                $invoice = $this->invoiceService->send($invoiceData);
-                break;
-            case InvoiceSaveStrategy::UPDATE:
-            default:
-                $invoice = $this->invoiceService->update($invoice, $invoiceData);
-                break;
-        }
-
-        $invoice->fill($request->except(['client_id', 'wallet_id']));
-        $invoice->save();
+        $invoice = $this->invoiceService->update($invoice, $invoiceData);
 
         alert()->success($invoice->numder, __('Invoice data has been update successful'));
 
@@ -243,13 +220,35 @@ class InvoiceController extends Controller
      */
     public function download(Invoice $invoice)
     {
-        $pdf = PDF::loadView('pdf.invoice.default', $invoice);
+        $invoice->load(['items' => static function ($query) {
+            $query->orderBy('created_at');
+        }, 'contract.client.billingAddress', 'account.accountType']);
+
+        $client = $invoice->contract->client;
+
+        $image = config('invoices.logo');
+        $image['src'] = asset($image['src']);
+
+        $pdf = PDF::loadView('pdf.invoice.default', [
+            'invoice' => $invoice,
+            'billFrom' => [],
+            'billTo' => [
+                'company' => $client->company_name,
+                'address' => Formatter::address($client->billingAddress),
+                'email' => $client->email,
+                'phone' => $client->phone,
+            ],
+            'sum' => $invoice->items()->sum('sum'),
+            'config' => config('invoices'),
+            'image' => $image
+        ]);
+
         $pdf->setPaper(
             config('invoices.paper.size'),
             config('invoices.paper.orientation')
         );
 
-        return $pdf->download(sprintf('%s.pdf', $invoice->number));
+        return $pdf->stream(sprintf('%s.pdf', $invoice->number));
     }
 
     /**

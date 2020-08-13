@@ -5,10 +5,11 @@ namespace App\Models;
 use App\Traits\Addressable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 
 class Client extends Model
 {
-    use SoftDeletes, Addressable;
+    use SoftDeletes, Addressable, Notifiable;
 
     public const TABLE_NAME = 'clients';
 

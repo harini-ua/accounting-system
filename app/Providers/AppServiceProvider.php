@@ -4,7 +4,9 @@ namespace App\Providers;
 
 use App\Models\Contract;
 use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use App\Observers\ContractObserver;
+use App\Observers\InvoiceItemObserver;
 use App\Observers\InvoiceObserver;
 use App\Services\FilterService;
 use Illuminate\Support\ServiceProvider;
@@ -29,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Contract::observe(ContractObserver::class);
+        InvoiceItem::observe(InvoiceItemObserver::class);
         Invoice::observe(InvoiceObserver::class);
     }
 }

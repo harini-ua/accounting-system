@@ -33,7 +33,7 @@ class Invoice extends Model
      *
      * @var array
      */
-    protected $fillable = ['number', 'name', 'client_id', 'contract_id', 'sales_manager_id', 'date', 'status', 'type', 'discount', 'total', 'plan_income_date', 'pay_date'];
+    protected $fillable = ['number', 'name', 'contract_id', 'account_id', 'sales_manager_id', 'date', 'status', 'type', 'discount', 'total', 'plan_income_date', 'pay_date'];
 
     /**
      * The attributes that should be cast.

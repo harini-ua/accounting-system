@@ -11,14 +11,23 @@ jQuery(document).ready(function ($) {
     }
 
     let invoice = {
+      payments: $this.find('#payments-list-datatable'),
+      tab: {
+        payments: $this.find('.payments-tab'),
+      },
       btn: {
         print: $this.find(".invoice-print"),
       }
     };
 
+    invoice.tab.payments.on("click", function () {
+      invoice.payments.DataTable().draw(false);
+      invoice.payments.width("100%")
+    })
+
     invoice.btn.print.on("click", function () {
       window.print();
-    })
+    });
 
     function handleSidebar(id, callback = null)
     {
@@ -55,6 +64,8 @@ jQuery(document).ready(function ($) {
             }
 
             form.reset();
+            invoice.payments.DataTable().draw(false);
+            invoice.payments.width("100%")
           },
           error: response => {
             let text = 'Please try again later!';
@@ -108,15 +119,22 @@ jQuery(document).ready(function ($) {
       },
       account: $this.find("#account_id"),
       currencySymbol: $this.find(".currency .symbol"),
+      repeater: $this.find(".invoice-item-repeater"),
       items: $this.find(".invoice-item-repeater .invoice-item"),
       item: {
         type: $this.find(".invoice-item-repeater .invoice-item .item-type"),
         qty: $this.find(".invoice-item-repeater .invoice-item .item-qty"),
         rate: $this.find(".invoice-item-repeater .invoice-item .item-rate"),
+        selector: {
+          type: ".item-type",
+          qty: ".item-qty",
+          rate: ".item-rate",
+        },
         sum: $this.find(".invoice-item-repeater .invoice-item .item-sum"),
         raw: $this.find(".invoice-item-repeater .invoice-item .item-raw"),
       },
       subtotal: $this.find(".invoice-subtotal-value .value"),
+      raw: $this.find(".invoice-subtotal-value .raw"),
       discount: {
         input: $this.find(".input-field input[name='discount']"),
         value: $this.find(".invoice-discount-value .value"),
@@ -129,29 +147,53 @@ jQuery(document).ready(function ($) {
     if ($this.find(".invoice-item-repeater").length) {
       $this.find(".invoice-item-repeater").repeater({
         show: function () {
-          /* Assign unique id to new dropdown */
-          $(this).find(".dropdown-button").attr("data-target", "dropdown-discount" + uniqueId + "");
-          $(this).find(".dropdown-content").attr("id", "dropdown-discount" + uniqueId + "");
           uniqueId++;
           /* showing the new repeater */
           $(this).slideDown();
+          $this.find(".invoice-item-repeater").find(".select2-container--default").remove();
+          $this.find(".invoice-item-repeater").find(".select2-icons").select2({
+            dropdownAutoWidth: true,
+            width: '100%',
+            minimumResultsForSearch: Infinity,
+            templateResult: iconFormat,
+            templateSelection: iconFormat,
+            escapeMarkup: function (es) { return es; }
+          });
+          $(this).find(".item-type").val(invoice.type.HOURLY).trigger('change');
         },
         hide: function (deleteElement) {
-          $(this).slideUp(deleteElement);
+          swal({
+            title: 'Are you sure?',
+            text: 'Are you sure you want to delete this item',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, keep it'
+          }).then((result) => {
+            if (result.value) {
+              $(this).slideUp(deleteElement);
+              updateTotal();
+            }
+          });
         }
       });
+    }
+
+    function iconFormat(icon) {
+      if (!icon.id) { return icon.text; }
+      return "<i class='material-icons'>" + $(icon.element).data('icon') + "</i>" + icon.text;;
     }
 
     invoice.account.on("change", function (e) {
       invoice.currencySymbol.text(accountCurrency[$(this).val()]);
     });
 
-    invoice.item.type.on("change", function (e) {
+    invoice.repeater.on('change', invoice.item.selector.type, function (e) {
       let $item = $(this).closest('.invoice-item');
       let type = $(this).val();
 
       $item.find('.item-qty')
-           .prop("disabled", (type === invoice.type.FIXED))
+           .prop("readonly", (type === invoice.type.FIXED))
            .val((type === invoice.type.FIXED) ? 1 : null);
 
       // Update item sum
@@ -165,7 +207,7 @@ jQuery(document).ready(function ($) {
       updateTotal();
     });
 
-    invoice.item.qty.on("keyup change", function (e) {
+    invoice.repeater.on("keyup change", invoice.item.selector.qty, function (e) {
       let $item = $(this).closest('.invoice-item');
       let qty = parseInt($(this).val());
 
@@ -181,7 +223,7 @@ jQuery(document).ready(function ($) {
       updateTotal();
     });
 
-    invoice.item.rate.on("keyup change", function (e) {
+    invoice.repeater.on("keyup change", invoice.item.selector.rate, function (e) {
       let $item = $(this).closest('.invoice-item');
       let rate = parseInt($(this).val());
 
@@ -202,7 +244,7 @@ jQuery(document).ready(function ($) {
       invoice.discount.value.text(discount)
 
       if (discount.toString() !== '0,00' && invoice.subtotal.text() !== '0,00') {
-        let total = parseFloat(invoice.subtotal.text()) - parseFloat(invoice.discount.input.val());
+        let total = parseFloat(invoice.raw.text()) - parseFloat(invoice.discount.input.val());
         invoice.total.text(number_format(total, ...numberFormat));
       } else {
         invoice.total.text(invoice.subtotal.text());

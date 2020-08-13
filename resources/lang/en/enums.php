@@ -17,13 +17,6 @@ return [
         \App\Enums\InvoiceItemType::FIXED => 'Fixed',
     ],
 
-    \App\Enums\InvoiceSaveStrategy::class => [
-        \App\Enums\InvoiceSaveStrategy::SAVE => 'SAVE',
-        \App\Enums\InvoiceSaveStrategy::SEND => 'SEND',
-        \App\Enums\InvoiceSaveStrategy::DRAFT => 'DRAFT',
-        \App\Enums\InvoiceSaveStrategy::UPDATE => 'UPDATE',
-    ],
-
     \App\Enums\InvoiceStatus::class => [
         \App\Enums\InvoiceStatus::DRAFT => 'Draft',
         \App\Enums\InvoiceStatus::SEND => 'Send',

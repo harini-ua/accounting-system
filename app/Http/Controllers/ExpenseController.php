@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\DataTables\ExpenseDataTable;
 use App\Http\Requests\ExpensesRequest;
-use App\Models\Account;
 use App\Models\AccountType;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;

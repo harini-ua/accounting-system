@@ -15,7 +15,7 @@ class CreateInvoicesTable extends Migration
     {
         Schema::create('invoices', static function (Blueprint $table) {
             $table->id();
-            $table->string('number', 100);
+            $table->string('number', 100)->nullable();
             $table->string('name', 100);
             $table->unsignedBigInteger('contract_id');
             $table->unsignedBigInteger('account_id');
@@ -26,9 +26,9 @@ class CreateInvoicesTable extends Migration
             $table->string('type', 20)
                 ->default(\App\Enums\InvoiceType::DEFAULT);
             $table->decimal('discount', 15,2)->nullable();
-            $table->decimal('total', 15,2);
+            $table->decimal('total', 15,2)->nullable();
             $table->date('plan_income_date');
-            $table->date('pay_date');
+            $table->date('pay_date')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

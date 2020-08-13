@@ -41,10 +41,10 @@ class InvoiceItemCreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'items.*.title' => __('The title field is required.'),
-            'items.*.type' =>  __('The type field is required.'),
-            'items.*.qty' => __('The qrt field is required.'),
-            'items.*.rate' => __('The rate field is required.'),
+            'items.*.title.required' => __('The title field is required.'),
+            'items.*.type.required' =>  __('The type field is required.'),
+            'items.*.qty.required' => __('The qrt field is required.'),
+            'items.*.rate.required' => __('The rate field is required.'),
         ];
     }
 }

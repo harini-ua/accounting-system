@@ -19,7 +19,7 @@ class InvoiceItemObserver
     }
 
     /**
-     * Handle the invoice item "creating" event.
+     * Handle the invoice item "saved" event.
      *
      * @param  \App\Models\InvoiceItem  $item
      * @return void
