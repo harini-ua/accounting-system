@@ -24,7 +24,41 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="responsive-table">
-                            <calendar-table :data="{{ $firstQuarter }}" quarter-name="I quarter"></calendar-table>
+                            <calendar-table
+                                quarter="first"
+                                quarter-name="I quarter"
+                                update-cell-url="{{ url('/calendar/updateMonth') }}"
+                            ></calendar-table>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="responsive-table">
+                            <calendar-table
+                                quarter="second"
+                                quarter-name="II quarter"
+                                update-cell-url="{{ url('/calendar/updateMonth') }}"
+                                half-year="first"
+                            ></calendar-table>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="responsive-table">
+                            <calendar-table
+                                quarter="third"
+                                quarter-name="III quarter"
+                                update-cell-url="{{ url('/calendar/updateMonth') }}"
+                            ></calendar-table>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="responsive-table">
+                            <calendar-table
+                                quarter="fourth"
+                                quarter-name="IV quarter"
+                                update-cell-url="{{ url('/calendar/updateMonth') }}"
+                                half-year="second"
+                                year="2020"
+                            ></calendar-table>
                         </div>
                     </div>
                 </div>
@@ -70,5 +104,10 @@
 
 {{-- page scripts --}}
 @section('page-script')
+    <script>
+        window.preState = {
+            months: @json($months)
+        }
+    </script>
     <script src="{{asset('js/vue/app.js')}}"></script>
 @endsection

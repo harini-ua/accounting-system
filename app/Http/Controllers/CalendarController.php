@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enums\Month;
+use App\Http\Requests\CalendarMonthUpdateRequest;
 use App\Models\CalendarMonth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -19,20 +20,17 @@ class CalendarController extends Controller
             ->where('calendar_years.name', Carbon::now())
             ->get();
 
-        $firstQuarter = $months->whereIn('name', Month::firstQuarter())->values()->toJson();
-
-        return view('pages.calendar.index', compact('firstQuarter'));
+        return view('pages.calendar.index', compact('months'));
     }
 
     /**
-     * @param Request $request
+     * @param CalendarMonthUpdateRequest $request
      * @param CalendarMonth $calendarMonth
      * @return \Illuminate\Http\JsonResponse
      */
-    public function updateMonth(Request $request, CalendarMonth $calendarMonth)
+    public function updateMonth(CalendarMonthUpdateRequest $request, CalendarMonth $calendarMonth)
     {
-        // todo: make validation!
-        $calendarMonth->{$request->get('field')} = $request->get('value');
+        $calendarMonth->{$request->field} = $request->value;
         $calendarMonth->save();
 
         return response()->json(['success' => true]);

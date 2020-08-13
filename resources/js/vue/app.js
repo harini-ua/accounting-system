@@ -1,5 +1,11 @@
-const Vue = require('vue');
+import Vue from 'vue';
+import store from "./store";
+import CalendarTable from "./components/CalendarTable";
 
-Vue.component('calendar-table', require('./components/CalendarTable.vue').default);
-
-new Vue({el: '#vue-app'});
+new Vue({
+    el: '#vue-app',
+    store: store,
+    components: {
+        CalendarTable
+    }
+});

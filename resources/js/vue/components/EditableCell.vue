@@ -1,6 +1,7 @@
 <template>
-    <div class="editable-cell" @click="editMode">
+    <div class="editable-cell cursor-pointer" @click="editMode">
         <span v-if="!isEdit">
+            <i class="material-icons tiny">edit</i>
             {{ value }}
         </span>
         <input

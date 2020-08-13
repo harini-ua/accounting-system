@@ -5,38 +5,63 @@
             <th></th>
             <th v-for="month in months">{{ month.name }}</th>
             <th>{{ quarterName}}</th>
+            <th v-if="halfYear">{{ halfYear == 'first' ? 'I' : 'II' }} half of year</th>
+            <th v-if="year">{{ year }} year</th>
         </tr>
         </thead>
         <tbody>
         <tr>
-            <td class="center-align" colspan="5">Amount of days</td>
+            <td class="center-align" :colspan="colspanAmountOfDays">Amount of days</td>
         </tr>
         <tr>
             <td>Calendar days</td>
-            <td v-for="month in months" class="cursor-pointer">
-                <editable-cell v-bind:value.sync="month.calendar_days" v-on:update="updateField(month, 'calendar_days', $event)"></editable-cell>
+            <td v-for="month in months">
+                <editable-cell
+                    v-bind:value.sync="month.calendar_days"
+                    v-on:update="updateField(month, 'calendar_days', $event)"
+                ></editable-cell>
             </td>
-            <td class="font-weight-900">{{ total('calendar_days') }}</td>
+            <td class="font-weight-900">{{ total(months, 'calendar_days') }}</td>
+            <td v-if="halfYear" class="font-weight-900">{{ total(halfYearMonths(halfYear), 'calendar_days') }}</td>
+            <td v-if="year" class="font-weight-900">{{ total(allMonths, 'calendar_days') }}</td>
         </tr>
         <tr>
             <td>Holidays</td>
-            <td v-for="month in months">{{ month.holidays }}</td>
-            <td class="font-weight-900">{{ total('holidays') }}</td>
+            <td v-for="month in months">
+                <editable-cell
+                    v-bind:value.sync="month.holidays"
+                    v-on:update="updateField(month, 'holidays', $event)"
+                ></editable-cell>
+            </td>
+            <td class="font-weight-900">{{ total(months, 'holidays') }}</td>
+            <td v-if="halfYear" class="font-weight-900">{{ total(halfYearMonths(halfYear), 'holidays') }}</td>
+            <td v-if="year" class="font-weight-900">{{ total(allMonths, 'holidays') }}</td>
         </tr>
         <tr>
             <td>Weekends</td>
-            <td v-for="month in months">{{ month.weekends }}</td>
-            <td class="font-weight-900">{{ total('weekends') }}</td>
+            <td v-for="month in months">
+                <editable-cell
+                    v-bind:value.sync="month.weekends"
+                    v-on:update="updateField(month, 'weekends', $event)"
+                ></editable-cell>
+            </td>
+            <td class="font-weight-900">{{ total(months, 'weekends') }}</td>
+            <td v-if="halfYear" class="font-weight-900">{{ total(halfYearMonths(halfYear), 'weekends') }}</td>
+            <td v-if="year" class="font-weight-900">{{ total(allMonths, 'weekends') }}</td>
         </tr>
         <tr>
             <td>Non-working days</td>
             <td v-for="month in months">{{ month.weekends + month.holidays }}</td>
-            <td class="font-weight-900">{{ total('weekends', 'holidays') }}</td>
+            <td class="font-weight-900">{{ total(months, 'weekends', 'holidays') }}</td>
+            <td v-if="halfYear" class="font-weight-900">{{ total(halfYearMonths(halfYear), 'weekends', 'holidays') }}</td>
+            <td v-if="year" class="font-weight-900">{{ total(allMonths, 'weekends', 'holidays') }}</td>
         </tr>
         <tr>
             <td>Working days</td>
             <td v-for="month in months">{{ workingDays(month) }}</td>
-            <td class="font-weight-900">{{ totalWorkingDays }}</td>
+            <td class="font-weight-900">{{ totalWorkingDays(months) }}</td>
+            <td v-if="halfYear" class="font-weight-900">{{ totalWorkingDays(halfYearMonths(halfYear)) }}</td>
+            <td v-if="year" class="font-weight-900">{{ totalWorkingDays(allMonths) }}</td>
         </tr>
         <tr>
             <td class="center-align" colspan="5">Working time (hours)</td>
@@ -44,12 +69,16 @@
         <tr>
             <td>40 hours week</td>
             <td v-for="month in months">{{ workingDays(month) * 8 }}</td>
-            <td class="font-weight-900">{{ totalWorkingTime(8)}}</td>
+            <td class="font-weight-900">{{ totalWorkingTime(months, 8)}}</td>
+            <td v-if="halfYear" class="font-weight-900">{{ totalWorkingTime(halfYearMonths(halfYear), 8)}}</td>
+            <td v-if="year" class="font-weight-900">{{ totalWorkingTime(allMonths, 8)}}</td>
         </tr>
         <tr>
             <td>30 hours week</td>
             <td v-for="month in months">{{ workingDays(month) * 6 }}</td>
-            <td class="font-weight-900">{{ totalWorkingTime(6)}}</td>
+            <td class="font-weight-900">{{ totalWorkingTime(months, 6)}}</td>
+            <td v-if="halfYear" class="font-weight-900">{{ totalWorkingTime(halfYearMonths(halfYear), 6)}}</td>
+            <td v-if="year" class="font-weight-900">{{ totalWorkingTime(allMonths, 6)}}</td>
         </tr>
         </tbody>
     </table>
@@ -59,46 +88,64 @@
 
 import EditableCell from "./EditableCell";
 import axios from 'axios';
+import { mapGetters } from 'vuex';
+import { mapMutations } from 'vuex';
+import { showError } from "../mixins";
 
 export default {
-    components: {EditableCell},
-    props: ['data', 'quarterName'],
+    mixins: [ showError ],
+    components: { EditableCell },
+    props: ['quarter', 'quarterName', 'updateCellUrl', 'halfYear', 'year'],
     data() {
         return {
-            months: this.data
+            months: {}
         }
     },
+    created() {
+        this.months = this.quarterMonths(this.quarter);
+    },
     methods: {
-        total: function(field1, field2) {
-            return this.months.reduce((total, next) => {
+        ...mapMutations(['setMonthField']),
+        total: function(months, field1, field2) {
+            return months.reduce((total, next) => {
                 if (field2) {
                     return total + next[field1] + next[field2];
                 }
                 return total + next[field1];
             }, 0);
         },
+        totalWorkingDays: function(months) {
+            return months.reduce((total, next) => {
+                return total + this.workingDays(next);
+            }, 0);
+        },
         workingDays: function(month) {
             return month.calendar_days - month.holidays - month.weekends;
         },
-        totalWorkingTime: function(hours) {
-            return this.months.reduce((total, next) => {
+        totalWorkingTime: function(months, hours) {
+            return months.reduce((total, next) => {
                 return total + this.workingDays(next) * hours;
             }, 0);
         },
         updateField: function(month, field, value) {
-            axios.put('/calendar/updateMonth/' + month.id, {
+            axios.put(this.updateCellUrl + '/' + month.id, {
                 field: field,
                 value: value,
             })
-                .then(resp => month[field] = +value)
-                .catch(error => swal('Error!', error.message ? error.message: 'Something went wrong! Please, try again later.', 'error'));
+                .then(resp => this.setMonthField({
+                    monthId: month.id,
+                    field: field,
+                    value: +value
+                }))
+                .catch((error) => this.showError(error))
         },
     },
     computed: {
-        totalWorkingDays: function() {
-            return this.months.reduce((total, next) => {
-                return total + this.workingDays(next);
-            }, 0);
+        ...mapGetters(['quarterMonths', 'halfYearMonths', 'allMonths']),
+        colspanAmountOfDays: function() {
+            if (this.year) return 7;
+            if (this.halfYear) return 6;
+            return 5;
         },
     },
 }
