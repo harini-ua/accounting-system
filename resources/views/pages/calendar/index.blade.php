@@ -67,7 +67,7 @@
             <div class="col xl4 m8 s12 animate fadeLeft">
                 <div class="card">
                     <div class="card-content">
-                        <holidays :data="{{ $holidays->toJson() }}"></holidays>
+                        <holidays :data="{{ $holidays->toJson() }}" store-url="{{ route('holidays.store') }}"></holidays>
                     </div>
                 </div>
             </div>

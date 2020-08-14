@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\HolidayRequest;
+use App\Http\Requests\HolidayCreateRequest;
+use App\Http\Requests\HolidayUpdateRequest;
 use App\Models\Holiday;
-use Illuminate\Http\Request;
 
 class HolidayController extends Controller
 {
@@ -21,12 +21,20 @@ class HolidayController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
+     * @throws \Throwable
      */
-    public function store(Request $request)
+    public function store(HolidayCreateRequest $request)
     {
-        //
+        $holiday = new Holiday;
+        $holiday->fill($request->all());
+        $holiday->saveOrFail();
+
+        return response()->json([
+            'success' => true,
+            'holiday' => $holiday,
+        ]);
     }
 
     /**
@@ -43,16 +51,19 @@ class HolidayController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  HolidayRequest $request
+     * @param  HolidayUpdateRequest $request
      * @param  \App\Models\Holiday  $holiday
      * @return \Illuminate\Http\Response
      */
-    public function update(HolidayRequest $request, Holiday $holiday)
+    public function update(HolidayUpdateRequest $request, Holiday $holiday)
     {
         $holiday->fill($request->all());
         $holiday->save();
 
-        return response()->json(['success'=>true]);
+        return response()->json([
+            'success' => true,
+            'holiday' => $holiday,
+        ]);
     }
 
     /**

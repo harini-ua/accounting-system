@@ -16,7 +16,14 @@
 export default {
     props: ['value', 'isEdit'],
     mounted() {
-        M.Datepicker.init(this.$el.querySelector('input'));
+        M.Datepicker.init(this.$el.querySelector('input'), {
+            autoClose: true,
+            format: 'dd-mm-yyyy',
+            container: 'body',
+            defaultDate: Date.parse(this.value).toString(),
+            setDefaultDate: true,
+            showClearBtn: true
+        });
     }
 }
 </script>

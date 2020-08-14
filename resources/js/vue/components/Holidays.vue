@@ -26,7 +26,7 @@
                         <div>
                             <span class="cursor-pointer mr-2">
                                 <i v-if="!holiday.isEdit" @click="editMode(index)" class="material-icons">edit</i>
-                                <i v-if="holiday.isEdit" @click="update(index)" class="material-icons">save</i>
+                                <i v-if="holiday.isEdit" @click="save(index)" class="material-icons">save</i>
                             </span>
                             <span class="cursor-pointer" @click="deleteHoliday(holiday)"><i class="material-icons">delete</i></span>
                         </div>
@@ -35,10 +35,10 @@
                 </tbody>
             </table>
             <div class="mt-5">
-                <a href="#" class="btn waves-effect waves-light z-depth-4">
+                <span class="btn waves-effect waves-light z-depth-4" @click="add">
                     <i class="material-icons">add</i>
                     <span class="hide-on-small-only">Add</span>
-                </a>
+                </span>
             </div>
         </div>
     </div>
@@ -52,7 +52,7 @@ import axios from 'axios';
 
 export default {
     components: {DateInput, CustomInput},
-    props: ['data'],
+    props: ['data', 'storeUrl'],
     mixins: [showError, destroy],
     data() {
         return {
@@ -68,26 +68,56 @@ export default {
     },
     methods: {
         deleteHoliday: function(holiday) {
-            this.destroy(holiday.destroyLink, () => this.holidays = this.holidays.filter(item => item.id !== holiday.id));
+            if (holiday.id === 0) {
+                this.holidays = this.holidays.filter(item => item.id !== holiday.id);
+            } else {
+                this.destroy(holiday.destroyLink, () => this.holidays = this.holidays.filter(item => item.id !== holiday.id));
+            }
         },
         editMode: function(index) {
             const holiday = this.holidays[index];
             holiday.isEdit = true;
             this.$set(this.holidays, index, holiday);
         },
-        update: function(index) {
-            const holiday = this.holidays[index];
-            axios.put(holiday.updateLink, {
+        save: function(index) {
+            let holiday = this.holidays[index];
+            const method = holiday.id === 0 ? 'post' : 'put';
+            const link = holiday.id === 0 ? this.storeUrl : holiday.updateLink;
+            const data = {
                 date: holiday.date,
                 name: holiday.name,
-                moved_date: holiday.moved_date,
+                moved_date: holiday.moved_date
+            }
+            if (holiday.id === 0) {
+                data.calendar_year_id = holiday.calendar_year_id;
+            }
+
+            axios({
+                method: method,
+                url: link,
+                data: data
             })
                 .then(resp => {
+                    holiday = resp.data.holiday;
                     holiday.isEdit = false;
                     this.$set(this.holidays, index, holiday);
                 })
                 .catch((error) => this.showError(error));
         },
+        add() {
+            if (this.holidays[this.holidays.length - 1].id === 0) {
+                return;
+            }
+            const holiday = Object.assign({}, this.holidays[0]);
+            holiday.id = 0;
+            holiday.date = null;
+            holiday.name = null;
+            holiday.moved_date = null;
+            holiday.destroyLink = null;
+            holiday.updateLink = null;
+            holiday.isEdit = true;
+            this.holidays.push(holiday);
+        }
     }
 }
 </script>
