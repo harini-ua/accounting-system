@@ -18,7 +18,6 @@ class CreateHolidaysTable extends Migration
             $table->unsignedInteger('calendar_year_id');
             $table->string('name');
             $table->date('date');
-            $table->boolean('moved')->default(false);
             $table->date('moved_date')->nullable();
             $table->timestamps();
 

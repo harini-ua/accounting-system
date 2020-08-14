@@ -56,7 +56,6 @@ class CalendarYearObserver
                     'calendar_year_id' => $calendarYear->id,
                     'name' => $lastYearHoliday->name,
                     'date' => $newDate,
-                    'moved' => $moved,
                     'moved_date' => $moved ? (clone $newDate)->nextWeekday() : null,
                 ]);
 

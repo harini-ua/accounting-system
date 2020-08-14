@@ -29,14 +29,12 @@ class HolidaySeeder extends Seeder
             'calendar_year_id' => 1,
             'name' => 'Women’s day',
             'date' => '2020-03-08',
-            'moved' => true,
             'moved_date' => '2020-03-09',
         ]);
         Holiday::create([
             'calendar_year_id' => 1,
             'name' => 'Easter',
             'date' => '2020-04-19',
-            'moved' => true,
             'moved_date' => '2020-04-20',
         ]);
         Holiday::create([
@@ -48,21 +46,18 @@ class HolidaySeeder extends Seeder
             'calendar_year_id' => 1,
             'name' => 'Victory day',
             'date' => '2020-05-09',
-            'moved' => true,
             'moved_date' => '2020-05-11',
         ]);
         Holiday::create([
             'calendar_year_id' => 1,
             'name' => 'Trinity',
             'date' => '2020-06-07',
-            'moved' => true,
             'moved_date' => '2020-06-08',
         ]);
         Holiday::create([
             'calendar_year_id' => 1,
             'name' => 'Constitution day',
             'date' => '2020-06-28',
-            'moved' => true,
             'moved_date' => '2020-06-29',
         ]);
         Holiday::create([
