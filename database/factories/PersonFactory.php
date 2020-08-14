@@ -52,5 +52,11 @@ $factory->define(Person::class, function (Faker $faker) {
         // Quit
         'quited_at' => $quitedAt,
         'quit_reason' => $quitedAt ? $faker->sentence : null,
+        // Pay data
+//        'code' => $faker->numberBetween(1000000),
+//        'agreement' => $faker->numberBetween(1000000),
+//        'account_number' => $faker->numberBetween(1000000),
+//        'recipient_bank' => $faker->words(random_int(1, 2)),
+//        'note_salary_pay' => $faker->words(random_int(2, 4)),
     ];
 });
