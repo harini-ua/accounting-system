@@ -156,4 +156,5 @@ return [
     "Expense category"=> "Expense category",
     "Expenses"=> "Expenses",
     "People"=> "People",
+    "Certifications"=> "Certifications",
 ];

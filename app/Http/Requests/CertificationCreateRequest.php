@@ -13,7 +13,7 @@ class CertificationCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,11 @@ class CertificationCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'name' => 'required',
+            'subject' => 'required',
+            'cost' => 'required|numeric',
+            'availability' => 'required',
+            'sum_award' => 'required|numeric',
         ];
     }
 }

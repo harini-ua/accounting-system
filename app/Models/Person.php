@@ -102,6 +102,8 @@ class Person extends Model
     }
 
     /**
+     * Get the user that owns the person.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
@@ -110,10 +112,22 @@ class Person extends Model
     }
 
     /**
+     * Get the recruiter that owns the person.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function recruiter()
     {
         return $this->belongsTo(User::class)->where('position_id', Position::Recruiter());
+    }
+
+    /**
+     * Get the certifications that owns the person.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function certifications()
+    {
+        return $this->hasMany(Certification::class);
     }
 }

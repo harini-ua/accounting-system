@@ -109,5 +109,8 @@ Route::middleware(['auth'])->group(function() {
     Route::post('people/long-vacation/{person}', 'PersonController@longVacation')->name('people.long-vacation');
     Route::post('people/back-to-active/{person}', 'PersonController@backToActive')->name('people.back-to-active');
     Route::resource('people', 'PersonController');
+
+    // Certifications
+    Route::resource('certifications', 'CertificationController');
 });
 

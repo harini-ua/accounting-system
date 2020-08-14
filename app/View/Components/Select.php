@@ -7,27 +7,30 @@ use Illuminate\View\Component;
 class Select extends Component
 {
     public $name;
-    public $title;
     public $options;
+    public $title;
     public $model;
+    public $search;
     public $disabled;
     public $firstTitle;
 
     /**
      * Select constructor.
      * @param $name
-     * @param $title
      * @param $options
+     * @param $title
      * @param $model
+     * @param $search
      * @param bool $disabled
      * @param $firstTitle
      */
-    public function __construct($name, $title, $options, $model = null, $disabled = false, $firstTitle = '')
+    public function __construct($name, $options, $title = null, $model = null, $search = false, $disabled = false, $firstTitle = '')
     {
         $this->name = $name;
-        $this->title = $title;
         $this->options = $options;
+        $this->title = $title;
         $this->model = $model;
+        $this->search = $search;
         $this->disabled = $disabled;
         $this->firstTitle = $firstTitle;
     }
