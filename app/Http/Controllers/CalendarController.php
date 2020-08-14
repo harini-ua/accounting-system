@@ -39,4 +39,15 @@ class CalendarController extends Controller
 
         return response()->json(['success' => true]);
     }
+
+    /**
+     * @return mixed
+     */
+    public function months()
+    {
+        return CalendarMonth::select('calendar_months.*')
+            ->join('calendar_years', 'calendar_years.id', '=', 'calendar_months.calendar_year_id')
+            ->where('calendar_years.name', Carbon::now())
+            ->get();
+    }
 }

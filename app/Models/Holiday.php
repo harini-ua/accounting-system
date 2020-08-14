@@ -31,4 +31,12 @@ class Holiday extends Model
     {
         return route('holidays.update', $this);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function calendarYear()
+    {
+        return $this->belongsTo(CalendarYear::class);
+    }
 }

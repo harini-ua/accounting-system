@@ -52,12 +52,14 @@ class CalendarYearObserver
                 $newDate = Carbon::createFromDate($calendarYear->name, $date->month, $date->day);
                 $moved = $newDate->isWeekend();
 
-                $holiday = Holiday::create([
-                    'calendar_year_id' => $calendarYear->id,
-                    'name' => $lastYearHoliday->name,
-                    'date' => $newDate,
-                    'moved_date' => $moved ? (clone $newDate)->nextWeekday() : null,
-                ]);
+                $holiday = Holiday::withoutEvents(function() use ($calendarYear, $lastYearHoliday, $newDate, $moved) {
+                    return Holiday::create([
+                        'calendar_year_id' => $calendarYear->id,
+                        'name' => $lastYearHoliday->name,
+                        'date' => $newDate,
+                        'moved_date' => $moved ? (clone $newDate)->nextWeekday() : null,
+                    ]);
+                });
 
                 $holidays->push($holiday);
             }
@@ -77,7 +79,7 @@ class CalendarYearObserver
             }, $lastDay);
 
             $holidaysCount = $holidays->filter(function($holiday) use ($firstDay, $lastDay) {
-                return Carbon::parse($holiday->date)->isBetween($firstDay, $lastDay);
+                return Carbon::parse($holiday->moved_date ?? $holiday->date)->isBetween($firstDay, $lastDay);
             })->count();
 
             CalendarMonth::create([

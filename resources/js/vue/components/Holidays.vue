@@ -49,6 +49,7 @@ import {destroy, showError} from "../mixins";
 import CustomInput from "./CustomInput";
 import DateInput from "./DateInput";
 import axios from 'axios';
+import { mapActions } from 'vuex';
 
 export default {
     components: {DateInput, CustomInput},
@@ -67,11 +68,15 @@ export default {
         });
     },
     methods: {
+        ...mapActions(['fetchMonths']),
         deleteHoliday: function(holiday) {
             if (holiday.id === 0) {
                 this.holidays = this.holidays.filter(item => item.id !== holiday.id);
             } else {
-                this.destroy(holiday.destroyLink, () => this.holidays = this.holidays.filter(item => item.id !== holiday.id));
+                this.destroy(holiday.destroyLink, () => {
+                    this.holidays = this.holidays.filter(item => item.id !== holiday.id);
+                    this.fetchMonths();
+                });
             }
         },
         editMode: function(index) {
@@ -101,6 +106,7 @@ export default {
                     holiday = resp.data.holiday;
                     holiday.isEdit = false;
                     this.$set(this.holidays, index, holiday);
+                    this.fetchMonths();
                 })
                 .catch((error) => this.showError(error));
         },

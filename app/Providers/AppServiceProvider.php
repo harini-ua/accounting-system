@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Models\CalendarYear;
 use App\Models\Contract;
+use App\Models\Holiday;
 use App\Models\Invoice;
 use App\Observers\CalendarYearObserver;
 use App\Observers\ContractObserver;
+use App\Observers\HolidayObserver;
 use App\Observers\InvoiceObserver;
 use App\Services\FilterService;
 use Illuminate\Support\ServiceProvider;
@@ -33,5 +35,6 @@ class AppServiceProvider extends ServiceProvider
         Contract::observe(ContractObserver::class);
         Invoice::observe(InvoiceObserver::class);
         CalendarYear::observe(CalendarYearObserver::class);
+        Holiday::observe(HolidayObserver::class);
     }
 }

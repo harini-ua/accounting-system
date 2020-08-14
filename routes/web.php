@@ -114,5 +114,6 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/calendar', 'CalendarController@index');
     Route::put('/calendar/updateMonth/{calendarMonth}', 'CalendarController@updateMonth');
     Route::resource('holidays', 'HolidayController');
+    Route::get('/months', 'CalendarController@months')->name('calendar.months');
 });
 

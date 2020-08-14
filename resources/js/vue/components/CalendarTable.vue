@@ -96,14 +96,6 @@ export default {
     mixins: [ showError ],
     components: { EditableCell },
     props: ['quarter', 'quarterName', 'updateCellUrl', 'halfYear', 'year'],
-    data() {
-        return {
-            months: {}
-        }
-    },
-    created() {
-        this.months = this.quarterMonths(this.quarter);
-    },
     methods: {
         ...mapMutations(['setMonthField']),
         total: function(months, field1, field2) {
@@ -142,6 +134,10 @@ export default {
     },
     computed: {
         ...mapGetters(['quarterMonths', 'halfYearMonths', 'allMonths']),
+        months: function()
+        {
+            return this.quarterMonths(this.quarter);
+        },
         colspanAmountOfDays: function() {
             if (this.year) return 7;
             if (this.halfYear) return 6;

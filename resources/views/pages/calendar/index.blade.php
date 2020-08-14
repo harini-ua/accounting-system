@@ -103,7 +103,8 @@
 @section('page-script')
     <script>
         window.preState = {
-            months: @json($months)
+            months: @json($months),
+            fetchMonths: '{{ route('calendar.months') }}',
         }
     </script>
     <script src="{{asset('js/vue/app.js')}}"></script>
