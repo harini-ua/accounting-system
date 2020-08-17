@@ -75,6 +75,18 @@
             <div class="col xl2 m4 s12">
                 <div class="card invoice-action-wrapper animate fadeRight">
                     <div class="card-content">
+                        <ul class="pagination center-align">
+                            <li class="{{ $paginator->prev() ? 'waves-effect' : 'disabled' }}">
+                                <a href="{{ $paginator->prev() }}">
+                                    <i class="material-icons">chevron_left</i>
+                                </a>
+                            </li>
+                            <li class="{{ $paginator->next() ? 'waves-effect' : 'disabled' }}">
+                                <a href="{{ $paginator->next() }}">
+                                    <i class="material-icons">chevron_right</i>
+                                </a>
+                            </li>
+                        </ul>
                         <div id="change-salary-type-button" class="invoice-action-btn">
                             <span class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <span>Add Year</span>

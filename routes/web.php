@@ -111,7 +111,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('people', 'PersonController');
 
     // Vacation and sick leave
-    Route::get('/calendar', 'CalendarController@index');
+    Route::get('/calendar', 'CalendarController@index')->name('calendar.index');
     Route::put('/calendar/updateMonth/{calendarMonth}', 'CalendarController@updateMonth');
     Route::resource('holidays', 'HolidayController');
     Route::get('/months', 'CalendarController@months')->name('calendar.months');
