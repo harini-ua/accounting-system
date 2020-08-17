@@ -20,51 +20,43 @@
     <div id="vue-app" class="section">
         <div class="row invoice-view-wrapper">
             {{-- content start --}}
-            <div class="col xl6 m8 s12 animate fadeLeft">
+            <div class="col xl6 l12 s12 animate fadeLeft">
                 <div class="card">
                     <div class="card-content">
-                        <div class="responsive-table">
-                            <calendar-table
-                                quarter="first"
-                                quarter-name="I quarter"
-                                update-cell-url="{{ url('/calendar/updateMonth') }}"
-                            ></calendar-table>
-                        </div>
+                        <calendar-table
+                            quarter="first"
+                            quarter-name="I quarter"
+                            update-cell-url="{{ url('/calendar/updateMonth') }}"
+                        ></calendar-table>
                     </div>
                     <div class="card-content">
-                        <div class="responsive-table">
-                            <calendar-table
-                                quarter="second"
-                                quarter-name="II quarter"
-                                update-cell-url="{{ url('/calendar/updateMonth') }}"
-                                half-year="first"
-                            ></calendar-table>
-                        </div>
+                        <calendar-table
+                            quarter="second"
+                            quarter-name="II quarter"
+                            update-cell-url="{{ url('/calendar/updateMonth') }}"
+                            half-year="first"
+                        ></calendar-table>
                     </div>
                     <div class="card-content">
-                        <div class="responsive-table">
-                            <calendar-table
-                                quarter="third"
-                                quarter-name="III quarter"
-                                update-cell-url="{{ url('/calendar/updateMonth') }}"
-                            ></calendar-table>
-                        </div>
+                        <calendar-table
+                            quarter="third"
+                            quarter-name="III quarter"
+                            update-cell-url="{{ url('/calendar/updateMonth') }}"
+                        ></calendar-table>
                     </div>
                     <div class="card-content">
-                        <div class="responsive-table">
-                            <calendar-table
-                                quarter="fourth"
-                                quarter-name="IV quarter"
-                                update-cell-url="{{ url('/calendar/updateMonth') }}"
-                                half-year="second"
-                                year="2020"
-                            ></calendar-table>
-                        </div>
+                        <calendar-table
+                            quarter="fourth"
+                            quarter-name="IV quarter"
+                            update-cell-url="{{ url('/calendar/updateMonth') }}"
+                            half-year="second"
+                            year="2020"
+                        ></calendar-table>
                     </div>
                 </div>
             </div>
             {{-- content end --}}
-            <div class="col xl4 m8 s12 animate fadeLeft">
+            <div class="holidays-wrap col xl4 s12 animate fadeLeft">
                 <div class="card">
                     <div class="card-content">
                         <holidays :data="{{ $holidays->toJson() }}" store-url="{{ route('holidays.store') }}"></holidays>
@@ -72,7 +64,7 @@
                 </div>
             </div>
             {{-- actions start  --}}
-            <div class="col xl2 m4 s12">
+            <div class="col xl2 s12">
                 <div class="card invoice-action-wrapper animate fadeRight">
                     <div class="card-content">
                         <ul class="pagination center-align">

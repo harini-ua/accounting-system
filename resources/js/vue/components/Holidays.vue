@@ -129,5 +129,7 @@ export default {
 </script>
 
 <style scoped>
-
+    .holidays-component .responsive-table {
+        overflow-x: auto;
+    }
 </style>

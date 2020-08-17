@@ -17,6 +17,12 @@ class CalendarController extends Controller
      */
     public function index(CalendarPaginator $paginator)
     {
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['name' => "Calendar"]
+        ];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
         $months = CalendarMonth::select('calendar_months.*')
             ->join('calendar_years', 'calendar_years.id', '=', 'calendar_months.calendar_year_id')
             ->where('calendar_years.name', $paginator->year())
@@ -27,7 +33,7 @@ class CalendarController extends Controller
             ->where('calendar_years.name', $paginator->year())
             ->get();
 
-        return view('pages.calendar.index', compact('months', 'holidays', 'paginator'));
+        return view('pages.calendar.index', compact('breadcrumbs', 'pageConfigs', 'months', 'holidays', 'paginator'));
     }
 
     /**

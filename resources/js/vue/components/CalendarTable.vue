@@ -1,87 +1,89 @@
 <template>
-    <table class="calendar-table bordered">
-        <thead>
-        <tr>
-            <th></th>
-            <th v-for="month in months">{{ month.name }}</th>
-            <th>{{ quarterName}}</th>
-            <th v-if="halfYear">{{ halfYear == 'first' ? 'I' : 'II' }} half of year</th>
-            <th v-if="year">{{ year }} year</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td class="center-align" :colspan="colspanAmountOfDays">Amount of days</td>
-        </tr>
-        <tr>
-            <td>Calendar days</td>
-            <td v-for="month in months">
-                <editable-cell
-                    v-bind:value.sync="month.calendar_days"
-                    v-on:update="updateField(month, 'calendar_days', $event)"
-                ></editable-cell>
-            </td>
-            <td class="font-weight-900">{{ total(months, 'calendar_days') }}</td>
-            <td v-if="halfYear" class="font-weight-900">{{ total(halfYearMonths(halfYear), 'calendar_days') }}</td>
-            <td v-if="year" class="font-weight-900">{{ total(allMonths, 'calendar_days') }}</td>
-        </tr>
-        <tr>
-            <td>Holidays</td>
-            <td v-for="month in months">
-                <editable-cell
-                    v-bind:value.sync="month.holidays"
-                    v-on:update="updateField(month, 'holidays', $event)"
-                ></editable-cell>
-            </td>
-            <td class="font-weight-900">{{ total(months, 'holidays') }}</td>
-            <td v-if="halfYear" class="font-weight-900">{{ total(halfYearMonths(halfYear), 'holidays') }}</td>
-            <td v-if="year" class="font-weight-900">{{ total(allMonths, 'holidays') }}</td>
-        </tr>
-        <tr>
-            <td>Weekends</td>
-            <td v-for="month in months">
-                <editable-cell
-                    v-bind:value.sync="month.weekends"
-                    v-on:update="updateField(month, 'weekends', $event)"
-                ></editable-cell>
-            </td>
-            <td class="font-weight-900">{{ total(months, 'weekends') }}</td>
-            <td v-if="halfYear" class="font-weight-900">{{ total(halfYearMonths(halfYear), 'weekends') }}</td>
-            <td v-if="year" class="font-weight-900">{{ total(allMonths, 'weekends') }}</td>
-        </tr>
-        <tr>
-            <td>Non-working days</td>
-            <td v-for="month in months">{{ month.weekends + month.holidays }}</td>
-            <td class="font-weight-900">{{ total(months, 'weekends', 'holidays') }}</td>
-            <td v-if="halfYear" class="font-weight-900">{{ total(halfYearMonths(halfYear), 'weekends', 'holidays') }}</td>
-            <td v-if="year" class="font-weight-900">{{ total(allMonths, 'weekends', 'holidays') }}</td>
-        </tr>
-        <tr>
-            <td>Working days</td>
-            <td v-for="month in months">{{ workingDays(month) }}</td>
-            <td class="font-weight-900">{{ totalWorkingDays(months) }}</td>
-            <td v-if="halfYear" class="font-weight-900">{{ totalWorkingDays(halfYearMonths(halfYear)) }}</td>
-            <td v-if="year" class="font-weight-900">{{ totalWorkingDays(allMonths) }}</td>
-        </tr>
-        <tr>
-            <td class="center-align" colspan="5">Working time (hours)</td>
-        </tr>
-        <tr>
-            <td>40 hours week</td>
-            <td v-for="month in months">{{ workingDays(month) * 8 }}</td>
-            <td class="font-weight-900">{{ totalWorkingTime(months, 8)}}</td>
-            <td v-if="halfYear" class="font-weight-900">{{ totalWorkingTime(halfYearMonths(halfYear), 8)}}</td>
-            <td v-if="year" class="font-weight-900">{{ totalWorkingTime(allMonths, 8)}}</td>
-        </tr>
-        <tr>
-            <td>30 hours week</td>
-            <td v-for="month in months">{{ workingDays(month) * 6 }}</td>
-            <td class="font-weight-900">{{ totalWorkingTime(months, 6)}}</td>
-            <td v-if="halfYear" class="font-weight-900">{{ totalWorkingTime(halfYearMonths(halfYear), 6)}}</td>
-            <td v-if="year" class="font-weight-900">{{ totalWorkingTime(allMonths, 6)}}</td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="calendar-component responsive-table">
+        <table class="calendar-table bordered">
+            <thead>
+            <tr>
+                <th></th>
+                <th v-for="month in months">{{ month.name }}</th>
+                <th>{{ quarterName}}</th>
+                <th v-if="halfYear">{{ halfYear == 'first' ? 'I' : 'II' }} half of year</th>
+                <th v-if="year">{{ year }} year</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="center-align" :colspan="colspanAmountOfDays">Amount of days</td>
+            </tr>
+            <tr>
+                <td>Calendar days</td>
+                <td v-for="month in months">
+                    <editable-cell
+                        v-bind:value.sync="month.calendar_days"
+                        v-on:update="updateField(month, 'calendar_days', $event)"
+                    ></editable-cell>
+                </td>
+                <td class="font-weight-900">{{ total(months, 'calendar_days') }}</td>
+                <td v-if="halfYear" class="font-weight-900">{{ total(halfYearMonths(halfYear), 'calendar_days') }}</td>
+                <td v-if="year" class="font-weight-900">{{ total(allMonths, 'calendar_days') }}</td>
+            </tr>
+            <tr>
+                <td>Holidays</td>
+                <td v-for="month in months">
+                    <editable-cell
+                        v-bind:value.sync="month.holidays"
+                        v-on:update="updateField(month, 'holidays', $event)"
+                    ></editable-cell>
+                </td>
+                <td class="font-weight-900">{{ total(months, 'holidays') }}</td>
+                <td v-if="halfYear" class="font-weight-900">{{ total(halfYearMonths(halfYear), 'holidays') }}</td>
+                <td v-if="year" class="font-weight-900">{{ total(allMonths, 'holidays') }}</td>
+            </tr>
+            <tr>
+                <td>Weekends</td>
+                <td v-for="month in months">
+                    <editable-cell
+                        v-bind:value.sync="month.weekends"
+                        v-on:update="updateField(month, 'weekends', $event)"
+                    ></editable-cell>
+                </td>
+                <td class="font-weight-900">{{ total(months, 'weekends') }}</td>
+                <td v-if="halfYear" class="font-weight-900">{{ total(halfYearMonths(halfYear), 'weekends') }}</td>
+                <td v-if="year" class="font-weight-900">{{ total(allMonths, 'weekends') }}</td>
+            </tr>
+            <tr>
+                <td>Non-working days</td>
+                <td v-for="month in months">{{ month.weekends + month.holidays }}</td>
+                <td class="font-weight-900">{{ total(months, 'weekends', 'holidays') }}</td>
+                <td v-if="halfYear" class="font-weight-900">{{ total(halfYearMonths(halfYear), 'weekends', 'holidays') }}</td>
+                <td v-if="year" class="font-weight-900">{{ total(allMonths, 'weekends', 'holidays') }}</td>
+            </tr>
+            <tr>
+                <td>Working days</td>
+                <td v-for="month in months">{{ workingDays(month) }}</td>
+                <td class="font-weight-900">{{ totalWorkingDays(months) }}</td>
+                <td v-if="halfYear" class="font-weight-900">{{ totalWorkingDays(halfYearMonths(halfYear)) }}</td>
+                <td v-if="year" class="font-weight-900">{{ totalWorkingDays(allMonths) }}</td>
+            </tr>
+            <tr>
+                <td class="center-align" colspan="5">Working time (hours)</td>
+            </tr>
+            <tr>
+                <td>40 hours week</td>
+                <td v-for="month in months">{{ workingDays(month) * 8 }}</td>
+                <td class="font-weight-900">{{ totalWorkingTime(months, 8)}}</td>
+                <td v-if="halfYear" class="font-weight-900">{{ totalWorkingTime(halfYearMonths(halfYear), 8)}}</td>
+                <td v-if="year" class="font-weight-900">{{ totalWorkingTime(allMonths, 8)}}</td>
+            </tr>
+            <tr>
+                <td>30 hours week</td>
+                <td v-for="month in months">{{ workingDays(month) * 6 }}</td>
+                <td class="font-weight-900">{{ totalWorkingTime(months, 6)}}</td>
+                <td v-if="halfYear" class="font-weight-900">{{ totalWorkingTime(halfYearMonths(halfYear), 6)}}</td>
+                <td v-if="year" class="font-weight-900">{{ totalWorkingTime(allMonths, 6)}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </template>
 
 <script>
@@ -150,5 +152,8 @@ export default {
 <style scoped>
     .calendar-table td {
         text-align: center;
+    }
+    .calendar-component {
+        overflow-x: auto;
     }
 </style>
