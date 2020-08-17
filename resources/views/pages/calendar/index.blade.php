@@ -77,26 +77,29 @@
                     <div class="card-content">
                         <ul class="pagination center-align">
                             <li class="{{ $paginator->prev() ? 'waves-effect' : 'disabled' }}">
-                                <a href="{{ $paginator->prev() }}">
+                                @if($paginator->prev())<a href="{{ $paginator->prev() }}">@else<span>@endif
                                     <i class="material-icons">chevron_left</i>
-                                </a>
+                                @if($paginator->prev())</a>@else</span>@endif
                             </li>
                             <li class="{{ $paginator->next() ? 'waves-effect' : 'disabled' }}">
-                                <a href="{{ $paginator->next() }}">
+                                @if($paginator->next())<a href="{{ $paginator->next() }}">@else<span>@endif
                                     <i class="material-icons">chevron_right</i>
-                                </a>
+                                @if($paginator->next())</a>@else</span>@endif
                             </li>
                         </ul>
-                        <div id="change-salary-type-button" class="invoice-action-btn">
-                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
-                                <span>Add Year</span>
-                            </span>
+                        <div class="invoice-action-btn">
+                            <a href="{{ route('calendar.create') }}" class="btn-block btn waves-effect waves-light">
+                                <i class="material-icons">add</i>
+                                <span>Add</span>
+                            </a>
                         </div>
-                        <div id="change-contract-type-button" class="invoice-action-btn">
-                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
-                                <span>Delete Year</span>
-                            </span>
-                        </div>
+                        @if(!$paginator->isCurrentYear() && $paginator->isOutSide())
+                            <calendar-delete-button
+                                title="Delete"
+                                url="{{ route('calendar.destroy', $paginator->year()) }}"
+                                default-url="{{ route('calendar.index') }}"
+                            ></calendar-delete-button>
+                        @endif
                     </div>
                 </div>
             </div>

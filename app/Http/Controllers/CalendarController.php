@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CalendarMonthUpdateRequest;
 use App\Models\CalendarMonth;
+use App\Models\CalendarYear;
 use App\Models\Holiday;
 use App\Services\CalendarPaginator;
 use Illuminate\Support\Carbon;
@@ -27,6 +28,31 @@ class CalendarController extends Controller
             ->get();
 
         return view('pages.calendar.index', compact('months', 'holidays', 'paginator'));
+    }
+
+    /**
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function create()
+    {
+        $year = new CalendarYear;
+        $year->save();
+
+        return redirect()->route('calendar.index', ['year' => $year->name]);
+    }
+
+    /**
+     * @param $year
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
+     */
+    public function destroy($year)
+    {
+        $calendarYear = CalendarYear::where('name', $year)->firstOrFail();
+        if ($calendarYear->delete()) {
+            return response()->json(['success'=>true]);
+        }
+        return response()->json(['success'=>false]);
     }
 
     /**

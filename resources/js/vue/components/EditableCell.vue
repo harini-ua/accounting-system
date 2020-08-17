@@ -43,4 +43,10 @@ export default {
     .editable-cell input {
         max-width: fit-content;
     }
+    .editable-cell i {
+        display: none;
+    }
+    .editable-cell:hover i {
+        display: inline;
+    }
 </style>

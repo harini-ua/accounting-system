@@ -110,8 +110,10 @@ Route::middleware(['auth'])->group(function() {
     Route::post('people/back-to-active/{person}', 'PersonController@backToActive')->name('people.back-to-active');
     Route::resource('people', 'PersonController');
 
-    // Vacation and sick leave
+    // Calendar
     Route::get('/calendar', 'CalendarController@index')->name('calendar.index');
+    Route::get('/calendar/create', 'CalendarController@create')->name('calendar.create');
+    Route::delete('/calendar/{year}', 'CalendarController@destroy')->name('calendar.destroy');
     Route::put('/calendar/updateMonth/{calendarMonth}', 'CalendarController@updateMonth');
     Route::resource('holidays', 'HolidayController');
     Route::get('/months', 'CalendarController@months')->name('calendar.months');

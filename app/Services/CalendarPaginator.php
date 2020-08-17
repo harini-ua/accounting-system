@@ -94,4 +94,30 @@ class CalendarPaginator
         return $this->next;
     }
 
+    /**
+     * @return bool
+     */
+    public function isCurrentYear(): bool
+    {
+        return Carbon::now()->year == $this->year;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isOutSide(): bool
+    {
+        $first = CalendarYear::orderBy('name')->first();
+        if ($first->name == $this->year) {
+            return true;
+        }
+
+        $last = CalendarYear::orderByDesc('name')->first();
+        if ($last->name == $this->year) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
