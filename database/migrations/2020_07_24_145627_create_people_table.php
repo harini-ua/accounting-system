@@ -54,6 +54,12 @@ class CreatePeopleTable extends Migration
             // Quit
             $table->date('quited_at')->nullable();
             $table->string('quit_reason')->nullable();
+            // Pay data
+            $table->string('code')->nullable();
+            $table->string('agreement')->nullable();
+            $table->string('account_number')->nullable();
+            $table->string('recipient_bank')->nullable();
+            $table->string('note_salary_pay')->nullable();
 
             $table->timestamps();
             $table->softDeletes();

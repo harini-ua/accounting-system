@@ -25,7 +25,6 @@ class PaymentController extends Controller
 
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
-
         return $dataTable->render('pages.payments.index', compact(
             'breadcrumbs', 'pageConfigs'
         ));

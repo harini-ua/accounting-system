@@ -11,7 +11,10 @@
                     <div class="row mb-3">
                         <div class="hidden">
                             <input type="hidden" name="type" value="{{ \App\Enums\InvoiceType::DEFAULT }}">
-                            <script> var accountCurrency = @json($accountCurrency);</script>
+                            <script>
+                              const numberFormat = @json(array_values(config('general.number.format')));
+                              const accountCurrency = @json($accountCurrency);
+                            </script>
                         </div>
                         <div class="col xl4 m12 display-flex align-items-center">
                             <input type="text" value="{{ $invoice->number ?? null }}" placeholder="{{ __('INV-00000') }}" disabled>
@@ -105,7 +108,7 @@
                                         <option value="">{{ __('- Select Sales Manager -') }}</option>
                                         @php( $sales_manager_id = old('sales_manager_id') ?? (isset($invoice) && $invoice->sales_manager_id) ?? null )
                                         @foreach($sales as $user)
-                                            <option value="{{ $user->id }}" {{ isset($invoice) && $sales_manager_id == $user->id  ? 'selected' : '' }}>{{ $user->name }}</option>
+                                            <option value="{{ $user->id }}" {{ isset($invoice) && $sales_manager_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
                                         @endforeach
                                     </select>
                                     @error('sales_manager_id')<small class="errorTxt1"><div id="sales_manager_id-error" class="error">{{ $message }}</div></small>@enderror
@@ -115,27 +118,30 @@
                                 <ul>
                                     <li class="display-flex justify-content-between">
                                         <span class="invoice-subtotal-title">{{ __('Subtotal') }}</span>
-                                        <h6 class="invoice-subtotal-value currency">{!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->items->sum('sum') : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
+                                        <h6 class="invoice-subtotal-value currency">
+                                            {!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->items->sum('sum') : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}
+                                            <span class="hide raw">{{ isset($invoice) ? $invoice->items->sum('sum') : null }}</span>
+                                        </h6>
                                     </li>
                                     <li class="display-flex justify-content-between">
-                                        <span class="invoice-subtotal-title">{{ __('Discount') }}</span>
-                                        <h6 class="invoice-subtotal-value currency">- {!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->discount : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
+                                        <span class="invoice-discount-title">{{ __('Discount') }}</span>
+                                        <h6 class="invoice-discount-value currency">- {!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->discount : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
                                     </li>
                                     <li>
                                         <div class="divider mt-2 mb-2"></div>
                                     </li>
                                     <li class="display-flex justify-content-between">
-                                        <span class="invoice-subtotal-title">{{ __('Invoice Total') }}</span>
-                                        <h6 class="invoice-subtotal-value currency">{!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->items->sum('sum') - $invoice->discount : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
+                                        <span class="invoice-total-title">{{ __('Invoice Total') }}</span>
+                                        <h6 class="invoice-total-value currency">{!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->items->sum('sum') - $invoice->discount : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
                                     </li>
                                     @if(isset($invoice))
                                         <li class="display-flex justify-content-between">
-                                            <span class="invoice-subtotal-title">{{ __('Paid to date') }}</span>
-                                            <h6 class="invoice-subtotal-value currency">- {!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->payments->sum('fee') : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
+                                            <span class="invoice-paid-title">{{ __('Paid to date') }}</span>
+                                            <h6 class="invoice-paid-value currency">- {!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->payments->sum('fee') : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
                                         </li>
                                         <li class="display-flex justify-content-between">
-                                            <span class="invoice-subtotal-title">{{ __('Balance (USD)') }}</span>
-                                            <h6 class="invoice-subtotal-value currency">{!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->payments->sum('fee') : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
+                                            <span class="invoice-balance-title">{{ __('Balance (USD)') }}</span>
+                                            <h6 class="invoice-balance-value currency">{!! \App\Services\Formatter::currency(isset($invoice) ? $invoice->payments->sum('fee') : null, isset($invoice) ? $invoice->account->accountType->symbol : null, true) !!}</h6>
                                         </li>
                                     @endif
                                 </ul>
@@ -149,21 +155,19 @@
         <div class="col xl3 m4 s12">
             <div class="card invoice-action-wrapper mb-10">
                 <div class="card-content">
+                    <div class="input-field">
+                        <h6>{{ __('Status') }}</h6>
+                        <select name="status" class="select2 invoice-item-select browser-default">
+                            @foreach(\App\Enums\InvoiceStatus::toSelectArray() as $value => $status)
+                                <option value="{{ $value }}" {{ isset($invoice) && $invoice->status == $value ? 'selected' : '' }}>{{ $status }}</option>
+                            @endforeach
+                        </select>
+                        @error('status')<small class="errorTxt1"><div id="status-error" class="error">{{ $message }}</div></small>@enderror
+                    </div>
                     <div class="invoice-action-btn">
-                        <button class="btn btn-block waves-effect waves-light display-flex align-items-center justify-content-center" type="submit"
-                                value="{{ isset($invoice) ? \App\Enums\InvoiceSaveStrategy::UPDATE : \App\Enums\InvoiceSaveStrategy::SAVE }}" name="submit">
+                        <button class="btn btn-block waves-effect waves-light display-flex align-items-center justify-content-center" type="submit">
                             {{ isset($invoice) ? __('Update Invoice') : __('Save Invoice') }}</button>
                     </div>
-                    <div class="invoice-action-btn">
-                        <button class="btn btn-block cyan waves-effect waves-light display-flex align-items-center justify-content-center" type="submit" value="{{ \App\Enums\InvoiceSaveStrategy::SEND }}" name="submit">
-                            {{ __('Send') }}</button>
-                    </div>
-                    @if(!isset($invoice))
-                    <div class="invoice-action-btn">
-                        <button class="btn btn-block btn-light-indigo waves-effect waves-light display-flex align-items-center justify-content-center" type="submit" value="{{ \App\Enums\InvoiceSaveStrategy::DRAFT }}" name="submit">
-                            {{ __('Draft') }}</button>
-                    </div>
-                    @endif
                 </div>
             </div>
         </div>

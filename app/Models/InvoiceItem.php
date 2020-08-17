@@ -43,7 +43,7 @@ class InvoiceItem extends Model
     ];
 
     /**
-     * Get the client that owns the invoice.
+     * Get the invoice that owns the item.
      */
     public function invoice()
     {

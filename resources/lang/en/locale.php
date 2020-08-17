@@ -157,4 +157,5 @@ return [
     "Expenses"=> "Expenses",
     "People"=> "People",
     "Vacation and sick leave"=> "Vacation and sick leave",
+    "Certifications"=> "Certifications",
 ];

@@ -95,6 +95,13 @@
             "i18n": "People"
         },
         {
+            "url": "certifications",
+            "name": "Certifications",
+            "slug": "certifications",
+            "icon": "school",
+            "i18n": "school"
+        },
+        {
             "url": "calendar",
             "name": "Calendar",
             "slug": "calendar",

@@ -72,13 +72,12 @@ class InvoicesDataTable extends DataTable
                 'color' => InvoiceStatus::getColor($model->status, 'class'),
             ]);
         })->setRowClass(static function (Invoice $model) {
-            switch ($model->status) {
-                case InvoiceStatus::OVERDUE:
-                    return 'red lighten-5 red-text red-link font-weight-700';
-                    break;
-                default:
-                    return '';
+            $class = '';
+            if ($model->status === InvoiceStatus::OVERDUE) {
+                $class = 'red lighten-5 red-text red-link font-weight-700';
             }
+
+            return $class;
         });
 
         $dataTable->addColumn('total', static function(Invoice $model) {
@@ -193,6 +192,7 @@ class InvoicesDataTable extends DataTable
      * Optional method if you want to use html builder.
      *
      * @return \Yajra\DataTables\Html\Builder
+     * @throws \Throwable
      */
     public function html()
     {

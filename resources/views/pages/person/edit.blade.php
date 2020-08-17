@@ -50,6 +50,11 @@
                                 <span>Back to active employee</span>
                             </span>
                         </div>
+                        <div id="pay-data-button" class="invoice-action-btn">
+                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
+                                <span>Pay Data</span>
+                            </span>
+                        </div>
                         <div class="invoice-action-btn">
                             <a href="#" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
                                 <i class="material-icons mr-3">attach_money</i>
@@ -107,6 +112,13 @@
     </x-sidebar-form>
     <!-- sidebar forms end  -->
 
+    <x-sidebar-form id="pay-data" title="Pay Data" :model="$model">
+        <x-input name="code" title="Code" :model="$model"></x-input>
+        <x-input name="agreement" title="Agreement" :model="$model"></x-input>
+        <x-input name="account_number" title="Account Number" :model="$model"></x-input>
+        <x-input name="recipient_bank" title="Recipient Bank" :model="$model"></x-input>
+        <x-input name="note_salary_pay" title="Notes For Salary payment" :model="$model"></x-input>
+    </x-sidebar-form>
 @endsection
 
 {{-- page scripts --}}

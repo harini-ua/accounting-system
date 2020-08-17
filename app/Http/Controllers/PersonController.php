@@ -7,6 +7,7 @@ use App\Enums\PersonContractType;
 use App\Enums\Position;
 use App\Enums\Currency;
 use App\Enums\SalaryType;
+use App\Http\Requests\PayDataRequest;
 use App\Http\Requests\Person\BackActiveRequest;
 use App\Http\Requests\Person\ChangeContractTypeRequest;
 use App\Http\Requests\Person\ChangeSalaryTypeRequest;
@@ -262,6 +263,21 @@ class PersonController extends Controller
 
         $person->quited_at = null;
         $person->quit_reason = null;
+        $person->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    /**
+     * @param PayDataRequest $request
+     * @param Person         $person
+     *
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     */
+    public function payData(PayDataRequest $request, Person $person)
+    {
+        $person->fill($request->all());
         $person->save();
 
         return response()->json(['success' => true]);

@@ -13,7 +13,7 @@ class PeopleSeeder extends Seeder
     public function run()
     {
         $recruiters = \App\User::where('position_id', Position::Recruiter())->get();
-        factory(\App\Models\Person::class, 50)
+        factory(\App\Models\Person::class, 100)
             ->create([
                 'user_id' => function (array $person) {
                     $userPositions = [

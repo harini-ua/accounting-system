@@ -1,5 +1,5 @@
 <div class="col s12 input-field">
-    <select name="{{ $name }}" {{ $disabled() }}>
+    <select @if($search)class="select2 browser-default"@endif name="{{ $name }}" {{ $disabled() }}>
         @if($isDefaultOption())
             <option class="first_default" value="">{{ $defaultOptionName }}</option>
         @endif
@@ -19,8 +19,8 @@
             @endforeach
         @endif
     </select>
+    @if($title)
     <label for="{{ $name }}">{{ $title }}</label>
-    @error($name)
-    <span class="helper-text">{{ $message }}</span>
-    @enderror
+    @endif
+    @error($name)<span class="errorTxt1"><div id="{{$name}}-error" class="error">{{ $message }}</div></span>@enderror
 </div>

@@ -2,8 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\InvoiceSaveStrategy;
-use App\Enums\InvoiceType;
+use App\Enums\InvoiceStatus;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -31,18 +30,14 @@ class InvoiceCreateRequest extends FormRequest
             'name' => 'required|string|max:100',
             'contract_id' => 'required|exists:App\Models\Contract,id',
             'account_id' => 'required|exists:App\Models\Account,id',
-            'sales_manager_id' => [
-                'required',
+            'sales_manager_id' => ['required',
                 Rule::exists('users', 'id')->where(static function ($query) {
                     $query->where('position_id', 5);
                 })
             ],
             'date' => 'required|date',
+            'status' => ['required', new EnumValue(InvoiceStatus::class)],
             'plan_income_date' => 'required|date',
-            'type' => [
-                'required',
-                Rule::in([InvoiceSaveStrategy::SAVE, InvoiceSaveStrategy::SEND, InvoiceSaveStrategy::DRAFT])
-            ],
             'discount' => 'numeric',
             'total' => 'numeric',
         ];
@@ -60,7 +55,9 @@ class InvoiceCreateRequest extends FormRequest
     public function messages()
     {
         $messages = [
-            //..
+            'contract_id.required' => 'The contract field is required.',
+            'account_id.required' => 'The account field is required.',
+            'sales_manager_id.required' => 'The sales manager field is required.',
         ];
 
         $itemMessages = (new InvoiceItemCreateRequest)->messages();

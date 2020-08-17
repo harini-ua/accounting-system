@@ -154,4 +154,5 @@ $(document).ready(function() {
         clearForm('long-vacation');
         clearForm('make-former');
     });
+    handleSidebar('pay-data');
 });

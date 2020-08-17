@@ -12,7 +12,6 @@ use Illuminate\Support\Carbon;
 
 class AccountController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *

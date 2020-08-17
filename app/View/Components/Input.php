@@ -46,4 +46,12 @@ class Input extends Component
     {
         return view('components.input');
     }
+
+    /**
+     * @return string
+     */
+    public function id(): string
+    {
+        return $this->name . '_' . spl_object_id($this);
+    }
 }

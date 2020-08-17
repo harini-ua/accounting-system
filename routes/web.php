@@ -108,7 +108,11 @@ Route::middleware(['auth'])->group(function() {
     Route::post('people/make-former/{person}', 'PersonController@makeFormer')->name('people.make-former');
     Route::post('people/long-vacation/{person}', 'PersonController@longVacation')->name('people.long-vacation');
     Route::post('people/back-to-active/{person}', 'PersonController@backToActive')->name('people.back-to-active');
+    Route::post('people/pay-data/{person}', 'PersonController@payData')->name('people.pay-data');
     Route::resource('people', 'PersonController');
+
+    // Certifications
+    Route::resource('certifications', 'CertificationController');
 
     // Calendar
     Route::get('/calendar', 'CalendarController@index')->name('calendar.index');

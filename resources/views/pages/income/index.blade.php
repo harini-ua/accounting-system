@@ -31,7 +31,6 @@
         <div class="filter-block">
             <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-table"/>
 
-
             <x-filter
                     table="incomes-table"
                     :options="$clients"
@@ -41,13 +40,11 @@
             />
         </div>
         <x-reset-filters/>
-
     </div>
 
     <x-totals :options="$accountTypes" relation="planningSum"/>
 
     <section class="list-wrapper section">
-
         <div class="page-layout">
             <div class="card">
                 <div class="card-content">
