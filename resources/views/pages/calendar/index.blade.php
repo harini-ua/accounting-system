@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title', "Calendar")
+@section('title', "Calendar " . $paginator->year())
 
 {{-- vendor styles --}}
 @section('vendor-style')
