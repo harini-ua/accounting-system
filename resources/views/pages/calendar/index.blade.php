@@ -110,7 +110,7 @@
 @section('page-script')
     <script>
         window.preState = {
-            months: @json($months),
+            months: {!! $months->toJson(JSON_NUMERIC_CHECK) !!},
             fetchMonths: '{{ route('calendar.months') }}',
         }
     </script>

@@ -82,6 +82,7 @@ class CalendarController extends Controller
         return CalendarMonth::select('calendar_months.*')
             ->join('calendar_years', 'calendar_years.id', '=', 'calendar_months.calendar_year_id')
             ->where('calendar_years.name', Carbon::now())
-            ->get();
+            ->get()
+            ->toJson(JSON_NUMERIC_CHECK);
     }
 }
