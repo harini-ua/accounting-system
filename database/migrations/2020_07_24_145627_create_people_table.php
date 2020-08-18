@@ -22,6 +22,7 @@ class CreatePeopleTable extends Migration
             $table->date('start_date');
             $table->text('skills')->nullable();
             $table->text('certifications')->nullable();
+            $table->decimal('available_vacations', 5, 2)->default(15);
             // Salary
             $table->decimal('salary', 9,2);
             $table->string('currency', 5)->default(\App\Enums\Currency::USD);

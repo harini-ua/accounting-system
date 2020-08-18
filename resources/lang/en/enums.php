@@ -55,4 +55,15 @@ return [
         \App\Enums\SalaryType::Fixed20 => 'Fixed 20 hours week',
         \App\Enums\SalaryType::Hourly => 'Hourly',
     ],
+
+    \App\Enums\VacationType::class => [
+        \App\Enums\VacationType::Planned => 'Planned vacation',
+        \App\Enums\VacationType::Actual => 'Actual vacation',
+        \App\Enums\VacationType::Sick => 'Sick leave',
+    ],
+
+    \App\Enums\VacationPaymentType::class => [
+        \App\Enums\VacationPaymentType::Paid => 'Paid',
+        \App\Enums\VacationPaymentType::Unpaid => 'Unpaid',
+    ],
 ];

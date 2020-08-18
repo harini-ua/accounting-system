@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Enums\Position;
+use Illuminate\Support\Carbon;
 
 class Person extends Model
 {
@@ -96,6 +97,14 @@ class Person extends Model
 
     protected static function booted()
     {
+        static::creating(function ($person) {
+            $startDate = Carbon::parse($person->start_date);
+            if (!$startDate->isCurrentYear()) {
+                $startCurrentYear = Carbon::now()->startOfYear();
+                $person->available_vacations = $startCurrentYear
+                    ->diffInMonths(Carbon::createFromDate($startCurrentYear->year, $startDate->month, $startDate->day))  * 1.25;
+            }
+        });
         static::saving(function ($person) {
             $person->rate = round($person->salary / 160, 2);
         });
@@ -129,5 +138,13 @@ class Person extends Model
     public function certifications()
     {
         return $this->hasMany(Certification::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function vacations()
+    {
+        return $this->hasMany(Vacation::class);
     }
 }

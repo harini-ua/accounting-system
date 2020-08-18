@@ -117,9 +117,9 @@ Route::middleware(['auth'])->group(function() {
     // Calendar
     Route::get('/calendar', 'CalendarController@index')->name('calendar.index');
     Route::get('/calendar/create', 'CalendarController@create')->name('calendar.create');
-    Route::delete('/calendar/{year}', 'CalendarController@destroy')->name('calendar.destroy');
+    Route::delete('/calendar/{year}', 'CalendarController@destroy')->name('calendar.destroy')->where('year', '[0-9]+');
     Route::put('/calendar/updateMonth/{calendarMonth}', 'CalendarController@updateMonth');
     Route::resource('holidays', 'HolidayController');
-    Route::get('/months', 'CalendarController@months')->name('calendar.months');
+    Route::get('/months/{year}', 'CalendarController@months')->name('calendar.months')->where('year', '[0-9]+');
 });
 
