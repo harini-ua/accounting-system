@@ -41,27 +41,13 @@
                                                   action="{{ route('wallets.store') }}">
                                                 @csrf
                                                 <div class="row">
-                                                    <div class="input-field col s12">
-                                                        <i class="material-icons prefix"> account_balance_wallet </i>
-                                                        <input id="name" name="name" type="text" class="validate"
-                                                               value="{{ old('name') }}">
-                                                        <label for="name">Wallet Name</label>
-                                                        @error('name')
-                                                        <span class="helper-text">{{ $message }}</span>
-                                                        @enderror
-                                                    </div>
-                                                    <div class="input-field col s12">
-                                                        <i class="material-icons prefix"> account_balance_wallet </i>
-                                                        <select id="wallet_type_id" name="wallet_type_id">
-                                                            @foreach ($walletTypes as $walletType)
-                                                                <option {{ old('wallet_type_id') == $walletType->id ? 'selected' : '' }}
-                                                                        value="{{ $walletType->id }}">
-                                                                    {{ $walletType->name }}
-                                                                </option>
-                                                            @endforeach
-                                                        </select>
-                                                        <label for="wallet_type_id">Wallet Type</label>
-                                                    </div>
+                                                    <x-input name="name" title="Wallet Name"></x-input>
+                                                    <x-select
+                                                        name="wallet_type_id"
+                                                        title="Wallet Type"
+                                                        :options="$walletTypes"
+                                                        firstTitle="Wallet Type"
+                                                    ></x-select>
                                                 </div>
                                             </form>
                                             <div class="card-action pl-0 pr-0 right-align">
