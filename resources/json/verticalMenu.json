@@ -107,6 +107,13 @@
             "slug": "calendar",
             "icon": "today",
             "i18n": "Calendar"
+        },
+        {
+            "url": "vacations",
+            "name": "Vacations",
+            "slug": "vacations",
+            "icon": "weekend",
+            "i18n": "Vacations"
         }
     ]
 }

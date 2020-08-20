@@ -114,5 +114,5 @@
             fetchMonths: '{{ route('calendar.months', $paginator->year()) }}',
         }
     </script>
-    <script src="{{asset('js/vue/app.js')}}"></script>
+    <script src="{{asset('js/vue/calendar.js')}}"></script>
 @endsection
