@@ -22,7 +22,14 @@
     <div id="vue-app" class="users-list-wrapper section">
         {{-- controls start --}}
         <div class="card-panel filter-panel accounts-page-card-panel">
-            Controls
+            <x-filter
+                table="vacations-table"
+                :options="$calendarYears"
+                url="{{ route('vacations.index') }}"
+                name="year_filter"
+                title="Filter by Year"
+                all="0"
+            />
         </div>
         {{-- controls end --}}
         {{-- content start --}}
@@ -52,4 +59,5 @@
 @section('page-script')
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
+    <script src="{{asset('js/scripts/filters.js')}}"></script>
 @endsection

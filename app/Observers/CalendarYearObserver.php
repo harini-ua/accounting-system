@@ -19,9 +19,9 @@ class CalendarYearObserver
      */
     public function creating(CalendarYear $calendarYear)
     {
-        if ($lastCalendarYear = CalendarYear::latest()->first()) {
-            $calendarYear->name = Carbon::createFromDate($lastCalendarYear->name)->addYear()->year;
-        }
+//        if ($lastCalendarYear = CalendarYear::latest()->first()) {
+//            $calendarYear->name = Carbon::createFromDate($lastCalendarYear->name)->addYear()->year;
+//        }
     }
 
     /**

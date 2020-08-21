@@ -7,7 +7,7 @@ $(document).ready(function () {
             this.filters = {};
         }
         get(name) {
-            return this.filters.find(filter => filter.name === name);
+            return this.filters[name];
         }
         set(name, filter) {
             if (filter) {
@@ -94,6 +94,18 @@ $(document).ready(function () {
                 });
             });
         });
+    });
+
+    $('#vacations-table').on('xhr.dt', function() {
+        $(this).find('thead th a[data-month-link]').attr('href', function(i, val) {
+            let year = filters.get('year_filter') || (new Date()).getFullYear();
+            return val.replace(/\/(\d+)\//, function() {
+                return '/' + year + '/';
+            });
+        });
+    });
+    $('#vacations-table').on('draw.dt', function() {
+        $(this).find('td span[data-color]').closest('td').attr('style', 'background-color: #f5f2ff !important;');
     });
 
 });

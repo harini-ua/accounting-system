@@ -84,20 +84,16 @@ class VacationsDataTable extends DataTable
             ->selectRaw("'".VacationPaymentType::Paid."' as payment")
             ->leftJoinSub($paidVacations, 'paid_vacations', function($join) {
                 $join->on('paid_vacations.person_id', '=', 'people.id');
-            })
-            ->when($this->request()->input('search.value'), function($query, $search) {
-                $query->where('people.name', 'like', "%$search%");
             });
+        $this->addFilterQuery($paidQuery);
 
         $unpaidQuery = $model->newQuery()
             ->select('people.*', 'unpaid_vacations.*')
             ->selectRaw("'".VacationPaymentType::Unpaid."' as payment")
             ->leftJoinSub($unpaidVacations, 'unpaid_vacations', function($join) {
                 $join->on('unpaid_vacations.person_id', '=', 'people.id');
-            })
-            ->when($this->request()->input('search.value'), function($query, $search) {
-                $query->where('people.name', 'like', "%$search%");
             });
+        $this->addFilterQuery($unpaidQuery);
 
         return $unpaidQuery
             ->unionAll($paidQuery)
@@ -114,7 +110,7 @@ class VacationsDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('vacations-table')
-            ->addTableClass('subscription-table responsive-table highlight striped')
+            ->addTableClass('subscription-table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
@@ -181,9 +177,12 @@ class VacationsDataTable extends DataTable
      */
     private function monthColumns()
     {
+        $year = $this->request()->input('year_filter') ?? Carbon::now()->year;
         $columns = [];
         foreach($this->period() as $month) {
-            $columns[] = Column::make(strtolower($month->monthName))->title($month->shortMonthName)->searchable(false);
+            $columns[] = Column::make(strtolower($month->monthName))
+                ->title("<a data-month-link href='".route('vacations.month', [$year, $month->month])."'>{$month->shortMonthName}</a>")
+                ->searchable(false);
         }
         return $columns;
     }
@@ -193,11 +192,38 @@ class VacationsDataTable extends DataTable
      */
     private function addMonthColumnsToDatatable($eloquent)
     {
+        $rawColumns = [];
         foreach($this->period() as $month) {
             $monthName = strtolower($month->monthName);
+            $rawColumns[] = $monthName;
             $eloquent->addColumn($monthName, function(Person $model) use ($monthName) {
-                return $model->$monthName ?? 0;
+                return $model->$monthName ?: '<span data-color="red"></span>';
             });
         }
+        $eloquent->rawColumns($rawColumns);
+    }
+
+    /**
+     * @param $query
+     */
+    private function addFilterQuery($query)
+    {
+        $query->when($this->request()->input('search.value'), function($query, $search) {
+                $query->where('people.name', 'like', "%$search%");
+            })
+            ->when($this->request()->input('year_filter'), function($query, $year) {
+                $query->whereYear('start_date', '<=', $year)
+                    ->where(function($query) use ($year) {
+                        $query->whereNull('quited_at')
+                            ->orWhereYear('quited_at', $year);
+                    });
+            }, function($query) {
+                $year = Carbon::now()->year;
+                $query->whereYear('start_date', '<=', $year)
+                    ->where(function($query) use ($year) {
+                        $query->whereNull('quited_at')
+                            ->orWhereYear('quited_at', $year);
+                    });
+            });
     }
 }

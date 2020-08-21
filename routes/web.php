@@ -124,5 +124,6 @@ Route::middleware(['auth'])->group(function() {
 
     // Vacations
     Route::get('/vacations', 'VacationController@index')->name('vacations.index');
+    Route::get('/vacations/{year}/{month}', 'VacationController@month')->name('vacations.month');
 });
 

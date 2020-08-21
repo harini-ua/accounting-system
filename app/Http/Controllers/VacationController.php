@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\VacationsDataTable;
+use App\Models\CalendarYear;
 use Illuminate\Http\Request;
 
 class VacationController extends Controller
@@ -15,6 +16,16 @@ class VacationController extends Controller
         ];
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        return $dataTable->render('pages.vacation.index', compact('breadcrumbs', 'pageConfigs'));
+        $calendarYears = CalendarYear::orderBy('name')->get()->map(function($calendarYear) {
+            $calendarYear->id = $calendarYear->name;
+            return $calendarYear;
+        });
+
+        return $dataTable->render('pages.vacation.index', compact('breadcrumbs', 'pageConfigs', 'calendarYears'));
+    }
+
+    public function month($year, $month)
+    {
+        dump($year, $month);
     }
 }
