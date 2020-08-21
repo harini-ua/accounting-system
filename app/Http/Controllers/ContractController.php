@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\ContractsDataTable;
 use App\DataTables\InvoicesByContractDataTable;
 use App\Enums\ContractStatus;
+use App\Enums\Position;
 use App\Http\Requests\ContractCreateRequest;
 use App\Http\Requests\ContractUpdateRequest;
 use App\Models\Client;
@@ -31,7 +32,7 @@ class ContractController extends Controller
 
         $clients = Client::all()->sortBy('name');
 
-        $salesManagers = User::byPosition(3)->get();
+        $salesManagers = User::byPosition(Position::SalesManager)->get();
 
         $status = ContractStatus::toCollection();
 
@@ -59,7 +60,7 @@ class ContractController extends Controller
             ->sortBy('name')
             ->pluck('name', 'id')->toArray();
 
-        $salesManagers = User::byPosition(3)->get()
+        $salesManagers = User::byPosition(Position::SalesManager)->get()
             ->pluck('name', 'id')->toArray();
 
         $status = ContractStatus::toSelectArray();
@@ -136,7 +137,7 @@ class ContractController extends Controller
             ->sortBy('name')
             ->pluck('name', 'id')->toArray();
 
-        $salesManagers = User::byPosition(3)->get()
+        $salesManagers = User::byPosition(Position::SalesManager)->get()
             ->pluck('name', 'id')->toArray();
 
         $status = ContractStatus::toSelectArray();

@@ -39,7 +39,7 @@
                                 <div class="col s12 m6 animate fadeRight">
                                     <div class="row">
                                         <x-date name="started_at" title="Start date" :model="$model"></x-date>
-                                        <x-input name="start_sum" title="Start sum" :model="$model"></x-input>
+                                        <x-input name="balance" title="Balance" :model="$model"></x-input>
                                         <div class="col s12 input-field">
                                             <div class="switch">
                                                 <label>

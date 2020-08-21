@@ -25,7 +25,7 @@ class AccountRequest extends FormRequest
     {
         return [
             'started_at' => 'required|date_format:d-m-Y',
-            'start_sum' => 'required|numeric',
+            'balance' => 'required|numeric',
             'status' => 'boolean',
         ];
     }
