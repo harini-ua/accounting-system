@@ -15,6 +15,16 @@ use Yajra\DataTables\Services\DataTable;
 
 class VacationsDataTable extends DataTable
 {
+    private $year;
+
+    /**
+     * VacationsDataTable constructor.
+     */
+    public function __construct()
+    {
+        $this->year = $this->request()->input('year_filter') ?? Carbon::now()->year;
+    }
+
     /**
      * Build DataTable class.
      *
@@ -158,7 +168,7 @@ class VacationsDataTable extends DataTable
      */
     private function period()
     {
-        return CarbonPeriod::create(Carbon::now()->startOfYear(), '1 month', Carbon::now()->endOfYear());
+        return CarbonPeriod::create(Carbon::createFromDate($this->year)->startOfYear(), '1 month', Carbon::createFromDate($this->year)->endOfYear());
     }
 
     /**
@@ -177,11 +187,10 @@ class VacationsDataTable extends DataTable
      */
     private function monthColumns()
     {
-        $year = $this->request()->input('year_filter') ?? Carbon::now()->year;
         $columns = [];
         foreach($this->period() as $month) {
             $columns[] = Column::make(strtolower($month->monthName))
-                ->title("<a data-month-link href='".route('vacations.month', [$year, $month->month])."'>{$month->shortMonthName}</a>")
+                ->title("<a data-month-link href='".route('vacations.month', [$this->year, $month->month])."'>{$month->shortMonthName}</a>")
                 ->searchable(false);
         }
         return $columns;
@@ -196,8 +205,28 @@ class VacationsDataTable extends DataTable
         foreach($this->period() as $month) {
             $monthName = strtolower($month->monthName);
             $rawColumns[] = $monthName;
-            $eloquent->addColumn($monthName, function(Person $model) use ($monthName) {
-                return $model->$monthName ?: '<span data-color="red"></span>';
+            $eloquent->addColumn($monthName, function(Person $model) use ($month, $monthName) {
+                if ($model->quited_at) {
+                    $quitedAt = Carbon::parse($model->quited_at);
+                    if ($month->year == $quitedAt->year && $month >= $quitedAt) {
+                        return '<span data-color="#eeeeee"></span>';
+                    }
+                }
+                if ($model->long_vacation_started_at) {
+                    $longVacationStartedAt = Carbon::parse($model->long_vacation_started_at);
+                    if (
+                        $month->year == $longVacationStartedAt->year
+                        && $month >= $longVacationStartedAt
+                        && $this->isLongVacationFinished($month, $model)
+                    ) {
+                        return '<span data-color="#e7feff"></span>';
+                    }
+                }
+                $startDate = Carbon::parse($model->start_date);
+                if ($month->year == $startDate->year && $month <= $startDate) {
+                    return '<span data-color="#f5f2ff"></span>';
+                }
+                return $model->$monthName ?: 0;
             });
         }
         $eloquent->rawColumns($rawColumns);
@@ -225,5 +254,20 @@ class VacationsDataTable extends DataTable
                             ->orWhereYear('quited_at', $year);
                     });
             });
+    }
+
+    /**
+     * @param $month
+     * @param $model
+     * @return bool
+     */
+    private function isLongVacationFinished($month, $model)
+    {
+        if ($model->long_vacation_finished_at) {
+            $longVacationFinishedAt = Carbon::parse($model->long_vacation_finished_at);
+            return $month->year == $longVacationFinishedAt->year && $month <= $longVacationFinishedAt;
+        }
+
+        return true;
     }
 }

@@ -105,7 +105,9 @@ $(document).ready(function () {
         });
     });
     $('#vacations-table').on('draw.dt', function() {
-        $(this).find('td span[data-color]').closest('td').attr('style', 'background-color: #f5f2ff !important;');
+        $(this).find('td span[data-color]').each(function() {
+            $(this).closest('td').attr('style', 'background-color: ' + $(this).attr('data-color') + ' !important;');
+        });
     });
 
 });
