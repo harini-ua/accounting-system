@@ -133,12 +133,11 @@ class ContractController extends Controller
 
         $contract->load('client');
 
-        $clients = Client::all()
-            ->sortBy('name')
+        $clients = Client::all()->sortBy('name')
             ->pluck('name', 'id')->toArray();
 
         $salesManagers = User::byPosition(Position::SalesManager)->get()
-            ->pluck('name', 'id')->toArray();
+            ->sortBy('name')->pluck('name', 'id')->toArray();
 
         $status = ContractStatus::toSelectArray();
 

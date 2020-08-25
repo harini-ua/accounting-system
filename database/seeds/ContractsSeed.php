@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Position;
 use Illuminate\Database\Seeder;
 
 class ContractsSeed extends Seeder
@@ -12,7 +13,7 @@ class ContractsSeed extends Seeder
      */
     public function run()
     {
-        $userIds = \App\User::where('position_id', 3)->pluck('id')->toArray();
+        $userIds = \App\User::where('position_id', Position::SalesManager)->pluck('id')->toArray();
 
         $clientIds = \App\Models\Client::all()->pluck('id');
         foreach ($clientIds as $clientId) {
