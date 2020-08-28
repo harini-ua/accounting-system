@@ -98,35 +98,36 @@
                             {{-- salary-changed-info end --}}
                         @endif
                         {{-- long-vacation-info start --}}
-                        <div class="long-vacation-info info-block mt-3{{ empty($person->long_vacation_started_at) && empty($person->long_vacation_finished_at) ? ' hide' : '' }}">
+                        @php($longVacation = $person->lastLongVacation())
+                        <div class="long-vacation-info info-block mt-3{{ empty($longVacation->long_vacation_started_at) && empty($longVacation->long_vacation_finished_at) ? ' hide' : '' }}">
                             <h6 class="card-title">{{ __('Long-term vacation') }}</h6>
                             <table class="responsive-table">
                                 <tbody>
-                                    <tr{{ empty($person->long_vacation_started_at) ? ' class=hide' : '' }}>
+                                    <tr{{ empty($longVacation->long_vacation_started_at) ? ' class=hide' : '' }}>
                                         <td>{{ __('Date of beginning') }}:</td>
-                                        <td data-name="long_vacation_started_at">{{ $person->long_vacation_started_at }}</td>
+                                        <td data-name="long_vacation_started_at">{{ $longVacation->long_vacation_started_at }}</td>
                                     </tr>
-                                    <tr{{ empty($person->long_vacation_reason) ? ' class=hide' : '' }}>
+                                    <tr{{ empty($longVacation->long_vacation_reason) ? ' class=hide' : '' }}>
                                         <td>{{ __('Reason') }}:</td>
-                                        <td data-name="long_vacation_reason">{{ $person->long_vacation_reason }}</td>
+                                        <td data-name="long_vacation_reason">{{ $longVacation->long_vacation_reason }}</td>
                                     </tr>
-                                    <tr{{ empty($person->long_vacation_comment) ? ' class=hide' : '' }}>
+                                    <tr{{ empty($longVacation->long_vacation_comment) ? ' class=hide' : '' }}>
                                         <td>{{ __('Comments') }}:</td>
-                                        <td data-name="long_vacation_comment">{{ $person->long_vacation_comment }}</td>
+                                        <td data-name="long_vacation_comment">{{ $longVacation->long_vacation_comment }}</td>
                                     </tr>
-                                    <tr{{ empty($person->long_vacation_compensation_sum) ? ' class=hide' : '' }}>
+                                    <tr{{ empty($longVacation->long_vacation_compensation_sum) ? ' class=hide' : '' }}>
                                         <td>{{ __('Compensation') }}:</td>
-                                        <td data-name="long_vacation_compensation_sum" data-currency="{{ $person->currency }}">
-                                            {{ \App\Services\Formatter::currency($person->long_vacation_compensation_sum, $symbol) }}
+                                        <td data-name="long_vacation_compensation_sum" data-currency="{{ $longVacation->currency }}">
+                                            {{ \App\Services\Formatter::currency($longVacation->long_vacation_compensation_sum, $symbol) }}
                                         </td>
                                     </tr>
-                                    <tr{{ empty($person->long_vacation_plan_finished_at) ? ' class=hide' : '' }}>
+                                    <tr{{ empty($longVacation->long_vacation_plan_finished_at) ? ' class=hide' : '' }}>
                                         <td>{{ __('Planning date of coming back to the office') }}:</td>
-                                        <td data-name="long_vacation_plan_finished_at">{{ $person->long_vacation_plan_finished_at }}</td>
+                                        <td data-name="long_vacation_plan_finished_at">{{ $longVacation->long_vacation_plan_finished_at }}</td>
                                     </tr>
-                                    <tr{{ empty($person->long_vacation_finished_at) ? ' class=hide' : '' }}>
+                                    <tr{{ empty($longVacation->long_vacation_finished_at) ? ' class=hide' : '' }}>
                                         <td>{{ __('Date of the work beginning') }}:</td>
-                                        <td data-name="long_vacation_finished_at">{{ $person->long_vacation_finished_at }}</td>
+                                        <td data-name="long_vacation_finished_at">{{ $longVacation->long_vacation_finished_at }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -153,91 +154,11 @@
                     </div>
                 </div>
             </div>
-            <!-- actions start  -->
-            <div class="col xl3 m4 s12">
-                <div class="card invoice-action-wrapper animate fadeRight">
-                    <div class="card-content">
-                        <div id="change-salary-type-button" class="invoice-action-btn">
-                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
-                                <span>Change salary type</span>
-                            </span>
-                        </div>
-                        <div id="change-contract-type-button" class="invoice-action-btn">
-                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
-                                <span>Change type of contract</span>
-                            </span>
-                        </div>
-                        <div id="make-former-button" class="invoice-action-btn">
-                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
-                                <span>Make former employee</span>
-                            </span>
-                        </div>
-                        <div id="long-vacation-button" class="invoice-action-btn">
-                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
-                                <span>Long-term vacation</span>
-                            </span>
-                        </div>
-                        <div id="back-to-active-button" class="invoice-action-btn{{ ! $person->long_vacation_started_at && ! $person->quited_at ? ' hide' : '' }}">
-                            <span class="btn-block btn btn-light-indigo waves-effect waves-light">
-                                <span>Back to active employee</span>
-                            </span>
-                        </div>
-                        <div class="invoice-action-btn">
-                            <a href="#" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
-                                <i class="material-icons mr-3">attach_money</i>
-                                <span>Final payslip</span>
-                            </a>
-                        </div>
-                        <div class="invoice-action-btn">
-                            <a href="{{ route('people.edit', $person) }}" class="btn waves-effect waves-light display-flex align-items-center justify-content-center">
-                                <i class="material-icons mr-3">edit</i>
-                                <span class="text-nowrap">Edit Person</span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- actions end  -->
+            @include('pages.person.partials._actions', ['model' => $person, 'isEdit' => false])
         </div>
     </section>
 
-    <!-- sidebar forms start  -->
-    <x-sidebar-form id="change-salary-type" title="Change salary type" :model="$person">
-        <x-date name="salary_type_changed_at" title="Date" :model="$person"></x-date>
-        <x-select name="salary_type" title="Salary type" :options="$salaryTypes" :model="$person"></x-select>
-    </x-sidebar-form>
-
-    <x-sidebar-form id="change-contract-type" title="Change type of contract" :model="$person">
-        <x-date name="contract_type_changed_at" title="Date" :model="$person"></x-date>
-        <x-select name="contract_type" title="Type og Contract" :options="$contractTypes" :model="$person"></x-select>
-    </x-sidebar-form>
-
-    <x-sidebar-form id="make-former" title="Make former employee" :model="$person">
-        <x-date name="quited_at" title="Date" :model="$person"></x-date>
-        <x-input name="quit_reason" title="Reason" :model="$person"></x-input>
-    </x-sidebar-form>
-
-    <x-sidebar-form id="long-vacation" title="Long-term vacation" :model="$person">
-        <x-date name="long_vacation_started_at" title="Date" :model="$person"></x-date>
-        <x-input name="long_vacation_reason" title="Reason" :model="$person"></x-input>
-        <x-input name="long_vacation_comment" title="Comments" :model="$person"></x-input>
-        <div class="col s12 mb-5">
-            <x-checkbox-input checkboxName="long_vacation_compensation" :model="$person">
-                <x-slot name="checkbox">
-                    <x-checkbox name="long_vacation_compensation" title="Compensation" :model="$person"></x-checkbox>
-                </x-slot>
-                <x-slot name="input">
-                    <x-input name="long_vacation_compensation_sum" title="Compensation sum" :model="$person"></x-input>
-                </x-slot>
-            </x-checkbox-input>
-        </div>
-        <x-date name="long_vacation_plan_finished_at" title="Planning date of coming back to the office" :model="$person"></x-date>
-    </x-sidebar-form>
-
-    <x-sidebar-form id="back-to-active" title="Back to active employee" :model="$person">
-        <x-date name="long_vacation_finished_at" title="Date of the work beginning" :model="$person"></x-date>
-    </x-sidebar-form>
-    <!-- sidebar forms end  -->
+    @include('pages.person.partials._sidebar-forms', ['model' => $person])
 
 @endsection
 

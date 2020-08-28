@@ -12,6 +12,6 @@ class CalendarSeeder extends Seeder
      */
     public function run()
     {
-        factory(CalendarYear::class)->create(['name' => 2019]);
+        factory(CalendarYear::class)->create();
     }
 }

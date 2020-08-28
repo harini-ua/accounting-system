@@ -20,36 +20,9 @@ class Person extends Model
         'contract_type_changed_at' => Date::class,
         'salary_type_changed_at' => Date::class,
         'salary_changed_at' => Date::class,
-        'long_vacation_started_at' => Date::class,
-        'long_vacation_plan_finished_at' => Date::class,
-        'long_vacation_finished_at' => Date::class,
         'quited_at' => Date::class,
     ];
 
-    /**
-     * @var mixed|null
-     */
-    private $long_vacation_started_at;
-    /**
-     * @var mixed|null
-     */
-    private $long_vacation_reason;
-    /**
-     * @var mixed|null
-     */
-    private $long_vacation_compensation;
-    /**
-     * @var mixed|null
-     */
-    private $long_vacation_comment;
-    /**
-     * @var mixed|null
-     */
-    private $long_vacation_plan_finished_at;
-    /**
-     * @var mixed|null
-     */
-    private $long_vacation_finished_at;
     /**
      * @var int|mixed
      */
@@ -79,10 +52,6 @@ class Person extends Model
      */
     private $bonuses_reward;
     /**
-     * @var mixed|null
-     */
-    private $long_vacation_compensation_sum;
-    /**
      * @var mixed
      */
     private $currency;
@@ -109,6 +78,12 @@ class Person extends Model
             $person->rate = round($person->salary / 160, 2);
         });
     }
+
+    /*
+     * ***********************************
+     * Relations
+     * ***********************************
+     */
 
     /**
      * Get the user that owns the person.
@@ -147,4 +122,46 @@ class Person extends Model
     {
         return $this->hasMany(Vacation::class);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function longVacations()
+    {
+        return $this->hasMany(LongVacation::class);
+    }
+
+    public function latestVacations()
+    {
+        return $this->longVacations()
+            ->whereNull('long_vacation_finished_at')
+            ->latest();
+    }
+
+    /*
+     * ***********************************
+     * Methods
+     * ***********************************
+     */
+
+    /**
+     * @return Model|\Illuminate\Database\Eloquent\Relations\HasMany|object|null
+     */
+    public function lastLongVacation()
+    {
+        if (!array_key_exists('latestVacations', $this->relations)) {
+            $this->load('latestVacations');
+        }
+        return $this->latestVacations->first();
+    }
+
+    /**
+     * @param array $attributes
+     * @return Model
+     */
+    public function lastLongVacationOrNew(array $attributes)
+    {
+        return $this->latestVacations()->firstOrNew($attributes);
+    }
+
 }
