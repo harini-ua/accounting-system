@@ -126,7 +126,19 @@ class VacationsDataTable extends DataTable
             ->dom('Bfrtip')
             ->language([ 'processing' => view('partials.preloader-circular')->render() ])
             ->pageLength(20)
-            ->ordering(false);
+            ->ordering(false)
+            ->drawCallback("function() {
+                $(this).find('thead th a[data-month-link]').attr('href', function(i, val) {
+                    let year = window.filters.get('year_filter') || (new Date()).getFullYear();
+                    return val.replace(/\/(\d+)\//, function() {
+                        return '/' + year + '/';
+                    });
+                });
+                $(this).find('td span[data-color]').each(function() {
+                    $(this).closest('td').attr('style', 'background-color: ' + $(this).attr('data-color') + ' !important;');
+                });
+            }")
+            ;
     }
 
     /**

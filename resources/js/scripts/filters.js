@@ -1,33 +1,5 @@
 $(document).ready(function () {
 
-    // Custom Filters
-    class Filters
-    {
-        constructor() {
-            this.filters = {};
-        }
-        get(name) {
-            return this.filters[name];
-        }
-        set(name, filter) {
-            if (filter) {
-                this.filters = Object.assign({}, this.filters, {
-                    [name]: filter,
-                })
-            } else {
-                delete(this.filters[name]);
-            }
-        }
-        url(route) {
-            const url = new URL(route);
-            for (let name in this.filters) {
-                url.searchParams.set(name, this.filters[name]);
-            }
-            return url.href;
-        }
-    }
-    const filters = new Filters();
-
     // Filters
     const filterButtons = $(".filter-btn");
     filterButtons.each(i => {
@@ -93,20 +65,6 @@ $(document).ready(function () {
                     content.append(element);
                 });
             });
-        });
-    });
-
-    $('#vacations-table').on('xhr.dt', function() {
-        $(this).find('thead th a[data-month-link]').attr('href', function(i, val) {
-            let year = filters.get('year_filter') || (new Date()).getFullYear();
-            return val.replace(/\/(\d+)\//, function() {
-                return '/' + year + '/';
-            });
-        });
-    });
-    $('#vacations-table').on('draw.dt', function() {
-        $(this).find('td span[data-color]').each(function() {
-            $(this).closest('td').attr('style', 'background-color: ' + $(this).attr('data-color') + ' !important;');
         });
     });
 
