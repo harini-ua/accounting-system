@@ -27,58 +27,68 @@
 
     <!-- Sidebar Area Starts -->
     <section class="users-list-wrapper section animate fadeLeft">
-        <div class="page-layout">
-            <div class="card">
-                <div class="card-content">
-                    <div class="sidebar-left sidebar-fixed">
-                        <div class="sidebar">
-                            <div class="sidebar-content">
-                                <div class="sidebar-header">
-                                    <div class="sidebar-details">
-                                        <div class="mt-10 pt-2">
-                                            <!-- form start -->
-                                            <form id="add-wallet-form" class="edit-contact-item mb-5 mt-5" method="POST"
-                                                  action="{{ route('wallets.store') }}">
-                                                @csrf
-                                                <div class="row">
-                                                    <x-input name="name" title="Wallet Name"></x-input>
-                                                    <x-select
-                                                        name="wallet_type_id"
-                                                        title="Wallet Type"
-                                                        :options="$walletTypes"
-                                                        firstTitle="Wallet Type"
-                                                    ></x-select>
-                                                </div>
-                                            </form>
-                                            <div class="card-action pl-0 pr-0 right-align">
-                                                <button class="btn-small waves-effect waves-light add-wallet">
-                                                    <span>Add Wallet</span>
-                                                </button>
-                                            </div>
-                                            <!-- form start end-->
-                                        </div>
-                                    </div>
+        {{--<div class="page-layout">--}}
+        <div class="card slide-down-block">
+            <div class="card-content">
+                <div>
+                    <!-- form start -->
+                    <form id="add-wallet-form"
+                        class="handle-submit-form edit-contact-item"
+                        method="POST"
+                        action="{{ route('wallets.store') }}"
+                    >
+                        @csrf
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <div class="input-field col s12">
+                                    <input id="name" name="name" type="text" class="validate">
+                                    <label for="name">Name</label>
+                                    <span class="error-span"></span>
                                 </div>
                             </div>
+                            <div class="col s12 m6">
+                                <x-select
+                                        name="wallet_type_id"
+                                        title="Wallet Type"
+                                        :options="$walletTypes"
+                                        firstTitle="Wallet Type"
+                                ></x-select>
+                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Sidebar Area Ends -->
+                        <div class="pl-0 pr-0 right-align">
+                            <a href="#" class=" mr-1 btn waves-effect chanel-btn slide-up-btn">Cancel</a>
+                            <button type="submit" class="btn waves-effect waves-light">
+                                <span>Add Wallet</span>
+                            </button>
+                        </div>
+                    </form>
 
-            <!-- Content Area Starts -->
-            <div class="table-wrapper users-list-table animate fadeRight">
-                <div class="card">
-                    <div class="card-content">
-                        <!-- datatable start -->
-                        <div class="responsive-table">
-                            {{ $dataTable->table() }}
-                        </div>
-                        <!-- datatable ends -->
-                    </div>
+                    <!-- form start end-->
                 </div>
             </div>
         </div>
+        <!-- Sidebar Area Ends -->
+
+        <!-- Content Area Starts -->
+        <div class="create-btn add-item-btn slide-down-btn">
+            <a href="#" class="waves-effect waves-light btn slide-down-btn">
+                <i class="material-icons">add</i>
+                <span class="hide-on-small-only">Add</span>
+            </a>
+        </div>
+        <div class="users-list-table animate fadeRight">
+
+            <div class="card">
+                <div class="card-content">
+                    <!-- datatable start -->
+                    <div class="responsive-table">
+                        {{ $dataTable->table() }}
+                    </div>
+                    <!-- datatable ends -->
+                </div>
+            </div>
+        </div>
+        {{--</div>--}}
     </section>
 
     <!-- Content Area Ends -->

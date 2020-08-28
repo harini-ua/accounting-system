@@ -11,8 +11,10 @@ $(document).ready(function() {
         });
         sidebar.find('button').click(function(e) {
             const form = document.forms[id];
-            const formData = new FormData(form);
-            $.ajax({
+          console.log(form);
+          const formData = new FormData(form);
+          console.log(new FormData(form));
+          $.ajax({
                 url: form.getAttribute('action'),
                 type: "POST",
                 processData: false,

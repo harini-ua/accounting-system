@@ -78,8 +78,9 @@
             @endif
         </div>
         <div class="col s12 display-flex justify-content-end mt-3">
-            <button type="submit" class="btn indigo mr-1">Save changes</button>
-            <a href="{{ route('people.index') }}" class="btn btn-light">Cancel</a>
+            <a href="{{ route('people.index') }}" class="btn chanel-btn mr-1">Cancel</a>
+
+            <button type="submit" class="btn waves-light waves-effect">Save changes</button>
         </div>
     </div>
 </form>
