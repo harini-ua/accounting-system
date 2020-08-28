@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Enums\Position;
 
 class UsersSeeder extends Seeder
 {
@@ -15,7 +16,13 @@ class UsersSeeder extends Seeder
             'name' => 'Super Admin',
             'email' => 'admin@admin.com',
             'password' => bcrypt('123calculator123'),
-            'position_id' => 1,
+            'position_id' => Position::CEO,
+        ]);
+        \App\User::create([
+            'name' => 'Client',
+            'email' => 'client@dreamdev.solutions',
+            'password' => bcrypt('12344321'),
+            'position_id' => Position::SysAdmin,
         ]);
         if (app()->isLocal()) {
             $positions = \App\Models\Position::all();
