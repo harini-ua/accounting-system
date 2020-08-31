@@ -112,7 +112,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('people', 'PersonController');
 
     // Certifications
-    Route::resource('certifications', 'CertificationController');
+    Route::resource('certifications', 'CertificationController')->except(['show']);
 
     // Calendar
     Route::get('/calendar', 'CalendarController@index')->name('calendar.index');
@@ -121,5 +121,9 @@ Route::middleware(['auth'])->group(function() {
     Route::put('/calendar/updateMonth/{calendarMonth}', 'CalendarController@updateMonth');
     Route::resource('holidays', 'HolidayController');
     Route::get('/months', 'CalendarController@months')->name('calendar.months');
+
+    // Bonuses
+    Route::resource('bonuses', 'BonusController');
+    Route::get('/bonuses/person/{person}', 'BonusController@show')->name('bonuses.show');
 });
 

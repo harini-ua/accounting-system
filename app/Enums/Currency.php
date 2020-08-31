@@ -29,6 +29,8 @@ final class Currency extends Enum implements LocalizedEnum
     ];
 
     /**
+     * Get currency symbol by currency code
+     *
      * @param $value
      * @return string
      */

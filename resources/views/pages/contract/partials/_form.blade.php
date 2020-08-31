@@ -1,4 +1,4 @@
-<form id="contracts" method="POST" action="{{ isset($contract) ? route('contracts.update', $contract) : route('contracts.store') }}">
+<form id="contracts" class="{{ isset($contract) ? 'update' : 'create' }}" method="POST" action="{{ isset($contract) ? route('contracts.update', $contract) : route('contracts.store') }}">
     @if(isset($contract)) @method('PUT') @endif
     @csrf
     <div class="row">

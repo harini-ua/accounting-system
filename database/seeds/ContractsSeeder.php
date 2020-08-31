@@ -3,7 +3,7 @@
 use App\Enums\Position;
 use Illuminate\Database\Seeder;
 
-class ContractsSeed extends Seeder
+class ContractsSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -13,7 +13,7 @@ class ContractsSeed extends Seeder
      */
     public function run()
     {
-        $userIds = \App\User::where('position_id', Position::SalesManager)->pluck('id')->toArray();
+        $userIds = \App\Models\Person::where('position_id', Position::SalesManager)->pluck('id')->toArray();
 
         $clientIds = \App\Models\Client::all()->pluck('id');
         foreach ($clientIds as $clientId) {

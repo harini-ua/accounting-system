@@ -107,6 +107,13 @@
             "slug": "calendar",
             "icon": "today",
             "i18n": "Calendar"
+        },
+        {
+            "url": "bonuses",
+            "name": "Bonuses",
+            "slug": "bonuses",
+            "icon": "monetization_on",
+            "i18n": "monetization_on"
         }
     ]
 }

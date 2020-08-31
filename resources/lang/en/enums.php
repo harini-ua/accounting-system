@@ -1,6 +1,11 @@
 <?php
 
 return [
+    \App\Enums\BonusType::class => [
+        \App\Enums\BonusType::FIXED => 'Fixed',
+        \App\Enums\BonusType::PERCENT => 'Percent',
+    ],
+
     \App\Enums\ContractStatus::class => [
         \App\Enums\ContractStatus::OPENED => 'Opened',
         \App\Enums\ContractStatus::CLOSED => 'Closed',
