@@ -36,8 +36,8 @@
     </div>
     <div class="row">
         <div class="col s12 display-flex justify-content-end mt-3">
-            <button type="submit" class="btn indigo mr-3">{{ isset($client) ? __('Update') : __('Save') }}</button>
-            <a href="{{ url()->previous() }}" class="btn btn-light">{{ __('Cancel') }}</a>
+            <a href="{{ url()->previous() }}" class="btn btn-light mr-3">{{ __('Cancel') }}</a>
+            <button type="submit" class="btn waves-effect waves-light">{{ isset($client) ? __('Update') : __('Save') }}</button>
         </div>
     </div>
 </form>

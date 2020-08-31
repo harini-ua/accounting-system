@@ -9,6 +9,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" type="text/css"
           href="{{asset('vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2-materialize.css')}}">
 @endsection
 
 
@@ -22,17 +24,24 @@
 @section('content')
     <!-- contract list start -->
     <section class="contracts-list-wrapper users-list-wrapper section">
-        <div class="create-btn invoice-create-btn">
-            <a href="{{ route('contracts.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
+
+        <div class="card slide-down-block">
+            <div class="card-content">
+                @include('pages.contract.partials._form')
+            </div>
+        </div>
+
+        <div class="create-btn add-item-btn slide-down-btn">
+            <a href="#" class="waves-effect waves-light btn">
                 <i class="material-icons">add</i>
-                <span class="hide-on-small-only">{{ __('Add Contract') }}</span>
+                <span class="hide-on-small-only">Add</span>
             </a>
         </div>
         <div class="card-panel filter-panel accounts-page-card-panel">
             <div class="filter-block flex-wrap-important">
                 <x-filter
                         table="contracts-list-datatable"
-                        :options="$status"
+                        :options="$statusToCollection"
                         url="{{ route('contracts.index') }}"
                         name="status_filter"
                         title="By Status"
@@ -40,14 +49,14 @@
                 />
                 <x-filter
                         table="contracts-list-datatable"
-                        :options="$clients"
+                        :options="$clientsToCollection"
                         url="{{ route('contracts.index') }}"
                         name="client_filter"
                         title="By Client"
                 />
                 <x-filter
                         table="contracts-list-datatable"
-                        :options="$salesManagers"
+                        :options="$salesManagersToCollection"
                         url="{{ route('contracts.index') }}"
                         name="sales_managers_filter"
                         title="By Sales Manager"
@@ -74,6 +83,8 @@
     <script src="{{asset('vendors/data-tables/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/js/datatables.checkboxes.min.js')}}"></script>
+    <script src="{{asset('js/scripts/form-select2.js')}}"></script>
+    <script src="{{asset('vendors/select2/select2.full.min.js')}}"></script>
 @endsection
 
 {{-- page script --}}

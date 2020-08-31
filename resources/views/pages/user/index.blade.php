@@ -17,11 +17,54 @@
 @endsection
 
 {{-- page content --}}
+
+
 @section('content')
     <!-- users list start -->
     <section class="users-list-wrapper section animate fadeUp">
-        <div class="create-btn add-item-btn">
-            <a href="{{ route('users.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
+        <div class="card slide-down-block">
+            <div class="card-content">
+
+                <div>
+                    <!-- form start -->
+                    <form class="handle-submit-form" id="accountForm" name="user-form" method="POST"
+                          action="{{ route('users.store') }}" data-created-item="user">
+                        @csrf
+                        <div class="row">
+                            <div class="col s12 m6">
+                                <div class="row">
+                                    <x-input name="name" title="Name"></x-input>
+                                    <x-input name="email" title="E-mail"></x-input>
+                                </div>
+                            </div>
+                            <div class="col s12 m6">
+                                <div class="row">
+                                    <div class="col s12 input-field">
+                                        <input id="password" name="password" type="password" class="validate" value="{{ old('password') }}"
+                                               data-error=".errorTxt1">
+                                        <label for="password">Password</label>
+                                        <span class="error-span"></span>
+                                    </div>
+                                    <x-select
+                                            name="position_id"
+                                            title="Position"
+                                            :options="$positions"
+                                    ></x-select>
+                                </div>
+                            </div>
+                            <div class="col s12 display-flex justify-content-end mt-3">
+                                <button type="button" class="btn btn-light mr-1 chanel-btn slide-up-btn">Cancel</button>
+                                <button type="submit" class="btn waves-effect waves-light">
+                                    Save changes</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!-- form start end-->
+                </div>
+            </div>
+        </div>
+        <div class="create-btn add-item-btn slide-down-btn">
+            <a href="#" class="waves-effect waves-light btn">
                 <i class="material-icons">add</i>
                 <span class="hide-on-small-only">Add</span>
             </a>

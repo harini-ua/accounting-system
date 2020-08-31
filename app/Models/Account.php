@@ -16,7 +16,7 @@ class Account extends Model
     /**
      * @var string[]
      */
-    protected $fillable = ['account_type_id', 'wallet_id', 'started_at', 'start_sum', 'status'];
+    protected $fillable = ['account_type_id', 'wallet_id', 'started_at', 'balance', 'status'];
     /**
      * @var string[]
      */

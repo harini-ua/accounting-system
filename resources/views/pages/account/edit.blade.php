@@ -39,7 +39,7 @@
                                 <div class="col s12 m6 animate fadeRight">
                                     <div class="row">
                                         <x-date name="started_at" title="Start date" :model="$model"></x-date>
-                                        <x-input name="start_sum" title="Start sum" :model="$model"></x-input>
+                                        <x-input name="balance" title="Balance" :model="$model"></x-input>
                                         <div class="col s12 input-field">
                                             <div class="switch">
                                                 <label>
@@ -56,9 +56,10 @@
                                     </div>
                                 </div>
                                 <div class="col s12 display-flex justify-content-end mt-3">
-                                    <button type="submit" class="btn indigo mr-1">
+                                    <a href="{{ route('accounts.index') }}" class="btn btn-light chanel-btn mr-1">Cancel</a>
+
+                                    <button type="submit" class="btn waves-effect waves-light">
                                         Save changes</button>
-                                    <a href="{{ route('accounts.index') }}" class="btn btn-light">Cancel</a>
                                 </div>
                             </div>
                         </form>

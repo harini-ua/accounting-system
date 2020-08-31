@@ -1,4 +1,4 @@
-<div class="s12 input-field">
+<div class="col s12 input-field">
     <select id="{{ $firstName }}" name="{{ $firstName }}" data-placeholder="{{ __('- Select '.$firstTitle.' -') }}" class="select2 browser-default linked" data-url="{{ $url }}">
         @if(count($options))
             <option class="first_default">{{ __('- Select '.$firstTitle.' -') }}</option>
@@ -21,7 +21,7 @@
     </select>
 </div>
 
-<div class="s12 input-field">
+<div class="col s12 input-field">
     <select id="{{ $secondName }}" name="{{ $secondName }}" data-placeholder="{{ __('- Select '.$secondTitle.' -') }}" class="select2 browser-default" data-linked="{{ $firstName }}">
         @if($model)
             @php $accounts = $options->find($model->account->wallet_id)->accounts; @endphp

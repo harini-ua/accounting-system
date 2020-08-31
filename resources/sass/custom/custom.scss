@@ -14,7 +14,79 @@ body {
 }
 
 #main {
-  min-height: calc(100vh - 116px);
+  min-height: calc(100vh - 65px);
+  margin-top: -50px;
+  @media screen and (max-width: 995px) {
+    margin-top: 0;
+
+  }
+}
+
+.chip {
+  background-color: transparent !important;
+}
+
+.input-field {
+  position: relative;
+  min-height: 50px!important;
+}
+.error-span {
+  font-size: 10px;
+  color: red;
+  position: absolute;
+  left: 1rem;
+  bottom: -10px;
+
+}
+label {
+  left: 1rem!important;
+  pointer-events: none;
+}
+.with-clear-left {
+  .col {
+    &:nth-child(3n) {
+      clear: left;
+    }
+  }
+}
+
+.select-wrapper {
+  .dropdown-content {
+    li {
+      span, a {
+        color: #6B6F82;
+        &:hover {
+          color: #ff4081;
+        }
+
+      }
+    }
+  }
+}
+
+.select2-results__options {
+  background-color: #fff;
+  li {
+    color: #6B6F82!important;
+    background-color: #fff !important;
+    &:hover {
+      color: #ff4081!important;
+      background-color: rgba(0, 0, 0, 0.08)!important;
+    }
+    &[aria-selected=true] {
+      background-color: rgba(0, 0, 0, 0.03)!important;
+    }
+  }
+}
+
+
+
+#breadcrumbs-wrapper {
+  position: relative;
+  z-index: 997;
+  @media screen and (max-width: 995px) {
+    z-index: 1;
+  }
 }
 
 @media screen and (max-width: 768px) {
@@ -199,6 +271,7 @@ table.dataTable thead .sorting_desc {
 .dataTables_scrollBody {
   table {
     width: 100% !important;
+    min-height: calc(100vh - 100px);
   }
 }
 
@@ -206,14 +279,58 @@ table.dataTable thead .sorting_desc {
   position: absolute;
   top: -30px;
   right: 0;
+  z-index: 998;
   .btn {
     display: flex;
     align-items: center;
+    z-index: 998;
   }
+}
+
+.select-wrapper {
+  ul {
+    max-height: 150px;
+    overflow: auto;
+  }
+}
+
+.btn {
+  font-weight: 600;
+}
+
+.users-list-table {
+
+}
+
+table {
+  width: 100% !important;
+  min-height: calc(100vh - 100px);
+  @media screen and (max-width: 1000px) {
+    min-height: 0;
+  }
+}
+
+.chanel-btn {
+  background-color: transparent !important;
+  color: #FF4181;
+  border: solid 3px #FF4181;
+  border-radius: 3px;
+  &:hover {
+    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+  }
+}
+
+.slide-down-block {
+  display: none;
 }
 
 .section {
   position: relative;
+  z-index: 999;
+  @media screen and (max-width: 995px) {
+    z-index: 1;
+
+  }
 }
 
 .page-layout {
