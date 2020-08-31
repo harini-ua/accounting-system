@@ -9,7 +9,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2-materialize.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/jquery.dataTables.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
+    <link rel="stylesheet" type="text/css"
+          href="{{asset('vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/dataTables.checkboxes.css')}}">
 @endsection
 
@@ -45,62 +46,49 @@
     <x-totals :options="$accountTypes" relation="planningSum"/>
 
     <section class="list-wrapper section">
-        <div class="page-layout">
+        <div class="card slide-down-block">
+            <div class="card-content">
+                <!-- form start -->
+                <form class=" handle-submit-form edit-contact-item mb-5 mt-5" method="POST"
+                      data-created-item="income"
+                      action="{{ route('incomes.store') }}">
+                    @csrf
+                    <div class="row">
+                        <x-linked-selects
+                                firstName="client_id"
+                                firstTitle="Client"
+                                secondName="contract_id"
+                                secondTitle="Contract"
+                                dataUrl="/clients/[id]/contracts"
+                                view="components.linked-selects.clients-contracts"
+                                :options="$clients"
+                        />
+                        <x-linked-selects
+                                firstName="wallet_id"
+                                firstTitle="Wallet"
+                                secondName="account_id"
+                                secondTitle="Account"
+                                dataUrl="/wallets/[id]/accounts"
+                                view="components.linked-selects.wallets-accounts"
+                                :options="$wallets"
+                        />
+                        <x-date name="plan_date" title="Planning Date"></x-date>
+                        <x-input name="plan_sum" title="Planning Sum"></x-input>
+                    </div>
+                    <div class="card-action pl-0 pr-0 right-align">
+                        <button class="btn-small waves-effect waves-light">
+                            <span>Add Income</span>
+                        </button>
+                    </div>
+                </form>
+                <!-- form start end-->
+            </div>
+        </div>
+        <div class="users-list-table">
             <div class="card">
                 <div class="card-content">
-                    <div class="sidebar-left sidebar-fixed">
-                        <div class="sidebar">
-                            <div class="sidebar-content">
-                                <div class="sidebar-header">
-                                    <div class="sidebar-details">
-                                        <div class="mt-10 pt-2">
-                                            <!-- form start -->
-                                            <form class="edit-contact-item mb-5 mt-5" method="POST"
-                                                  action="{{ route('incomes.store') }}">
-                                                @csrf
-                                                <div class="row">
-                                                    <x-linked-selects
-                                                            firstName="client_id"
-                                                            firstTitle="Client"
-                                                            secondName="contract_id"
-                                                            secondTitle="Contract"
-                                                            dataUrl="/clients/[id]/contracts"
-                                                            view="components.linked-selects.clients-contracts"
-                                                            :options="$clients"
-                                                    />
-                                                    <x-linked-selects
-                                                            firstName="wallet_id"
-                                                            firstTitle="Wallet"
-                                                            secondName="account_id"
-                                                            secondTitle="Account"
-                                                            dataUrl="/wallets/[id]/accounts"
-                                                            view="components.linked-selects.wallets-accounts"
-                                                            :options="$wallets"
-                                                    />
-                                                    <x-date name="plan_date" title="Planning Date"></x-date>
-                                                    <x-input name="plan_sum" title="Planning Sum"></x-input>
-                                                </div>
-                                                <div class="card-action pl-0 pr-0 right-align">
-                                                    <button class="btn-small waves-effect waves-light">
-                                                        <span>Add Income</span>
-                                                    </button>
-                                                </div>
-                                            </form>
-                                            <!-- form start end-->
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="users-list-table">
-                <div class="card">
-                    <div class="card-content">
-                        <div class="responsive-table">
-                            {{ $dataTable->table() }}
-                        </div>
+                    <div class="responsive-table">
+                        {{ $dataTable->table() }}
                     </div>
                 </div>
             </div>

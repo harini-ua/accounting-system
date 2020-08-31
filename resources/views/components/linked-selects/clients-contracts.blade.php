@@ -1,4 +1,4 @@
-<div class="s12 input-field">
+<div class="col s12 input-field">
     <select id="{{ $firstName }}" name="{{ $firstName }}" data-placeholder="{{ __('- Select '.$firstTitle.' -') }}" class="select2 browser-default linked" data-url="{{ $url }}">
         @if(count($options))
             <option class="first_default">{{ __('- Select '.$firstTitle.' -') }}</option>

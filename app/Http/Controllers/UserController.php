@@ -26,8 +26,13 @@ class UserController extends Controller
         ];
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+        $positions = Position::all();
 
-        return $dataTable->render('pages.user.index', ['pageConfigs' => $pageConfigs], ['breadcrumbs' => $breadcrumbs]);
+        return $dataTable->render('pages.user.index', [
+            'pageConfigs' => $pageConfigs,
+            'breadcrumbs' => $breadcrumbs,
+            'positions' => $positions,
+        ]);
     }
 
     /**
@@ -70,7 +75,7 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -130,9 +135,9 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if ($user->delete()) {
-            return response()->json(['success'=>true]);
+            return response()->json(['success' => true]);
         }
-        return response()->json(['success'=>false]);
+        return response()->json(['success' => false]);
     }
 
     /**

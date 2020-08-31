@@ -44,24 +44,23 @@
                 </div>
             </div>
         </div>
-
-        <div class="row">
-            <div class="col s12 m3 l3">
-                <div class="card">
-                    <div class="card-content">
-                        <h6>{{ __('Create Certification') }}</h6>
-                        @include('pages.certifications.partials._form')
-                    </div>
-                </div>
+        <div class="card slide-down-block">
+            <div class="card-content">
+                @include('pages.certifications.partials._form')
             </div>
-            <div class="col s12 m9 l9">
-                <div class="users-list-table">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="responsive-table">
-                                {{ $dataTable->table() }}
-                            </div>
-                        </div>
+        </div>
+        <div class="create-btn add-item-btn slide-down-btn">
+            <a href="#" class="waves-effect waves-light btn">
+                <i class="material-icons">add</i>
+                <span class="hide-on-small-only">Add</span>
+            </a>
+        </div>
+        <div class="users-list-table">
+
+            <div class="card">
+                <div class="card-content">
+                    <div class="responsive-table">
+                        {{ $dataTable->table() }}
                     </div>
                 </div>
             </div>
