@@ -8,6 +8,8 @@ use App\Enums\Position;
 use App\Enums\SalaryType;
 use App\Models\Person;
 use App\Services\Formatter;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -86,7 +88,7 @@ class PersonDataTable extends DataTable
 
             // other
             ->setRowClass(function (Person $model) {
-                if ($model->long_vacation_started_at) {
+                if ($model->long_vacation) {
                     return 'red lighten-5 red-text red-link font-weight-700';
                 }
                 return '';
@@ -99,15 +101,29 @@ class PersonDataTable extends DataTable
     /**
      * Get query source of dataTable.
      *
-     * @param \App\Person $model
+     * @param Person $model
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Person $model)
     {
-        return $model
+        $longVacations = DB::table('long_vacations')
+            ->select('person_id')
+            ->selectRaw('1 as long_vacation')
+            ->where('long_vacations.long_vacation_started_at', '<=', Carbon::now())
+            ->where(function($query) {
+                $query->where('long_vacations.long_vacation_finished_at', '>=', Carbon::now())
+                    ->orWhereNull('long_vacations.long_vacation_finished_at');
+            })
+            ->groupBy('person_id');
+
+
+        return $model->newQuery()
+            ->select('people.*', 'current_long_vacations.long_vacation')
+            ->leftJoinSub($longVacations, 'current_long_vacations', function($join) {
+                $join->on('current_long_vacations.person_id', '=', 'people.id');
+            })
             ->whereNull('quited_at')
-            ->orderBy('long_vacation_started_at')
-            ->newQuery();
+            ->orderBy('current_long_vacations.long_vacation');
     }
 
     /**
@@ -124,8 +140,7 @@ class PersonDataTable extends DataTable
                     ->minifiedAjax()
                     ->dom('Bfrtip')
                     ->language([ 'processing' => view('partials.preloader-circular')->render() ])
-                    ->orderBy(0, 'desc')
-       ;
+                    ->orderBy(0, 'desc');
     }
 
     /**

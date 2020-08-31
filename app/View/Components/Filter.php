@@ -12,6 +12,7 @@ class Filter extends Component
     public $name;
     public $title;
     public $className;
+    public $all;
 
     /**
      * Filter constructor.
@@ -20,9 +21,10 @@ class Filter extends Component
      * @param $url
      * @param $name
      * @param $title
-     * @param $className
+     * @param string $className
+     * @param bool $all
      */
-    public function __construct($table, $options, $url, $name, $title, $className = 'filter-btn')
+    public function __construct($table, $options, $url, $name, $title, $className = 'filter-btn', $all = true)
     {
         $this->table = $table;
         $this->options = $options;
@@ -30,6 +32,7 @@ class Filter extends Component
         $this->name = $name;
         $this->title = $title;
         $this->className = $className;
+        $this->all = (bool) $all;
     }
 
     /**

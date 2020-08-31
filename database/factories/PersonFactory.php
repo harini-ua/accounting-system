@@ -10,8 +10,6 @@ $factory->define(Person::class, function (Faker $faker) {
     $startDate = $faker->dateTimeBetween('-5 years', 'now');
     $quitedAt = ! rand(0, 3) ? $faker->dateTimeBetween($startDate, 'now') : null;
     $salaryChangedAt = (! $quitedAt) && rand(0, 1) ? $faker->dateTimeBetween($startDate, 'now') : null;
-    $longVacationStartedAt = (! $quitedAt) && (! rand(0, 4)) ? $faker->dateTimeBetween($startDate, 'now') : null;
-    $longVacationCompensation = $longVacationStartedAt ? $faker->boolean : false;
     $salary = $faker->randomFloat(2, 100, 5000);
     $techLead = $faker->boolean;
     $teamLead = $faker->boolean;
@@ -42,13 +40,6 @@ $factory->define(Person::class, function (Faker $faker) {
         'team_lead_reward' => $teamLead ? $salary / rand(5, 20) : null,
         'bonuses' => $bonuses,
         'bonuses_reward' => $bonuses ? rand(5, 20) : null,
-        // Long-term vacation
-        'long_vacation_started_at' => $longVacationStartedAt,
-        'long_vacation_reason' => $longVacationStartedAt ? $faker->sentence : null,
-        'long_vacation_compensation' => $longVacationCompensation,
-        'long_vacation_compensation_sum' => $longVacationCompensation ? $faker->randomFloat(2, 100, 5000) : null,
-        'long_vacation_comment' => $longVacationStartedAt ? $faker->sentence : null,
-        'long_vacation_plan_finished_at' => $longVacationStartedAt ? $faker->dateTimeBetween($longVacationStartedAt, 'now') : null,
         // Quit
         'quited_at' => $quitedAt,
         'quit_reason' => $quitedAt ? $faker->sentence : null,

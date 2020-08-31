@@ -60,7 +60,8 @@ mixAssetsDir('js/custom/**/*.js', (src, dest) => mix.scripts(src, dest));
  */
 
 // vue js
-mix.js('resources/js/vue/app.js', 'public/js/vue');
+mix.js('resources/js/vue/calendar.js', 'public/js/vue');
+mix.js('resources/js/vue/vacations.js', 'public/js/vue');
 
 mix.copyDirectory('resources/images', 'public/images');
 mix.copyDirectory('resources/vendors', 'public/vendors');

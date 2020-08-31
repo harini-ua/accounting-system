@@ -1,33 +1,5 @@
 $(document).ready(function () {
 
-    // Custom Filters
-    class Filters
-    {
-        constructor() {
-            this.filters = {};
-        }
-        get(name) {
-            return this.filters.find(filter => filter.name === name);
-        }
-        set(name, filter) {
-            if (filter) {
-                this.filters = Object.assign({}, this.filters, {
-                    [name]: filter,
-                })
-            } else {
-                delete(this.filters[name]);
-            }
-        }
-        url(route) {
-            const url = new URL(route);
-            for (let name in this.filters) {
-                url.searchParams.set(name, this.filters[name]);
-            }
-            return url.href;
-        }
-    }
-    const filters = new Filters();
-
     // Filters
     const filterButtons = $(".filter-btn");
     filterButtons.each(i => {

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Enums\Month;
+use App\Scopes\YearScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class CalendarMonth extends Model
@@ -49,5 +51,16 @@ class CalendarMonth extends Model
         if (in_array($this->name, array_merge(Month::thirdQuarter(), Month::forthQuarter()))) {
             return 'second';
         }
+    }
+
+    /**
+     * @param Builder $query
+     * @param string $year
+     * @return Builder
+     */
+    public function scopeOfYear(Builder $query, string $year)
+    {
+        (new YearScope($year))->apply($query, $this);
+        return $query;
     }
 }

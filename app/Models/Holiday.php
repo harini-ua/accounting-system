@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Casts\Date;
+use App\Scopes\YearScope;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Holiday extends Model
@@ -38,5 +40,16 @@ class Holiday extends Model
     public function calendarYear()
     {
         return $this->belongsTo(CalendarYear::class);
+    }
+
+    /**
+     * @param Builder $query
+     * @param string $year
+     * @return Builder
+     */
+    public function scopeOfYear(Builder $query, string $year)
+    {
+        (new YearScope($year))->apply($query, $this);
+        return $query;
     }
 }

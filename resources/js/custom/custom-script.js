@@ -11,41 +11,39 @@ PLACE HERE YOUR OWN JS CODES AND IF NEEDED.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR CUSTOM SCRIPT IT'S BETTER LIKE THIS. */
 
 $.ajaxSetup({
-  headers: {
-    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-  }
-})
-
-//modals
+    headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    }
+});
 
 // Custom Filters
-class Filters {
-  constructor() {
-    this.filters = {};
-  }
-
-  get(name) {
-    return this.filters.find(filter => filter.name === name);
-  }
-
-  set(name, filter) {
-    if (filter) {
-      this.filters = Object.assign({}, this.filters, {
-        [name]: filter,
-      })
-    } else {
-      delete(this.filters[name]);
+class Filters
+{
+    constructor() {
+        this.filters = {};
     }
-  }
-
-  url(route) {
-    const url = new URL(route);
-    for (let name in this.filters) {
-      url.searchParams.set(name, this.filters[name]);
+    get(name) {
+        return this.filters[name];
     }
-    return url.href;
+    set(name, filter) {
+        if (filter) {
+            this.filters = Object.assign({}, this.filters, {
+                [name]: filter,
+            })
+        } else {
+            delete(this.filters[name]);
+        }
+    }
+    url(route) {
+        const url = new URL(route);
+        for (let name in this.filters) {
+            url.searchParams.set(name, this.filters[name]);
+        }
+        return url.href;
   }
 }
+
+window.filters = window.filters || new Filters();
 
 $('.handle-submit-form').on('submit', function (e) {
   e.preventDefault()
@@ -100,8 +98,6 @@ function clearForm(form) {
   });
 }
 
-
-window.filters = window.filters || new Filters();
 $('body').on('click', '.slide-down-btn', function (e) {
   e.preventDefault()
   $(this).parent().find('.slide-down-block').slideDown('fast')
