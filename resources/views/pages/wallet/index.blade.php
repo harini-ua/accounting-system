@@ -34,6 +34,7 @@
                     <!-- form start -->
                     <form id="add-wallet-form"
                         class="handle-submit-form edit-contact-item"
+                        data-created-item="wallet"
                         method="POST"
                         action="{{ route('wallets.store') }}"
                     >

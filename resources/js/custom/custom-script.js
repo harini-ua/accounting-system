@@ -49,8 +49,6 @@ class Filters {
 
 $('.handle-submit-form').on('submit', function (e) {
   e.preventDefault()
-  console.log('work');
-
   const form = this,
     formData = new FormData(form),
     url = form.getAttribute('action')
@@ -63,12 +61,12 @@ $('.handle-submit-form').on('submit', function (e) {
     data: formData,
     success: _ => {
       const table = $('.dataTable');
-      console.log(table);
       table.DataTable().draw(true);
       clearForm(form)
+      const dataCreatedItem = $(form).attr('data-created-item')
       Swal.fire(
-        'Good job!',
-        'You clicked the button!',
+        'Success!',
+        `New ${dataCreatedItem} has been create successful`,
         'success',
       )
     },
@@ -116,6 +114,7 @@ $('body').on('click', '.slide-up-btn', function (e) {
       $('.slide-down-btn').show()
       // clearForm(this.parentNode.querySelector('form'))
       clearForm(slideDownBlock.find('.handle-submit-form').get(0))
+      slideDownBlock.find('.error-span').text('')
     }
   )
 })

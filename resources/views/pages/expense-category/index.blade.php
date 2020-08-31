@@ -28,6 +28,7 @@
                 <div>
                     <!-- form start -->
                     <form class="handle-submit-form" id="accountForm" name="user-form" method="POST"
+                          data-created-item="expense category"
                           action="{{ route('expense-categories.store') }}">
                         @csrf
                         <div class="row">

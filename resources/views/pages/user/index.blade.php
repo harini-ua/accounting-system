@@ -27,7 +27,8 @@
 
                 <div>
                     <!-- form start -->
-                    <form class="handle-submit-form" id="accountForm" name="user-form" method="POST" action="{{ route('users.store') }}">
+                    <form class="handle-submit-form" id="accountForm" name="user-form" method="POST"
+                          action="{{ route('users.store') }}" data-created-item="user">
                         @csrf
                         <div class="row">
                             <div class="col s12 m6">

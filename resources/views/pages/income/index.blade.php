@@ -50,6 +50,7 @@
             <div class="card-content">
                 <!-- form start -->
                 <form class=" handle-submit-form edit-contact-item mb-5 mt-5" method="POST"
+                      data-created-item="income"
                       action="{{ route('incomes.store') }}">
                     @csrf
                     <div class="row">

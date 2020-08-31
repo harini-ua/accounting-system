@@ -1,6 +1,7 @@
 <!-- form start -->
 <form class="{{isset($certification) ? '' : 'handle-submit-form'}}" id="certification" method="POST"
-      action="{{ isset($certification) ? route('certifications.update', $certification) : route('certifications.store') }}">
+      action="{{ isset($certification) ? route('certifications.update', $certification) : route('certifications.store') }}"
+      data-created-item="certification"  >
     @if(isset($certification)) @method('PUT') @endif
     @csrf
     @php($model = $certification ?? null)

@@ -1,6 +1,7 @@
 <form id="contracts" method="POST"
       action="{{ isset($contract) ? route('contracts.update', $contract) : route('contracts.store') }}"
-      class="{{ isset($contact) ? 'update' : 'handle-submit-form with-clear-left'  }}">
+      class="{{ isset($contact) ? 'update' : 'handle-submit-form with-clear-left'  }}"
+      data-created-item="contract">
     @if(isset($contract)) @method('PUT') @endif
     @csrf
     <div class="row">
