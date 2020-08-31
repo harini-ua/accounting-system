@@ -22,7 +22,7 @@
                                 <span>Long-term vacation</span>
                             </span>
             </div>
-            <div id="back-to-active-button" class="invoice-action-btn{{ ! $model->lastLongVacation() ? ' hide' : '' }}">
+            <div id="back-to-active-button" class="invoice-action-btn{{ ! $model->lastLongVacation() && ! $model->quited_at ? ' hide' : '' }}">
                             <span class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <span>Back to active employee</span>
                             </span>

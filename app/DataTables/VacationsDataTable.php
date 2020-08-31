@@ -90,19 +90,21 @@ class VacationsDataTable extends DataTable
         $this->addMonthsQuery($unpaidVacations);
 
         $paidQuery = $model->newQuery()
-            ->select('people.*', 'paid_vacations.*')
+            ->select('people.*', 'paid_vacations.total', 'long_vacations.*')
             ->selectRaw("'".VacationPaymentType::Paid."' as payment")
             ->leftJoinSub($paidVacations, 'paid_vacations', function($join) {
                 $join->on('paid_vacations.person_id', '=', 'people.id');
             });
+        $this->addLongVacationMonthQuery($paidQuery);
         $this->addFilterQuery($paidQuery);
 
         $unpaidQuery = $model->newQuery()
-            ->select('people.*', 'unpaid_vacations.*')
+            ->select('people.*', 'unpaid_vacations.total', 'long_vacations.*')
             ->selectRaw("'".VacationPaymentType::Unpaid."' as payment")
             ->leftJoinSub($unpaidVacations, 'unpaid_vacations', function($join) {
                 $join->on('unpaid_vacations.person_id', '=', 'people.id');
             });
+        $this->addLongVacationMonthQuery($unpaidQuery);
         $this->addFilterQuery($unpaidQuery);
 
         return $unpaidQuery
@@ -195,6 +197,32 @@ class VacationsDataTable extends DataTable
     }
 
     /**
+     * @param $query
+     */
+    private function addLongVacationMonthQuery($query)
+    {
+        $longVacationsQuery = DB::table('long_vacations')
+            ->select('person_id')
+            ->groupBy('person_id');
+        foreach($this->period() as $month) {
+            $monthName = strtolower($month->monthName);
+            $longVacationsQuery->selectRaw("
+                sum(case
+                    when (year(long_vacation_started_at)='{$month->year}' or year(long_vacation_finished_at)='{$month->year}')
+                    and long_vacation_started_at <= '{$month->startOfMonth()}'
+                    and (
+                        long_vacation_finished_at is null
+                        or long_vacation_finished_at >= '{$month->endOfMonth()}'
+                    )
+                then 1 else 0 end) as long_vacation_$monthName
+            ");
+        }
+        $query->leftJoinSub($longVacationsQuery, 'long_vacations', function($join) {
+            $join->on('long_vacations.person_id', '=', 'people.id');
+        });
+    }
+
+    /**
      * @return array
      */
     private function monthColumns()
@@ -220,22 +248,15 @@ class VacationsDataTable extends DataTable
             $eloquent->addColumn($monthName, function(Person $model) use ($month, $monthName) {
                 if ($model->quited_at) {
                     $quitedAt = Carbon::parse($model->quited_at);
-                    if ($month->year == $quitedAt->year && $month >= $quitedAt) {
+                    if ($month->year == $quitedAt->year && $month > $quitedAt) {
                         return '<span data-color="#eeeeee"></span>';
                     }
                 }
-                if ($model->long_vacation_started_at) {
-                    $longVacationStartedAt = Carbon::parse($model->long_vacation_started_at);
-                    if (
-                        $month->year == $longVacationStartedAt->year
-                        && $month >= $longVacationStartedAt
-                        && $this->isLongVacationFinished($month, $model)
-                    ) {
-                        return '<span data-color="#e7feff"></span>';
-                    }
+                if ($model->{"long_vacation_$monthName"}) {
+                    return '<span data-color="#e7feff"></span>';
                 }
-                $startDate = Carbon::parse($model->start_date);
-                if ($month->year == $startDate->year && $month <= $startDate) {
+                $startDate = Carbon::parse($model->start_date)->startOfMonth();
+                if ($month->year == $startDate->year && $month < $startDate) {
                     return '<span data-color="#f5f2ff"></span>';
                 }
                 return $model->$monthName ?: 0;
@@ -266,20 +287,5 @@ class VacationsDataTable extends DataTable
                             ->orWhereYear('quited_at', $year);
                     });
             });
-    }
-
-    /**
-     * @param $month
-     * @param $model
-     * @return bool
-     */
-    private function isLongVacationFinished($month, $model)
-    {
-        if ($model->long_vacation_finished_at) {
-            $longVacationFinishedAt = Carbon::parse($model->long_vacation_finished_at);
-            return $month->year == $longVacationFinishedAt->year && $month <= $longVacationFinishedAt;
-        }
-
-        return true;
     }
 }

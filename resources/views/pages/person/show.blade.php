@@ -105,29 +105,29 @@
                                 <tbody>
                                     <tr{{ empty($longVacation->long_vacation_started_at) ? ' class=hide' : '' }}>
                                         <td>{{ __('Date of beginning') }}:</td>
-                                        <td data-name="long_vacation_started_at">{{ $longVacation->long_vacation_started_at }}</td>
+                                        <td data-name="long_vacation_started_at">{{ $longVacation->long_vacation_started_at ?? '' }}</td>
                                     </tr>
                                     <tr{{ empty($longVacation->long_vacation_reason) ? ' class=hide' : '' }}>
                                         <td>{{ __('Reason') }}:</td>
-                                        <td data-name="long_vacation_reason">{{ $longVacation->long_vacation_reason }}</td>
+                                        <td data-name="long_vacation_reason">{{ $longVacation->long_vacation_reason ?? '' }}</td>
                                     </tr>
                                     <tr{{ empty($longVacation->long_vacation_comment) ? ' class=hide' : '' }}>
                                         <td>{{ __('Comments') }}:</td>
-                                        <td data-name="long_vacation_comment">{{ $longVacation->long_vacation_comment }}</td>
+                                        <td data-name="long_vacation_comment">{{ $longVacation->long_vacation_comment ?? '' }}</td>
                                     </tr>
                                     <tr{{ empty($longVacation->long_vacation_compensation_sum) ? ' class=hide' : '' }}>
                                         <td>{{ __('Compensation') }}:</td>
-                                        <td data-name="long_vacation_compensation_sum" data-currency="{{ $longVacation->currency }}">
-                                            {{ \App\Services\Formatter::currency($longVacation->long_vacation_compensation_sum, $symbol) }}
+                                        <td data-name="long_vacation_compensation_sum" data-currency="{{ $longVacation->currency ?? '' }}">
+                                            {{ isset($longVacation->long_vacation_compensation_sum) ? \App\Services\Formatter::currency($longVacation->long_vacation_compensation_sum, $symbol) : '' }}
                                         </td>
                                     </tr>
                                     <tr{{ empty($longVacation->long_vacation_plan_finished_at) ? ' class=hide' : '' }}>
                                         <td>{{ __('Planning date of coming back to the office') }}:</td>
-                                        <td data-name="long_vacation_plan_finished_at">{{ $longVacation->long_vacation_plan_finished_at }}</td>
+                                        <td data-name="long_vacation_plan_finished_at">{{ $longVacation->long_vacation_plan_finished_at ?? '' }}</td>
                                     </tr>
                                     <tr{{ empty($longVacation->long_vacation_finished_at) ? ' class=hide' : '' }}>
                                         <td>{{ __('Date of the work beginning') }}:</td>
-                                        <td data-name="long_vacation_finished_at">{{ $longVacation->long_vacation_finished_at }}</td>
+                                        <td data-name="long_vacation_finished_at">{{ $longVacation->long_vacation_finished_at ?? '' }}</td>
                                     </tr>
                                 </tbody>
                             </table>
