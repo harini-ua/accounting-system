@@ -47,7 +47,7 @@ class IncomeListDataTable extends DataTable
                 return view('partials.view-link', ['model' => $model->account->wallet]);
             })
             ->addColumn('status', function(Invoice $model) {
-                return "<span class='chip lighten-5 green green-text'>{$model->status}</span>";
+                return "<span class='chip green-text'>{$model->status}</span>";
             })
             ->addColumn('sales', function(Invoice $model) {
                 return $model->salesManager->name;

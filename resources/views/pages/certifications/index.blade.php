@@ -25,7 +25,11 @@
     <!-- certification list -->
 
     <section class="certification-list-wrapper users-list-wrapper section">
-
+         <div class="card slide-down-block">
+                    <div class="card-content">
+                        @include('pages.certifications.partials._form')
+                    </div>
+                </div>
         <div class="row">
             <div class="col s12">
                 <div class="card-panel filter-panel accounts-page-card-panel">
@@ -44,11 +48,7 @@
                 </div>
             </div>
         </div>
-        <div class="card slide-down-block">
-            <div class="card-content">
-                @include('pages.certifications.partials._form')
-            </div>
-        </div>
+
         <div class="create-btn add-item-btn slide-down-btn">
             <a href="#" class="waves-effect waves-light btn">
                 <i class="material-icons">add</i>

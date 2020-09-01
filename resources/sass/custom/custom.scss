@@ -29,6 +29,9 @@ body {
 .input-field {
   position: relative;
   min-height: 50px!important;
+    label {
+        pointer-events: none;
+    }
 }
 .error-span {
   font-size: 10px;
@@ -40,7 +43,6 @@ body {
 }
 label {
   left: 1rem!important;
-  pointer-events: none;
 }
 .with-clear-left {
   .col {
@@ -84,6 +86,7 @@ label {
 #breadcrumbs-wrapper {
   position: relative;
   z-index: 997;
+    max-width: 500px;
   @media screen and (max-width: 995px) {
     z-index: 1;
   }
@@ -271,7 +274,6 @@ table.dataTable thead .sorting_desc {
 .dataTables_scrollBody {
   table {
     width: 100% !important;
-    min-height: calc(100vh - 100px);
   }
 }
 
@@ -304,10 +306,6 @@ table.dataTable thead .sorting_desc {
 
 table {
   width: 100% !important;
-  min-height: calc(100vh - 100px);
-  @media screen and (max-width: 1000px) {
-    min-height: 0;
-  }
 }
 
 .chanel-btn {
