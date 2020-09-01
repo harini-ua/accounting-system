@@ -171,7 +171,7 @@ class BonusesDataTable extends DataTable
             ->fixedColumnsRightColumns(1)
             ->parameters([
                 'columnDefs' => [
-                    ['targets' => [1,2], 'className' => 'fixed'git ],
+                    ['targets' => [1,2], 'className' => 'fixed'],
                     ['targets' => [15], 'className' => 'fixed'],
                 ]
             ])
