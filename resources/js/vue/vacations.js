@@ -1,10 +1,9 @@
 import Vue from 'vue';
-import store from "./store";
+import VacationMonthTable from "./components/VacationMonthTable";
 
 new Vue({
     el: '#vue-app',
-    store: store,
     components: {
-
+        VacationMonthTable
     }
 });

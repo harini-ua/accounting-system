@@ -117,13 +117,15 @@ Route::middleware(['auth'])->group(function() {
     // Calendar
     Route::get('/calendar', 'CalendarController@index')->name('calendar.index');
     Route::get('/calendar/create', 'CalendarController@create')->name('calendar.create');
-    Route::delete('/calendar/{year}', 'CalendarController@destroy')->name('calendar.destroy')->where('year', '[0-9]+');
+    Route::delete('/calendar/{year}', 'CalendarController@destroy')->name('calendar.destroy')->where('year', '\d\d\d\d');
     Route::put('/calendar/updateMonth/{calendarMonth}', 'CalendarController@updateMonth');
     Route::resource('holidays', 'HolidayController');
-    Route::get('/months/{year}', 'CalendarController@months')->name('calendar.months')->where('year', '[0-9]+');
+    Route::get('/months/{year}', 'CalendarController@months')->name('calendar.months')->where('year', '\d\d\d\d');
 
     // Vacations
     Route::get('/vacations', 'VacationController@index')->name('vacations.index');
-    Route::get('/vacations/{year}/{month}', 'VacationController@month')->name('vacations.month');
+    Route::get('/vacations/{year}/{month}', 'VacationController@month')
+        ->name('vacations.month')
+        ->where(['year' => '\d\d\d\d', 'month' => '\d{1,2}']);
 });
 

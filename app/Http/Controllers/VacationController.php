@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\VacationMonthDataTable;
 use App\DataTables\VacationsDataTable;
 use App\Models\CalendarYear;
-use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class VacationController extends Controller
 {
@@ -26,6 +27,26 @@ class VacationController extends Controller
 
     public function month($year, $month)
     {
-        dump($year, $month);
+        if (!CalendarYear::where('name', $year)->exists() || !($month >= 1 && $month <= 12)) {
+            abort(404);
+        }
+
+        $datatable = new VacationMonthDataTable($year, $month);
+        if ($datatable->request()->ajax()) {
+            return $datatable->ajax();
+        }
+
+        $monthName = Carbon::createFromDate($year, $month)->monthName;
+
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['link' => route('vacations.index'), 'name' => "Vacations"],
+            ['name' => "$monthName $year"]
+        ];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $days = $datatable->days();
+
+        return view('pages.vacation.month', compact('breadcrumbs', 'pageConfigs', 'year', 'month', 'monthName', 'days'));
     }
 }
