@@ -49,17 +49,40 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col s12">
-                <div class="users-list-table">
-                    <div class="card">
-                        <div class="card-content">
-                            <div class="responsive-table overflow-x-auto">
-                                {{ $dataTable->table() }}
-                            </div>
+        <div class="card">
+            <div class="row">
+                <div class="col s12">
+                    <ul class="tabs tabs-fixed-width ">
+                        <li class="tab col m3"><a class="active" href="#recruiter-tab">{{ __('Recruiter') }}</a></li>
+                        <li class="tab col m3"><a class="" href="#sales-tab">{{ __('Sales Manager') }}</a></li>
+                    </ul>
+                </div>
+                <div id="recruiter-tab" class="col s12">
+                    <div class="card-content">
+                        <div class="responsive-table overflow-x-auto">
+                            {{ $dataTable->table() }}
                         </div>
                     </div>
                 </div>
+                <div id="sales-tab" class="col s12">
+                    2<div class="card-content">
+                        <div class="responsive-table overflow-x-auto">
+                            22222222
+                        </div>
+                    </div>
+                </div>
+
+    {{--            <div class="col s12">--}}
+    {{--                <div class="users-list-table">--}}
+    {{--                    <div class="card">--}}
+    {{--                        <div class="card-content">--}}
+    {{--                            <div class="responsive-table overflow-x-auto">--}}
+    {{--                                {{ $dataTable->table() }}--}}
+    {{--                            </div>--}}
+    {{--                        </div>--}}
+    {{--                    </div>--}}
+    {{--                </div>--}}
+    {{--            </div>--}}
             </div>
         </div>
     </section>

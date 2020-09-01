@@ -13,4 +13,6 @@ jQuery(document).ready(function ($) {
       $(dataTable.column(colIdx).nodes()).addClass('highlight');
     });
   });
+
+  $('.dataTable thead th').css('cursor', 'pointer').removeAttr('title');
 })

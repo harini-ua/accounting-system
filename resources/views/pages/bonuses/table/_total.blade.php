@@ -1,11 +1,11 @@
 <div class="internal-table">
-    <div class="tr">
-        <div class="td">$ {{ \App\Services\Formatter::currency(random_int(10, 1000)) }}</div>
-    </div>
-    <div class="tr">
-        <div class="td">€ {{ \App\Services\Formatter::currency(random_int(50, 2000)) }}</div>
-    </div>
-    <div class="tr">
-        <div class="td">₴ {{ \App\Services\Formatter::currency(random_int(1000, 10000)) }}</div>
-    </div>
+    @foreach($data as $code => $values)
+        <div class="tr">
+           <div class="td">
+               <a href="{{ route('people.show', $model) }}"
+                  title="{{ \App\Services\Formatter::currency($values[0], $currency[$code]) }} / {{ \App\Services\Formatter::currency($values[1], $currency[$code]) }}"
+               >{{ \App\Services\Formatter::currency($values[1], $currency[$code]) }}</a>
+           </div>
+        </div>
+    @endforeach
 </div>
