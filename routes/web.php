@@ -120,12 +120,13 @@ Route::middleware(['auth'])->group(function() {
     Route::delete('/calendar/{year}', 'CalendarController@destroy')->name('calendar.destroy')->where('year', '[0-9]+');
     Route::put('/calendar/updateMonth/{calendarMonth}', 'CalendarController@updateMonth');
     Route::resource('holidays', 'HolidayController');
-    Route::get('/months', 'CalendarController@months')->name('calendar.months');
+    Route::get('/months/{year}', 'CalendarController@months')->name('calendar.months')->where('year', '[0-9]+');
 
     // Bonuses
-    Route::resource('bonuses', 'BonusController');
+    Route::resource('bonuses', 'BonusController')->except(['index', 'show']);
+    Route::get('/bonuses', 'BonusController@index')->name('bonuses.index');
+    Route::get('/bonuses/position/{position}', 'BonusController@index')->name('bonuses.index');
     Route::get('/bonuses/person/{person}', 'BonusController@show')->name('bonuses.show');
-    Route::get('/months/{year}', 'CalendarController@months')->name('calendar.months')->where('year', '[0-9]+');
 
     // Vacations
     Route::get('/vacations', 'VacationController@index')->name('vacations.index');

@@ -29,7 +29,7 @@
                             <x-filter
                                     table="bonuses-list-datatable"
                                     :options="$calendarYears"
-                                    url="{{ route('bonuses.index') }}"
+                                    url="{{ route('bonuses.index', $position->id) }}"
                                     name="year_filter"
                                     title="Filter by Year"
                                     all="0"
@@ -40,41 +40,28 @@
                 </div>
             </div>
         </div>
-
         <div class="card">
             <div class="row">
                 <div class="col s12">
-                    <ul class="tabs tabs-fixed-width ">
-                        <li class="tab col m3"><a class="active" href="#sales-tab">{{ __('Sales Manager') }}</a></li>
-                        <li class="tab disabled col m3"><a class="" href="#recruiter-tab">{{ __('Recruiter') }}</a></li>
+                    <ul class="tabs tabs-fixed-width">
+                        @foreach($positions as $tab)
+                        <li class="tab col m3">
+                            <a class="{{ $tab->id === $position->id ? 'active' : '' }}" data-bonuses-href="{{ route('bonuses.index', $tab->id) }}" href="#bonuses-tab-{{$tab->id}}">{{ $tab->name }}</a>
+                        </li>
+                        @endforeach
                     </ul>
                 </div>
-                <div id="sales-tab" class="col s12">
+                @foreach($positions as $tab)
+                <div id="bonuses-tab-{{$tab->id}}" class="col s12">
                     <div class="card-content">
                         <div class="responsive-table overflow-x-auto">
-                            {{ $dataTable->table() }}
+                            @if($tab->id === $position->id)
+                                {{ $dataTable->table() }}
+                            @endif
                         </div>
                     </div>
                 </div>
-                <div id="recruiter-tab" class="col s12">
-                    <div class="card-content">
-                        <div class="responsive-table overflow-x-auto">
-                            No result
-                        </div>
-                    </div>
-                </div>
-
-    {{--            <div class="col s12">--}}
-    {{--                <div class="users-list-table">--}}
-    {{--                    <div class="card">--}}
-    {{--                        <div class="card-content">--}}
-    {{--                            <div class="responsive-table overflow-x-auto">--}}
-    {{--                                {{ $dataTable->table() }}--}}
-    {{--                            </div>--}}
-    {{--                        </div>--}}
-    {{--                    </div>--}}
-    {{--                </div>--}}
-    {{--            </div>--}}
+                @endforeach
             </div>
         </div>
     </section>

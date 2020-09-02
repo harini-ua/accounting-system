@@ -13,6 +13,11 @@ jQuery(document).ready(function ($) {
       }
     });
 
+    $this.find('.tabs .tab a').not('.active').on('click', function () {
+      let url = $(this).data('bonuses-href');
+      $(location).attr('href', url);
+    });
+
     $('#bonuses-list-datatable tbody').on( 'mouseenter', 'td', function () {
       const colIdx = dataTable.cell(this).index().column;
 
