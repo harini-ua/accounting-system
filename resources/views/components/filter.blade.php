@@ -7,7 +7,7 @@
     </a>
     <!-- Dropdown Structure -->
     <ul id="btn-filter-{{ $table }}-{{ $id }}" class="dropdown-content">
-        <li><a class="option" data-id="" href="#!">All</a></li>
+        @if($all)<li><a class="option" data-id="" href="#!">All</a></li>@endif
         @foreach($options as $option)
             <li><a class="option" data-id="{{ $option->id }}" href="#!">{{ $option->name }}</a></li>
         @endforeach

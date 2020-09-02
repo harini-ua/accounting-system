@@ -6,6 +6,7 @@ use App\Http\Requests\CalendarMonthUpdateRequest;
 use App\Models\CalendarMonth;
 use App\Models\CalendarYear;
 use App\Models\Holiday;
+use App\Scopes\YearScope;
 use App\Services\CalendarPaginator;
 use Illuminate\Support\Carbon;
 
@@ -23,15 +24,8 @@ class CalendarController extends Controller
         ];
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        $months = CalendarMonth::select('calendar_months.*')
-            ->join('calendar_years', 'calendar_years.id', '=', 'calendar_months.calendar_year_id')
-            ->where('calendar_years.name', $paginator->year())
-            ->get();
-
-        $holidays = Holiday::select('holidays.*')
-            ->join('calendar_years', 'calendar_years.id', '=', 'holidays.calendar_year_id')
-            ->where('calendar_years.name', $paginator->year())
-            ->get();
+        $months = CalendarMonth::ofYear($paginator->year())->get();
+        $holidays = Holiday::ofYear($paginator->year())->orderBy('date')->get();
 
         return view('pages.calendar.index', compact('breadcrumbs', 'pageConfigs', 'months', 'holidays', 'paginator'));
     }
@@ -75,13 +69,12 @@ class CalendarController extends Controller
     }
 
     /**
+     * @param $year
      * @return mixed
      */
-    public function months()
+    public function months($year)
     {
-        return CalendarMonth::select('calendar_months.*')
-            ->join('calendar_years', 'calendar_years.id', '=', 'calendar_months.calendar_year_id')
-            ->where('calendar_years.name', Carbon::now())
+        return CalendarMonth::ofYear($year)
             ->get()
             ->toJson(JSON_NUMERIC_CHECK);
     }

@@ -18,7 +18,6 @@ use App\Http\Requests\Person\PersonUpdateRequest;
 use App\Models\Person;
 use App\User;
 use App\DataTables\PersonDataTable;
-use Illuminate\Http\Request;
 
 class PersonController extends Controller
 {
@@ -222,7 +221,6 @@ class PersonController extends Controller
     public function makeFormer(MakeFormerRequest $request, Person $person)
     {
         $person->fill($request->all());
-        $person->long_vacation_finished_at = null;
         $person->save();
 
         return response()->json(['success' => true]);
@@ -235,13 +233,15 @@ class PersonController extends Controller
      */
     public function longVacation(LongVacationRequest $request, Person $person)
     {
-        $person->fill($request->all());
+        $longVacation = $person->lastLongVacationOrNew([
+                'person_id' => $person->id,
+            ]);
+        $longVacation->fill($request->all());
         if (!$request->filled('long_vacation_compensation')) {
-            $person->long_vacation_compensation = false;
-            $person->long_vacation_compensation_sum = null;
+            $longVacation->long_vacation_compensation = false;
+            $longVacation->long_vacation_compensation_sum = null;
         }
-        $person->long_vacation_finished_at = null;
-        $person->save();
+        $longVacation->save();
 
         return response()->json(['success' => true]);
     }
@@ -253,13 +253,12 @@ class PersonController extends Controller
      */
     public function backToActive(BackActiveRequest $request, Person $person)
     {
-        $person->fill($request->all());
-        $person->long_vacation_started_at = null;
-        $person->long_vacation_reason = null;
-        $person->long_vacation_compensation = false;
-        $person->long_vacation_compensation_sum = null;
-        $person->long_vacation_comment = null;
-        $person->long_vacation_plan_finished_at = null;
+        $longVacation = $person->lastLongVacation();
+
+        if ($longVacation) {
+            $longVacation->fill($request->all());
+            $longVacation->save();
+        }
 
         $person->quited_at = null;
         $person->quit_reason = null;

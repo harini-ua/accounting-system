@@ -7,6 +7,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Enums\Position;
+use Illuminate\Support\Carbon;
 
 class Person extends Model
 {
@@ -28,30 +29,6 @@ class Person extends Model
         'quited_at' => Date::class,
     ];
 
-    /**
-     * @var mixed|null
-     */
-    private $long_vacation_started_at;
-    /**
-     * @var mixed|null
-     */
-    private $long_vacation_reason;
-    /**
-     * @var mixed|null
-     */
-    private $long_vacation_compensation;
-    /**
-     * @var mixed|null
-     */
-    private $long_vacation_comment;
-    /**
-     * @var mixed|null
-     */
-    private $long_vacation_plan_finished_at;
-    /**
-     * @var mixed|null
-     */
-    private $long_vacation_finished_at;
     /**
      * @var int|mixed
      */
@@ -81,10 +58,6 @@ class Person extends Model
      */
     private $bonuses_reward;
     /**
-     * @var mixed|null
-     */
-    private $long_vacation_compensation_sum;
-    /**
      * @var mixed
      */
     private $currency;
@@ -99,10 +72,24 @@ class Person extends Model
 
     protected static function booted()
     {
+        static::creating(function ($person) {
+            $startDate = Carbon::parse($person->start_date);
+            if (!$startDate->isCurrentYear()) {
+                $startCurrentYear = Carbon::now()->startOfYear();
+                $person->available_vacations = $startCurrentYear
+                    ->diffInMonths(Carbon::createFromDate($startCurrentYear->year, $startDate->month, $startDate->day))  * 1.25;
+            }
+        });
         static::saving(function ($person) {
             $person->rate = round($person->salary / 160, 2);
         });
     }
+
+    /*
+     * ***********************************
+     * Relations
+     * ***********************************
+     */
 
     /**
      * Get the user that owns the person.
@@ -162,4 +149,54 @@ class Person extends Model
     {
         return $query->where('bonuses', true);
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function vacations()
+    {
+        return $this->hasMany(Vacation::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function longVacations()
+    {
+        return $this->hasMany(LongVacation::class);
+    }
+
+    public function latestVacations()
+    {
+        return $this->longVacations()
+            ->whereNull('long_vacation_finished_at')
+            ->latest();
+    }
+
+    /*
+     * ***********************************
+     * Methods
+     * ***********************************
+     */
+
+    /**
+     * @return Model|\Illuminate\Database\Eloquent\Relations\HasMany|object|null
+     */
+    public function lastLongVacation()
+    {
+        if (!array_key_exists('latestVacations', $this->relations)) {
+            $this->load('latestVacations');
+        }
+        return $this->latestVacations->first();
+    }
+
+    /**
+     * @param array $attributes
+     * @return Model
+     */
+    public function lastLongVacationOrNew(array $attributes)
+    {
+        return $this->latestVacations()->firstOrNew($attributes);
+    }
+
 }

@@ -30,14 +30,20 @@ class ContractController extends Controller
 
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
-        $clients = Client::all()->sortBy('name');
+        $clients = Client::all()->sortBy('name')
+            ->pluck('name', 'id')->toArray();
+        $clientsToCollection = Client::all()->sortBy('name');
 
-        $salesManagers = User::byPosition(Position::SalesManager)->get();
+        $salesManagersToCollection = User::byPosition(Position::SalesManager)->get();
 
-        $status = ContractStatus::toCollection();
+        $salesManagers = User::byPosition(Position::SalesManager)->get()
+            ->pluck('name', 'id')->toArray();
+
+        $statusToCollection = ContractStatus::toCollection();
+        $status = ContractStatus::toSelectArray();
 
         return $dataTable->render('pages.contract.index', compact(
-            'pageConfigs', 'breadcrumbs', 'clients', 'salesManagers', 'status'
+            'pageConfigs', 'breadcrumbs', 'clients', 'salesManagers', 'salesManagersToCollection', 'status', 'clientsToCollection' ,'statusToCollection'
         ));
     }
 

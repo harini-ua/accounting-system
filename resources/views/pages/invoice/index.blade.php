@@ -22,6 +22,12 @@
 @section('content')
     <!-- invoice list -->
     <section class="invoice-list-wrapper users-list-wrapper section">
+        <div class="create-btn add-item-btn slide-down-btn">
+            <a href="#" class="waves-effect waves-light btn slide-down-btn">
+                <i class="material-icons">add</i>
+                <span class="hide-on-small-only">Add</span>
+            </a>
+        </div>
         <!-- create invoice button-->
         <div class="create-btn invoice-create-btn">
             <a href="{{ route('invoices.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
@@ -54,8 +60,7 @@
 
             <x-reset-filters/>
 
-        </div>
-        <div class="users-list-table">
+        </div><div class="users-list-table">
             <div class="card">
                 <div class="card-content">
                     <div class="responsive-table">

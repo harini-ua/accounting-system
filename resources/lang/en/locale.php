@@ -159,4 +159,5 @@ return [
     "Vacation and sick leave"=> "Vacation and sick leave",
     "Certifications"=> "Certifications",
     "Bonuses"=> "Bonuses",
+    "Vacations"=> "Vacations",
 ];

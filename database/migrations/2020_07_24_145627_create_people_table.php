@@ -22,6 +22,7 @@ class CreatePeopleTable extends Migration
             $table->date('start_date');
             $table->text('skills')->nullable();
             $table->text('certifications')->nullable();
+            $table->decimal('available_vacations', 5, 2)->default(15);
             // Salary
             $table->decimal('salary', 9,2);
             $table->string('currency', 5)->default(\App\Enums\Currency::USD);
@@ -43,14 +44,6 @@ class CreatePeopleTable extends Migration
             $table->boolean('bonuses')->default(false);
             $table->smallInteger('bonuses_reward')->nullable();
             $table->unsignedBigInteger('recruiter_id')->nullable();
-            // Long-term vacation
-            $table->date('long_vacation_started_at')->nullable();
-            $table->string('long_vacation_reason')->nullable();
-            $table->boolean('long_vacation_compensation')->default(false);
-            $table->decimal('long_vacation_compensation_sum', 9,2)->nullable();
-            $table->string('long_vacation_comment')->nullable();
-            $table->date('long_vacation_plan_finished_at')->nullable();
-            $table->date('long_vacation_finished_at')->nullable();
             // Quit
             $table->date('quited_at')->nullable();
             $table->string('quit_reason')->nullable();
