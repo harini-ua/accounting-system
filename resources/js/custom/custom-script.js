@@ -23,7 +23,7 @@ class Filters
         this.filters = {};
     }
     get(name) {
-        return this.filters.find(filter => filter.name === name);
+        return this.filters[name];
     }
     set(name, filter) {
         if (filter) {

@@ -86,12 +86,7 @@ class BonusesDataTable extends DataTable
 
         $dataTable->filter(function($query) {
             if ($this->request->has('year_filter')) {
-//                $query->join('clients', 'contracts.client_id', '=', 'clients.id')
-//                    ->where('clients.id', '=', $this->request->input('client_filter'));
-            }
-            if ($this->request->has('position_filter')) {
-                $this->positionId = $this->request()->input('position_filter');
-                $query->where('position_id', $this->positionId);
+                $this->year = $this->request()->input('year_filter') ?? Carbon::now()->year;
             }
         }, true);
 
@@ -290,9 +285,10 @@ class BonusesDataTable extends DataTable
     private function monthColumns(): array
     {
         $columns = [];
+        $year = $this->year;
         foreach($this->period() as $month) {
             $columns[] = Column::make(strtolower($month->monthName))
-                ->title(view('pages.bonuses.table._head', compact('month'))->render())
+                ->title(view('pages.bonuses.table._head', compact('month', 'year'))->render())
                 ->orderable(false)
                 ->searchable(false);
         }

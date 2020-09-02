@@ -29,7 +29,6 @@ class BonusController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['name' => __("Bonuses")],
-            ['name' => $year]
         ];
 
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
@@ -39,12 +38,8 @@ class BonusController extends Controller
             return $calendarYear;
         });
 
-        $positions = \App\Enums\Position::toCollection()->filter(function ($item) {
-            return in_array($item->id, [\App\Enums\Position::SalesManager, \App\Enums\Position::Recruiter]);
-        });
-
         return $dataTable->render('pages.bonuses.index', compact(
-            'breadcrumbs', 'pageConfigs', 'calendarYears', 'year', 'positions'
+            'breadcrumbs', 'pageConfigs', 'calendarYears', 'year'
         ));
     }
 

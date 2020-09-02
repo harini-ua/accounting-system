@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title', __('Bonuses')." $year year")
+@section('title', __('Bonuses'))
 
 {{-- vendor styles --}}
 @section('vendor-style')
@@ -34,14 +34,6 @@
                                     title="Filter by Year"
                                     all="0"
                             />
-                            <x-filter
-                                    table="bonuses-list-datatable"
-                                    :options="$positions"
-                                    url="{{ route('bonuses.index') }}"
-                                    name="position_filter"
-                                    title="Filter by Position"
-                                    all="0"
-                            />
                         </div>
                     </div>
                     <x-reset-filters/>
@@ -53,21 +45,21 @@
             <div class="row">
                 <div class="col s12">
                     <ul class="tabs tabs-fixed-width ">
-                        <li class="tab col m3"><a class="active" href="#recruiter-tab">{{ __('Recruiter') }}</a></li>
-                        <li class="tab col m3"><a class="" href="#sales-tab">{{ __('Sales Manager') }}</a></li>
+                        <li class="tab col m3"><a class="active" href="#sales-tab">{{ __('Sales Manager') }}</a></li>
+                        <li class="tab disabled col m3"><a class="" href="#recruiter-tab">{{ __('Recruiter') }}</a></li>
                     </ul>
                 </div>
-                <div id="recruiter-tab" class="col s12">
+                <div id="sales-tab" class="col s12">
                     <div class="card-content">
                         <div class="responsive-table overflow-x-auto">
                             {{ $dataTable->table() }}
                         </div>
                     </div>
                 </div>
-                <div id="sales-tab" class="col s12">
-                    2<div class="card-content">
+                <div id="recruiter-tab" class="col s12">
+                    <div class="card-content">
                         <div class="responsive-table overflow-x-auto">
-                            22222222
+                            No result
                         </div>
                     </div>
                 </div>
