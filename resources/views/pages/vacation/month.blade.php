@@ -19,7 +19,7 @@
     <div id="vue-app" class="users-list-wrapper section">
         {{-- controls start --}}
         <div class="card-panel filter-panel accounts-page-card-panel">
-            Filters
+            <add-vacation></add-vacation>
         </div>
         {{-- controls end --}}
         {{-- content start --}}

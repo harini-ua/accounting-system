@@ -123,9 +123,13 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/months/{year}', 'CalendarController@months')->name('calendar.months')->where('year', '\d\d\d\d');
 
     // Vacations
-    Route::get('/vacations', 'VacationController@index')->name('vacations.index');
-    Route::get('/vacations/{year}/{month}', 'VacationController@month')
-        ->name('vacations.month')
-        ->where(['year' => '\d\d\d\d', 'month' => '\d{1,2}']);
+    Route::group(['prefix' => 'vacations', 'as' => 'vacations.'], function() {
+        Route::get('/', 'VacationController@index')->name('index');
+        Route::post('/', 'VacationController@store')->name('store');
+        Route::post('/delete', 'VacationController@destroy')->name('destroy');
+        Route::get('/{year}/{month}', 'VacationController@month')
+            ->name('month')
+            ->where(['year' => '\d\d\d\d', 'month' => '\d{1,2}']);
+    });
 });
 

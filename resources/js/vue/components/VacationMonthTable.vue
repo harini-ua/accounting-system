@@ -22,6 +22,7 @@
                         :key="index"
                         :class="cellClass(item, day)"
                         :title="day.holiday ? day.tooltip : ''"
+                        @click="onCell(item, day)"
                     >{{ dayValue(item[day.day]) }}</td>
                     <td>{{ totalDays(item) }}</td>
                 </tr>
@@ -58,7 +59,9 @@ export default {
     },
     methods: {
         ...mapActions([
-            'fetchVacations'
+            'fetchVacations',
+            'setVacation',
+            'deleteVacation'
         ]),
         fetchItems() {
             this.fetchVacations({
@@ -71,8 +74,20 @@ export default {
                 }
             });
         },
-        onCell(event) {
-            console.log(event);
+        onCell(item, day) {
+            if (this.isFill) {
+                if (this.fillType === 'weekday') {
+                    this.deleteVacation({
+                        item: item,
+                        day: day
+                    });
+                } else {
+                    this.setVacation({
+                        item: item,
+                        day: day
+                    });
+                }
+            }
         },
         paginateHandler(page) {
             this.draw = page;
@@ -108,8 +123,12 @@ export default {
     computed: {
         ...mapGetters({
             items: 'allVacations',
-            total: 'totalVacations'
-        })
+            total: 'totalVacations',
+            fillType: 'getFillType'
+        }),
+        isFill() {
+            return !!this.fillType;
+        }
     }
 }
 </script>

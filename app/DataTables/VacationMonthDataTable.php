@@ -162,6 +162,7 @@ class VacationMonthDataTable extends DataTable
                 'name' => "{$item->shortMonthName} {$item->day}",
                 'holiday' => $item->isWeekend() || in_array($item->day, array_column($holidays, 'day')),
                 'tooltip' => in_array($item->day, array_column($holidays, 'day')) ? $holidays[array_search($item->day, $holidays)]['name'] : '',
+                'date' => $item->format('d-m-Y'),
             ];
         }, $this->period()->toArray());
     }
