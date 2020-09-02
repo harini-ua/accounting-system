@@ -41,7 +41,8 @@
 
 <script>
 import Paginate from 'vuejs-paginate'
-import axios from 'axios'
+import {mapActions, mapGetters} from 'vuex'
+
 export default {
     name: "VacationMonthTable",
     components: {Paginate},
@@ -49,33 +50,26 @@ export default {
     data() {
         return {
             draw: 1,
-            items: [],
-            total: 1,
             length: 20,
         }
     },
-    mounted() {
+    created() {
         this.fetchItems();
     },
     methods: {
+        ...mapActions([
+            'fetchVacations'
+        ]),
         fetchItems() {
-            axios({
-                method: 'GET',
-                url: `/vacations/${this.year}/${this.month}`,
-                headers: {
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
+            this.fetchVacations({
+                year: this.year,
+                month: this.month,
                 params: {
                     draw: this.draw,
                     start: this.length*(this.draw-1),
                     length: this.length,
                 }
-            })
-                .then(resp => {
-                    this.items = resp.data.data;
-                    this.total = resp.data.recordsTotal;
-                })
-                .catch(error => console.log(error))
+            });
         },
         onCell(event) {
             console.log(event);
@@ -110,6 +104,12 @@ export default {
             }
             return '';
         }
+    },
+    computed: {
+        ...mapGetters({
+            items: 'allVacations',
+            total: 'totalVacations'
+        })
     }
 }
 </script>
