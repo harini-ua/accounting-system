@@ -22,7 +22,7 @@
                         :key="index"
                         :class="cellClass(item, day)"
                         :title="day.holiday ? day.tooltip : ''"
-                    >{{ item[day.day] ? 1 : '' }}</td>
+                    >{{ dayValue(item[day.day]) }}</td>
                     <td>{{ totalDays(item) }}</td>
                 </tr>
             </tbody>
@@ -86,13 +86,29 @@ export default {
         },
         totalDays(item) {
             return this.days.reduce((total, next) => {
-                return total + (item[next.day] ? 1 : 0);
+                return total + (this.dayValue(item[next.day]) ? 1 : 0);
             }, 0);
         },
         cellClass(item, day) {
+            if (item[day.day] === 'long_vacation') {
+                return 'long-vacation-color';
+            }
             if (day.holiday) {
                 return 'light-red';
             }
+            if (item[day.day] === 'actual') {
+                return 'green';
+            } else if (item[day.day] === 'sick') {
+                return 'blue'
+            } else if (item[day.day] === 'planned') {
+                return 'yellow'
+            }
+        },
+        dayValue(dayType) {
+            if (dayType === 'actual' || dayType === 'sick') {
+                return 1;
+            }
+            return '';
         }
     }
 }
@@ -100,6 +116,9 @@ export default {
 
 <style scoped>
     .light-red {
-        background-color: #FFA07A;
+        background-color: #ffe6e6;
+    }
+    .long-vacation-color {
+        background-color: #e7feff;
     }
 </style>

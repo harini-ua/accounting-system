@@ -2,7 +2,9 @@
 
 namespace App\DataTables;
 
+use App\Enums\DayType;
 use App\Enums\VacationPaymentType;
+use App\Enums\VacationType;
 use App\Models\Holiday;
 use App\Models\Person;
 use Carbon\CarbonPeriod;
@@ -38,8 +40,16 @@ class VacationMonthDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        return datatables()
-            ->eloquent($query);
+        $eloquent = datatables()
+            ->eloquent($query)
+            //definitions
+            ->addColumn('name', function(Person $model) {
+                return $model->payment == VacationPaymentType::Paid ? view('partials.view-link', ['model' => $model]) : '';
+            });
+
+        $this->addDayColumns($eloquent);
+
+        return $eloquent;
     }
 
     /**
@@ -52,36 +62,40 @@ class VacationMonthDataTable extends DataTable
     {
         $paidVacations = DB::table('vacations')
             ->select('person_id')
-            ->selectRaw('count(id) as total')
             ->where('payment_type',VacationPaymentType::Paid)
-            ->groupBy('person_id');
+            ->whereYear('date', $this->year)
+            ->whereMonth('date', $this->month)
+            ->groupBy('person_id')
+        ;
         $this->addDaysQuery($paidVacations);
 
         $unpaidVacations = DB::table('vacations')
             ->select('person_id')
-            ->selectRaw('count(id) as total')
             ->where('payment_type',VacationPaymentType::Unpaid)
-            ->groupBy('person_id');
+            ->whereYear('date', $this->year)
+            ->whereMonth('date', $this->month)
+            ->groupBy('person_id')
+        ;
         $this->addDaysQuery($unpaidVacations);
 
         $paidQuery = $model->newQuery()
-            ->select(array_merge(['people.*', 'paid_vacations.total'], $this->dayKeys('paid_vacations.')))
+            ->select(array_merge(['people.*', 'long_vacations.*'], $this->dayKeys('paid_vacations.', '_planned'), $this->dayKeys('paid_vacations.', '_actual'), $this->dayKeys('paid_vacations.', '_sick')))
             ->selectRaw("'".VacationPaymentType::Paid."' as payment")
             ->leftJoinSub($paidVacations, 'paid_vacations', function($join) {
                 $join->on('paid_vacations.person_id', '=', 'people.id');
             })
         ;
-//        $this->addLongVacationMonthQuery($paidQuery);
+        $this->addLongVacationMonthQuery($paidQuery);
 //        $this->addFilterQuery($paidQuery);
 
         $unpaidQuery = $model->newQuery()
-            ->select(array_merge(['people.*', 'unpaid_vacations.total'], $this->dayKeys('unpaid_vacations.')))
+            ->select(array_merge(['people.*', 'long_vacations.*'], $this->dayKeys('unpaid_vacations.', '_planned'), $this->dayKeys('unpaid_vacations.', '_actual'), $this->dayKeys('unpaid_vacations.', '_sick')))
             ->selectRaw("'".VacationPaymentType::Unpaid."' as payment")
             ->leftJoinSub($unpaidVacations, 'unpaid_vacations', function($join) {
                 $join->on('unpaid_vacations.person_id', '=', 'people.id');
             })
         ;
-//        $this->addLongVacationMonthQuery($unpaidQuery);
+        $this->addLongVacationMonthQuery($unpaidQuery);
 //        $this->addFilterQuery($unpaidQuery);
 
         return $unpaidQuery
@@ -154,12 +168,13 @@ class VacationMonthDataTable extends DataTable
 
     /**
      * @param string $prefix
+     * @param string $postfix
      * @return string[]
      */
-    private function dayKeys($prefix = '')
+    private function dayKeys($prefix = '', $postfix = '')
     {
-        return array_map(function($item) use ($prefix) {
-            return "$prefix{$this->shortMonthName($item)}_{$item->day}";
+        return array_map(function($item) use ($prefix, $postfix) {
+            return "$prefix{$this->shortMonthName($item)}_{$item->day}$postfix";
         }, $this->period()->toArray());
     }
 
@@ -186,7 +201,73 @@ class VacationMonthDataTable extends DataTable
     private function addDaysQuery($query)
     {
         foreach($this->period() as $day) {
-            $query->selectRaw("count(case when day(date)='{$day->day}' then id end) as '{$this->shortMonthName($day)}_{$day->day}'");
+            $query
+                ->selectRaw("count(case when day(date)='{$day->day}' and type='planned' then 1 end) as '{$this->dayFieldName($day, VacationType::Planned)}'")
+                ->selectRaw("count(case when day(date)='{$day->day}' and type='actual' then 1 end) as '{$this->dayFieldName($day, VacationType::Actual)}'")
+                ->selectRaw("count(case when day(date)='{$day->day}' and type='sick' then 1 end) as '{$this->dayFieldName($day, VacationType::Sick)}'")
+            ;
         }
+    }
+
+    /**
+     * @param $day
+     * @param $postfix
+     * @return string
+     */
+    private function dayFieldName($day, $postfix = '')
+    {
+        return "{$this->shortMonthName($day)}_{$day->day}" . ($postfix ? "_$postfix" : '');
+    }
+
+    /**
+     * @param $eloquent
+     */
+    private function addDayColumns($eloquent)
+    {
+        foreach($this->period() as $day) {
+            $eloquent->addColumn($this->dayFieldName($day), function(Person $model) use ($day) {
+                if ($model->{"long_vacation_".$this->dayFieldName($day)}) {
+                    return 'long_vacation';
+                }
+                if ($model->{$this->dayFieldName($day, VacationType::Planned)}) {
+                    return VacationType::Planned;
+                }
+                if ($model->{$this->dayFieldName($day, VacationType::Actual)}) {
+                    return VacationType::Actual;
+                }
+                if ($model->{$this->dayFieldName($day, VacationType::Sick)}) {
+                    return VacationType::Sick;
+                }
+                return 'weekday';
+            });
+        }
+    }
+
+    /**
+     * @param $query
+     */
+    private function addLongVacationMonthQuery($query)
+    {
+        $longVacationsQuery = DB::table('long_vacations')
+            ->select('person_id')
+            ->groupBy('person_id');
+        foreach($this->period() as $day) {
+            $longVacationsQuery->selectRaw("
+                sum(case
+                    when (
+                        year(long_vacation_started_at)='{$day->year}'
+                        or year(long_vacation_finished_at)='{$day->year}'
+                    )
+                    and long_vacation_started_at <= '{$day->startOfDay()}'
+                    and (
+                        long_vacation_finished_at is null
+                        or long_vacation_finished_at >= '{$day->endOfDay()}'
+                    )
+                then 1 else 0 end) as long_vacation_{$this->dayFieldName($day)}
+            ");
+        }
+        $query->leftJoinSub($longVacationsQuery, 'long_vacations', function($join) {
+            $join->on('long_vacations.person_id', '=', 'people.id');
+        });
     }
 }
