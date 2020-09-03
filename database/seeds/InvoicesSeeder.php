@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class InvoicesSeed extends Seeder
+class InvoicesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,7 +14,7 @@ class InvoicesSeed extends Seeder
     {
         $contracts = \App\Models\Contract::all('id');
         $accounts = \App\Models\Account::all('id');
-        $salesManagers = \App\User::where('position_id', \App\Enums\Position::SalesManager())->get('id');
+        $salesManagers = \App\Models\Person::where('position_id', \App\Enums\Position::SalesManager())->get('id');
         $createdAt = \Illuminate\Support\Carbon::now();
 
         $invoices = [];

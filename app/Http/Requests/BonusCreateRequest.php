@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\ContractStatus;
+use App\Enums\BonusType;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ContractCreateRequest extends FormRequest
+class BonusCreateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,11 +26,9 @@ class ContractCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'client_id' => 'required|exists:clients,id',
-            'name' => 'required|string|min:3',
-            'commend' => 'string',
-            'sales_manager_id' => 'required|exists:people,id',
-            'status' => ['required', new EnumValue(ContractStatus::class)]
+            'person_id' => 'required|exists:people,id',
+            'type' => ['required', new EnumValue(BonusType::class)],
+            'value' => 'required|numeric',
         ];
     }
 }

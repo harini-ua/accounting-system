@@ -114,6 +114,13 @@
             "slug": "vacations",
             "icon": "weekend",
             "i18n": "Vacations"
+        },
+        {
+            "url": "bonuses",
+            "name": "Bonuses",
+            "slug": "bonuses",
+            "icon": "monetization_on",
+            "i18n": "monetization_on"
         }
     ]
 }
