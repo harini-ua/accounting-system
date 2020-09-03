@@ -22,7 +22,11 @@ export default {
             );
             state.vacations[index][payload.day.day] = state.fillType;
         },
-        setFillType: (state, payload) => state.fillType = payload.fillType
+        setFillType: (state, payload) => state.fillType = payload.fillType,
+        setAvailableVacations: (state, payload) => {
+            const index = state.vacations.findIndex(vacation => vacation.id === payload.item.id);
+            state.vacations[index].available_vacations = parseFloat(state.vacations[index].available_vacations) + parseInt(payload.available_vacations, 10);
+        }
     },
     actions: {
         fetchVacations({ commit, state }, payload) {
@@ -58,6 +62,12 @@ export default {
             })
                 .then(() => commit('setVacationType', payload))
 
+        },
+        setAvailableVacations({ commit, state }, payload) {
+            axios.patch(`/people/available-vacations/${payload.item.id}`, {
+                available_vacations: payload.available_vacations
+            })
+                .then(() => commit('setAvailableVacations', payload))
         }
     }
 }

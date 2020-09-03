@@ -102,13 +102,16 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('expenses', 'ExpenseController')->except(['show']);
 
     // People
-    Route::get('/people/former-list', 'PersonController@formerList')->name('people.former-list');
-    Route::post('people/change-salary-type/{person}', 'PersonController@changeSalaryType')->name('people.change-salary-type');
-    Route::post('people/change-contract-type/{person}', 'PersonController@changeContractType')->name('people.change-contract-type');
-    Route::post('people/make-former/{person}', 'PersonController@makeFormer')->name('people.make-former');
-    Route::post('people/long-vacation/{person}', 'PersonController@longVacation')->name('people.long-vacation');
-    Route::post('people/back-to-active/{person}', 'PersonController@backToActive')->name('people.back-to-active');
-    Route::post('people/pay-data/{person}', 'PersonController@payData')->name('people.pay-data');
+    Route::group(['prefix' => 'people', 'as' => 'people.'], function() {
+        Route::get('former-list', 'PersonController@formerList')->name('former-list');
+        Route::post('change-salary-type/{person}', 'PersonController@changeSalaryType')->name('change-salary-type');
+        Route::post('change-contract-type/{person}', 'PersonController@changeContractType')->name('change-contract-type');
+        Route::post('make-former/{person}', 'PersonController@makeFormer')->name('make-former');
+        Route::post('long-vacation/{person}', 'PersonController@longVacation')->name('long-vacation');
+        Route::post('back-to-active/{person}', 'PersonController@backToActive')->name('back-to-active');
+        Route::post('pay-data/{person}', 'PersonController@payData')->name('pay-data');
+        Route::patch('available-vacations/{person}', 'PersonController@updateAvailableVacations')->name('available-vacations');
+    });
     Route::resource('people', 'PersonController');
 
     // Certifications

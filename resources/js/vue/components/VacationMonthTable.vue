@@ -16,7 +16,13 @@
                     <td v-html="item.payment===paid ? item.name : ''"></td>
                     <td @click="onCell">{{ item.payment===paid ? item.start_date : '' }}</td>
                     <td>{{ item.payment }}</td>
-                    <td>{{ item.payment===paid ? Math.round(item.available_vacations) : '' }}</td>
+                    <td>
+                        <span>{{ item.payment===paid ? Math.round(item.available_vacations) : '' }}</span>
+                        <add-available-total
+                            v-if="item.payment===paid"
+                            v-on:update="updateTotalAvailable(item, 'available_vacations', $event)"
+                        ></add-available-total>
+                    </td>
                     <td
                         v-for="(day, index) in days"
                         :key="index"
@@ -41,12 +47,13 @@
 </template>
 
 <script>
+import AddAvailableTotal from "./AddAvailableTotal";
 import Paginate from 'vuejs-paginate'
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
     name: "VacationMonthTable",
-    components: {Paginate},
+    components: {Paginate, AddAvailableTotal},
     props: ['year', 'month', 'paid', 'days', 'dayTypes'],
     data() {
         return {
@@ -61,7 +68,8 @@ export default {
         ...mapActions([
             'fetchVacations',
             'setVacation',
-            'deleteVacation'
+            'deleteVacation',
+            'setAvailableVacations'
         ]),
         fetchItems() {
             this.fetchVacations({
@@ -107,6 +115,12 @@ export default {
         },
         dayValue(dayType) {
             return this.dayTypes[dayType].value;
+        },
+        updateTotalAvailable(item, field, value) {
+            this.setAvailableVacations({
+                item: item,
+                available_vacations: value
+            });
         }
     },
     computed: {
