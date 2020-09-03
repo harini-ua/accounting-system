@@ -20,6 +20,12 @@ class Person extends Model
         'contract_type_changed_at' => Date::class,
         'salary_type_changed_at' => Date::class,
         'salary_changed_at' => Date::class,
+        'tech_lead' => 'boolean',
+        'team_lead' => 'boolean',
+        'bonuses' => 'boolean',
+        'long_vacation_started_at' => Date::class,
+        'long_vacation_plan_finished_at' => Date::class,
+        'long_vacation_finished_at' => Date::class,
         'quited_at' => Date::class,
     ];
 
@@ -63,6 +69,10 @@ class Person extends Model
      * @var mixed|null
      */
     private $quit_reason;
+    /**
+     * @var mixed
+     */
+    private $available_vacations;
 
     protected static function booted()
     {
@@ -96,6 +106,14 @@ class Person extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function position()
+    {
+        return $this->belongsTo(\App\Models\Position::class);
+    }
+
+    /**
      * Get the recruiter that owns the person.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -113,6 +131,27 @@ class Person extends Model
     public function certifications()
     {
         return $this->hasMany(Certification::class);
+    }
+
+    /**
+     * Get the bonuses that owns the person.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function bonus()
+    {
+        return $this->hasOne(Bonus::class);
+    }
+
+    /**
+     * Scope a query to only include people with bonuses.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeIsBonuses($query)
+    {
+        return $query->where('bonuses', true);
     }
 
     /**

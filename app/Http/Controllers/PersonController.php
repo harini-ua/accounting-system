@@ -15,6 +15,7 @@ use App\Http\Requests\Person\LongVacationRequest;
 use App\Http\Requests\Person\MakeFormerRequest;
 use App\Http\Requests\Person\PersonCreateRequest;
 use App\Http\Requests\Person\PersonUpdateRequest;
+use App\Http\Requests\Person\UpdateAvailableVacationsRequest;
 use App\Models\Person;
 use App\User;
 use App\DataTables\PersonDataTable;
@@ -280,5 +281,17 @@ class PersonController extends Controller
         $person->save();
 
         return response()->json(['success' => true]);
+    }
+
+    /**
+     * @param UpdateAvailableVacationsRequest $request
+     * @param Person $person
+     * @return bool
+     * @throws \Throwable
+     */
+    public function updateAvailableVacations(UpdateAvailableVacationsRequest $request, Person $person)
+    {
+        $person->available_vacations += $request->available_vacations;
+        return $person->saveOrFail();
     }
 }

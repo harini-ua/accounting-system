@@ -15,4 +15,12 @@ final class VacationType extends Enum implements LocalizedEnum
     const Planned = 'planned';
     const Actual = 'actual';
     const Sick = 'sick';
+
+    /**
+     * @return array
+     */
+    public static function actualAndSick()
+    {
+        return [self::Actual, self::Sick];
+    }
 }

@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class InvoiceItemSeed extends Seeder
+class InvoiceItemSeeder extends Seeder
 {
     /**
      * Run the database seeds.

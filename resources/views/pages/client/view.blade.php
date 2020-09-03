@@ -36,8 +36,7 @@
                                     <a href="#"
                                        class="tooltipped indigo-text text-darken-1"
                                        data-position="right"
-                                       data-tooltip="{{ __('Total: ').$client->contracts->count().' / '.__('Closed: ').$closedContract }}">{{ $client->contracts->count().'/'.$closedContract}}
-                                    </a>
+                                       data-tooltip="{{ __('Total: ').$client->contracts->count().' / '.__('Closed: ').$closedContract }}">{{ $client->contracts->count().'/'.$closedContract}}</a>
                                 </h5>
                             </div>
                             <div class="col s6">

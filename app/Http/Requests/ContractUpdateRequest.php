@@ -29,7 +29,7 @@ class ContractUpdateRequest extends FormRequest
             'client_id' => 'required|exists:clients,id',
             'name' => 'required|string|min:3',
             'commend' => 'string',
-            'sales_manager_id' => 'required|exists:users,id',
+            'sales_manager_id' => 'required|exists:people,id',
             'status' => ['required', new EnumValue(ContractStatus::class)]
         ];
     }

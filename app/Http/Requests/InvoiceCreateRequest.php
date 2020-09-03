@@ -28,8 +28,8 @@ class InvoiceCreateRequest extends FormRequest
     {
         $rules = [
             'name' => 'required|string|max:100',
-            'contract_id' => 'required|exists:App\Models\Contract,id',
-            'account_id' => 'required|exists:App\Models\Account,id',
+            'contract_id' => 'required|exists:contracts,id',
+            'account_id' => 'required|exists:accounts,id',
             'sales_manager_id' => ['required',
                 Rule::exists('users', 'id')->where(static function ($query) {
                     $query->where('position_id', 5);
