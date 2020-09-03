@@ -302,5 +302,8 @@ class VacationsDataTable extends DataTable
                             ->orWhereYear('quited_at', $year);
                     });
             });
+        if (!$this->request()->filled('show_all')) {
+            $query->whereNull('people.quited_at');
+        }
     }
 }

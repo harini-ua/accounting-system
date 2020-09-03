@@ -20,6 +20,7 @@
         {{-- controls start --}}
         <div class="card-panel filter-panel accounts-page-card-panel">
             <add-vacation></add-vacation>
+            <show-all-vacations></show-all-vacations>
         </div>
         {{-- controls end --}}
         {{-- content start --}}
