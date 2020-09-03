@@ -20,9 +20,7 @@
     <!-- client update start -->
     <div id="clients" class="users-list-wrapper section">
         <div class="row">
-            <div class="mr-1">
-                <a href="tel:{{ $client->phone }}" class="btn-small indigo float-right mr-1"><i
-                            class="material-icons">call</i></a>
+            <div>
                 <a href="mailto:{{ $client->email }}" class="btn-small indigo float-right mr-1"><i
                             class="material-icons">mail_outline</i></a>
                 <a href="{{ route('clients.edit', $client) }}"

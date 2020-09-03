@@ -21,6 +21,7 @@
 {{-- page content --}}
 @section('content')
     <div class="animate fadeUp">
+        <x-totals :options="$accountTypes" relation="accountsSum"/>
         <div class="card-panel filter-panel accounts-page-card-panel">
             <div class="filter-block">
                 <x-date-filter start="{{ $startDate->format('d-m-Y') }}" end="{{ $endDate->format('d-m-Y') }}" table="accounts-list-datatable"/>
@@ -34,9 +35,6 @@
             </div>
             <x-reset-filters/>
         </div>
-
-        <x-totals :options="$accountTypes" relation="accountsSum"/>
-
         <section class="users-list-wrapper section">
             <div class="users-list-table">
                 <div class="card">

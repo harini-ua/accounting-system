@@ -21,16 +21,14 @@
 {{-- page content --}}
 @section('content')
     <section class="users-list-wrapper section animate fadeUp section">
-
-    <div class="card-panel filter-panel accounts-page-card-panel mb-2">
-        <div class="filter-block">
-            <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="expense-datatable-table"/>
+        <x-totals title="Planned" :options="$accountTypes" relation="expensesPlanSum"/>
+        <x-totals title="Real" :options="$accountTypes" relation="expensesRealSum"/>
+        <div class="card-panel filter-panel accounts-page-card-panel mb-2">
+            <div class="filter-block">
+                <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="expense-datatable-table"/>
+            </div>
+            <x-reset-filters/>
         </div>
-        <x-reset-filters/>
-    </div>
-
-    <x-totals title="Planned" :options="$accountTypes" relation="expensesPlanSum"/>
-    <x-totals title="Real" :options="$accountTypes" relation="expensesRealSum"/>
 
         <div class=" create-btn invoice-create-btn add-item-btn">
             <a href="{{ route('expenses.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">

@@ -108,7 +108,6 @@ $('body').on('click', '.slide-up-btn', function (e) {
   var slideDownBlock = $(this).parents('.slide-down-block')
   slideDownBlock.slideUp('fast', function () {
       $('.slide-down-btn').show()
-      // clearForm(this.parentNode.querySelector('form'))
       clearForm(slideDownBlock.find('.handle-submit-form').get(0))
       slideDownBlock.find('.error-span').text('')
     }
