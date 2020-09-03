@@ -2,12 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\VacationMonthDataTable;
 use App\DataTables\VacationsDataTable;
+use App\Http\Requests\VacationDeleteRequest;
+use App\Http\Requests\VacationRequest;
 use App\Models\CalendarYear;
-use Illuminate\Http\Request;
+use App\Models\Vacation;
+use Illuminate\Support\Carbon;
 
 class VacationController extends Controller
 {
+    /**
+     * @param VacationsDataTable $dataTable
+     * @return mixed
+     */
     public function index(VacationsDataTable $dataTable)
     {
         $breadcrumbs = [
@@ -24,8 +32,65 @@ class VacationController extends Controller
         return $dataTable->render('pages.vacation.index', compact('breadcrumbs', 'pageConfigs', 'calendarYears'));
     }
 
+    /**
+     * @param $year
+     * @param $month
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     */
     public function month($year, $month)
     {
-        dump($year, $month);
+        if (!CalendarYear::where('name', $year)->exists() || !($month >= 1 && $month <= 12)) {
+            abort(404);
+        }
+
+        $datatable = new VacationMonthDataTable($year, $month);
+        if ($datatable->request()->ajax()) {
+            return $datatable->ajax();
+        }
+
+        $monthName = Carbon::createFromDate($year, $month)->monthName;
+
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => "Home"],
+            ['link' => route('vacations.index'), 'name' => "Vacations"],
+            ['name' => "$monthName $year"]
+        ];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $days = $datatable->days();
+
+        return view('pages.vacation.month', compact('breadcrumbs', 'pageConfigs', 'year', 'month', 'monthName', 'days'));
+    }
+
+    /**
+     * @param VacationRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(VacationRequest $request)
+    {
+        $fields = $request->except(['type', 'date']);
+        $fields['date'] = Carbon::parse($request->get('date'));
+        $vacation = Vacation::firstOrNew($fields);
+        $vacation->type = $request->get('type');
+        if ($vacation->save()) {
+            return response()->json($vacation, 201);
+        }
+        return response()->json([], 500);
+    }
+
+    /**
+     * @param VacationDeleteRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(VacationDeleteRequest $request)
+    {
+        $vacation = Vacation::where('date', Carbon::parse($request->get('date')))
+            ->where('person_id', $request->get('person_id'))
+            ->where('payment_type', $request->get('payment_type'))
+            ->firstOrFail();
+        if ($vacation->delete()) {
+            return response()->json([], 204);
+        }
+        return response()->json([], 500);
     }
 }

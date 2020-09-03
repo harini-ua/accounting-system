@@ -102,13 +102,16 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('expenses', 'ExpenseController')->except(['show']);
 
     // People
-    Route::get('/people/former-list', 'PersonController@formerList')->name('people.former-list');
-    Route::post('people/change-salary-type/{person}', 'PersonController@changeSalaryType')->name('people.change-salary-type');
-    Route::post('people/change-contract-type/{person}', 'PersonController@changeContractType')->name('people.change-contract-type');
-    Route::post('people/make-former/{person}', 'PersonController@makeFormer')->name('people.make-former');
-    Route::post('people/long-vacation/{person}', 'PersonController@longVacation')->name('people.long-vacation');
-    Route::post('people/back-to-active/{person}', 'PersonController@backToActive')->name('people.back-to-active');
-    Route::post('people/pay-data/{person}', 'PersonController@payData')->name('people.pay-data');
+    Route::group(['prefix' => 'people', 'as' => 'people.'], function() {
+        Route::get('former-list', 'PersonController@formerList')->name('former-list');
+        Route::post('change-salary-type/{person}', 'PersonController@changeSalaryType')->name('change-salary-type');
+        Route::post('change-contract-type/{person}', 'PersonController@changeContractType')->name('change-contract-type');
+        Route::post('make-former/{person}', 'PersonController@makeFormer')->name('make-former');
+        Route::post('long-vacation/{person}', 'PersonController@longVacation')->name('long-vacation');
+        Route::post('back-to-active/{person}', 'PersonController@backToActive')->name('back-to-active');
+        Route::post('pay-data/{person}', 'PersonController@payData')->name('pay-data');
+        Route::patch('available-vacations/{person}', 'PersonController@updateAvailableVacations')->name('available-vacations');
+    });
     Route::resource('people', 'PersonController');
 
     // Certifications
@@ -117,18 +120,23 @@ Route::middleware(['auth'])->group(function() {
     // Calendar
     Route::get('/calendar', 'CalendarController@index')->name('calendar.index');
     Route::get('/calendar/create', 'CalendarController@create')->name('calendar.create');
-    Route::delete('/calendar/{year}', 'CalendarController@destroy')->name('calendar.destroy')->where('year', '[0-9]+');
+    Route::delete('/calendar/{year}', 'CalendarController@destroy')->name('calendar.destroy')->where('year', '\d\d\d\d');
     Route::put('/calendar/updateMonth/{calendarMonth}', 'CalendarController@updateMonth');
     Route::resource('holidays', 'HolidayController');
-    Route::get('/months', 'CalendarController@months')->name('calendar.months');
+    Route::get('/months/{year}', 'CalendarController@months')->name('calendar.months')->where('year', '\d\d\d\d');
 
     // Bonuses
     Route::resource('bonuses', 'BonusController');
     Route::get('/bonuses/person/{person}', 'BonusController@show')->name('bonuses.show');
-    Route::get('/months/{year}', 'CalendarController@months')->name('calendar.months')->where('year', '[0-9]+');
 
     // Vacations
-    Route::get('/vacations', 'VacationController@index')->name('vacations.index');
-    Route::get('/vacations/{year}/{month}', 'VacationController@month')->name('vacations.month');
+    Route::group(['prefix' => 'vacations', 'as' => 'vacations.'], function() {
+        Route::get('/', 'VacationController@index')->name('index');
+        Route::post('/', 'VacationController@store')->name('store');
+        Route::post('/delete', 'VacationController@destroy')->name('destroy');
+        Route::get('/{year}/{month}', 'VacationController@month')
+            ->name('month')
+            ->where(['year' => '\d\d\d\d', 'month' => '\d{1,2}']);
+    });
 });
 

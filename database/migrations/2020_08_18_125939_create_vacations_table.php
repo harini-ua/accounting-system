@@ -18,11 +18,9 @@ class CreateVacationsTable extends Migration
             $table->date('date');
             $table->string('type', 20);
             $table->string('payment_type', 20);
-            $table->unsignedBigInteger('calendar_month_id');
             $table->unsignedBigInteger('person_id');
             $table->timestamps();
 
-            $table->foreign('calendar_month_id')->on('calendar_months')->references('id')->onDelete('cascade');
             $table->foreign('person_id')->on('people')->references('id')->onDelete('cascade');
         });
     }

@@ -15,12 +15,8 @@ class VacationSeeder extends Seeder
      */
     public function run()
     {
-        $calendarMonths = CalendarMonth::ofYear(Carbon::now()->year)->get();
         $people = Person::all();
         factory(Vacation::class, 200)->create([
-            'calendar_month_id' => function($vacation) use ($calendarMonths) {
-                return $calendarMonths->where('name', Carbon::parse($vacation['date'])->monthName)->first()->id;
-            },
             'person_id' => function() use ($people) {
                 return $people->random()->id;
             },
