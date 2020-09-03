@@ -49,20 +49,16 @@
 <script>
 import AddAvailableTotal from "./AddAvailableTotal";
 import Paginate from 'vuejs-paginate'
-import {mapActions, mapGetters} from 'vuex'
+import {mapActions, mapGetters, mapMutations} from 'vuex'
 
 export default {
     name: "VacationMonthTable",
     components: {Paginate, AddAvailableTotal},
     props: ['year', 'month', 'paid', 'days', 'dayTypes'],
-    data() {
-        return {
-            draw: 1,
-            length: 20,
-        }
-    },
     created() {
-        this.fetchItems();
+        this.setYear(this.year);
+        this.setMonth(this.month);
+        this.fetchVacations();
     },
     methods: {
         ...mapActions([
@@ -71,17 +67,11 @@ export default {
             'deleteVacation',
             'setAvailableVacations'
         ]),
-        fetchItems() {
-            this.fetchVacations({
-                year: this.year,
-                month: this.month,
-                params: {
-                    draw: this.draw,
-                    start: this.length*(this.draw-1),
-                    length: this.length,
-                }
-            });
-        },
+        ...mapMutations([
+            'setPage',
+            'setYear',
+            'setMonth',
+        ]),
         onCell(item, day) {
             if (this.isDayAvailable(item, day) && this.isFill) {
                 if (this.fillType === 'weekday') {
@@ -102,8 +92,8 @@ export default {
             return this.dayTypes[item[day.day]].available;
         },
         paginateHandler(page) {
-            this.draw = page;
-            this.fetchItems();
+            this.setPage(page);
+            this.fetchVacations();
         },
         totalDays(item) {
             return this.days.reduce((total, next) => {
@@ -127,7 +117,9 @@ export default {
         ...mapGetters({
             items: 'allVacations',
             total: 'totalVacations',
-            fillType: 'getFillType'
+            fillType: 'getFillType',
+            draw: 'getPage',
+            length: 'getLength',
         }),
         isFill() {
             return !!this.fillType;
