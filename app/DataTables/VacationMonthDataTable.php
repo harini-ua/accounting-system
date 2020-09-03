@@ -20,6 +20,7 @@ class VacationMonthDataTable extends DataTable
 {
     private $year;
     private $month;
+    private $holidays;
 
     /**
      * VacationMonthDataTable constructor.
@@ -30,6 +31,7 @@ class VacationMonthDataTable extends DataTable
     {
         $this->year = $year;
         $this->month = $month;
+        $this->holidays = $this->fetchHolidays();
     }
 
     /**
@@ -146,7 +148,23 @@ class VacationMonthDataTable extends DataTable
      */
     public function days()
     {
-        $holidays = Holiday::ofYear($this->year)
+        return array_map(function($item) {
+            return [
+                'day' => "{$this->shortMonthName($item)}_{$item->day}",
+                'name' => "{$item->shortMonthName} {$item->day}",
+                'holiday' => $item->isWeekend() || in_array($item->day, array_column($this->holidays, 'day')),
+                'tooltip' => in_array($item->day, array_column($this->holidays, 'day')) ? $this->holidays[array_search($item->day, $this->holidays)]['name'] : '',
+                'date' => $item->format('d-m-Y'),
+            ];
+        }, $this->period()->toArray());
+    }
+
+    /**
+     * @return mixed
+     */
+    private function fetchHolidays()
+    {
+        return Holiday::ofYear($this->year)
             ->whereMonth('date', $this->month)
             ->get(['date', 'name', 'moved_date'])
             ->map(function($holiday) {
@@ -156,15 +174,6 @@ class VacationMonthDataTable extends DataTable
                 ];
             })
             ->toArray();
-        return array_map(function($item) use ($holidays) {
-            return [
-                'day' => "{$this->shortMonthName($item)}_{$item->day}",
-                'name' => "{$item->shortMonthName} {$item->day}",
-                'holiday' => $item->isWeekend() || in_array($item->day, array_column($holidays, 'day')),
-                'tooltip' => in_array($item->day, array_column($holidays, 'day')) ? $holidays[array_search($item->day, $holidays)]['name'] : '',
-                'date' => $item->format('d-m-Y'),
-            ];
-        }, $this->period()->toArray());
     }
 
     /**
@@ -227,19 +236,32 @@ class VacationMonthDataTable extends DataTable
     {
         foreach($this->period() as $day) {
             $eloquent->addColumn($this->dayFieldName($day), function(Person $model) use ($day) {
+                if ($model->quited_at) {
+                    $quitedAt = Carbon::parse($model->quited_at);
+                    if ($day > $quitedAt) {
+                        return DayType::Quited;
+                    }
+                }
+                $startDate = Carbon::parse($model->start_date)->startOfMonth();
+                if ($day->year == $startDate->year && $day < $startDate) {
+                    return DayType::NotStarted;
+                }
                 if ($model->{"long_vacation_".$this->dayFieldName($day)}) {
-                    return 'long_vacation';
+                    return DayType::NotStarted;
+                }
+                if ($day->isWeekend() || in_array($day->day, array_column($this->holidays, 'day'))) {
+                    return DayType::Holiday;
                 }
                 if ($model->{$this->dayFieldName($day, VacationType::Planned)}) {
-                    return VacationType::Planned;
+                    return DayType::Planned;
                 }
                 if ($model->{$this->dayFieldName($day, VacationType::Actual)}) {
-                    return VacationType::Actual;
+                    return DayType::Actual;
                 }
                 if ($model->{$this->dayFieldName($day, VacationType::Sick)}) {
-                    return VacationType::Sick;
+                    return DayType::Sick;
                 }
-                return 'weekday';
+                return DayType::Weekday;
             });
         }
     }

@@ -16,7 +16,7 @@
                     <td v-html="item.payment===paid ? item.name : ''"></td>
                     <td @click="onCell">{{ item.payment===paid ? item.start_date : '' }}</td>
                     <td>{{ item.payment }}</td>
-                    <td>{{ item.payment===paid ? item.available_vacations : '' }}</td>
+                    <td>{{ item.payment===paid ? Math.round(item.available_vacations) : '' }}</td>
                     <td
                         v-for="(day, index) in days"
                         :key="index"
@@ -47,7 +47,7 @@ import {mapActions, mapGetters} from 'vuex'
 export default {
     name: "VacationMonthTable",
     components: {Paginate},
-    props: ['year', 'month', 'paid', 'days'],
+    props: ['year', 'month', 'paid', 'days', 'dayTypes'],
     data() {
         return {
             draw: 1,
@@ -75,7 +75,7 @@ export default {
             });
         },
         onCell(item, day) {
-            if (this.isFill) {
+            if (this.isDayAvailable(item, day) && this.isFill) {
                 if (this.fillType === 'weekday') {
                     this.deleteVacation({
                         item: item,
@@ -89,6 +89,10 @@ export default {
                 }
             }
         },
+        isDayAvailable(item, day)
+        {
+            return this.dayTypes[item[day.day]].available;
+        },
         paginateHandler(page) {
             this.draw = page;
             this.fetchItems();
@@ -99,25 +103,10 @@ export default {
             }, 0);
         },
         cellClass(item, day) {
-            if (item[day.day] === 'long_vacation') {
-                return 'long-vacation-color';
-            }
-            if (day.holiday) {
-                return 'light-red';
-            }
-            if (item[day.day] === 'actual') {
-                return 'green';
-            } else if (item[day.day] === 'sick') {
-                return 'blue'
-            } else if (item[day.day] === 'planned') {
-                return 'yellow'
-            }
+            return this.dayTypes[item[day.day]].color;
         },
         dayValue(dayType) {
-            if (dayType === 'actual' || dayType === 'sick') {
-                return 1;
-            }
-            return '';
+            return this.dayTypes[dayType].value;
         }
     },
     computed: {
@@ -134,6 +123,12 @@ export default {
 </script>
 
 <style scoped>
+    .not-started-color {
+        background-color: #f5f2ff;
+    }
+    .quited-color {
+        background-color: #eeeeee;
+    }
     .light-red {
         background-color: #ffe6e6;
     }

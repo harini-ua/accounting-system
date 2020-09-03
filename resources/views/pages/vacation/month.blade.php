@@ -33,6 +33,7 @@
                             month="{{ $month }}"
                             paid="{{ \App\Enums\VacationPaymentType::Paid }}"
                             :days="{{ json_encode($days, JSON_NUMERIC_CHECK) }}"
+                            :day-types="{{ json_encode(\App\Enums\DayType::days(), JSON_NUMERIC_CHECK) }}"
                         ></vacation-month-table>
                     </div>
                     <!-- datatable ends -->
