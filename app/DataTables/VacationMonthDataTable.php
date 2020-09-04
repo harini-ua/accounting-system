@@ -253,8 +253,8 @@ class VacationMonthDataTable extends DataTable
                         ];
                     }
                 }
-                $startDate = Carbon::parse($model->start_date)->startOfMonth();
-                if ($day->year == $startDate->year && $day < $startDate) {
+                $startDate = Carbon::parse($model->start_date);
+                if ($day < $startDate) {
                     return [
                         'type' => DayType::NotStarted,
                         'days' => 0,
