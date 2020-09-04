@@ -1,5 +1,8 @@
 <template>
-    <div>
+    <div class="dataTables_wrapper no-footer">
+        <div class="dataTables_filter">
+            <label>Search:<input v-model="search" type="search"></label>
+        </div>
         <table class="table table-sm responsive-table highlight bordered no-footer" role="grid">
             <thead>
                 <tr>
@@ -34,12 +37,15 @@
                 </tr>
             </tbody>
         </table>
+        <div class="dataTables_info">
+            Showing {{ (draw-1)*length/2+1 }} to {{ draw*length < total ? draw*length/2 : total/2 }} of {{ total/2 }} entries
+        </div>
         <paginate
             :pageCount="Math.ceil(total/length)"
             :clickHandler="paginateHandler"
             :prevText="'Prev'"
             :nextText="'Next'"
-            :containerClass="'pagination float-right'"
+            :containerClass="'pagination dataTables_paginate paging_simple_numbers'"
             :page-class="'waves-effect'"
         >
         </paginate>
@@ -55,6 +61,17 @@ export default {
     name: "VacationMonthTable",
     components: {Paginate, AddAvailableTotal},
     props: ['year', 'month', 'paid', 'days', 'dayTypes'],
+    data() {
+        return {
+            search: ''
+        }
+    },
+    watch: {
+        search(value) {
+            this.setSearch(value);
+            this.fetchVacations();
+        }
+    },
     created() {
         this.setYear(this.year);
         this.setMonth(this.month);
@@ -71,6 +88,7 @@ export default {
             'setPage',
             'setYear',
             'setMonth',
+            'setSearch',
         ]),
         onCell(item, day) {
             if (this.isDayAvailable(item, day) && this.isFill) {

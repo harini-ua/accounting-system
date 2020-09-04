@@ -143,7 +143,9 @@ class VacationsDataTable extends DataTable
                     $(this).closest('td').attr('style', 'background-color: ' + $(this).attr('data-color') + ' !important;');
                 });
             }")
-            ;
+            ->infoCallback("function(settings, start, end, max, total, pre) {
+                return 'Showing '+parseInt((start-1)/2+1, 10)+' to '+end/2+' of '+total/2+' entries';
+            }");
     }
 
     /**

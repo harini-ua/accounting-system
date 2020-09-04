@@ -10,6 +10,7 @@ export default {
         year: '',
         month: '',
         showAll: false,
+        search: '',
     }),
     getters: {
         allVacations: state => state.vacations,
@@ -41,9 +42,10 @@ export default {
         setYear: (state, payload) => state.year = payload,
         setMonth: (state, payload) => state.month = payload,
         setShowAll: (state, payload) => state.showAll = payload,
+        setSearch: (state, payload) => state.search = payload,
     },
     actions: {
-        fetchVacations({ commit, state }, payload = {}) {
+        fetchVacations({ commit, state }) {
             const params = {
                 draw: state.page,
                 start: state.length*(state.page-1),
@@ -52,13 +54,16 @@ export default {
             if (state.showAll) {
                 params.show_all = 1;
             }
+            if (state.search) {
+                params.search = state.search;
+            }
             axios({
                 method: 'GET',
                 url: `/vacations/${state.year}/${state.month}`,
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
                 },
-                params: params
+                params: params,
             })
                 .then(resp => {
                     commit('setVacations', {
