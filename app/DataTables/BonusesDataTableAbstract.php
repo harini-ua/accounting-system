@@ -110,7 +110,7 @@ abstract class BonusesDataTableAbstract extends DataTable
     protected function getColumns()
     {
         $firstColumns[] = Column::make('id')->hidden();
-        $firstColumns[] = Column::make('person')->orderable(true);
+        $firstColumns[] = Column::make('person')->orderable(false);
         $firstColumns[] = Column::make('bonus')->title(__('Bonus'))->orderable(false);
 
         $monthColumns = $this->monthColumns();
