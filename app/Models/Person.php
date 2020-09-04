@@ -69,6 +69,10 @@ class Person extends Model
      * @var mixed|null
      */
     private $quit_reason;
+    /**
+     * @var mixed
+     */
+    private $available_vacations;
 
     protected static function booted()
     {

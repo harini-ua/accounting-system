@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Enums\VacationPaymentType;
+use App\Enums\VacationType;
 use App\Models\Person;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Carbon;
@@ -46,7 +47,7 @@ class VacationsDataTable extends DataTable
                 return $model->payment == VacationPaymentType::Paid ? $model->quited_at : null;
             })
             ->addColumn('available_vacations', function(Person $model) {
-                return $model->payment == VacationPaymentType::Paid ? $model->available_vacations : null;
+                return $model->payment == VacationPaymentType::Paid ? round($model->available_vacations) : null;
             })
             ->addColumn('total', function(Person $model) {
                 return $model->total ?? 0;
@@ -79,6 +80,7 @@ class VacationsDataTable extends DataTable
             ->select('person_id')
             ->selectRaw('count(id) as total')
             ->where('payment_type',VacationPaymentType::Paid)
+            ->whereIn('type', VacationType::actualAndSick())
             ->groupBy('person_id');
         $this->addMonthsQuery($paidVacations);
 
@@ -86,11 +88,12 @@ class VacationsDataTable extends DataTable
             ->select('person_id')
             ->selectRaw('count(id) as total')
             ->where('payment_type',VacationPaymentType::Unpaid)
+            ->whereIn('type', VacationType::actualAndSick())
             ->groupBy('person_id');
         $this->addMonthsQuery($unpaidVacations);
 
         $paidQuery = $model->newQuery()
-            ->select('people.*', 'paid_vacations.total', 'long_vacations.*')
+            ->select(array_merge(['people.*', 'paid_vacations.total', 'long_vacations.*'], $this->monthFields('paid_vacations.')))
             ->selectRaw("'".VacationPaymentType::Paid."' as payment")
             ->leftJoinSub($paidVacations, 'paid_vacations', function($join) {
                 $join->on('paid_vacations.person_id', '=', 'people.id');
@@ -99,7 +102,7 @@ class VacationsDataTable extends DataTable
         $this->addFilterQuery($paidQuery);
 
         $unpaidQuery = $model->newQuery()
-            ->select('people.*', 'unpaid_vacations.total', 'long_vacations.*')
+            ->select(array_merge(['people.*', 'unpaid_vacations.total', 'long_vacations.*'], $this->monthFields('unpaid_vacations.')))
             ->selectRaw("'".VacationPaymentType::Unpaid."' as payment")
             ->leftJoinSub($unpaidVacations, 'unpaid_vacations', function($join) {
                 $join->on('unpaid_vacations.person_id', '=', 'people.id');
@@ -237,6 +240,18 @@ class VacationsDataTable extends DataTable
     }
 
     /**
+     * @param string $prefix
+     * @return string[]
+     */
+    private function monthFields($prefix = '')
+    {
+        return array_map(function($month) use ($prefix) {
+            $monthName = strtolower($month->monthName);
+            return "$prefix{$monthName}";
+        }, $this->period()->toArray());
+    }
+
+    /**
      * @param $eloquent
      */
     private function addMonthColumnsToDatatable($eloquent)
@@ -287,5 +302,8 @@ class VacationsDataTable extends DataTable
                             ->orWhereYear('quited_at', $year);
                     });
             });
+        if (!$this->request()->filled('show_all')) {
+            $query->whereNull('people.quited_at');
+        }
     }
 }
