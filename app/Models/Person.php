@@ -120,7 +120,7 @@ class Person extends Model
      */
     public function recruiter()
     {
-        return $this->belongsTo(User::class)->where('position_id', Position::Recruiter());
+        return $this->belongsTo(User::class)->where('position_id', Position::Recruiter);
     }
 
     /**
@@ -131,16 +131,6 @@ class Person extends Model
     public function certifications()
     {
         return $this->hasMany(Certification::class);
-    }
-
-    /**
-     * Get the bonuses that owns the person.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function bonus()
-    {
-        return $this->hasOne(Bonus::class);
     }
 
     /**
