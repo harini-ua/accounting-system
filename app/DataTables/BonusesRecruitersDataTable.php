@@ -7,15 +7,12 @@ use App\Enums\Position;
 use App\Models\AccountType;
 use App\Models\Person;
 use Carbon\Carbon;
-use Carbon\CarbonPeriod;
 use Illuminate\Support\Facades\DB;
-use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Services\DataTable;
 
-class BonusesRecruitersDataTable extends DataTable
+class BonusesRecruitersDataTable extends BonusesDataTableAbstract
 {
     const COLUMNS = [
-        'person',
+        'recruiter',
         'bonus',
         'total',
     ];
@@ -30,64 +27,13 @@ class BonusesRecruitersDataTable extends DataTable
     public $positionId;
 
     /**
-     * DataTables print preview view.
-     *
-     * @var string
-     */
-    protected $printPreview = '';
-
-    /**
      * BonusesDataTable constructor.
      */
     public function __construct()
     {
         $this->currency = AccountType::all()->pluck('symbol', 'name')->toArray();
         $this->year = $this->request()->input('year_filter') ?? Carbon::now()->year;
-    }
-
-    /**
-     * Build DataTable class.
-     *
-     * @param mixed $query Results from query() method.
-     * @return \Yajra\DataTables\DataTableAbstract
-     */
-    public function dataTable($query)
-    {
-        $dataTable = datatables()->eloquent($query);
-
-        $dataTable->addColumn('person', static function (Person $model) {
-            return view('partials.view-link', ['model' => $model]);
-        });
-
-        $dataTable->addColumn('bonus', static function(Person $model) {
-            return $model->bonuses_reward . '%';
-        });
-
-        $dataTable->addColumn('total', function(Person $model) {
-            $currency = $this->currency;
-            $data = collect(json_decode($model->total, true));
-            return view('pages.bonuses.table.recruiter._total', compact('model', 'data', 'currency'));
-        });
-
-        $monthColumns = $this->addMonthColumnsToDatatable($dataTable);
-
-        $dataTable->rawColumns(array_merge($monthColumns, self::COLUMNS));
-
-        $dataTable->filterColumn('person', static function($query, $keyword) {
-            $query->where('name', 'like', "%$keyword%");
-        });
-
-        $dataTable->filter(function($query) {
-            if ($this->request->has('year_filter')) {
-                $this->year = $this->request()->input('year_filter') ?? Carbon::now()->year;
-            }
-        }, true);
-
-        $dataTable->orderColumn('person', static function($query, $order) {
-            $query->orderBy('name', $order);
-        });
-
-        return $dataTable;
+        $this->positionId = Position::Recruiter;
     }
 
     /**
@@ -134,75 +80,11 @@ class BonusesRecruitersDataTable extends DataTable
     }
 
     /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
-     */
-    public function html()
-    {
-        return $this->builder()
-            ->setTableId('bonuses-list-datatable')
-            ->addTableClass('table responsive-table cell-border highlight row-border')
-            ->columns($this->getColumns())
-            ->minifiedAjax()
-            ->dom('Bfrtip')
-            ->language([ 'processing' => view('partials.preloader-circular')->render() ])
-            ->scrollX()
-            ->scrollCollapse(true)
-            ->fixedColumnsLeftColumns(3)
-            ->fixedColumnsRightColumns(1)
-            ->parameters([
-                'columnDefs' => [
-                    ['targets' => [1,2], 'className' => 'fixed'],
-                    ['targets' => [15], 'className' => 'fixed'],
-                ]
-            ])
-        ;
-    }
-
-    /**
-     * Get columns.
-     *
-     * @return array
-     */
-    protected function getColumns()
-    {
-        $firstColumns[] = Column::make('id')->hidden();
-        $firstColumns[] = Column::make('person')->orderable(true);
-        $firstColumns[] = Column::make('bonus')->title(__('Bonus'))->orderable(false);
-
-        $monthColumns = $this->monthColumns();
-
-        $lastColumns[] = Column::make('total')->orderable(false);
-
-        return array_merge($firstColumns, $monthColumns, $lastColumns);
-    }
-
-    /**
-     * Get filename for export.
-     *
-     * @return string
-     */
-    protected function filename()
-    {
-        return 'Bonuses_' . date('YmdHis');
-    }
-
-    /**
-     * @return CarbonPeriod
-     * @throws \Carbon\Exceptions\InvalidFormatException
-     */
-    private function period()
-    {
-        return CarbonPeriod::create(Carbon::createFromDate($this->year)->startOfYear(), '1 month', Carbon::createFromDate($this->year)->endOfYear());
-    }
-
-    /**
      * Add months select
      *
      * @param $query
      */
-    private function addMonthsSelect($query): void
+    protected function addMonthsSelect($query): void
     {
         foreach($this->period() as $month) {
             $monthName = strtolower($month->monthName);
@@ -224,7 +106,7 @@ class BonusesRecruitersDataTable extends DataTable
      *
      * @param $query
      */
-    private function addMonthsSubSelect($query): void
+    protected function addMonthsSubSelect($query): void
     {
         foreach($this->period() as $month) {
             $monthName = strtolower($month->monthName);
@@ -241,7 +123,7 @@ class BonusesRecruitersDataTable extends DataTable
      *
      * @param $query
      */
-    private function addTotalSelect($query): void
+    protected function addTotalSelect($query): void
     {
         $totalQuery = [];
         foreach (Currency::toArray() as $currency) {
@@ -259,51 +141,11 @@ class BonusesRecruitersDataTable extends DataTable
      *
      * @param $query
      */
-    private function addTotalSubSelect($query): void
+    protected function addTotalSubSelect($query): void
     {
         foreach (Currency::toArray() as $currency) {
             $query->selectRaw("sum(case when year(start_date)='{$this->year}' and currency='{$currency}' then salary end) as total_first_{$currency}");
             $query->selectRaw("sum(case when year(date_add(date_add(start_date, interval 2 month), interval 1 day))='{$this->year}' and currency='{$currency}' then salary end) as total_second_{$currency}");
         }
-    }
-
-    /**
-     * @return array
-     * @throws \Carbon\Exceptions\InvalidFormatException
-     */
-    private function monthColumns(): array
-    {
-        $columns = [];
-        $year = $this->year;
-        foreach($this->period() as $month) {
-            $columns[] = Column::make(strtolower($month->monthName))
-                ->title(view('pages.bonuses.table.recruiter._head', compact('month', 'year'))->render())
-                ->orderable(false)
-                ->searchable(false);
-        }
-
-        return $columns;
-    }
-
-    /**
-     * @param $dataTable
-     * @return array
-     * @throws \Carbon\Exceptions\InvalidFormatException
-     */
-    private function addMonthColumnsToDatatable($dataTable): array
-    {
-        $currency = $this->currency;
-
-        $monthColumns = [];
-        foreach($this->period() as $month) {
-            $monthName = strtolower($month->monthName);
-            $monthColumns[] = $monthName;
-            $dataTable->addColumn($monthName, static function(Person $model) use ($month, $monthName, $currency) {
-                $data = collect(json_decode($model->{$monthName}, true));
-                return view('pages.bonuses.table.recruiter._month', compact('data', 'currency', 'month'));
-            });
-        }
-
-        return $monthColumns;
     }
 }

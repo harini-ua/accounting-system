@@ -132,7 +132,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('bonuses', 'BonusController')->except(['index', 'show']);
     Route::get('/bonuses', 'BonusController@index')->name('bonuses.index');
     Route::get('/bonuses/position/{position}', 'BonusController@index')->name('bonuses.index');
-    Route::get('/bonuses/person/{person}', 'BonusController@show')->name('bonuses.show');
+    Route::get('/bonuses/person/{person}', 'BonusController@show')->name('bonuses.person.show');
 
     // Vacations
     Route::group(['prefix' => 'vacations', 'as' => 'vacations.'], function() {

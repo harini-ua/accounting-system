@@ -13,8 +13,8 @@
 
 {{-- page styles --}}
 @section('page-style')
-{{--    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-users.css')}}">--}}
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/bonuses.css')}}"
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-users.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/bonuses.css')}}">
 @endsection
 
 {{-- page content --}}

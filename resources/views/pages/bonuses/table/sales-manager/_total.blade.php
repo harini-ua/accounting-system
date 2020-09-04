@@ -1,11 +1,16 @@
 <div class="internal-table">
     @foreach($data as $code => $values)
         <div class="tr">
-           <div class="td">
-               <a href="{{ route('people.show', $model) }}"
-                  title="{{ \App\Services\Formatter::currency($values[0], $currency[$code]) }} / {{ \App\Services\Formatter::currency($values[1], $currency[$code]) }}"
-               >{{ \App\Services\Formatter::currency($values[1], $currency[$code]) }}</a>
-           </div>
+            @php
+                $reseived = \App\Services\Formatter::currency($values[0], $currency[$code]);
+                $bonuses = \App\Services\Formatter::currency($values[1], $currency[$code]);
+            @endphp
+            <div class="td {{ ((int) $values[1]) ? 'tooltipped' : '' }}"
+                 @if((int) $values[1]) data-position="left" @endif
+                 @if((int) $values[1])  data-tooltip="{{__("Reseived").': '.$reseived.'<br>'.__("Bonuses").': '.$bonuses}}" @endif
+            >
+                {{ \App\Services\Formatter::currency($values[1], $currency[$code]) }}
+            </div>
         </div>
     @endforeach
 </div>
