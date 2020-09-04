@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\BonusesDataTable;
+use App\DataTables\BonusesRecruitersDataTable;
+use App\DataTables\BonusesSalesManagersDataTable;
 use App\Enums\BonusType;
 use App\Http\Requests\BonusCreateRequest;
 use App\Http\Requests\BonusUpdateRequest;
@@ -18,12 +19,33 @@ class BonusController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param BonusesDataTable $dataTable
+     * @param Position|null $position
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function index(BonusesDataTable $dataTable)
+    public function index(Position $position = null)
     {
+        $supportPosition = [
+            \App\Enums\Position::SalesManager,
+            \App\Enums\Position::Recruiter
+        ];
+
+        // Set default position
+        $position = $position ?? Position::find(\App\Enums\Position::SalesManager);
+
+        if (!in_array($position->id, $supportPosition, true)) {
+            return view('errors.404');
+        }
+
+        switch ($position->id) {
+            case \App\Enums\Position::Recruiter:
+                $dataTable = new BonusesRecruitersDataTable();
+                break;
+            case \App\Enums\Position::SalesManager:
+            default:
+                $dataTable = new BonusesSalesManagersDataTable();
+        }
+
         $year = $dataTable->year;
 
         $breadcrumbs = [
@@ -38,8 +60,10 @@ class BonusController extends Controller
             return $calendarYear;
         });
 
+        $positions = Position::whereIn('id', $supportPosition)->get();
+
         return $dataTable->render('pages.bonuses.index', compact(
-            'breadcrumbs', 'pageConfigs', 'calendarYears', 'year'
+            'breadcrumbs', 'pageConfigs', 'calendarYears', 'year', 'positions', 'position'
         ));
     }
 
