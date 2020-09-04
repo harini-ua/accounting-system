@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\BonusesDataTable;
+use App\DataTables\BonusesRecruitersDataTable;
+use App\DataTables\BonusesSalesManagersDataTable;
 use App\Enums\BonusType;
 use App\Http\Requests\BonusCreateRequest;
 use App\Http\Requests\BonusUpdateRequest;
@@ -38,11 +39,11 @@ class BonusController extends Controller
 
         switch ($position->id) {
             case \App\Enums\Position::Recruiter:
-                $dataTable = new BonusesDataTable();
+                $dataTable = new BonusesRecruitersDataTable();
                 break;
             case \App\Enums\Position::SalesManager:
             default:
-                $dataTable = new BonusesDataTable();
+                $dataTable = new BonusesSalesManagersDataTable();
         }
 
         $year = $dataTable->year;

@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class BonusesDataTable extends DataTable
+class BonusesRecruitersDataTable extends DataTable
 {
     const COLUMNS = [
         'person',
@@ -29,9 +29,6 @@ class BonusesDataTable extends DataTable
     /** @var mixed|null */
     public $positionId;
 
-    /** @var array */
-    public $positions;
-
     /**
      * DataTables print preview view.
      *
@@ -46,10 +43,6 @@ class BonusesDataTable extends DataTable
     {
         $this->currency = AccountType::all()->pluck('symbol', 'name')->toArray();
         $this->year = $this->request()->input('year_filter') ?? Carbon::now()->year;
-        $this->positions = [
-            Position::SalesManager,
-//            Position::Recruiter
-        ];
     }
 
     /**
@@ -73,7 +66,7 @@ class BonusesDataTable extends DataTable
         $dataTable->addColumn('total', function(Person $model) {
             $currency = $this->currency;
             $data = collect(json_decode($model->total, true));
-            return view('pages.bonuses.table._total', compact('model', 'data', 'currency'));
+            return view('pages.bonuses.table.recruiter._total', compact('model', 'data', 'currency'));
         });
 
         $monthColumns = $this->addMonthColumnsToDatatable($dataTable);
@@ -102,7 +95,7 @@ class BonusesDataTable extends DataTable
      *
      * @param \App\Models\Person $model
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Person $model)
     {
@@ -113,26 +106,20 @@ class BonusesDataTable extends DataTable
         $this->addMonthsSelect($query);
         $this->addTotalSelect($query);
 
-        $monthsQuery = DB::table('invoices');
-        $monthsQuery->select('sales_manager_id');
+        $monthsQuery = DB::table('people');
+        $monthsQuery->select('recruiter_id');
 
         $this->addMonthsSubSelect($monthsQuery);
         $this->addTotalSubSelect($monthsQuery);
 
-        $monthsQuery->join('payments', 'invoices.id' , '=', 'payments.invoice_id');
-        $monthsQuery->join('accounts', 'invoices.account_id', '=', 'accounts.id');
-        $monthsQuery->join('account_types', 'accounts.account_type_id', '=', 'account_types.id');
+        $monthsQuery->groupBy('recruiter_id');
 
-        $monthsQuery->whereYear('payments.date', '=', $this->year);
-        $monthsQuery->whereYear('invoices.date', '=', $this->year);
-        $monthsQuery->groupBy('invoices.sales_manager_id');
-
-        $query->leftJoinSub($monthsQuery, 'invoices', static function($join) {
-            $join->on('invoices.sales_manager_id', '=', 'people.id');
+        $query->leftJoinSub($monthsQuery, 'hired', static function($join) {
+            $join->on('hired.recruiter_id', '=', 'people.id');
         });
 
         $query->isBonuses();
-        $query->whereIn('people.position_id', $this->positions);
+        $query->where('people.position_id', Position::Recruiter);
         $query->whereNull('people.deleted_at');
         $query->where(function ($query) {
             $query->whereNull('people.quited_at');
@@ -223,8 +210,8 @@ class BonusesDataTable extends DataTable
             $monthQuery = [];
             foreach (Currency::toArray() as $currency) {
                 $monthQuery[$currency] = [
-                    "',IFNULL(invoices.{$monthName}_$currency, 0),'",
-                    "',IFNULL(invoices.{$monthName}_$currency/100*people.bonuses_reward, 0),'"
+                    "',IFNULL(hired.{$monthName}_first_{$currency}/100*(people.bonuses_reward/2),0),'",
+                    "',IFNULL(hired.{$monthName}_second_{$currency}/100*(people.bonuses_reward/2),0),'"
                 ];
             }
             $concatJson = json_encode($monthQuery, JSON_UNESCAPED_SLASHES);
@@ -243,7 +230,8 @@ class BonusesDataTable extends DataTable
             $monthName = strtolower($month->monthName);
 
             foreach (Currency::toArray() as $currency) {
-                $query->selectRaw("sum(case when month(payments.date)={$month->month} and account_types.name='{$currency}' then payments.received_sum end) as {$monthName}_{$currency}");
+                $query->selectRaw("sum(case when month(start_date)={$month->month} and year(start_date)='{$this->year}' and currency='{$currency}' then salary end) as {$monthName}_first_{$currency}");
+                $query->selectRaw("sum(case when month(date_add(date_add(start_date, interval 2 month), interval 1 day))={$month->month} and year(date_add(date_add(start_date, interval 2 month), interval 1 day))='{$this->year}' and currency='{$currency}' then salary end) as {$monthName}_second_{$currency}");
             }
         }
     }
@@ -258,8 +246,8 @@ class BonusesDataTable extends DataTable
         $totalQuery = [];
         foreach (Currency::toArray() as $currency) {
             $totalQuery[$currency] = [
-                "',IFNULL(invoices.total_$currency, 0),'",
-                "',IFNULL(invoices.total_$currency/100*people.bonuses_reward, 0),'"
+                "',IFNULL(hired.total_first_{$currency}/100*(people.bonuses_reward/2),0),'",
+                "',IFNULL(hired.total_second_{$currency}/100*(people.bonuses_reward/2),0),'"
             ];
         }
         $concatJson = json_encode($totalQuery, JSON_UNESCAPED_SLASHES);
@@ -274,7 +262,8 @@ class BonusesDataTable extends DataTable
     private function addTotalSubSelect($query): void
     {
         foreach (Currency::toArray() as $currency) {
-            $query->selectRaw("sum(case when account_types.name='{$currency}' then payments.received_sum end) as total_{$currency}");
+            $query->selectRaw("sum(case when year(start_date)='{$this->year}' and currency='{$currency}' then salary end) as total_first_{$currency}");
+            $query->selectRaw("sum(case when year(date_add(date_add(start_date, interval 2 month), interval 1 day))='{$this->year}' and currency='{$currency}' then salary end) as total_second_{$currency}");
         }
     }
 
@@ -288,7 +277,7 @@ class BonusesDataTable extends DataTable
         $year = $this->year;
         foreach($this->period() as $month) {
             $columns[] = Column::make(strtolower($month->monthName))
-                ->title(view('pages.bonuses.table._head', compact('month', 'year'))->render())
+                ->title(view('pages.bonuses.table.recruiter._head', compact('month', 'year'))->render())
                 ->orderable(false)
                 ->searchable(false);
         }
@@ -311,7 +300,7 @@ class BonusesDataTable extends DataTable
             $monthColumns[] = $monthName;
             $dataTable->addColumn($monthName, static function(Person $model) use ($month, $monthName, $currency) {
                 $data = collect(json_decode($model->{$monthName}, true));
-                return view('pages.bonuses.table._month', compact('data', 'currency', 'month'));
+                return view('pages.bonuses.table.recruiter._month', compact('data', 'currency', 'month'));
             });
         }
 
