@@ -143,7 +143,9 @@ class VacationsDataTable extends DataTable
                     $(this).closest('td').attr('style', 'background-color: ' + $(this).attr('data-color') + ' !important;');
                 });
             }")
-            ;
+            ->infoCallback("function(settings, start, end, max, total, pre) {
+                return 'Showing '+parseInt((start-1)/2+1, 10)+' to '+end/2+' of '+total/2+' entries';
+            }");
     }
 
     /**
@@ -233,7 +235,7 @@ class VacationsDataTable extends DataTable
         $columns = [];
         foreach($this->period() as $month) {
             $columns[] = Column::make(strtolower($month->monthName))
-                ->title("<a data-month-link href='".route('vacations.month', [$this->year, $month->month])."'>{$month->shortMonthName}</a>")
+                ->title("<a class='text-decoration-underline' data-month-link href='".route('vacations.month', [$this->year, $month->month])."'>{$month->shortMonthName}</a>")
                 ->searchable(false);
         }
         return $columns;

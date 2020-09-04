@@ -299,6 +299,9 @@ class VacationMonthDataTable extends DataTable
      */
     private function addFilterQuery($query)
     {
+        $query->when($this->request()->input('search'), function($query, $search) {
+            $query->where('people.name', 'like', "%$search%");
+        });
         if (!$this->request()->filled('show_all')) {
             $query->whereNull('people.quited_at');
         }
