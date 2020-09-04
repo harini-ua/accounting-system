@@ -66,7 +66,6 @@ mix.js('resources/js/vue/vacations.js', 'public/js/vue');
 mix.copyDirectory('resources/images', 'public/images');
 mix.copyDirectory('resources/vendors', 'public/vendors');
 mix.copyDirectory('resources/fonts', 'public/fonts');
-mix.copyDirectory('resources/json', 'public/json');
 
 mix.js('resources/js/materialize.js', 'public/js')
     .js('resources/js/plugins.js', 'public/js')
