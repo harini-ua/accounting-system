@@ -23,6 +23,9 @@ class CreatePeopleTable extends Migration
             $table->text('skills')->nullable();
             $table->text('certifications')->nullable();
             $table->decimal('available_vacations', 5, 2)->default(15);
+            $table->boolean('compensate')->default(false);
+            $table->smallInteger('compensated_days')->nullable();
+            $table->date('compensated_at')->nullable();
             // Salary
             $table->decimal('salary', 9,2);
             $table->string('currency', 5)->default(\App\Enums\Currency::USD);

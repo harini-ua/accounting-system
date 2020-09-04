@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\DataTables\VacationMonthDataTable;
 use App\DataTables\VacationsDataTable;
+use App\Enums\VacationPaymentType;
 use App\Http\Requests\VacationDeleteRequest;
 use App\Http\Requests\VacationRequest;
 use App\Models\CalendarYear;
 use App\Models\Vacation;
 use Illuminate\Support\Carbon;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class VacationController extends Controller
 {
@@ -69,9 +72,16 @@ class VacationController extends Controller
     public function store(VacationRequest $request)
     {
         $fields = $request->except(['type', 'date']);
-        $fields['date'] = Carbon::parse($request->get('date'));
+        $date = $fields['date'] = Carbon::parse($request->get('date'));
         $vacation = Vacation::firstOrNew($fields);
         $vacation->type = $request->get('type');
+
+        if ($request->payment_type == VacationPaymentType::Paid && $date < Carbon::parse($vacation->person->start_date)->addMonths(2)) {
+            throw new BadRequestHttpException('Person have to work more than 2 months for vacation!');
+        }
+        if ($vacation->date == $vacation->person->compensated_at) {
+            throw new BadRequestHttpException('Compensated vacations cannot be changed!');
+        }
         if ($vacation->save()) {
             return response()->json($vacation, 201);
         }
@@ -88,9 +98,12 @@ class VacationController extends Controller
             ->where('person_id', $request->get('person_id'))
             ->where('payment_type', $request->get('payment_type'))
             ->firstOrFail();
-        if ($vacation->delete()) {
-            return response()->json([], 204);
+        if ($vacation->date == $vacation->person->compensated_at) {
+            throw new BadRequestHttpException('Compensated vacations cannot be deleted!');
         }
-        return response()->json([], 500);
+        if ($vacation->delete()) {
+            return response('', 204);
+        }
+        throw new HttpException(500);
     }
 }

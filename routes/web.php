@@ -111,6 +111,7 @@ Route::middleware(['auth'])->group(function() {
         Route::post('back-to-active/{person}', 'PersonController@backToActive')->name('back-to-active');
         Route::post('pay-data/{person}', 'PersonController@payData')->name('pay-data');
         Route::patch('available-vacations/{person}', 'PersonController@updateAvailableVacations')->name('available-vacations');
+        Route::patch('compensate/{person}', 'PersonController@compensate')->name('compensate');
     });
     Route::resource('people', 'PersonController');
 

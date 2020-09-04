@@ -19,6 +19,7 @@ class CreateVacationsTable extends Migration
             $table->string('type', 20);
             $table->string('payment_type', 20);
             $table->unsignedBigInteger('person_id');
+            $table->smallInteger('days')->default(1);
             $table->timestamps();
 
             $table->foreign('person_id')->on('people')->references('id')->onDelete('cascade');

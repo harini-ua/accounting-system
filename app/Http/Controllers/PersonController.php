@@ -7,18 +7,24 @@ use App\Enums\PersonContractType;
 use App\Enums\Position;
 use App\Enums\Currency;
 use App\Enums\SalaryType;
+use App\Enums\VacationPaymentType;
+use App\Enums\VacationType;
 use App\Http\Requests\PayDataRequest;
 use App\Http\Requests\Person\BackActiveRequest;
 use App\Http\Requests\Person\ChangeContractTypeRequest;
 use App\Http\Requests\Person\ChangeSalaryTypeRequest;
+use App\Http\Requests\Person\CompensateRequest;
 use App\Http\Requests\Person\LongVacationRequest;
 use App\Http\Requests\Person\MakeFormerRequest;
 use App\Http\Requests\Person\PersonCreateRequest;
 use App\Http\Requests\Person\PersonUpdateRequest;
 use App\Http\Requests\Person\UpdateAvailableVacationsRequest;
+use App\Models\Holiday;
 use App\Models\Person;
 use App\User;
 use App\DataTables\PersonDataTable;
+use Illuminate\Support\Carbon;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class PersonController extends Controller
 {
@@ -293,5 +299,34 @@ class PersonController extends Controller
     {
         $person->available_vacations += $request->available_vacations;
         return $person->saveOrFail();
+    }
+
+    /**
+     * @param CompensateRequest $request
+     * @param Person $person
+     * @return bool
+     * @throws \Throwable
+     */
+    public function compensate(CompensateRequest $request, Person $person)
+    {
+        if ($person->available_vacations > 15) {
+
+            $date = $person->getCompensationDate($request->month);
+
+            $person->compensated_days = $person->available_vacations - 15;
+            $person->available_vacations -= $person->compensated_days;
+            $person->compensate = false;
+            $person->compensated_at = $date;
+
+            $person->vacations()->create([
+                'date' => $date,
+                'type' => VacationType::Actual,
+                'payment_type' => VacationPaymentType::Paid,
+                'days' => $person->compensated_days,
+            ]);
+
+            return $person->saveOrFail();
+        }
+        throw new BadRequestHttpException();
     }
 }

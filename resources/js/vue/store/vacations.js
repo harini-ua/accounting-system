@@ -31,7 +31,10 @@ export default {
             const index = state.vacations.findIndex(
                 vacation => vacation.id === payload.item.id && vacation.payment === payload.item.payment
             );
-            state.vacations[index][payload.day.day] = state.fillType;
+            state.vacations[index][payload.day.day] = {
+                type: state.fillType,
+                days: payload.value
+            };
         },
         setFillType: (state, payload) => state.fillType = payload.fillType,
         setAvailableVacations: (state, payload) => {
@@ -95,6 +98,12 @@ export default {
                 available_vacations: payload.available_vacations
             })
                 .then(() => commit('setAvailableVacations', payload))
+        },
+        compensate({ commit, state }, personId) {
+            axios.patch(`/people/compensate/${personId}`, {
+                month: state.month
+            })
+                .then(() => this.dispatch('fetchVacations'))
         }
     }
 }

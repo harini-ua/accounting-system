@@ -10,6 +10,11 @@ use Illuminate\Foundation\Http\FormRequest;
 class VacationRequest extends FormRequest
 {
     /**
+     * @var mixed
+     */
+    private $payment_type;
+
+    /**
      * Determine if the user is authorized to make this request.
      *
      * @return bool
