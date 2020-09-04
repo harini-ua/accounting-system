@@ -44,55 +44,46 @@ body {
     bottom: -10px;
 
 }
-
 label {
     left: 1rem !important;
 }
-
 .with-clear-left {
-    .col {
-        &:nth-child(3n) {
-            clear: left;
-        }
+  .col {
+    &:nth-child(3n) {
+      clear: left;
     }
+  }
 }
 
 .select-wrapper {
-    .dropdown-content {
-        li {
-            span, a {
-                color: #6B6F82;
-
-                &:hover {
-                    color: #ff4081;
-                }
-
-            }
+  .dropdown-content {
+    li {
+      span, a {
+        color: #6B6F82;
+        &:hover {
+          color: #ff4081;
         }
+
+      }
     }
+  }
 }
 
 .select2-results__options {
-    background-color: #fff;
-
-    li {
-        color: #6B6F82 !important;
-        background-color: #fff !important;
-
-        &:hover {
-            color: #ff4081 !important;
-            background-color: rgba(0, 0, 0, 0.08) !important;
-        }
-
-        &[aria-selected=true] {
-            background-color: rgba(0, 0, 0, 0.03) !important;
-        }
+  background-color: #fff;
+  li {
+    color: #6B6F82!important;
+    background-color: #fff !important;
+    &:hover {
+      color: #ff4081!important;
+      background-color: rgba(0, 0, 0, 0.08)!important;
     }
+    &[aria-selected=true] {
+      background-color: rgba(0, 0, 0, 0.03)!important;
+    }
+  }
 }
 
-.data-month-link {
-    padding:  10px 2px;
-}
 
 #vacations-table_wrapper {
     th, td {
@@ -129,8 +120,6 @@ label {
             align-items: center !important;
         }
     }
-
-}
 
 .btn {
     height: 40px;
@@ -462,4 +451,8 @@ table {
 
 .overflow-x-auto {
     overflow: auto;
+}
+
+.text-decoration-underline {
+    text-decoration: underline;
 }

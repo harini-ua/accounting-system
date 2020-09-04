@@ -88,7 +88,7 @@ class VacationMonthDataTable extends DataTable
             })
         ;
         $this->addLongVacationMonthQuery($paidQuery);
-//        $this->addFilterQuery($paidQuery);
+        $this->addFilterQuery($paidQuery);
 
         $unpaidQuery = $model->newQuery()
             ->select(array_merge(['people.*', 'long_vacations.*'], $this->dayKeys('unpaid_vacations.', '_planned'), $this->dayKeys('unpaid_vacations.', '_actual'), $this->dayKeys('unpaid_vacations.', '_sick')))
@@ -98,7 +98,7 @@ class VacationMonthDataTable extends DataTable
             })
         ;
         $this->addLongVacationMonthQuery($unpaidQuery);
-//        $this->addFilterQuery($unpaidQuery);
+        $this->addFilterQuery($unpaidQuery);
 
         return $unpaidQuery
             ->unionAll($paidQuery)
@@ -292,5 +292,18 @@ class VacationMonthDataTable extends DataTable
         $query->leftJoinSub($longVacationsQuery, 'long_vacations', function($join) {
             $join->on('long_vacations.person_id', '=', 'people.id');
         });
+    }
+
+    /**
+     * @param $query
+     */
+    private function addFilterQuery($query)
+    {
+        $query->when($this->request()->input('search'), function($query, $search) {
+            $query->where('people.name', 'like', "%$search%");
+        });
+        if (!$this->request()->filled('show_all')) {
+            $query->whereNull('people.quited_at');
+        }
     }
 }
