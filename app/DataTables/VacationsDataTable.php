@@ -235,7 +235,7 @@ class VacationsDataTable extends DataTable
         $columns = [];
         foreach($this->period() as $month) {
             $columns[] = Column::make(strtolower($month->monthName))
-                ->title("<a data-month-link href='".route('vacations.month', [$this->year, $month->month])."'>{$month->shortMonthName}</a>")
+                ->title("<a class='text-decoration-underline' data-month-link href='".route('vacations.month', [$this->year, $month->month])."'>{$month->shortMonthName}</a>")
                 ->searchable(false);
         }
         return $columns;

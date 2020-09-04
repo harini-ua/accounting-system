@@ -10,6 +10,13 @@
   .section-data-tables {
     .dataTables_wrapper {
       table {
+        &.table-small {
+            th, td {
+                padding: 2px !important;
+                font-size: 14px;
+                text-align: center;
+            }
+        }
         &.dataTable {
           width: 100% !important;
           thead {

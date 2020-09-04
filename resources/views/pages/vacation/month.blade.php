@@ -14,20 +14,20 @@
 
 {{-- page styles --}}
 @section('page-style')
-
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/data-tables.css')}}">
 @endsection
 
 {{-- page content --}}
 @section('content')
-    <div id="vue-app" class="users-list-wrapper section">
+    <div id="vue-app" class="section-data-tables section">
         {{-- controls start --}}
-        <div class="card-panel filter-panel accounts-page-card-panel">
+        <div class="card-panel filter-panel">
             <add-vacation></add-vacation>
             <show-all-vacations></show-all-vacations>
         </div>
         {{-- controls end --}}
         {{-- content start --}}
-        <section class="users-list-table">
+        <section class="section-data-tables">
             <div class="card">
                 <div class="card-content">
                     <!-- datatable start -->

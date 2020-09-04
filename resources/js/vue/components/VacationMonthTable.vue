@@ -3,7 +3,7 @@
         <div class="dataTables_filter">
             <label>Search:<input v-model="search" type="search"></label>
         </div>
-        <table class="table table-sm responsive-table highlight bordered no-footer" role="grid">
+        <table class="table table-small responsive-table highlight bordered no-footer" role="grid">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -16,8 +16,8 @@
             </thead>
             <tbody>
                 <tr v-for="(item, index) in items" :key="index">
-                    <td v-html="item.payment===paid ? item.name : ''"></td>
-                    <td @click="onCell">{{ item.payment===paid ? item.start_date : '' }}</td>
+                    <td v-html="item.payment===paid ? item.name : ''" class="text-nowrap"></td>
+                    <td class="text-nowrap">{{ item.payment===paid ? item.start_date : '' }}</td>
                     <td>{{ item.payment }}</td>
                     <td>
                         <span>{{ item.payment===paid ? Math.round(item.available_vacations) : '' }}</span>
