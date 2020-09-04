@@ -12,6 +12,7 @@
                     <th>Available in total</th>
                     <th v-for="(day, index) in days" :key="index">{{ day.name }}</th>
                     <th>Total</th>
+                    <th>Compensate</th>
                 </tr>
             </thead>
             <tbody>
@@ -32,8 +33,13 @@
                         :class="cellClass(item, day)"
                         :title="day.holiday ? day.tooltip : ''"
                         @click="onCell(item, day)"
-                    >{{ dayValue(item[day.day]) }}</td>
+                    >{{ dayValue(item, day) || '' }}</td>
                     <td>{{ totalDays(item) }}</td>
+                    <td>
+                        <span v-if="item.payment===paid" class="cursor-pointer mr-2">
+                            <i v-if="item.compensate" @click="compensate(item.id)" class="material-icons">play_circle_filled</i>
+                        </span>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -82,7 +88,8 @@ export default {
             'fetchVacations',
             'setVacation',
             'deleteVacation',
-            'setAvailableVacations'
+            'setAvailableVacations',
+            'compensate'
         ]),
         ...mapMutations([
             'setPage',
@@ -95,19 +102,21 @@ export default {
                 if (this.fillType === 'weekday') {
                     this.deleteVacation({
                         item: item,
-                        day: day
+                        day: day,
+                        value: this.dayTypes[this.fillType].value
                     });
                 } else {
                     this.setVacation({
                         item: item,
-                        day: day
+                        day: day,
+                        value: this.dayTypes[this.fillType].value
                     });
                 }
             }
         },
         isDayAvailable(item, day)
         {
-            return this.dayTypes[item[day.day]].available;
+            return this.dayTypes[item[day.day].type].available;
         },
         paginateHandler(page) {
             this.setPage(page);
@@ -115,14 +124,14 @@ export default {
         },
         totalDays(item) {
             return this.days.reduce((total, next) => {
-                return total + (this.dayValue(item[next.day]) ? 1 : 0);
+                return total + parseInt(this.dayValue(item, next), 10);
             }, 0);
         },
         cellClass(item, day) {
-            return this.dayTypes[item[day.day]].color;
+            return this.dayTypes[item[day.day].type].color;
         },
-        dayValue(dayType) {
-            return this.dayTypes[dayType].value;
+        dayValue(item, day) {
+            return item[day.day].days;
         },
         updateTotalAvailable(item, field, value) {
             this.setAvailableVacations({

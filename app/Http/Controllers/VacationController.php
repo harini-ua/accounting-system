@@ -9,6 +9,8 @@ use App\Http\Requests\VacationRequest;
 use App\Models\CalendarYear;
 use App\Models\Vacation;
 use Illuminate\Support\Carbon;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class VacationController extends Controller
 {
@@ -72,6 +74,10 @@ class VacationController extends Controller
         $fields['date'] = Carbon::parse($request->get('date'));
         $vacation = Vacation::firstOrNew($fields);
         $vacation->type = $request->get('type');
+
+        if ($vacation->date == $vacation->person->compensated_at) {
+            throw new BadRequestHttpException('Compensated vacations cannot be changed!');
+        }
         if ($vacation->save()) {
             return response()->json($vacation, 201);
         }
@@ -88,9 +94,12 @@ class VacationController extends Controller
             ->where('person_id', $request->get('person_id'))
             ->where('payment_type', $request->get('payment_type'))
             ->firstOrFail();
-        if ($vacation->delete()) {
-            return response()->json([], 204);
+        if ($vacation->date == $vacation->person->compensated_at) {
+            throw new BadRequestHttpException('Compensated vacations cannot be deleted!');
         }
-        return response()->json([], 500);
+        if ($vacation->delete()) {
+            return response('', 204);
+        }
+        throw new HttpException(500);
     }
 }
