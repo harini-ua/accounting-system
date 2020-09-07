@@ -54,7 +54,7 @@
                 @foreach($positions as $tab)
                 <div id="bonuses-tab-{{$tab->id}}" class="col s12">
                     <div class="card-content">
-                        <div class="responsive-table overflow-x-auto">
+                        <div class="responsive-table users-list-table overflow-x-auto">
                             @if($tab->id === $position->id)
                                 {{ $dataTable->table() }}
                             @endif
