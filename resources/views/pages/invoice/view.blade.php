@@ -180,12 +180,6 @@
                 <div class="card invoice-action-wrapper">
                     <div class="card-content">
                         <div class="invoice-action-btn">
-                            <a href="#" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
-                                <i class="material-icons mr-4">check</i>
-                                <span class="text-nowrap">{{ __('Send Invoice') }}</span>
-                            </a>
-                        </div>
-                        <div class="invoice-action-btn">
                             <a href="#" class="btn btn-light-indigo waves-effect waves-light display-flex align-items-center justify-content-center invoice-print">
                                 <i class="material-icons mr-5">print</i>
                                 <span>{{ __('Print') }}</span>

@@ -4,7 +4,7 @@
     @endif
     <div class="totals-content">
         @foreach ($options as $option)
-            <div class="col s12 m6 xl3">
+            <div class="col totals-item s12 m6 xl3">
                 <div class="black-text">
                     <div class="card z-depth-0 white lighten-3 faq-card">
                         <div class="card-content center-align">

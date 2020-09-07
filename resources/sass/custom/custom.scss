@@ -10,36 +10,42 @@ NOTE:
 PLACE HERE YOUR OWN CSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
 body {
-  background-color: rgba(16, 16, 255, 0.07);
+    background-color: rgba(16, 16, 255, 0.07);
+    overflow: scroll;
 }
 
 #main {
-  min-height: calc(100vh - 65px);
-  margin-top: -50px;
-  @media screen and (max-width: 995px) {
-    margin-top: 0;
+    min-height: calc(100vh - 65px);
+    margin-top: -50px;
+    @media screen and (max-width: 995px) {
+        margin-top: 0;
 
-  }
+    }
 }
 
 .chip {
-  background-color: transparent !important;
+    background-color: transparent !important;
 }
 
 .input-field {
-  position: relative;
-  min-height: 50px!important;
+    position: relative;
+    min-height: 50px !important;
+
+    label {
+        pointer-events: none;
+    }
 }
+
 .error-span {
-  font-size: 10px;
-  color: red;
-  position: absolute;
-  left: 1rem;
-  bottom: -10px;
+    font-size: 10px;
+    color: red;
+    position: absolute;
+    left: 1rem;
+    bottom: -10px;
 
 }
 label {
-  left: 1rem!important;
+    left: 1rem !important;
 }
 .with-clear-left {
   .col {
@@ -79,222 +85,236 @@ label {
 }
 
 
+#vacations-table_wrapper {
+    th, td {
+        padding: 18px 2px;
+    }
+}
 
 #breadcrumbs-wrapper {
-  position: relative;
-  z-index: 997;
-  @media screen and (max-width: 995px) {
-    z-index: 1;
-  }
+    position: relative;
+    z-index: 997;
+    max-width: calc(100% - 65px);
+    @media screen and (max-width: 995px) {
+        z-index: 1;
+    }
 }
 
 @media screen and (max-width: 768px) {
-  th {
-    padding: 0 15px 0 5px !important;
-    height: 40px;
-  }
-
-  td {
-    padding: 0 !important;
-    height: 41px;
-    &:last-child {
-      margin-bottom: 20px;
+    th {
+        padding: 0 15px 0 5px !important;
+        height: 40px;
     }
-  }
 
-  th, td {
-    display: flex !important;
-    align-items: center !important;
-  }
-}
+    td {
+        padding: 0 !important;
+        height: 41px;
+
+        &:last-child {
+            margin-bottom: 20px;
+        }
+    }
+    .dataTables {
+        th, td {
+            display: flex !important;
+            align-items: center !important;
+        }
+    }
 
 .btn {
-  height: 40px;
+    height: 40px;
 }
 
 .custom-filter-btn {
-  min-width: 200px;
-  margin-right: 15px;
-  display: flex;
-  flex-wrap: nowrap;
-  align-items: center;
-  a {
-    width: 100%;
-  }
-  @media screen and (max-width: 768px) {
-    margin-bottom: 15px;
-  }
-  @media screen and (max-width: 540px) {
-    width: 100%;
-    margin-right: 0;
+    min-width: 200px;
+    margin-right: 15px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
 
-  }
-  &:last-child {
-    margin-right: 0;
-  }
+    a {
+        width: 100%;
+    }
+
+    @media screen and (max-width: 768px) {
+        margin-bottom: 15px;
+    }
+    @media screen and (max-width: 540px) {
+        width: 100%;
+        margin-right: 0;
+
+    }
+
+    &:last-child {
+        margin-right: 0;
+    }
 }
 
 .flex-wrap-important {
-  flex-wrap: wrap !important;
+    flex-wrap: wrap !important;
 }
 
 .totals-content {
-  background-color: #fff;
+    background-color: #fff;
 }
 
 .checkbox-filter {
-  margin-left: 15px;
-  @media screen and (max-width: 768px) {
-    margin-bottom: 15px;
-  }
+    margin-left: 15px;
+    @media screen and (max-width: 768px) {
+        margin-bottom: 15px;
+    }
 
 }
 
 .filter-panel {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  min-height: 120px;
-  flex-wrap: wrap;
-
-  .filter-block {
     display: flex;
-    margin-bottom: 10px;
-    flex-wrap: nowrap;
-    &-buttons {
-      display: flex;
-      width: min-content;
-      @media screen and (max-width: 768px) {
-        flex-wrap: wrap;
-        .custom-filter-btn {
-          margin-right: 0;
-        }
-      }
-      @media screen and (max-width: 540px) {
-        width: 100%;
-      }
-    }
-    @media screen and (max-width: 1200px) {
-      justify-content: space-between;
-      width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 120px;
+    flex-wrap: wrap;
 
+    .filter-block {
+        display: flex;
+        margin-bottom: 10px;
+        flex-wrap: nowrap;
+
+        &-buttons {
+            display: flex;
+            width: min-content;
+            @media screen and (max-width: 768px) {
+                flex-wrap: wrap;
+                .custom-filter-btn {
+                    margin-right: 0;
+                }
+            }
+            @media screen and (max-width: 540px) {
+                width: 100%;
+            }
+        }
+
+        @media screen and (max-width: 1200px) {
+            justify-content: space-between;
+            width: 100%;
+
+        }
+        @media screen and (max-width: 768px) {
+            justify-content: space-between;
+            width: 100%;
+        }
+        @media screen and (max-width: 540px) {
+            flex-wrap: wrap;
+        }
     }
-    @media screen and (max-width: 768px) {
-      justify-content: space-between;
-      width: 100%;
-    }
-    @media screen and (max-width: 540px) {
-      flex-wrap: wrap;
-    }
-  }
 }
 
 .date-filter {
-  display: flex;
-  margin-right: 15px;
-  min-width: 180px;
-  @media screen and (max-width: 768px) {
-    flex-direction: column;
-  }
-  @media screen and (max-width: 540px) {
-    width: 100%;
-    //flex-wrap: wrap;
-    flex-direction: row;
-    margin-right: 0;
-  }
-  &-block {
+    display: flex;
     margin-right: 15px;
-
-    &:last-child {
-      margin-right: 0;
-    }
+    min-width: 180px;
     @media screen and (max-width: 768px) {
-      width: 100%;
+        flex-direction: column;
     }
-  }
+    @media screen and (max-width: 540px) {
+        width: 100%;
+        flex-direction: row;
+        margin-right: 0;
+    }
+
+    &-block {
+        margin-right: 15px;
+
+        &:last-child {
+            margin-right: 0;
+        }
+
+        @media screen and (max-width: 768px) {
+            width: 100%;
+        }
+    }
 }
 
 .reset-btn {
-  min-width: 200px;
-  background-color: transparent;
-  border: solid 2px #3f51b5;
-  font-weight: bold;
-  color: #3f51b5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: none;
-  max-width: 100px;
-  float: right;
-  margin-bottom: 10px;
-  @media screen and (max-width: 1300px) {
+    min-width: 200px;
+    background-color: transparent;
+    border: solid 2px #3f51b5;
+    font-weight: bold;
+    color: #3f51b5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: none;
     max-width: 100px;
-    min-width: 0;
-  }
-  @media screen and (max-width: 768px) {
-    max-width: 100%;
-    width: 100%;
-  }
-  &:hover {
-    background-color: #3f51b5;
-    color: white;
-  }
+    float: right;
+    margin-bottom: 10px;
+    @media screen and (max-width: 1300px) {
+        max-width: 100px;
+        min-width: 0;
+    }
+    @media screen and (max-width: 768px) {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    &:hover {
+        background-color: #3f51b5;
+        color: white;
+    }
 }
 
 table.dataTable thead .sorting_desc {
-  @media screen and (max-width: 738px) {
-    &:before {
-      background: none !important;
+    @media screen and (max-width: 738px) {
+        &:before {
+            background: none !important;
+        }
     }
-  }
 }
 
 .chip {
-  padding: 0 20px;
+    padding: 0 20px;
 }
 
 .responsive-table {
-  label {
-    input {
-      height: auto !important;
-      width: auto !important;
-      margin-left: 0.5rem !important;
+    label {
+        input {
+            height: auto !important;
+            width: auto !important;
+            margin-left: 0.5rem !important;
+        }
     }
-  }
 }
 
 .dataTables_scrollHeadInner, .dataTables_scrollHeadInner {
-  width: 100% !important;
+    width: 100% !important;
 }
 
 .dataTables_scrollBody {
-  table {
-    width: 100% !important;
-    min-height: calc(100vh - 100px);
-  }
+    table {
+        width: 100% !important;
+    }
 }
 
 .create-btn {
-  position: absolute;
-  top: -30px;
-  right: 0;
-  z-index: 998;
-  .btn {
-    display: flex;
-    align-items: center;
+    position: absolute;
+    top: -30px;
+    right: 0;
     z-index: 998;
-  }
+
+    .btn {
+        display: flex;
+        align-items: center;
+        z-index: 998;
+    }
 }
 
 .select-wrapper {
-  ul {
-    max-height: 150px;
-    overflow: auto;
-  }
+    ul {
+        max-height: 150px;
+        overflow: auto;
+    }
 }
 
 .btn {
-  font-weight: 600;
+    font-weight: 600;
 }
 
 .users-list-table {
@@ -302,101 +322,131 @@ table.dataTable thead .sorting_desc {
 }
 
 table {
-  width: 100% !important;
-  min-height: calc(100vh - 100px);
-  @media screen and (max-width: 1000px) {
-    min-height: 0;
-  }
+    width: 100% !important;
 }
 
 .chanel-btn {
-  background-color: transparent !important;
-  color: #FF4181;
-  border: solid 3px #FF4181;
-  border-radius: 3px;
-  &:hover {
-    box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
-  }
+    background-color: transparent !important;
+    color: #FF4181;
+    border: solid 2px #FF4181;
+    border-radius: 3px;
+
+    &:hover {
+        box-shadow: 0 3px 3px 0 rgba(0, 0, 0, 0.14), 0 1px 7px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -1px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.totals-container {
+    display: flex;
+    flex-wrap: wrap;
+
+    .card-content {
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    }
+}
+
+.totals-2-col {
+    @media screen and (max-width: 1200px) {
+        //flex-direction: column;
+    }
+    .totals-list {
+        width: 50%;
+        margin: 15px 0;
+        @media screen and (max-width: 600px) {
+            width: 100%;
+        }
+    }
+
+    .totals-item {
+        width: 50% !important;
+        @media screen and (max-width: 1200px) {
+            width: 100%!important;
+        }
+    }
 }
 
 .slide-down-block {
-  display: none;
+    display: none;
 }
 
 .section {
-  position: relative;
-  z-index: 999;
-  @media screen and (max-width: 995px) {
-    z-index: 1;
+    position: relative;
+    z-index: 999;
+    @media screen and (max-width: 995px) {
+        z-index: 1;
 
-  }
+    }
 }
 
 .page-layout {
-  display: flex;
-  justify-content: space-between;
-  @media screen and (max-width: 1360px) {
-    flex-direction: column;
-  }
+    display: flex;
+    justify-content: space-between;
+    @media screen and (max-width: 1360px) {
+        flex-direction: column;
+    }
 
 }
 
 #breadcrumbs-wrapper {
-  padding: 10px 0 !important;
+    padding: 10px 0 !important;
 }
 
 .table-wrapper {
-  width: 100%;
-  margin-left: 50px;
-  @media screen and (max-width: 1360px) {
-    margin-left: 0;
-  }
+    width: 100%;
+    margin-left: 50px;
+    @media screen and (max-width: 1360px) {
+        margin-left: 0;
+    }
 }
 
 .sidebar {
-  .sidebar-content {
-    .sidebar-header {
-      height: 100%;
-      top: 0 !important;
-      left: 0;
-      .mt-10 {
-        margin-top: 0 !important;
-      }
-      .card-action {
-        border-top: none;
-      }
-      i {
-        display: none;
-      }
+    .sidebar-content {
+        .sidebar-header {
+            height: 100%;
+            top: 0 !important;
+            left: 0;
+
+            .mt-10 {
+                margin-top: 0 !important;
+            }
+
+            .card-action {
+                border-top: none;
+            }
+
+            i {
+                display: none;
+            }
+        }
     }
-  }
-  @media screen and (max-width: 768px) {
-    width: 100%;
-  }
+
+    @media screen and (max-width: 768px) {
+        width: 100%;
+    }
 }
 
 .totals-list {
-  .card {
-    .card-content {
-      padding: 10px;
-      text-align: center;
-      min-height: 65px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+    .card {
+        .card-content {
+            padding: 10px;
+            text-align: center;
+            min-height: 65px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
     }
-  }
 }
 
 .custom-sidebar {
-  @media screen and (max-width: 1200px) {
-    padding-bottom: 80px;
-    .sidebar-content {
-      .sidebar-header {
-        left: 0;
-      }
+    @media screen and (max-width: 1200px) {
+        padding-bottom: 80px;
+        .sidebar-content {
+            .sidebar-header {
+                left: 0;
+            }
+        }
     }
-  }
 }
 
 .overflow-x-auto {

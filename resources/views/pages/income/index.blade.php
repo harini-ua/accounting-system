@@ -23,67 +23,79 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- Sidebar Area Starts -->
-
-    <!-- Sidebar Area Ends -->
     <!-- list -->
-
-    <div class="card-panel filter-panel accounts-page-card-panel">
-        <div class="filter-block">
-            <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-table"/>
-
-            <x-filter
-                    table="incomes-table"
-                    :options="$clients"
-                    url="{{ route('incomes.index') }}"
-                    name="client_filter"
-                    title="Filter by Client"
-            />
-        </div>
-        <x-reset-filters/>
-    </div>
-
-    <x-totals :options="$accountTypes" relation="planningSum"/>
-
-    <section class="list-wrapper section">
+    <section class="users-list-wrapper section">
         <div class="card slide-down-block">
             <div class="card-content">
                 <!-- form start -->
-                <form class=" handle-submit-form edit-contact-item mb-5 mt-5" method="POST"
+                <form class=" handle-submit-form edit-contact-item  " method="POST"
                       data-created-item="income"
                       action="{{ route('incomes.store') }}">
                     @csrf
                     <div class="row">
                         <x-linked-selects
-                                firstName="client_id"
-                                firstTitle="Client"
-                                secondName="contract_id"
-                                secondTitle="Contract"
-                                dataUrl="/clients/[id]/contracts"
-                                view="components.linked-selects.clients-contracts"
-                                :options="$clients"
+                            firstName="client_id"
+                            firstTitle="Client"
+                            secondName="contract_id"
+                            secondTitle="Contract"
+                            dataUrl="/clients/[id]/contracts"
+                            view="components.linked-selects.clients-contracts"
+                            :options="$clients"
                         />
                         <x-linked-selects
-                                firstName="wallet_id"
-                                firstTitle="Wallet"
-                                secondName="account_id"
-                                secondTitle="Account"
-                                dataUrl="/wallets/[id]/accounts"
-                                view="components.linked-selects.wallets-accounts"
-                                :options="$wallets"
+                            firstName="wallet_id"
+                            firstTitle="Wallet"
+                            secondName="account_id"
+                            secondTitle="Account"
+                            dataUrl="/wallets/[id]/accounts"
+                            view="components.linked-selects.wallets-accounts"
+                            :options="$wallets"
                         />
-                        <x-date name="plan_date" title="Planning Date"></x-date>
-                        <x-input name="plan_sum" title="Planning Sum"></x-input>
+                        <div class="col s12 m6">
+                            <x-date name="plan_date" title="Planning Date"></x-date>
+                        </div>
+                        <div class="col s12 m6">
+                            <x-input name="plan_sum" title="Planning Sum"></x-input>
+                        </div>
+                        <div class="col s12">
+                            <div class="col s12 display-flex justify-content-end mt-3">
+                                <button type="button" class="btn btn-light mr-1 chanel-btn slide-up-btn">Cancel</button>
+                                <button type="submit" class="btn waves-effect waves-light">
+                                    Save
+                                </button>
+                            </div>
+
+                        </div>
                     </div>
-                    <div class="card-action pl-0 pr-0 right-align">
-                        <button class="btn-small waves-effect waves-light">
-                            <span>Add Income</span>
-                        </button>
-                    </div>
+
                 </form>
                 <!-- form start end-->
             </div>
         </div>
+        <div class="create-btn add-item-btn slide-down-btn">
+            <a href="#" class="waves-effect waves-light btn">
+                <i class="material-icons">add</i>
+                <span class="hide-on-small-only">Add</span>
+            </a>
+        </div>
+        <x-totals :options="$accountTypes" relation="planningSum"/>
+        <div class="card-panel filter-panel accounts-page-card-panel">
+            <div class="filter-block">
+                <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-table"/>
+
+                <x-filter
+                    table="incomes-table"
+                    :options="$clients"
+                    url="{{ route('incomes.index') }}"
+                    name="client_filter"
+                    title="Filter by Client"
+                />
+            </div>
+            <x-reset-filters/>
+        </div>
+
+
+
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">

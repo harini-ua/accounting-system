@@ -47,8 +47,8 @@ class AccountsDataTable extends DataTable
             })
             ->addColumn('status', function(Account $model) {
                 return $model->status
-                    ? '<span class="chip lighten-5 green green-text">Active</span>'
-                    : '<span class="chip lighten-5 red red-text">Inactive</span>';
+                    ? '<span class="chip green-text">Active</span>'
+                    : '<span class="chip red-text">Inactive</span>';
             })
             ->addColumn('balance', function(Account $model) {
                 return Formatter::currency($model->balance, $model->accountType->symbol);

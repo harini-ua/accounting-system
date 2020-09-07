@@ -1,13 +1,7 @@
-<div class="navbar @if(($configData['isNavbarFixed'])=== true){{'navbar-fixed'}} @endif">
+<div class="navbar">
   <nav
     class="{{$configData['navbarMainClass']}} @if($configData['isNavbarDark']=== true) {{'navbar-dark'}} @elseif($configData['isNavbarDark']=== false) {{'navbar-light'}} @elseif(!empty($configData['navbarBgColor'])) {{$configData['navbarBgColor']}} @else {{$configData['navbarMainColor']}} @endif">
     <div class="nav-wrapper">
-      <div class="header-search-wrapper hide-on-med-and-down">
-        <i class="material-icons">search</i>
-        <input class="header-search-input z-depth-2" type="text" name="Search" placeholder="Explore Calculator"
-          data-search="starter-kit-list">
-        <ul class="search-list collection display-none"></ul>
-      </div>
       <ul class="navbar-list right">
         <li class="hide-on-med-and-down">
           <a class="waves-effect waves-block waves-light toggle-fullscreen" href="javascript:void(0);">

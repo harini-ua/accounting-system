@@ -19,26 +19,30 @@
 
 {{-- page content --}}
 @section('content')
+    <div class="totals-container totals-2-col">
+            <x-totals title="Invoiced" :options="$accountTypes" relation="invoicedSum"/>
+            <x-totals title="Received" :options="$accountTypes" relation="receivedSum"/>
+    </div>
     <div class="card-panel filter-panel accounts-page-card-panel">
         <div class="filter-block">
 
             <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-list-table"/>
             <div class="filter-block-buttons">
                 <x-filter
-                        table="incomes-list-table"
-                        :options="$clients"
-                        url="{{ route('incomes.list') }}"
-                        name="client_filter"
-                        title="Filter by Client"
+                    table="incomes-list-table"
+                    :options="$clients"
+                    url="{{ route('incomes.list') }}"
+                    name="client_filter"
+                    title="Filter by Client"
                 />
 
                 <x-filter
-                        table="incomes-list-table"
-                        :options="$wallets"
-                        url="{{ route('incomes.list') }}"
-                        name="wallet_filter"
-                        title="Filter by Wallet"
-                        className="filter-btn invoice-filter-action"
+                    table="incomes-list-table"
+                    :options="$wallets"
+                    url="{{ route('incomes.list') }}"
+                    name="wallet_filter"
+                    title="Filter by Wallet"
+                    className="filter-btn invoice-filter-action"
                 />
             </div>
         </div>
@@ -47,8 +51,6 @@
                            url="{{ route('incomes.list') }}"/>
         <x-reset-filters/>
     </div>
-    <x-totals title="Invoiced" :options="$accountTypes" relation="invoicedSum"/>
-    <x-totals title="Received" :options="$accountTypes" relation="receivedSum"/>
     <!-- list -->
     <section class="users-list-wrapper section">
         <div class="users-list-table">

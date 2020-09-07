@@ -66,9 +66,7 @@
             <div class="input-field col s12">
                 <textarea name="comment"
                           class="materialize-textarea"
-                          placeholder="{{ __('Comment') }}"
-                          id="comment">{{ $contract->comment ?? null }}
-                </textarea>
+                          id="comment">{{ $contract->comment ?? null }}</textarea>
                 <label for="name" class="active">{{ __('Comment') }}</label>
                 <span class="error-span"></span>
                 @error('comment')
