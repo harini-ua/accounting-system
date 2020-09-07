@@ -30,9 +30,9 @@
                 <div class="card invoice-action-wrapper animate fadeRight">
                     <div class="card-content">
                         <div class="invoice-action-btn">
-                            <a href="{{ route('bonuses.edit', $person->bonus) }}" class="btn-block indigo btn waves-effect waves-light">
-                                <span>{{ __('Edit Bonus') }}</span>
-                            </a>
+{{--                            <a href="{{ route('bonuses.edit', $person->bonus) }}" class="btn-block indigo btn waves-effect waves-light">--}}
+{{--                                <span>{{ __('Edit Bonus') }}</span>--}}
+{{--                            </a>--}}
                         </div>
                     </div>
                 </div>

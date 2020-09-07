@@ -52,11 +52,11 @@ class VacationsDataTable extends DataTable
             ->addColumn('total', function(Person $model) {
                 return $model->total ?? 0;
             })
-            ->addColumn('compensation_days', function(Person $model) {
-                return null; //todo: resolve after implementation payslip
+            ->addColumn('compensated_days', function(Person $model) {
+                return $model->payment == VacationPaymentType::Paid ? $model->compensated_days : null;
             })
-            ->addColumn('compensation_date', function(Person $model) {
-                return null; //todo: resolve after implementation payslip
+            ->addColumn('compensated_at', function(Person $model) {
+                return $model->payment == VacationPaymentType::Paid ? $model->compensated_at : null;
             })
             // orders
             ->orderColumn('name', function($query, $order) {
@@ -165,8 +165,8 @@ class VacationsDataTable extends DataTable
         ];
         $monthColumns = $this->monthColumns();
         $lastColumns = [
-            Column::make('compensation_days')->searchable(false),
-            Column::make('compensation_date')->searchable(false),
+            Column::make('compensated_days')->title('Compensation days')->searchable(false),
+            Column::make('compensated_at')->title('Compensation date')->searchable(false),
         ];
 
         return array_merge($firstColumns, $monthColumns, $lastColumns);
@@ -197,7 +197,7 @@ class VacationsDataTable extends DataTable
     {
         foreach($this->period() as $month) {
             $monthName = strtolower($month->monthName);
-            $query->selectRaw("count(case when month(date)={$month->month} then id end) as {$monthName}");
+            $query->selectRaw("sum(case when month(date)={$month->month} then days end) as {$monthName}");
         }
     }
 

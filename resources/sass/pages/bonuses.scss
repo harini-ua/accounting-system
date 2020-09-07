@@ -5,17 +5,27 @@
 @import 'variables.scss';
 
 table.dataTable {
+    font-size: 14px;
     td {
         &.highlight {
             background-color: whitesmoke !important;
         }
         &.fixed {
-            background-color: whitesmoke;
+            background-color: whitesmoke !important;
+        }
+        &.center-text {
+            text-align: center;
+        }
+        &.small-text {
+            font-size: small;
+        }
+        &.large-text {
+            font-size: large;
         }
     }
     .th {
         &.fixed {
-            background-color: whitesmoke;
+            background-color: whitesmoke !important;
         }
     }
 }
@@ -29,6 +39,8 @@ table.dataTable {
     .td {
         display: table-cell;
         text-align: center;
+        padding-bottom: 5px;
+        cursor: pointer;
         &.border-right {
             border-right: 1px solid #ddd;
         }

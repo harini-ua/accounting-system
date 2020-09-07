@@ -37,6 +37,11 @@ class AccrualVacation implements ShouldQueue
             ->whereDate('start_date', '!=', $now)
             ->get()
             ->each(function($person) {
+                if ($person->available_vacations) {
+                    $person->compensate = true;
+                    $person->compensated_days = null;
+                    $person->compensated_at = null;
+                }
                 $person->available_vacations = $person->available_vacations + 15;
                 $person->save();
             });

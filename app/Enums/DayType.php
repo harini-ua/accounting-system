@@ -35,42 +35,42 @@ final class DayType extends Enum
             self::Quited => [
                 'color' => 'quited-color',
                 'available' => false,
-                'value' => '',
+                'value' => 0,
             ],
             self::NotStarted => [
                 'color' => 'not-started-color',
                 'available' => false,
-                'value' => '',
+                'value' => 0,
             ],
             self::LongVacation => [
                 'color' => 'long-vacation-color',
                 'available' => false,
-                'value' => '',
+                'value' => 0,
             ],
             self::Holiday => [
                 'color' => 'light-red',
                 'available' => false,
-                'value' => '',
+                'value' => 0,
             ],
             self::Weekday => [
                 'color' => 'white',
                 'available' => true,
-                'value' => '',
+                'value' => 0,
             ],
             self::Planned => [
                 'color' => 'yellow',
                 'available' => true,
-                'value' => '',
+                'value' => 0,
             ],
             self::Actual => [
                 'color' => 'green',
                 'available' => true,
-                'value' => '1',
+                'value' => 1,
             ],
             self::Sick => [
                 'color' => 'blue',
                 'available' => true,
-                'value' => '1',
+                'value' => 1,
             ],
         ];
     }

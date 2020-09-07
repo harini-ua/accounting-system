@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Http\Requests;
+namespace App\Http\Requests\Person;
 
-use App\Enums\BonusType;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 
-class BonusCreateRequest extends FormRequest
+class CompensateRequest extends FormRequest
 {
+    /**
+     * @var mixed
+     */
+    private $month;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -26,9 +29,7 @@ class BonusCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'person_id' => 'required|exists:people,id',
-            'type' => ['required', new EnumValue(BonusType::class)],
-            'value' => 'required|numeric',
+            'month' => 'required|integer|min:1|max:12'
         ];
     }
 }

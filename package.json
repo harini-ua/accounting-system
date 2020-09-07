@@ -23,6 +23,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "scrollbooster": "^3.0.2",
         "vue": "^2.6.12",
         "vuejs-paginate": "^2.1.0",
         "vuex": "^3.5.1"
