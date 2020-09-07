@@ -26,13 +26,14 @@ body {
 .chip {
     background-color: transparent !important;
 }
+.contracts-list-wrapper {
+    .input-field {
+        position: relative;
+        min-height: 50px !important;
 
-.input-field {
-    position: relative;
-    min-height: 50px !important;
-
-    label {
-        pointer-events: none;
+        label {
+            pointer-events: none;
+        }
     }
 }
 
