@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\DataTables\BonusesRecruitersDataTable;
 use App\DataTables\BonusesSalesManagersDataTable;
+use App\DataTables\HiredBonusesDataTable;
+use App\DataTables\InvoicesBonusesDataTable;
+use App\Http\Requests\BonusesShowRequest;
 use App\Models\CalendarYear;
 use App\Models\Person;
 use App\Models\Position;
@@ -64,11 +67,12 @@ class BonusController extends Controller
     /**
      * Display the specified client.
      *
-     * @param Person $person
+     * @param BonusesShowRequest $request
+     * @param Person             $person
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(Person $person)
+    public function show(BonusesShowRequest $request, Person $person)
     {
         if (!in_array($person->position_id, $this->supportPosition, true)) {
             return view('errors.404');
@@ -76,7 +80,7 @@ class BonusController extends Controller
 
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
-            ['link' => route('bonuses.index', \App\Enums\Position::SalesManager), 'name' => __('Bonus')],
+            ['link' => route('bonuses.index', \App\Enums\Position::SalesManager), 'name' => __('Bonuses')],
             ['name' => $person->name]
         ];
 
@@ -84,16 +88,14 @@ class BonusController extends Controller
 
         switch ($person->position_id) {
             case \App\Enums\Position::Recruiter:
-                //
+                $dataTable = new HiredBonusesDataTable($person);
                 break;
             case \App\Enums\Position::SalesManager:
             default:
-                //
+                $dataTable = new InvoicesBonusesDataTable($person);
         }
 
-        $strPosition = strtolower(\App\Enums\Position::getDescription($person->position_id));
-
-        return view("pages.bonuses.view._$strPosition", compact(
+        return $dataTable->render("pages.bonuses.view", compact(
             'breadcrumbs', 'pageConfigs', 'person'
         ));
     }
