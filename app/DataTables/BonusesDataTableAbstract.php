@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Models\Person;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Arr;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
@@ -35,8 +36,9 @@ abstract class BonusesDataTableAbstract extends DataTable
     {
         $dataTable = datatables()->eloquent($query);
 
-        $dataTable->addColumn('person', static function (Person $model) {
-            return '<a href="'.route("bonuses.person.show", $model->id).'">'.$model->name.'</a>';
+        $dataTable->addColumn('person', function (Person $model) {
+            $personUrl = route("bonuses.person.show", $model->id).'?'.Arr::query(['year' => $this->year]);
+            return '<a href="'.$personUrl.'">'.$model->name.'</a>';
         });
 
         $dataTable->addColumn('bonus', static function(Person $model) {
@@ -44,11 +46,13 @@ abstract class BonusesDataTableAbstract extends DataTable
         });
 
         $dataTable->addColumn('total', function(Person $model) {
-            $currency = $this->currency;
-            $data = collect(json_decode($model->total, true));
-            $folderView = str_replace(' ', '-', strtolower(\App\Enums\Position::getDescription($this->positionId)));
-
-            return view('pages.bonuses.table.'.$folderView.'._total', compact('model', 'data', 'currency'));
+            return view('pages.bonuses.partials.table._total', [
+                'model' => $model,
+                'positionId' => $this->positionId,
+                'data' => collect(json_decode($model->total, true)),
+                'currency' => $this->currency,
+                'year' => $this->year
+            ]);
         });
 
         $monthColumns = $this->addMonthColumnsToDatatable($dataTable);
@@ -151,7 +155,7 @@ abstract class BonusesDataTableAbstract extends DataTable
 
         foreach($this->period() as $month) {
             $columns[] = Column::make(strtolower($month->monthName))
-                ->title(view('pages.bonuses.table.'.$folderView.'._head', compact('month', 'year'))->render())
+                ->title(view('pages.bonuses.partials.table._head', compact('month', 'year'))->render())
                 ->orderable(false)
                 ->searchable(false);
         }
@@ -166,16 +170,19 @@ abstract class BonusesDataTableAbstract extends DataTable
      */
     protected function addMonthColumnsToDatatable($dataTable): array
     {
-        $currency = $this->currency;
-        $folderView = str_replace(' ', '-', strtolower(\App\Enums\Position::getDescription($this->positionId)));
-
         $monthColumns = [];
         foreach($this->period() as $month) {
             $monthName = strtolower($month->monthName);
             $monthColumns[] = $monthName;
-            $dataTable->addColumn($monthName, static function(Person $model) use ($month, $monthName, $currency, $folderView) {
-                $data = collect(json_decode($model->{$monthName}, true));
-                return view('pages.bonuses.table.'.$folderView.'._month', compact('data', 'currency', 'month'));
+            $dataTable->addColumn($monthName, function(Person $model) use ($month, $monthName) {
+                return view('pages.bonuses.partials.table._month', [
+                    'model' => $model,
+                    'positionId' => $this->positionId,
+                    'data' => collect(json_decode($model->{$monthName}, true)),
+                    'currency' => $this->currency,
+                    'month' => $month,
+                    'year' => $this->year
+                ]);
             });
         }
 

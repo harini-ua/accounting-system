@@ -1,12 +1,12 @@
 {{-- pageConfigs variable pass to Helper's updatePageConfig function to update page configuration  --}}
 @isset($pageConfigs)
-{!! Helper::updatePageConfig($pageConfigs) !!}
+{!! update_page_config($pageConfigs) !!}
 @endisset
 
 <!DOCTYPE html>
 @php
 // confiData variable layoutClasses array in Helper.php file.
-$configData = Helper::applClasses();
+$configData = app_classes();
 @endphp
 <!--
 Template Name: Materialize - Material Design Admin Template

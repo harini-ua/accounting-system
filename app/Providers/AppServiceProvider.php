@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Classes\Toast;
 use App\Models\CalendarYear;
 use App\Models\Contract;
 use App\Models\Holiday;
