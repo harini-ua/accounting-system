@@ -9,7 +9,7 @@ use Carbon\Carbon;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class HiredBonusesDataTable extends DataTable
+class BonusesByRecruitDataTable extends DataTable
 {
     public const COLUMNS = [
         'name',
@@ -26,6 +26,9 @@ class HiredBonusesDataTable extends DataTable
     /** @var Person $recruiter */
     public $recruiter;
 
+    /** @var array $query */
+    public $query;
+
     /** @var string $firstPart */
     public $firstPart;
 
@@ -36,14 +39,16 @@ class HiredBonusesDataTable extends DataTable
      * ContractsDataTable constructor.
      *
      * @param Person $recruiter
+     * @param array  $query
      */
-    public function __construct(Person $recruiter)
+    public function __construct(Person $recruiter, array $query)
     {
         $this->recruiter = $recruiter;
+        $this->query = $query;
 
         $fraction = config('people.bonuses.recruit.fraction');
         $this->firstPart = $this->recruiter->bonuses_reward * fraction_to_decimal($fraction);
-        $this->secondPart = $this->recruiter->bonuses_reward - ($this->recruiter->bonuses_reward * fraction_to_decimal($fraction));
+        $this->secondPart = $this->recruiter->bonuses_reward - $this->firstPart;
     }
 
     /**
@@ -108,10 +113,12 @@ class HiredBonusesDataTable extends DataTable
      */
     public function query(Person $model)
     {
-        return $model->newQuery()
-            ->select('people.*')
-            ->with(['recruiter'])
-            ->where('recruiter_id', $this->recruiter->id);
+        $query = $model->newQuery();
+        $query->select('people.*');
+        $query->with(['recruiter']);
+        $query->where('recruiter_id', $this->recruiter->id);
+
+        return $query;
     }
 
     /**

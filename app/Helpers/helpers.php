@@ -1,5 +1,25 @@
 <?php
 
+if (!function_exists('fraction_to_decimal'))
+{
+    function fraction_to_decimal($fraction)
+    {
+        // Split fraction into whole number and fraction components
+        preg_match('/^(?P<whole>\d+)?\s?((?P<numerator>\d+)\/(?P<denominator>\d+))?$/', $fraction, $components);
+
+        // Extract whole number, numerator, and denominator components
+        $whole = $components['whole'] ?: 0;
+        $numerator = $components['numerator'] ?: 0;
+        $denominator = $components['denominator'] ?: 0;
+
+        // Create decimal value
+        $decimal = $whole;
+        $numerator && $denominator && $decimal += ($numerator/$denominator);
+
+        return number_format($decimal, 2);
+    }
+}
+
 if (!function_exists('app_classes'))
 {
     function app_classes()

@@ -15,7 +15,7 @@
                          @if((int) $values[1]) data-position="right" @endif
                          @if((int) $values[1])  data-tooltip="{{__("Reseived").': '.$reseived.'<br>'.__("Bonuses").': '.$bonuses}}" @endif
                     >
-                        <a href="{{$personUrl}}">{{ \App\Services\Formatter::currency($values[1], $currency[$code]) }}</a>
+                        <a target="_blank" href="{{$personUrl}}">{{ \App\Services\Formatter::currency($values[1], $currency[$code]) }}</a>
                     </div>
                 </div>
             @endforeach
@@ -32,7 +32,7 @@
                             $query = ['year' => $year, 'month' => $month->format('n'), 'currency' => $code];
                             $personUrl = route("bonuses.person.show", $model->id).'?'.Arr::query($query);
                         @endphp
-                        <a href="{{$personUrl}}">{{ \App\Services\Formatter::currency(array_sum($values), $currency[$code]) }}</a>
+                        <a target="_blank" href="{{$personUrl}}">{{ \App\Services\Formatter::currency(array_sum($values), $currency[$code]) }}</a>
                     </div>
                 </div>
             @endforeach

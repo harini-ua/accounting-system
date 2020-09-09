@@ -141,7 +141,7 @@ class Person extends Model
      */
     public function recruiter()
     {
-        return $this->belongsTo(User::class)->where('position_id', Position::Recruiter);
+        return $this->belongsTo(Person::class)->where('position_id', Position::Recruiter);
     }
 
     /**
