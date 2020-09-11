@@ -53,7 +53,7 @@
                                 </div>
                             </div>
                             <div class="col s12 display-flex justify-content-end mt-3">
-                                <a href="{{ route('expenses.index') }}" class="btn btn-light chanel-btn mr-1">Cancel</a>
+                                <a href="{{ route('expenses.index') }}" class="btn btn-light cancel-btn mr-1">Cancel</a>
 
                                 <button type="submit" class="btn waves-effect waves-light ">
                                     Save changes</button>

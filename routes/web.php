@@ -111,6 +111,7 @@ Route::middleware(['auth'])->group(function() {
         Route::post('back-to-active/{person}', 'PersonController@backToActive')->name('back-to-active');
         Route::post('pay-data/{person}', 'PersonController@payData')->name('pay-data');
         Route::patch('available-vacations/{person}', 'PersonController@updateAvailableVacations')->name('available-vacations');
+        Route::patch('compensate/{person}', 'PersonController@compensate')->name('compensate');
     });
     Route::resource('people', 'PersonController');
 
@@ -122,12 +123,16 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/calendar/create', 'CalendarController@create')->name('calendar.create');
     Route::delete('/calendar/{year}', 'CalendarController@destroy')->name('calendar.destroy')->where('year', '\d\d\d\d');
     Route::put('/calendar/updateMonth/{calendarMonth}', 'CalendarController@updateMonth');
-    Route::resource('holidays', 'HolidayController');
     Route::get('/months/{year}', 'CalendarController@months')->name('calendar.months')->where('year', '\d\d\d\d');
 
+    // Holiday
+    Route::resource('holidays', 'HolidayController');
+
     // Bonuses
-    Route::resource('bonuses', 'BonusController');
-    Route::get('/bonuses/person/{person}', 'BonusController@show')->name('bonuses.show');
+    Route::resource('bonuses', 'BonusController')->except(['index', 'show']);
+    Route::get('/bonuses', 'BonusController@index')->name('bonuses.index');
+    Route::get('/bonuses/position/{position}', 'BonusController@index')->name('bonuses.index');
+    Route::get('/bonuses/person/{person}', 'BonusController@show')->name('bonuses.person.show');
 
     // Vacations
     Route::group(['prefix' => 'vacations', 'as' => 'vacations.'], function() {

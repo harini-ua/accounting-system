@@ -106,7 +106,7 @@ class Invoice extends Model
      */
     public function salesManager()
     {
-        return $this->belongsTo(User::class, 'sales_manager_id');
+        return $this->belongsTo(Person::class, 'sales_manager_id');
     }
 
     /**

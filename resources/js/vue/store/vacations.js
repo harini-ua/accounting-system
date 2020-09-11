@@ -4,12 +4,23 @@ export default {
     state: () => ({
         vacations: [],
         totalVacations: 0,
-        fillType: ''
+        fillType: '',
+        page: 1,
+        length: 20,
+        year: '',
+        month: '',
+        showAll: false,
+        search: '',
     }),
     getters: {
         allVacations: state => state.vacations,
         totalVacations: state => state.totalVacations,
-        getFillType: state => state.fillType
+        getFillType: state => state.fillType,
+        getPage: state => state.page,
+        getLength: state => state.length,
+        getYear: state => state.year,
+        getMonth: state => state.month,
+        getShowAll: state => state.showAll,
     },
     mutations: {
         setVacations (state, payload) {
@@ -20,23 +31,42 @@ export default {
             const index = state.vacations.findIndex(
                 vacation => vacation.id === payload.item.id && vacation.payment === payload.item.payment
             );
-            state.vacations[index][payload.day.day] = state.fillType;
+            state.vacations[index][payload.day.day] = {
+                type: state.fillType,
+                days: payload.value
+            };
         },
         setFillType: (state, payload) => state.fillType = payload.fillType,
         setAvailableVacations: (state, payload) => {
             const index = state.vacations.findIndex(vacation => vacation.id === payload.item.id);
             state.vacations[index].available_vacations = parseFloat(state.vacations[index].available_vacations) + parseInt(payload.available_vacations, 10);
-        }
+        },
+        setPage: (state, payload) => state.page = payload,
+        setYear: (state, payload) => state.year = payload,
+        setMonth: (state, payload) => state.month = payload,
+        setShowAll: (state, payload) => state.showAll = payload,
+        setSearch: (state, payload) => state.search = payload,
     },
     actions: {
-        fetchVacations({ commit, state }, payload) {
+        fetchVacations({ commit, state }) {
+            const params = {
+                draw: state.page,
+                start: state.length*(state.page-1),
+                length: state.length,
+            }
+            if (state.showAll) {
+                params.show_all = 1;
+            }
+            if (state.search) {
+                params.search = state.search;
+            }
             axios({
                 method: 'GET',
-                url: `/vacations/${payload.year}/${payload.month}`,
+                url: `/vacations/${state.year}/${state.month}`,
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest'
                 },
-                params: payload.params
+                params: params,
             })
                 .then(resp => {
                     commit('setVacations', {
@@ -68,6 +98,12 @@ export default {
                 available_vacations: payload.available_vacations
             })
                 .then(() => commit('setAvailableVacations', payload))
+        },
+        compensate({ commit, state }, personId) {
+            axios.patch(`/people/compensate/${personId}`, {
+                month: state.month
+            })
+                .then(() => this.dispatch('fetchVacations'))
         }
     }
 }

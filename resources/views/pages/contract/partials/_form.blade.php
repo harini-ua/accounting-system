@@ -94,7 +94,7 @@
             </div>
         </div>
         <div class="col s12 display-flex justify-content-end mt-3">
-            <a href="{{ url()->previous() }}" class="chanel-btn btn btn-light {{ isset($contract) ? __('') : __('slide-up-btn') }} mr-1">{{ __('Cancel') }}</a>
+            <a href="{{ url()->previous() }}" class="cancel-btn btn btn-light {{ isset($contract) ? __('') : __('slide-up-btn') }} mr-1">{{ __('Cancel') }}</a>
             <button type="submit" class="btn ">{{ isset($contract) ? __('Update') : __('Save') }}</button>
         </div>
     </div>

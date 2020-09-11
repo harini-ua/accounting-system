@@ -1,12 +1,8 @@
-<?php // Code within app\Helpers\Helper.php
+<?php
 
-namespace App\Helpers;
-
-use Config;
-
-class Helper
+if (!function_exists('app_classes'))
 {
-    public static function applClasses()
+    function app_classes()
     {
         // default data value
         $dataDefault = [
@@ -49,7 +45,7 @@ class Helper
             'direction' => array('ltr', 'rtl'),
         ];
 
-        //if any options value empty or wrong in custom.php config file then set a default value
+        // if any options value empty or wrong in custom.php config file then set a default value
         foreach ($allOptions as $key => $value) {
             if (gettype($data[$key]) === gettype($dataDefault[$key])) {
                 if (is_string($data[$key])) {
@@ -58,14 +54,12 @@ class Helper
                         $data[$key] = $dataDefault[$key];
                     }
                 }
-            } else {
-                if (is_string($dataDefault[$key])) {
-                    $data[$key] = $dataDefault[$key];
-                } elseif (is_bool($dataDefault[$key])) {
-                    $data[$key] = $dataDefault[$key];
-                } elseif (is_null($dataDefault[$key])) {
-                    is_string($data[$key]) ? $data[$key] = $dataDefault[$key] : '';
-                }
+            } else if (is_string($dataDefault[$key])) {
+                $data[$key] = $dataDefault[$key];
+            } elseif (is_bool($dataDefault[$key])) {
+                $data[$key] = $dataDefault[$key];
+            } elseif (is_null($dataDefault[$key])) {
+                is_string($data[$key]) ? $data[$key] = $dataDefault[$key] : '';
             }
         }
 
@@ -73,11 +67,12 @@ class Helper
         if (empty($data['largeScreenLogo'])) {
             $data['largeScreenLogo'] = $dataDefault['largeScreenLogo'];
         }
+
         if (empty($data['smallScreenLogo'])) {
             $data['smallScreenLogo'] = $dataDefault['smallScreenLogo'];
         }
-        //mainLayoutTypeClass array contain default class of body element
 
+        // mainLayoutTypeClass array contain default class of body element
         $mainLayoutTypeClass = [
             'vertical-modern-menu' => 'vertical-layout vertical-menu-collapsible page-header-dark vertical-modern-menu 2-columns',
             'vertical-menu-nav-dark' => 'vertical-layout page-header-light vertical-menu-collapsible vertical-menu-nav-dark 2-columns',
@@ -85,6 +80,7 @@ class Helper
             'vertical-dark-menu' => 'vertical-layout page-header-light vertical-menu-collapsible vertical-dark-menu 2-columns',
             'horizontal-menu' => 'horizontal-layout page-header-light horizontal-menu 2-columns',
         ];
+
         //sidenavMain array contain default class of sidenav
         $sidenavMain = [
             'vertical-modern-menu' => 'sidenav-main nav-expanded nav-lock nav-collapsible',
@@ -93,7 +89,8 @@ class Helper
             'vertical-dark-menu' => 'sidenav-main nav-expanded nav-lock nav-collapsible',
             'horizontal-menu' => 'sidenav-main nav-expanded nav-lock nav-collapsible sidenav-fixed hide-on-large-only',
         ];
-        //sidenavMainColor array contain sidenav menu's color class according to layout types
+
+        // sidenavMainColor array contain sidenav menu's color class according to layout types
         $sidenavMainColor = [
             'vertical-modern-menu' => 'sidenav-light',
             'vertical-menu-nav-dark' => 'sidenav-light',
@@ -102,7 +99,7 @@ class Helper
             'horizontal-menu' => '',
         ];
 
-        //activeMenuTypeClass array contain active menu class of sidenav according to layout types
+        // activeMenuTypeClass array contain active menu class of sidenav according to layout types
         $activeMenuTypeClass = [
             'vertical-modern-menu' => 'sidenav-active-square',
             'vertical-menu-nav-dark' => 'sidenav-active-rounded',
@@ -111,7 +108,7 @@ class Helper
             'horizontal-menu' => '',
         ];
 
-        //navbarMainClass array contain navbar's default classes
+        // navbarMainClass array contain navbar's default classes
         $navbarMainClass = [
             'vertical-modern-menu' => 'navbar-main navbar-color nav-collapsible no-shadow nav-expanded sideNav-lock',
             'vertical-menu-nav-dark' => 'navbar-main navbar-color nav-collapsible sideNav-lock gradient-shadow',
@@ -119,7 +116,8 @@ class Helper
             'vertical-dark-menu' => 'navbar-main navbar-color nav-collapsible sideNav-lock',
             'horizontal-menu' => 'navbar-main navbar-color nav-collapsible sideNav-lock',
         ];
-        //navbarMainColor array contain navabar's color classes according to layout types
+
+        // navbarMainColor array contain navabar's color classes according to layout types
         $navbarMainColor = [
             'vertical-modern-menu' => 'navbar-dark gradient-45deg-indigo-purple',
             'vertical-menu-nav-dark' => 'navbar-dark gradient-45deg-purple-deep-orange',
@@ -128,7 +126,7 @@ class Helper
             'horizontal-menu' => 'navbar-dark gradient-45deg-light-blue-cyan',
         ];
 
-        //navbarLargeColor array contain navbarlarge's default color classes
+        // navbarLargeColor array contain navbarlarge's default color classes
         $navbarLargeColor = [
             'vertical-modern-menu' => 'gradient-45deg-indigo-purple',
             'vertical-menu-nav-dark' => 'blue-grey lighten-5',
@@ -146,7 +144,7 @@ class Helper
             'horizontal-menu' => 'page-footer footer gradient-shadow',
         ];
 
-        //mainFooterColor array contain footer's color classes
+        // mainFooterColor array contain footer's color classes
         $mainFooterColor = [
             'vertical-modern-menu' => 'footer-dark gradient-45deg-indigo-purple',
             'vertical-menu-nav-dark' => 'footer-dark gradient-45deg-purple-deep-orange',
@@ -155,7 +153,7 @@ class Helper
             'horizontal-menu' => 'footer-dark gradient-45deg-light-blue-cyan',
         ];
 
-        //  above arrary override through dynamic data
+        // above arrary override through dynamic data
         $layoutClasses = [
             'mainLayoutType' => $data['mainLayoutType'],
             'mainLayoutTypeClass' => $mainLayoutTypeClass[$data['mainLayoutType']],
@@ -185,20 +183,26 @@ class Helper
             'mainFooterColor' => $mainFooterColor[$data['mainLayoutType']],
             'direction' => $data['direction'],
         ];
-         // set default language if session hasn't locale value the set default language
-         if(!session()->has('locale')){
+
+        // set default language if session hasn't locale value the set default language
+        if(!session()->has('locale')){
             app()->setLocale($layoutClasses['defaultLanguage']);
         }
+
         return $layoutClasses;
     }
+}
+
+if (!function_exists('update_page_config'))
+{
     // updatesPageConfig function override all configuration of custom.php file as page requirements.
-    public static function updatePageConfig($pageConfigs)
+    function update_page_config($pageConfigs)
     {
         $demo = 'custom';
         if (isset($pageConfigs)) {
             if (count($pageConfigs) > 0) {
                 foreach ($pageConfigs as $config => $val) {
-                    Config::set('custom.' . $demo . '.' . $config, $val);
+                    \Illuminate\Support\Facades\Config::set('custom.' . $demo . '.' . $config, $val);
                 }
             }
         }

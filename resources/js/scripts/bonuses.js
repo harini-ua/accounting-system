@@ -11,6 +11,12 @@ jQuery(document).ready(function ($) {
       if (year !== undefined) {
         $this.find('.bonuses-year').data('year', year).html(year)
       }
+      $('.tooltipped').tooltip();
+    });
+
+    $this.find('.tabs .tab a').not('.active').on('click', function () {
+      let url = $(this).data('bonuses-href');
+      $(location).attr('href', url);
     });
 
     $('#bonuses-list-datatable tbody').on( 'mouseenter', 'td', function () {
@@ -21,5 +27,5 @@ jQuery(document).ready(function ($) {
     });
   });
 
-  $('.dataTable thead th').css('cursor', 'pointer').removeAttr('title');
+  $('.dataTable thead th').css('cursor', 'default').removeAttr('title');
 })

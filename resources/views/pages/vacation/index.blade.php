@@ -30,6 +30,12 @@
                 title="By Year"
                 all="0"
             />
+            <x-checkbox-filter
+                title="Show All"
+                name="show_all"
+                table="vacations-table"
+                url="{{ route('vacations.index') }}"
+            /><x-reset-filters/>
         </div>
         {{-- controls end --}}
         {{-- content start --}}

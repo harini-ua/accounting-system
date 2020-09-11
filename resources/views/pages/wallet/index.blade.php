@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div class="pl-0 pr-0 right-align">
-                            <a href="#" class=" mr-1 btn waves-effect chanel-btn slide-up-btn">Cancel</a>
+                            <a href="#" class=" mr-1 btn waves-effect cancel-btn slide-up-btn">Cancel</a>
                             <button type="submit" class="btn waves-effect waves-light">
                                 <span>Add Wallet</span>
                             </button>

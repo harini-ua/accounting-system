@@ -27,6 +27,7 @@ class Person extends Model
         'long_vacation_plan_finished_at' => Date::class,
         'long_vacation_finished_at' => Date::class,
         'quited_at' => Date::class,
+        'compensated_at' => Date::class,
     ];
 
     /**
@@ -73,6 +74,26 @@ class Person extends Model
      * @var mixed
      */
     private $available_vacations;
+    /**
+     * @var int|mixed
+     */
+    private $compensated_days;
+    /**
+     * @var false|mixed
+     */
+    private $compensate;
+    /**
+     * @var Carbon|mixed
+     */
+    private $compensated_at;
+    /**
+     * @var mixed
+     */
+    private $payment;
+    /**
+     * @var mixed
+     */
+    private $start_date;
 
     protected static function booted()
     {
@@ -120,7 +141,7 @@ class Person extends Model
      */
     public function recruiter()
     {
-        return $this->belongsTo(User::class)->where('position_id', Position::Recruiter());
+        return $this->belongsTo(User::class)->where('position_id', Position::Recruiter);
     }
 
     /**
@@ -131,16 +152,6 @@ class Person extends Model
     public function certifications()
     {
         return $this->hasMany(Certification::class);
-    }
-
-    /**
-     * Get the bonuses that owns the person.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function bonus()
-    {
-        return $this->hasOne(Bonus::class);
     }
 
     /**
@@ -170,6 +181,9 @@ class Person extends Model
         return $this->hasMany(LongVacation::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function latestVacations()
     {
         return $this->longVacations()
@@ -201,6 +215,35 @@ class Person extends Model
     public function lastLongVacationOrNew(array $attributes)
     {
         return $this->latestVacations()->firstOrNew($attributes);
+    }
+
+    /**
+     * @param int $month
+     * @return Carbon
+     */
+    public function getCompensationDate(int $month): Carbon
+    {
+        $date = Carbon::now()->setMonth($month)->startOfMonth();
+        $holidays = Holiday::ofYear($date->year)
+            ->whereMonth('date', $month)
+            ->get(['date', 'name', 'moved_date'])
+            ->map(function($holiday) {
+                return Carbon::parse($holiday->moved_date ?: $holiday->date)->day;
+            })->toArray();
+        $vacations = $this->vacations()
+            ->whereYear('date', $date->year)
+            ->whereMonth('date', $month)
+            ->get()
+            ->map(function($vacation) {
+                return Carbon::parse($vacation->date)->day;
+            })->toArray();
+        $busyDays = array_merge($holidays, $vacations);
+
+        while ($date->isWeekend() || in_array($date->day, $busyDays)) {
+            $date->addDay();
+        }
+
+        return $date;
     }
 
 }

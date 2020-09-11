@@ -1,6 +1,9 @@
 <template>
-    <div>
-        <table class="table table-sm responsive-table highlight bordered no-footer" role="grid">
+    <div class="dataTables_wrapper no-footer">
+        <div class="dataTables_filter">
+            <label>Search:<input v-model="search" type="search"></label>
+        </div>
+        <table class="table table-small responsive-table highlight bordered no-footer" role="grid">
             <thead>
                 <tr>
                     <th>Name</th>
@@ -9,12 +12,13 @@
                     <th>Available in total</th>
                     <th v-for="(day, index) in days" :key="index">{{ day.name }}</th>
                     <th>Total</th>
+                    <th>Compensate</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="(item, index) in items" :key="index">
-                    <td v-html="item.payment===paid ? item.name : ''"></td>
-                    <td @click="onCell">{{ item.payment===paid ? item.start_date : '' }}</td>
+                    <td v-html="item.payment===paid ? item.name : ''" class="text-nowrap"></td>
+                    <td class="text-nowrap">{{ item.payment===paid ? item.start_date : '' }}</td>
                     <td>{{ item.payment }}</td>
                     <td>
                         <span>{{ item.payment===paid ? Math.round(item.available_vacations) : '' }}</span>
@@ -29,17 +33,25 @@
                         :class="cellClass(item, day)"
                         :title="day.holiday ? day.tooltip : ''"
                         @click="onCell(item, day)"
-                    >{{ dayValue(item[day.day]) }}</td>
+                    >{{ dayValue(item, day) || '' }}</td>
                     <td>{{ totalDays(item) }}</td>
+                    <td>
+                        <span v-if="item.payment===paid" class="cursor-pointer mr-2">
+                            <i v-if="item.compensate" @click="compensate(item.id)" class="material-icons">play_circle_filled</i>
+                        </span>
+                    </td>
                 </tr>
             </tbody>
         </table>
+        <div class="dataTables_info">
+            Showing {{ (draw-1)*length/2+1 }} to {{ draw*length < total ? draw*length/2 : total/2 }} of {{ total/2 }} entries
+        </div>
         <paginate
             :pageCount="Math.ceil(total/length)"
             :clickHandler="paginateHandler"
             :prevText="'Prev'"
             :nextText="'Next'"
-            :containerClass="'pagination float-right'"
+            :containerClass="'pagination dataTables_paginate paging_simple_numbers'"
             :page-class="'waves-effect'"
         >
         </paginate>
@@ -49,7 +61,7 @@
 <script>
 import AddAvailableTotal from "./AddAvailableTotal";
 import Paginate from 'vuejs-paginate'
-import {mapActions, mapGetters} from 'vuex'
+import {mapActions, mapGetters, mapMutations} from 'vuex'
 
 export default {
     name: "VacationMonthTable",
@@ -57,64 +69,69 @@ export default {
     props: ['year', 'month', 'paid', 'days', 'dayTypes'],
     data() {
         return {
-            draw: 1,
-            length: 20,
+            search: ''
+        }
+    },
+    watch: {
+        search(value) {
+            this.setSearch(value);
+            this.fetchVacations();
         }
     },
     created() {
-        this.fetchItems();
+        this.setYear(this.year);
+        this.setMonth(this.month);
+        this.fetchVacations();
     },
     methods: {
         ...mapActions([
             'fetchVacations',
             'setVacation',
             'deleteVacation',
-            'setAvailableVacations'
+            'setAvailableVacations',
+            'compensate'
         ]),
-        fetchItems() {
-            this.fetchVacations({
-                year: this.year,
-                month: this.month,
-                params: {
-                    draw: this.draw,
-                    start: this.length*(this.draw-1),
-                    length: this.length,
-                }
-            });
-        },
+        ...mapMutations([
+            'setPage',
+            'setYear',
+            'setMonth',
+            'setSearch',
+        ]),
         onCell(item, day) {
             if (this.isDayAvailable(item, day) && this.isFill) {
                 if (this.fillType === 'weekday') {
                     this.deleteVacation({
                         item: item,
-                        day: day
+                        day: day,
+                        value: this.dayTypes[this.fillType].value
                     });
                 } else {
                     this.setVacation({
                         item: item,
-                        day: day
+                        day: day,
+                        value: this.dayTypes[this.fillType].value
                     });
                 }
             }
         },
         isDayAvailable(item, day)
         {
-            return this.dayTypes[item[day.day]].available;
+            return this.dayTypes[item[day.day].type].available;
         },
         paginateHandler(page) {
-            this.draw = page;
-            this.fetchItems();
+            this.setPage(page);
+            this.fetchVacations();
         },
         totalDays(item) {
             return this.days.reduce((total, next) => {
-                return total + (this.dayValue(item[next.day]) ? 1 : 0);
+                return total + parseInt(this.dayValue(item, next), 10);
             }, 0);
         },
         cellClass(item, day) {
-            return this.dayTypes[item[day.day]].color;
+            return this.dayTypes[item[day.day].type].color;
         },
-        dayValue(dayType) {
-            return this.dayTypes[dayType].value;
+        dayValue(item, day) {
+            return item[day.day].days;
         },
         updateTotalAvailable(item, field, value) {
             this.setAvailableVacations({
@@ -127,7 +144,9 @@ export default {
         ...mapGetters({
             items: 'allVacations',
             total: 'totalVacations',
-            fillType: 'getFillType'
+            fillType: 'getFillType',
+            draw: 'getPage',
+            length: 'getLength',
         }),
         isFill() {
             return !!this.fillType;

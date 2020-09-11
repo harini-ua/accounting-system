@@ -23,7 +23,8 @@
     <section class="users-list-wrapper section">
         <div class="create-btn invoice-create-btn add-item-btn row">
             <div class="col">
-                <a href="{{ route('people.former-list') }}" class="btn green waves-effect waves-light invoice-create z-depth-4">
+                <a href="{{ route('people.former-list') }}"
+                   class="btn green waves-effect waves-light invoice-create z-depth-4">
                     <span class="hide-on-small-only">Former employees</span>
                 </a>
             </div>
@@ -34,17 +35,61 @@
                 </a>
             </div>
         </div>
-        <div class="users-list-table">
-            <div class="card">
-                <div class="card-content">
-                    <!-- datatable start -->
-                    <div class="responsive-table">
-                        {{ $dataTable->table() }}
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <ul class="tabs">
+                        <li class="tab col s12 m6 l3"><a href="#people">People</a></li>
+                        <li class="tab col s12 m6 l3"><a class="active" href="#former-employees">Former employees</a>
+                        </li>
+                    </ul>
+                    <div id="former-employees" class="col s12">
+                        <div class="users-list-table">
+                            <div class="responsive-table overflow-x-auto">
+                                <!-- datatable start -->
+                            {{ $dataTable->table() }}
+                            <!-- datatable ends -->
+                            </div>
+                        </div>
                     </div>
-                    <!-- datatable ends -->
+                    <div id="people" class="col s12">
+                        <div class="users-list-table">
+                            <div class="responsive-table overflow-x-auto">
+                                <!-- datatable start -->
+                            {{ $dataTable->table() }}
+                            <!-- datatable ends -->
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        {{--        <div class="users-list-table">--}}
+        {{--            <div class="card">--}}
+        {{--                <ul class="tabs">--}}
+        {{--                    <li class="tab col s12 m6"><a href="#people">People</a></li>--}}
+        {{--                    <li class="tab col s12 m6"><a class="active" href="#former-employees">Former employees</a></li>--}}
+        {{--                </ul>--}}
+        {{--                <div id="people" class="col s12">--}}
+        {{--                    <div class="card-content">--}}
+        {{--                        <div class="responsive-table overflow-x-auto">--}}
+        {{--                            <!-- datatable start -->--}}
+        {{--                        {{ $dataTable->table() }}--}}
+        {{--                        <!-- datatable ends -->--}}
+        {{--                        </div>--}}
+        {{--                    </div>--}}
+        {{--                </div>--}}
+        {{--                <div id="former-employees" class="card-content col s12">--}}
+        {{--                    <div class="card-content">--}}
+        {{--                        <div class="responsive-table overflow-x-auto">--}}
+        {{--                            <!-- datatable start -->--}}
+        {{--                        {{ $dataTable->table() }}--}}
+        {{--                        <!-- datatable ends -->--}}
+        {{--                        </div>--}}
+        {{--                    </div>--}}
+        {{--                </div>--}}
+        {{--            </div>--}}
+        {{--        </div>--}}
     </section>
 
     <!-- Content Area Ends -->

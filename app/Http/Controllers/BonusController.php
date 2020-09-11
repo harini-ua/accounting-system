@@ -2,28 +2,47 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\BonusesDataTable;
-use App\Enums\BonusType;
-use App\Http\Requests\BonusCreateRequest;
-use App\Http\Requests\BonusUpdateRequest;
-use App\Models\Bonus;
+use App\DataTables\BonusesRecruitersDataTable;
+use App\DataTables\BonusesSalesManagersDataTable;
+use App\DataTables\HiredBonusesDataTable;
+use App\DataTables\InvoicesBonusesDataTable;
+use App\Http\Requests\BonusesShowRequest;
 use App\Models\CalendarYear;
 use App\Models\Person;
 use App\Models\Position;
-use Illuminate\Http\Request;
-use function Symfony\Component\VarDumper\Dumper\esc;
 
 class BonusController extends Controller
 {
+    protected $supportPosition = [
+        \App\Enums\Position::SalesManager,
+        \App\Enums\Position::Recruiter
+    ];
+
     /**
      * Display a listing of the resource.
      *
-     * @param BonusesDataTable $dataTable
+     * @param Position|null $position
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function index(BonusesDataTable $dataTable)
+    public function index(Position $position = null)
     {
+        // set default position
+        $position = $position ?? Position::find(\App\Enums\Position::SalesManager);
+
+        if (!in_array($position->id, $this->supportPosition, true)) {
+            return view('errors.404');
+        }
+
+        switch ($position->id) {
+            case \App\Enums\Position::Recruiter:
+                $dataTable = new BonusesRecruitersDataTable();
+                break;
+            case \App\Enums\Position::SalesManager:
+            default:
+                $dataTable = new BonusesSalesManagersDataTable();
+        }
+
         $year = $dataTable->year;
 
         $breadcrumbs = [
@@ -38,146 +57,46 @@ class BonusController extends Controller
             return $calendarYear;
         });
 
+        $positions = Position::whereIn('id', $this->supportPosition)->get();
+
         return $dataTable->render('pages.bonuses.index', compact(
-            'breadcrumbs', 'pageConfigs', 'calendarYears', 'year'
+            'breadcrumbs', 'pageConfigs', 'calendarYears', 'year', 'positions', 'position'
         ));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param BonusCreateRequest $request
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
-     */
-    public function store(BonusCreateRequest $request)
-    {
-        $person = Person::findOrFail($request->get('person_id'));
-        $positions = [\App\Enums\Position::SalesManager, \App\Enums\Position::Recruiter];
-
-        if (in_array($person->position_id, $positions, true)) {
-            $bonus = new Bonus();
-            $bonus->fill($request->all());
-            $bonus->save();
-
-            $value = ($bonus->type === BonusType::PERCENT) ? $bonus->value.' %' : $bonus->value;
-
-            alert()->success($person->name.' - '.$value, __('Create bonus has been successful'));
-        } else {
-            alert()->warning(
-                \App\Enums\Position::getDescription($person->position_id),
-                __('Bonus for this position is not available')
-            );
-        }
-
-        return redirect()->route('bonuses.index');
     }
 
     /**
      * Display the specified client.
      *
-     * @param Person $person
+     * @param BonusesShowRequest $request
+     * @param Person             $person
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function show(Person $person)
+    public function show(BonusesShowRequest $request, Person $person)
     {
-        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+        if (!in_array($person->position_id, $this->supportPosition, true)) {
+            return view('errors.404');
+        }
 
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
-            ['link' => route('bonuses.index'), 'name' => __('Bonus')],
+            ['link' => route('bonuses.index', \App\Enums\Position::SalesManager), 'name' => __('Bonuses')],
             ['name' => $person->name]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        $person->load(['bonus']);
+        switch ($person->position_id) {
+            case \App\Enums\Position::Recruiter:
+                $dataTable = new HiredBonusesDataTable($person);
+                break;
+            case \App\Enums\Position::SalesManager:
+            default:
+                $dataTable = new InvoicesBonusesDataTable($person);
+        }
 
-        $strPosition = strtolower(\App\Enums\Position::getDescription($person->position_id));
-
-        return view("pages.bonuses.view._$strPosition", compact(
+        return $dataTable->render("pages.bonuses.view", compact(
             'breadcrumbs', 'pageConfigs', 'person'
         ));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @param Bonus $bonus
-     *
-     * @return \Illuminate\View\View
-     */
-    public function edit(Bonus $bonus)
-    {
-        $breadcrumbs = [
-            ['link' => route('home'), 'name' => __('Home')],
-            ['link' => route('bonuses.index'), 'name' => __('Bonuses')],
-            ['name' => $bonus->name]
-        ];
-
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
-
-        $people = Person::whereIn('position_id', [\App\Enums\Position::SalesManager, \App\Enums\Position::Recruiter])
-            ->orderBy('name')->get();
-
-        return view('pages.bonuses.update', compact(
-            'breadcrumbs', 'pageConfigs', 'bonus', 'people'
-        ));
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param BonusUpdateRequest $request
-     * @param Bonus              $bonus
-     *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
-     */
-    public function update(BonusUpdateRequest $request, Bonus $bonus)
-    {
-        $person = Person::findOrFail($request->get('person_id'));
-        $positions = [\App\Enums\Position::SalesManager, \App\Enums\Position::Recruiter];
-
-        if (in_array($person->position_id, $positions, true)) {
-            $bonus->fill($request->all());
-            $bonus->save();
-
-            $value = ($bonus->type === BonusType::PERCENT) ? $bonus->value.' %' : $bonus->value;
-
-            alert()->success($person->name.' - '.$value, __('Bonus data has been update successful'));
-        } else {
-            alert()->warning(
-                \App\Enums\Position::getDescription($person->position_id),
-                __('Bonus for this position is not available')
-            );
-        }
-
-        return redirect()->route('bonuses.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Bonus $bonus
-     *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
-     */
-    public function destroy(Bonus $bonus)
-    {
-        if ($bonus->delete()) {
-            return response()->json([
-                'success' => true,
-                'message' => __('Bonus has been deleted successfully.')
-            ]);
-        }
-
-        return response()->json([
-            'success' => false,
-            'message' => __('Something went wrong. Try again.')
-       ]);
     }
 }

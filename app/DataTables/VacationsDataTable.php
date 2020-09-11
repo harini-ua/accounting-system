@@ -52,11 +52,11 @@ class VacationsDataTable extends DataTable
             ->addColumn('total', function(Person $model) {
                 return $model->total ?? 0;
             })
-            ->addColumn('compensation_days', function(Person $model) {
-                return null; //todo: resolve after implementation payslip
+            ->addColumn('compensated_days', function(Person $model) {
+                return $model->payment == VacationPaymentType::Paid ? $model->compensated_days : null;
             })
-            ->addColumn('compensation_date', function(Person $model) {
-                return null; //todo: resolve after implementation payslip
+            ->addColumn('compensated_at', function(Person $model) {
+                return $model->payment == VacationPaymentType::Paid ? $model->compensated_at : null;
             })
             // orders
             ->orderColumn('name', function($query, $order) {
@@ -143,7 +143,9 @@ class VacationsDataTable extends DataTable
                     $(this).closest('td').attr('style', 'background-color: ' + $(this).attr('data-color') + ' !important;');
                 });
             }")
-            ;
+            ->infoCallback("function(settings, start, end, max, total, pre) {
+                return 'Showing '+parseInt((start-1)/2+1, 10)+' to '+end/2+' of '+total/2+' entries';
+            }");
     }
 
     /**
@@ -163,8 +165,8 @@ class VacationsDataTable extends DataTable
         ];
         $monthColumns = $this->monthColumns();
         $lastColumns = [
-            Column::make('compensation_days')->searchable(false),
-            Column::make('compensation_date')->searchable(false),
+            Column::make('compensated_days')->title('Compensation days')->searchable(false),
+            Column::make('compensated_at')->title('Compensation date')->searchable(false),
         ];
 
         return array_merge($firstColumns, $monthColumns, $lastColumns);
@@ -195,7 +197,7 @@ class VacationsDataTable extends DataTable
     {
         foreach($this->period() as $month) {
             $monthName = strtolower($month->monthName);
-            $query->selectRaw("count(case when month(date)={$month->month} then id end) as {$monthName}");
+            $query->selectRaw("sum(case when month(date)={$month->month} then days end) as {$monthName}");
         }
     }
 
@@ -233,7 +235,7 @@ class VacationsDataTable extends DataTable
         $columns = [];
         foreach($this->period() as $month) {
             $columns[] = Column::make(strtolower($month->monthName))
-                ->title("<a data-month-link href='".route('vacations.month', [$this->year, $month->month])."'>{$month->shortMonthName}</a>")
+                ->title("<a class='text-decoration-underline' data-month-link href='".route('vacations.month', [$this->year, $month->month])."'>{$month->shortMonthName}</a>")
                 ->searchable(false);
         }
         return $columns;
@@ -302,5 +304,8 @@ class VacationsDataTable extends DataTable
                             ->orWhereYear('quited_at', $year);
                     });
             });
+        if (!$this->request()->filled('show_all')) {
+            $query->whereNull('people.quited_at');
+        }
     }
 }

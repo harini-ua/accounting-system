@@ -47,6 +47,14 @@ class VacationMonthDataTable extends DataTable
             //definitions
             ->addColumn('name', function(Person $model) {
                 return $model->payment == VacationPaymentType::Paid ? view('partials.view-link', ['model' => $model]) : '';
+            })
+            ->addColumn('compensate', function(Person $model) {
+                $date = Carbon::createFromDate($this->year, $this->month)->startOfMonth();
+                $startedDate = Carbon::parse($model->start_date)->setYear($this->year)->startOfMonth();
+                if ($date < $startedDate || $startedDate->diffInMonths($date) > 2) {
+                    return false;
+                }
+                return $model->compensate;
             });
 
         $this->addDayColumns($eloquent);
@@ -88,7 +96,7 @@ class VacationMonthDataTable extends DataTable
             })
         ;
         $this->addLongVacationMonthQuery($paidQuery);
-//        $this->addFilterQuery($paidQuery);
+        $this->addFilterQuery($paidQuery);
 
         $unpaidQuery = $model->newQuery()
             ->select(array_merge(['people.*', 'long_vacations.*'], $this->dayKeys('unpaid_vacations.', '_planned'), $this->dayKeys('unpaid_vacations.', '_actual'), $this->dayKeys('unpaid_vacations.', '_sick')))
@@ -98,7 +106,7 @@ class VacationMonthDataTable extends DataTable
             })
         ;
         $this->addLongVacationMonthQuery($unpaidQuery);
-//        $this->addFilterQuery($unpaidQuery);
+        $this->addFilterQuery($unpaidQuery);
 
         return $unpaidQuery
             ->unionAll($paidQuery)
@@ -212,9 +220,9 @@ class VacationMonthDataTable extends DataTable
     {
         foreach($this->period() as $day) {
             $query
-                ->selectRaw("count(case when day(date)='{$day->day}' and type='planned' then 1 end) as '{$this->dayFieldName($day, VacationType::Planned)}'")
-                ->selectRaw("count(case when day(date)='{$day->day}' and type='actual' then 1 end) as '{$this->dayFieldName($day, VacationType::Actual)}'")
-                ->selectRaw("count(case when day(date)='{$day->day}' and type='sick' then 1 end) as '{$this->dayFieldName($day, VacationType::Sick)}'")
+                ->selectRaw("sum(case when day(date)='{$day->day}' and type='planned' then days end) as '{$this->dayFieldName($day, VacationType::Planned)}'")
+                ->selectRaw("sum(case when day(date)='{$day->day}' and type='actual' then days end) as '{$this->dayFieldName($day, VacationType::Actual)}'")
+                ->selectRaw("sum(case when day(date)='{$day->day}' and type='sick' then days end) as '{$this->dayFieldName($day, VacationType::Sick)}'")
             ;
         }
     }
@@ -239,29 +247,53 @@ class VacationMonthDataTable extends DataTable
                 if ($model->quited_at) {
                     $quitedAt = Carbon::parse($model->quited_at);
                     if ($day > $quitedAt) {
-                        return DayType::Quited;
+                        return [
+                            'type' => DayType::Quited,
+                            'days' => 0,
+                        ];
                     }
                 }
-                $startDate = Carbon::parse($model->start_date)->startOfMonth();
-                if ($day->year == $startDate->year && $day < $startDate) {
-                    return DayType::NotStarted;
+                $startDate = Carbon::parse($model->start_date);
+                if ($day < $startDate) {
+                    return [
+                        'type' => DayType::NotStarted,
+                        'days' => 0,
+                    ];
                 }
                 if ($model->{"long_vacation_".$this->dayFieldName($day)}) {
-                    return DayType::NotStarted;
+                    return [
+                        'type' => DayType::LongVacation,
+                        'days' => 0,
+                    ];
                 }
                 if ($day->isWeekend() || in_array($day->day, array_column($this->holidays, 'day'))) {
-                    return DayType::Holiday;
+                    return [
+                        'type' => DayType::Holiday,
+                        'days' => 0,
+                    ];
                 }
                 if ($model->{$this->dayFieldName($day, VacationType::Planned)}) {
-                    return DayType::Planned;
+                    return [
+                        'type' => DayType::Planned,
+                        'days' => 0,
+                    ];
                 }
                 if ($model->{$this->dayFieldName($day, VacationType::Actual)}) {
-                    return DayType::Actual;
+                    return [
+                        'type' => DayType::Actual,
+                        'days' => $model->{$this->dayFieldName($day, VacationType::Actual)},
+                    ];
                 }
                 if ($model->{$this->dayFieldName($day, VacationType::Sick)}) {
-                    return DayType::Sick;
+                    return [
+                        'type' => DayType::Sick,
+                        'days' => $model->{$this->dayFieldName($day, VacationType::Sick)},
+                    ];
                 }
-                return DayType::Weekday;
+                return [
+                    'type' => DayType::Weekday,
+                    'days' => 0,
+                ];
             });
         }
     }
@@ -292,5 +324,18 @@ class VacationMonthDataTable extends DataTable
         $query->leftJoinSub($longVacationsQuery, 'long_vacations', function($join) {
             $join->on('long_vacations.person_id', '=', 'people.id');
         });
+    }
+
+    /**
+     * @param $query
+     */
+    private function addFilterQuery($query)
+    {
+        $query->when($this->request()->input('search'), function($query, $search) {
+            $query->where('people.name', 'like', "%$search%");
+        });
+        if (!$this->request()->filled('show_all')) {
+            $query->whereNull('people.quited_at');
+        }
     }
 }

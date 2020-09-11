@@ -44,7 +44,7 @@
                                 </div>
                             </div>
                             <div class="col s12 display-flex justify-content-end mt-3">
-                                <a href="{{ route('users.index') }}" class="btn chanel-btn mr-1">Cancel</a>
+                                <a href="{{ route('users.index') }}" class="btn cancel-btn mr-1">Cancel</a>
 
                                 <button type="submit" class="btn waves-effect waves-light">
                                     Save changes</button>

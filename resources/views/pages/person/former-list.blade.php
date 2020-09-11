@@ -56,3 +56,4 @@
     <script src="{{asset('js/scripts/page-wallets.js')}}"></script>
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
 @endsection
+
