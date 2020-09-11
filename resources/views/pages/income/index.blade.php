@@ -27,49 +27,7 @@
     <section class="users-list-wrapper section">
         <div class="card slide-down-block">
             <div class="card-content">
-                <!-- form start -->
-                <form class=" handle-submit-form edit-contact-item  " method="POST"
-                      data-created-item="income"
-                      action="{{ route('incomes.store') }}">
-                    @csrf
-                    <div class="row">
-                        <x-linked-selects
-                            firstName="client_id"
-                            firstTitle="Client"
-                            secondName="contract_id"
-                            secondTitle="Contract"
-                            dataUrl="/clients/[id]/contracts"
-                            view="components.linked-selects.clients-contracts"
-                            :options="$clients"
-                        />
-                        <x-linked-selects
-                            firstName="wallet_id"
-                            firstTitle="Wallet"
-                            secondName="account_id"
-                            secondTitle="Account"
-                            dataUrl="/wallets/[id]/accounts"
-                            view="components.linked-selects.wallets-accounts"
-                            :options="$wallets"
-                        />
-                        <div class="col s12 m6">
-                            <x-date name="plan_date" title="Planning Date"></x-date>
-                        </div>
-                        <div class="col s12 m6">
-                            <x-input name="plan_sum" title="Planning Sum"></x-input>
-                        </div>
-                        <div class="col s12">
-                            <div class="col s12 display-flex justify-content-end mt-3">
-                                <button type="button" class="btn btn-light mr-1 cancel-btn slide-up-btn">Cancel</button>
-                                <button type="submit" class="btn waves-effect waves-light">
-                                    Save
-                                </button>
-                            </div>
-
-                        </div>
-                    </div>
-
-                </form>
-                <!-- form start end-->
+                @include('pages.income.partials._form')
             </div>
         </div>
         <div class="create-btn add-item-btn slide-down-btn">
@@ -93,9 +51,6 @@
             </div>
             <x-reset-filters/>
         </div>
-
-
-
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">

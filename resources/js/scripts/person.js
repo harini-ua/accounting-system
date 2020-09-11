@@ -1,13 +1,33 @@
 $(document).ready(function() {
 
-  $('.person-list-wrapper').each(function () {
-    let $this = $(this);
+    $('.person-list-wrapper').each(function () {
+        let $this = $(this);
 
-    $this.find('.tabs .tab a').not('.active').on('click', function () {
-      let url = $(this).data('people-href');
-      $(location).attr('href', url);
+        $this.find('.tabs .tab a').not('.active').on('click', function () {
+            let url = $(this).data('people-href');
+            $(location).attr('href', url);
+        });
     });
-  });
+
+    $('.person-edit-wrapper').each(function () {
+        handleSidebar('change-salary-type');
+        handleSidebar('change-contract-type');
+        handleSidebar('make-former', function(form) {
+            $('#back-to-active-button').removeClass('hide');
+            clearForm('back-to-active');
+        });
+        handleSidebar('long-vacation', function(form) {
+            $('#back-to-active-button').removeClass('hide');
+            clearForm('back-to-active');
+        });
+        handleSidebar('back-to-active',  function(form) {
+            $('#back-to-active-button').addClass('hide');
+            $('#long-vacation-button').removeClass('hide');
+            clearForm('long-vacation');
+            clearForm('make-former');
+        });
+        handleSidebar('pay-data');
+    });
 
     function handleSidebar(id, callback = null)
     {
@@ -148,22 +168,4 @@ $(document).ready(function() {
         });
         return numberFormat.format(value);
     }
-
-    handleSidebar('change-salary-type');
-    handleSidebar('change-contract-type');
-    handleSidebar('make-former', function(form) {
-        $('#back-to-active-button').removeClass('hide');
-        clearForm('back-to-active');
-    });
-    handleSidebar('long-vacation', function(form) {
-        $('#back-to-active-button').removeClass('hide');
-        clearForm('back-to-active');
-    });
-    handleSidebar('back-to-active',  function(form) {
-        $('#back-to-active-button').addClass('hide');
-        $('#long-vacation-button').removeClass('hide');
-        clearForm('long-vacation');
-        clearForm('make-former');
-    });
-    handleSidebar('pay-data');
 });

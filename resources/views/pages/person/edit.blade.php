@@ -12,7 +12,7 @@
 
 {{-- page content --}}
 @section('content')
-    <section class="invoice-view-wrapper section">
+    <div class="person-edit-wrapper invoice-view-wrapper section">
         <div class="row">
             <div class="col xl9 m8 s12">
                 <div class="card animate fadeLeft">
@@ -23,10 +23,8 @@
             </div>
             @include('pages.person.partials._actions', ['isEdit' => true])
         </div>
-    </section>
-
+    </div>
     @include('pages.person.partials._sidebar-forms')
-
 @endsection
 
 {{-- page scripts --}}

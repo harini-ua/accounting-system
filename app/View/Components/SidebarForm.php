@@ -6,7 +6,6 @@ use Illuminate\View\Component;
 
 class SidebarForm extends Component
 {
-
     public $id;
     public $title;
     public $model;

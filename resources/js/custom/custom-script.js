@@ -135,8 +135,3 @@ function highLightField  (inputField, text) {
     inputField.find('.custom-filter-label').addClass('active')
     inputField.find('.custom-filter-input').val(text).addClass('active')
 }
-
-
-
-
-
