@@ -88,7 +88,7 @@
                     :options="$clients"
                     url="{{ route('incomes.index') }}"
                     name="client_filter"
-                    title="Filter by Client"
+                    title="By Client"
                 />
             </div>
             <x-reset-filters/>

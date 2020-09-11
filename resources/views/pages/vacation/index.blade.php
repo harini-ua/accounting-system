@@ -27,7 +27,7 @@
                 :options="$calendarYears"
                 url="{{ route('vacations.index') }}"
                 name="year_filter"
-                title="Filter by Year"
+                title="By Year"
                 all="0"
             />
         </div>

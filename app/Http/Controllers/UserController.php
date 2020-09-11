@@ -22,7 +22,7 @@ class UserController extends Controller
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => "Home"],
-            ['name' => "Users List"]
+            ['name' => "Users"]
         ];
         //Pageheader set true for breadcrumbs
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];

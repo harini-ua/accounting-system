@@ -40,7 +40,7 @@
                                     :options="$people"
                                     url="{{ route('certifications.index') }}"
                                     name="person_filter"
-                                    title="Filter By Person"
+                                    title="By Person"
                             />
                         </div>
                     </div>

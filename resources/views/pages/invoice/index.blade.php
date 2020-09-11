@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title', __('Invoices List'))
+@section('title', __('Invoices'))
 
 {{-- vendor styles --}}
 @section('vendor-style')
@@ -45,7 +45,7 @@
                             :options="$status"
                             url="{{ route('invoices.index') }}"
                             name="status_filter"
-                            title="Filter By Status"
+                            title="By Status"
                     />
 
                     <x-filter
@@ -53,7 +53,7 @@
                             :options="$clients"
                             url="{{ route('invoices.index') }}"
                             name="client_filter"
-                            title="Filter By Client"
+                            title="By Client"
                     />
                 </div>
             </div>

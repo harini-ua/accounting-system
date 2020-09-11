@@ -33,7 +33,7 @@
                     :options="$clients"
                     url="{{ route('incomes.list') }}"
                     name="client_filter"
-                    title="Filter by Client"
+                    title="By Client"
                 />
 
                 <x-filter
@@ -41,7 +41,7 @@
                     :options="$wallets"
                     url="{{ route('incomes.list') }}"
                     name="wallet_filter"
-                    title="Filter by Wallet"
+                    title="By Wallet"
                     className="filter-btn invoice-filter-action"
                 />
             </div>

@@ -31,7 +31,7 @@
                                     :options="$calendarYears"
                                     url="{{ route('bonuses.index') }}"
                                     name="year_filter"
-                                    title="Filter by Year"
+                                    title="By Year"
                                     all="0"
                             />
                         </div>

@@ -30,7 +30,7 @@
                         :options="$wallets"
                         url="{{ route('accounts.index') }}"
                         name="wallet_filter"
-                        title="Filter by Wallet"
+                        title="By Wallet"
                 />
             </div>
             <x-reset-filters/>
