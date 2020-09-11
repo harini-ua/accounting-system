@@ -32,6 +32,7 @@
                                     url="{{ route('bonuses.index', $position->id) }}"
                                     name="year_filter"
                                     title="By Year"
+                                    default="{{ $year }}"
                                     all="0"
                             />
                         </div>

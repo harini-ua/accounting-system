@@ -20,22 +20,24 @@
 {{-- page content --}}
 @section('content')
 
-    <section class="users-list-wrapper section">
-        <div class="create-btn invoice-create-btn add-item-btn row">
-            <div class="col">
-                <a href="{{ route('people.index') }}" class="btn green waves-effect waves-light invoice-create z-depth-4">
-                    <span class="hide-on-small-only">People</span>
-                </a>
-            </div>
-        </div>
-        <div class="users-list-table">
-            <div class="card">
-                <div class="card-content">
-                    <!-- datatable start -->
-                    <div class="responsive-table">
-                        {{ $dataTable->table() }}
+    <section class="person-list-wrapper users-list-wrapper section">
+        <div class="card">
+            <div class="card-content">
+                <div class="row">
+                    <ul class="tabs">
+                        <li class="tab col s12 m6 l3"><a href="#people" data-people-href="{{ route('people.index') }}">{{ __('People') }}</a></li>
+                        <li class="tab col s12 m6 l3"><a href="#former-employees" class="active" data-people-href="{{ route('people.former-list') }}">{{ __('Former Employees') }}</a>
+                        </li>
+                    </ul>
+                    <div class="col s12">
+                        <div class="users-list-table">
+                            <div class="responsive-table overflow-x-auto">
+                                <!-- datatable start -->
+                            {{ $dataTable->table() }}
+                            <!-- datatable ends -->
+                            </div>
+                        </div>
                     </div>
-                    <!-- datatable ends -->
                 </div>
             </div>
         </div>
@@ -53,7 +55,7 @@
 {{-- page scripts --}}
 @section('page-script')
     {{ $dataTable->scripts() }}
-    <script src="{{asset('js/scripts/page-wallets.js')}}"></script>
+    <script src="{{asset('js/scripts/person.js')}}"></script>
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
 @endsection
 

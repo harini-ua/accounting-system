@@ -1,5 +1,14 @@
 $(document).ready(function() {
 
+  $('.person-list-wrapper').each(function () {
+    let $this = $(this);
+
+    $this.find('.tabs .tab a').not('.active').on('click', function () {
+      let url = $(this).data('people-href');
+      $(location).attr('href', url);
+    });
+  });
+
     function handleSidebar(id, callback = null)
     {
         const sidebar = $('#'+id+'-sidebar');
