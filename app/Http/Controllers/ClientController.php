@@ -125,7 +125,7 @@ class ClientController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['link' => route('clients.index'), 'name' => __('Clients')],
-            ['name' => 'Update']
+            ['name' => 'Edit Client']
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];

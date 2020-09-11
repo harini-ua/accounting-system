@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title', __('Update Client'))
+@section('title', __('Edit Client'))
 
 {{-- page content --}}
 @section('content')
