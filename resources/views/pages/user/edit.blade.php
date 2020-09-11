@@ -23,34 +23,7 @@
             <!-- <div class="card-body"> -->
             <div class="row">
                 <div class="col s12" id="account">
-                    <form id="accountForm" method="POST" action="{{ route('users.update', $user) }}">
-                        @csrf
-                        @method('PUT')
-                        <div class="row">
-                            <div class="col s12 m6">
-                                <div class="row animate fadeLeft">
-                                    <x-input name="name" title="Name" :model="$user"></x-input>
-                                    <x-input name="email" title="E-mail" :model="$user"></x-input>
-                                </div>
-                            </div>
-                            <div class="col s12 m6">
-                                <div class="row animate fr">
-                                    <x-select
-                                        name="position_id"
-                                        title="Position"
-                                        :options="$positions"
-                                        :model="$user"
-                                    ></x-select>
-                                </div>
-                            </div>
-                            <div class="col s12 display-flex justify-content-end mt-3">
-                                <a href="{{ route('users.index') }}" class="btn cancel-btn mr-1">Cancel</a>
-
-                                <button type="submit" class="btn waves-effect waves-light">
-                                    Save changes</button>
-                            </div>
-                        </div>
-                    </form>
+                    @include('pages.user.partials._form')
                     <!-- users edit account form ends -->
                 </div>
             </div>

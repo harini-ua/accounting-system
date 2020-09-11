@@ -21,7 +21,7 @@
 {{-- page content --}}
 @section('content')
     <!-- list -->
-    <section class="users-list-wrapper section">
+    <section class="users-list-wrapper section animate fadeLeft">
         <div class=" create-btn invoice-create-btn add-item-btn">
             <a href="{{ route('money-flows.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
                 <i class="material-icons">add</i>

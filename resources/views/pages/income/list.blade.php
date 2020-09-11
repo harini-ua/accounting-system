@@ -19,7 +19,7 @@
 
 {{-- page content --}}
 @section('content')
-    <div class="totals-container row totals-2-col">
+    <div class="totals-container row totals-2-col animate fadeLeft">
         <div class="col s12 m6">
             <x-totals title="Invoiced" :options="$accountTypes" relation="invoicedSum"/>
         </div>
@@ -27,7 +27,7 @@
             <x-totals title="Received" :options="$accountTypes" relation="receivedSum"/>
         </div>
     </div>
-    <div class="card-panel filter-panel accounts-page-card-panel">
+    <div class="card-panel filter-panel accounts-page-card-panel animate fadeLeft">
         <div class="filter-block">
 
             <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-list-table"/>
@@ -56,7 +56,7 @@
         <x-reset-filters/>
     </div>
     <!-- list -->
-    <section class="users-list-wrapper section">
+    <section class="users-list-wrapper section animate fadeLeft">
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">

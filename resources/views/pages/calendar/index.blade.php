@@ -17,7 +17,7 @@
 
 {{-- page content --}}
 @section('content')
-    <div id="vue-app" class="section">
+    <div id="vue-app" class="section animate fadeLeft">
         <div class="row invoice-view-wrapper">
             {{-- content start --}}
             <div class="col xl6 l12 s12 animate fadeLeft">

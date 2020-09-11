@@ -2,7 +2,6 @@
 
 namespace App\View\Components;
 
-
 class Textarea extends Input
 {
     /**

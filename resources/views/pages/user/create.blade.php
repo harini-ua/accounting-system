@@ -23,40 +23,7 @@
                 <!-- <div class="card-body"> -->
                 <div class="row">
                     <div class="col s12" id="account">
-                        <form id="accountForm" method="POST" action="{{ route('users.store') }}">
-                            @csrf
-                            <div class="row">
-                                <div class="col s12 m6">
-                                    <div class="row">
-                                        <x-input name="name" title="Name"></x-input>
-                                        <x-input name="email" title="E-mail"></x-input>
-                                    </div>
-                                </div>
-                                <div class="col s12 m6">
-                                    <div class="row">
-                                        <div class="col s12 input-field">
-                                            <input id="password" name="password" type="password" class="validate" value="{{ old('password') }}"
-                                                   data-error=".errorTxt1">
-                                            <label for="password">Password</label>
-                                            @error('password')
-                                            <small class="errorTxt3">{{ $message }}</small>
-                                            @enderror
-                                        </div>
-                                        <x-select
-                                            name="position_id"
-                                            title="Position"
-                                            :options="$positions"
-                                        ></x-select>
-                                    </div>
-                                </div>
-                                <div class="col s12 display-flex justify-content-end mt-3">
-                                    <button type="submit" class="btn indigo mr-1">
-                                        Save changes</button>
-                                    <a href="{{ route('users.index') }}" class="btn btn-light">Cancel</a>
-                                </div>
-                            </div>
-                        </form>
-                        <!-- users edit account form ends -->
+                        @include('pages.user.partials._form')
                     </div>
                 </div>
                 <!-- </div> -->

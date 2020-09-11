@@ -20,7 +20,7 @@
 
 {{-- page content --}}
 @section('content')
-    <section class="users-list-wrapper section animate fadeUp section">
+    <section class="users-list-wrapper section animate fadeLeft">
         <div class="totals-container totals-2-col">
             <div class="col s12 m6">
                 <x-totals title="Planned" :options="$accountTypes" relation="expensesPlanSum"/>

@@ -23,7 +23,7 @@
 {{-- page content --}}
 @section('content')
     <!-- contract list start -->
-    <section class="contracts-list-wrapper users-list-wrapper section">
+    <section class="contracts-list-wrapper users-list-wrapper section animate fadeLeft">
 
         <div class="card slide-down-block">
             <div class="card-content">

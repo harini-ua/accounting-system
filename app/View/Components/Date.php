@@ -3,7 +3,6 @@
 namespace App\View\Components;
 
 use Illuminate\Support\Carbon;
-use Illuminate\View\Component;
 
 class Date extends Input
 {

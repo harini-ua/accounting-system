@@ -21,7 +21,7 @@
 {{-- page content --}}
 @section('content')
     <!-- invoice list -->
-    <section class="invoice-list-wrapper users-list-wrapper section">
+    <section class="invoice-list-wrapper users-list-wrapper section animate fadeLeft">
         <div class="create-btn add-item-btn slide-down-btn">
             <a href="#" class="waves-effect waves-light btn slide-down-btn">
                 <i class="material-icons">add</i>

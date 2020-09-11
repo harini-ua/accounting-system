@@ -19,7 +19,7 @@
 
 {{-- page content --}}
 @section('content')
-    <div id="vue-app" class="users-list-wrapper section">
+    <div id="vue-app" class="users-list-wrapper section animate fadeLeft">
         {{-- controls start --}}
         <div class="card-panel filter-panel accounts-page-card-panel">
             <x-filter

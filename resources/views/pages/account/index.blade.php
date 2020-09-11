@@ -20,7 +20,7 @@
 
 {{-- page content --}}
 @section('content')
-    <div class="animate fadeUp">
+    <div class="animate fadeLeft">
         <x-totals :options="$accountTypes" relation="accountsSum"/>
         <div class="card-panel filter-panel accounts-page-card-panel">
             <div class="filter-block">

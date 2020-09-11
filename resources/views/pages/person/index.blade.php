@@ -20,7 +20,7 @@
 {{-- page content --}}
 @section('content')
 
-    <section class="person-list-wrapper users-list-wrapper section">
+    <section class="person-list-wrapper users-list-wrapper section animate fadeLeft">
         <div class="create-btn invoice-create-btn add-item-btn row">
             <div class="col">
                 <a href="{{ route('people.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">

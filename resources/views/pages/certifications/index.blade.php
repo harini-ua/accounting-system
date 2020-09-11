@@ -24,7 +24,7 @@
 @section('content')
     <!-- certification list -->
 
-    <section class="certification-list-wrapper users-list-wrapper section">
+    <section class="certification-list-wrapper users-list-wrapper section animate fadeLeft">
         <div class="card slide-down-block">
             <div class="card-content">
                 @include('pages.certifications.partials._form')
@@ -48,7 +48,6 @@
                 </div>
             </div>
         </div>
-
         <div class="create-btn add-item-btn slide-down-btn">
             <a href="#" class="waves-effect waves-light btn">
                 <i class="material-icons">add</i>
@@ -56,7 +55,6 @@
             </a>
         </div>
         <div class="users-list-table">
-
             <div class="card">
                 <div class="card-content">
                     <div class="responsive-table">

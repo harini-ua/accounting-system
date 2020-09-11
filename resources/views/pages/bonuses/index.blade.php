@@ -20,7 +20,7 @@
 {{-- page content --}}
 @section('content')
     <!-- bonus list -->
-    <section class="bonus-list-wrapper users-list-wrapper section">
+    <section class="bonus-list-wrapper users-list-wrapper section animate fadeLeft">
         <div class="row">
             <div class="col s12">
                 <div class="card-panel filter-panel accounts-page-card-panel">
@@ -32,7 +32,7 @@
                                     url="{{ route('bonuses.index', $position->id) }}"
                                     name="year_filter"
                                     title="By Year"
-                                    default="{{ $year }}"
+                                    :default="$year"
                                     all="0"
                             />
                         </div>

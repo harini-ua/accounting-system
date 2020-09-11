@@ -22,7 +22,7 @@ class Filter extends Component
      * @param $url
      * @param $name
      * @param $title
-     * @param $default
+     * @param mixed $default
      * @param string $className
      * @param bool $all
      */

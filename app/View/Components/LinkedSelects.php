@@ -52,5 +52,4 @@ class LinkedSelects extends Component
     {
         return url($this->dataUrl);
     }
-
 }

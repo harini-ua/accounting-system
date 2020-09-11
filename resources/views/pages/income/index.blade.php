@@ -24,7 +24,7 @@
 {{-- page content --}}
 @section('content')
     <!-- list -->
-    <section class="users-list-wrapper section">
+    <section class="users-list-wrapper section animate fadeLeft">
         <div class="card slide-down-block">
             <div class="card-content">
                 @include('pages.income.partials._form')

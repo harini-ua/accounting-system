@@ -22,7 +22,7 @@
 @section('content')
 
     <!-- Sidebar Area Starts -->
-    <section class="users-list-wrapper section">
+    <section class="users-list-wrapper section animate fadeLeft">
         <div class="card slide-down-block">
             <div class="card-content">
                 @include('pages.expense-category.partials._form')

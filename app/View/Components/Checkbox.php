@@ -23,7 +23,6 @@ class Checkbox extends Component
         $this->model = $model;
     }
 
-
     /**
      * Get the view / contents that represent the component.
      *
