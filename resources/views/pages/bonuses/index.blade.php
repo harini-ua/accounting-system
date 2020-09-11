@@ -7,8 +7,8 @@
 {{-- vendor styles --}}
 @section('vendor-style')
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/jquery.dataTables.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/extensions/fixedColumns/css/fixedColumns.dataTables.min.css')}}">
+    <link rel="stylesheet" type="text/css"
+          href="{{asset('vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
 @endsection
 
 {{-- page styles --}}
@@ -71,7 +71,6 @@
 @section('vendor-script')
     <script src="{{asset('vendors/data-tables/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js')}}"></script>
-    <script src="{{asset('vendors/data-tables/extensions/fixedColumns/js/dataTables.fixedColumns.min.js')}}"></script>
 @endsection
 
 {{-- page scripts --}}

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\BonusesRecruitersDataTable;
 use App\DataTables\BonusesSalesManagersDataTable;
-use App\DataTables\HiredBonusesDataTable;
+use App\DataTables\BonusesByRecruitDataTable;
 use App\DataTables\InvoicesBonusesDataTable;
 use App\Http\Requests\BonusesShowRequest;
 use App\Models\CalendarYear;
@@ -80,7 +80,7 @@ class BonusController extends Controller
 
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
-            ['link' => route('bonuses.index', \App\Enums\Position::SalesManager), 'name' => __('Bonuses')],
+            ['link' => route('bonuses.index', $person->position_id), 'name' => __('Bonuses')],
             ['name' => $person->name]
         ];
 
@@ -88,11 +88,11 @@ class BonusController extends Controller
 
         switch ($person->position_id) {
             case \App\Enums\Position::Recruiter:
-                $dataTable = new HiredBonusesDataTable($person);
+                $dataTable = new BonusesByRecruitDataTable($person, $request->query());
                 break;
             case \App\Enums\Position::SalesManager:
             default:
-                $dataTable = new InvoicesBonusesDataTable($person);
+                $dataTable = new InvoicesBonusesDataTable($person, $request->query());
         }
 
         return $dataTable->render("pages.bonuses.view", compact(

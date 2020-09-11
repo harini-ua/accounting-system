@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\Currency;
+use App\Rules\YearIsGreater;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -27,9 +28,23 @@ class BonusesShowRequest extends FormRequest
     public function rules()
     {
         return [
-            'year' => 'required_with:month|digits:4|integer|min:1900|max:'.(date('Y')+1),
+            'year' => ['required_with:month', 'digits:4', 'integer', 'min:1900', new YearIsGreater],
             'month' => 'integer|between:1,12',
             'currency' => Rule::in(Currency::getValues())
+        ];
+    }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'year.digits' => __('The :attribute value invalid or not support.'),
+            'year.integer' => __('The :attribute value invalid or not support.'),
+            'year.min' => __('The :attribute value invalid or not support.'),
         ];
     }
 
