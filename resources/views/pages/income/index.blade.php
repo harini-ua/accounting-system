@@ -59,7 +59,7 @@
                         </div>
                         <div class="col s12">
                             <div class="col s12 display-flex justify-content-end mt-3">
-                                <button type="button" class="btn btn-light mr-1 chanel-btn slide-up-btn">Cancel</button>
+                                <button type="button" class="btn btn-light mr-1 cancel-btn slide-up-btn">Cancel</button>
                                 <button type="submit" class="btn waves-effect waves-light">
                                     Save
                                 </button>

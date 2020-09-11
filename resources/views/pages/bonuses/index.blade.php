@@ -43,9 +43,9 @@
         <div class="card">
             <div class="row">
                 <div class="col s12">
-                    <ul class="tabs tabs-fixed-width">
+                    <ul class="tabs">
                         @foreach($positions as $tab)
-                        <li class="tab col m3">
+                        <li class="tab col s12 m6 l3">
                             <a class="{{ $tab->id === $position->id ? 'active' : '' }}" data-bonuses-href="{{ route('bonuses.index', $tab->id) }}" href="#bonuses-tab-{{$tab->id}}">{{ $tab->name }}</a>
                         </li>
                         @endforeach

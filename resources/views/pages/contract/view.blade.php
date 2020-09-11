@@ -20,29 +20,26 @@
     <!-- client update start -->
     <div id="contracts" class="users-list-wrapper section">
         <div class="row">
-            <div class="mr-1">
-                <a href="{{ route('contracts.edit', $contract) }}"
-                   class="btn-small indigo float-right mr-1">{{ __('Edit') }}</a>
-            </div>
             <div class="page-layout col s12">
-                <div class="card mr-2">
+                <div class="card details-card pb-10 mr-2">
                     <div class="card-content">
+                        <h5>Contracts detail</h5>
                         <div class="row">
                             <div class="col s12 phone mt-4 p-0">
-                                <div class="col s2 m2 l2"><i class="material-icons">person</i></div>
-                                <div class="col s10 m10 l10">
+                                <div class="col s1 m1 l1"><i class="material-icons">person</i></div>
+                                <div class="col s11 m11 l11">
                                     <p class="m-0"><a href="{{ route('clients.show', $contract->client) }}">{{ $contract->client->name.' ('.$contract->client->company_name.')' }}</a></p>
                                 </div>
                             </div>
                             <div class="col s12 mail mt-4 p-0">
-                                <div class="col s2 m2 l2"><i class="material-icons">date_range</i></div>
-                                <div class="col s10 m10 l10">
+                                <div class="col s1 m1 l1"><i class="material-icons">date_range</i></div>
+                                <div class="col s11 m11 l11">
                                     <p class="m-0">{{ $contract->created_at.' - '.($contract->closed_at ? $contract->closed_at : 'In work') }}</p>
                                 </div>
                             </div>
                             <div class="col s12 mail mt-4 p-0">
-                                <div class="col s2 m2 l2"><i class="material-icons">flag</i></div>
-                                <div class="col s10 m10 l10">
+                                <div class="col s1 m1 l1"><i class="material-icons">flag</i></div>
+                                <div class="col s11 m11 l11">
                                     <p class="m-0">{{ view('partials.view-status', [
                                         'status' => \App\Enums\ContractStatus::getDescription($contract->status),
                                         'color' => \App\Enums\ContractStatus::getColor($contract->status, 'class'),
@@ -50,19 +47,21 @@
                                 </div>
                             </div>
                             <div class="col s12 mail mt-4 p-0">
-                                <div class="col s2 m2 l2"><i class="material-icons">person_outline</i></div>
-                                <div class="col s10 m10 l10">
+                                <div class="col s1 m1 l1"><i class="material-icons">person_outline</i></div>
+                                <div class="col s11 m11 l11">
                                     <p class="m-0"><a href="#">{{ $contract->manager->name }}</a></p>
                                 </div>
                             </div>
                             <div class="col s12 mail mt-4 p-0">
-                                <div class="col s2 m2 l2"><i class="material-icons">comment</i></div>
-                                <div class="col s10 m10 l10">
+                                <div class="col s1 m1 l1"><i class="material-icons">comment</i></div>
+                                <div class="col s11 m11 l11">
                                     <p class="m-0">{{ $contract->comment }}</p>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <a href="{{ route('contracts.edit', $contract) }}"
+                       class="btn-small position-absolute edit-btn">{{ __('Edit') }}</a>
                 </div>
                 <div class="card user-card-negative-margin" id="feed">
                     <div class="card-content card-border-gray">

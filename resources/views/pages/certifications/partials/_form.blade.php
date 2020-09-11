@@ -27,14 +27,9 @@
         </div>
         <div class="col s12">
             <div class="col s12 display-flex justify-content-end mt-3">
-                <a href="{{ url()->previous() }}" class="chanel-btn btn btn-light {{ isset($certification) ? __('') : __('slide-up-btn') }} mr-1">{{ __('Cancel') }}</a>
+                <a href="{{ url()->previous() }}" class="cancel-btn btn btn-light {{ isset($certification) ? __('') : __('slide-up-btn') }} mr-1">{{ __('Cancel') }}</a>
                 <button type="submit" class="btn waves-effect waves-light">{{ isset($certification) ? __('Update') : __('Add Certification') }}</button>
             </div>
-            {{--<div class="pl-0 pr-0 right-align">--}}
-                {{--<button class="btn-small waves-effect waves-light submit" type="submit">--}}
-                {{--<span>{{ isset($certification) ? __('Update') : __('Add Certification') }}</span>--}}
-                {{--</button>--}}
-            {{--</div>--}}
         </div>
     </div>
 </form>

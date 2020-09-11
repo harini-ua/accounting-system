@@ -102,6 +102,7 @@ $('body').on('click', '.slide-down-btn', function (e) {
   e.preventDefault()
   $(this).parent().find('.slide-down-block').slideDown('fast')
   $(this).hide()
+
 })
 $('body').on('click', '.slide-up-btn', function (e) {
   e.preventDefault();
@@ -113,6 +114,29 @@ $('body').on('click', '.slide-up-btn', function (e) {
     }
   )
 })
+
+
+// filters
+$('.custom-filter-input').each(function (i) {
+$(this).val('')
+})
+$('.dropdown-content').on('click', 'a', function (e) {
+    var text = $(this).text()
+    var inputField = $(this).parents('.input-field')
+    if (text !== 'All') {
+        highLightField(inputField, text)
+    } else {
+        inputField.find('.custom-filter-label').removeClass('active')
+        inputField.find('.custom-filter-input').val('').removeClass('active')
+    }
+})
+
+function highLightField  (inputField, text) {
+    inputField.find('.custom-filter-label').addClass('active')
+    inputField.find('.custom-filter-input').val(text).addClass('active')
+}
+
+
 
 
 

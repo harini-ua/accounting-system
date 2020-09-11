@@ -21,8 +21,14 @@
 {{-- page content --}}
 @section('content')
     <section class="users-list-wrapper section animate fadeUp section">
-        <x-totals title="Planned" :options="$accountTypes" relation="expensesPlanSum"/>
-        <x-totals title="Real" :options="$accountTypes" relation="expensesRealSum"/>
+        <div class="totals-container totals-2-col">
+            <div class="col s12 m6">
+                <x-totals title="Planned" :options="$accountTypes" relation="expensesPlanSum"/>
+            </div>
+            <div class="col s12 m6">
+                <x-totals title="Real" :options="$accountTypes" relation="expensesRealSum"/>
+            </div>
+        </div>
         <div class="card-panel filter-panel accounts-page-card-panel mb-2">
             <div class="filter-block">
                 <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="expense-datatable-table"/>
