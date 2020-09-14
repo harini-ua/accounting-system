@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     $('.close-slide-down').on('click', function () {
         $('.slide-down-trigger').removeClass('isOpen')
@@ -17,27 +17,26 @@ $(document).ready(function() {
     $('.person-edit-wrapper').each(function () {
         handleSlideDown('change-salary-type');
         handleSlideDown('change-contract-type');
-        handleSlideDown('make-former', function(form) {
-              $('#back-to-active-button').removeClass('hide');
-              clearForm('back-to-active');
-          });
-        handleSlideDown('long-vacation', function(form) {
-              $('#back-to-active-button').removeClass('hide');
-              clearForm('back-to-active');
-          });
-        handleSlideDown('back-to-active',  function(form) {
-              $('#back-to-active-button').addClass('hide');
-              $('#long-vacation-button').removeClass('hide');
-              clearForm('long-vacation');
-              clearForm('make-former');
-          });
+        handleSlideDown('make-former', function (form) {
+            $('#back-to-active-button').removeClass('hide');
+            clearForm('back-to-active');
+        });
+        handleSlideDown('long-vacation', function (form) {
+            $('#back-to-active-button').removeClass('hide');
+            clearForm('back-to-active');
+        });
+        handleSlideDown('back-to-active', function (form) {
+            $('#back-to-active-button').addClass('hide');
+            $('#long-vacation-button').removeClass('hide');
+            clearForm('long-vacation');
+            clearForm('make-former');
+        });
         handleSlideDown('pay-data');
     });
 
-    function handleSlideDown(id, callback = null)
-    {
-        const slideDown = $('#'+id+'-slide-down');
-        $('#'+id+'-button').click(function() {
+    function handleSlideDown(id, callback = null) {
+        const slideDown = $('#' + id + '-slide-down');
+        $('#' + id + '-button').click(function () {
             if (!$(this).hasClass('isOpen')) {
                 $('.slide-down-trigger').removeClass('isOpen')
                 $(this).addClass('isOpen')
@@ -46,28 +45,56 @@ $(document).ready(function() {
             }
         });
 
-        slideDown.find('button').click(function(e) {
+        slideDown.find('button').click(function (e) {
             const form = document.forms[id];
             const formData = new FormData(form);
         });
     }
 
-    function handleSidebar(id, callback = null)
-    {
-        const sidebar = $('#'+id+'-sidebar');
-        $('.contact-compose-sidebar .close-icon').click(function() {
+    $('.person-handle-submit').on('click', '.person-submit-btn', (e) => {
+        const form = $(e.target).parents('form').get(0),
+            formData = new FormData(form);
+        $.ajax({
+            url: $(form).attr('action'),
+            type: 'POST',
+            processData: false,
+            contentType: false,
+            data: formData,
+            success: resp => {
+                swal({
+                    title: resp.success === false ? 'Error!' : 'Successfully!',
+                    text: resp.message,
+                    type: resp.success === false ? 'error' : 'success',
+                });
+            },
+            error: resp => {
+                const errors = {...resp.responseJSON.errors}
+                console.log(errors);
+                for (let key in errors) {
+                    console.log(key);
+                    let formField = ($(form).find(`[name = ${key}] `));
+                    console.log(formField.parents('.input-field').find('.error-span'));
+                    formField.parents('.input-field').find('.error-span').text(errors[key].join(' '))
+                }
+            }
+        })
+    })
+
+    function handleSidebar(id, callback = null) {
+        const sidebar = $('#' + id + '-sidebar');
+        $('.contact-compose-sidebar .close-icon').click(function () {
             sidebar.removeClass('show');
         });
-        $('#'+id+'-button').click(function() {
+        $('#' + id + '-button').click(function () {
             sidebar.addClass('show');
         });
-        sidebar.find('button').click(function(e) {
+        sidebar.find('button').click(function (e) {
             e.preventDefault()
             const form = document.forms[id];
-          console.log(form);
-          const formData = new FormData(form);
-          console.log(new FormData(form));
-          $.ajax({
+            console.log(form);
+            const formData = new FormData(form);
+            console.log(new FormData(form));
+            $.ajax({
                 url: form.getAttribute('action'),
                 type: "POST",
                 processData: false,
@@ -76,9 +103,9 @@ $(document).ready(function() {
                 success: resp => {
                     sidebar.removeClass('show');
                     swal({
-                        title : resp.success === false ? 'Error!' : 'Successfully!',
-                        text  : resp.message,
-                        type  : resp.success === false ? 'error' : 'success',
+                        title: resp.success === false ? 'Error!' : 'Successfully!',
+                        text: resp.message,
+                        type: resp.success === false ? 'error' : 'success',
                     });
                     updateMainForm(form);
                     if (typeof callback === 'function') {
@@ -106,8 +133,7 @@ $(document).ready(function() {
         });
     }
 
-    function updateMainForm(form)
-    {
+    function updateMainForm(form) {
         const mainForm = document.forms['main-form'];
         Array.prototype.forEach.call(form.elements, element => {
             if (mainForm) {
@@ -124,8 +150,7 @@ $(document).ready(function() {
         });
     }
 
-    function clearForm(id)
-    {
+    function clearForm(id) {
         const form = document.forms[id];
         if (form) {
             Array.prototype.forEach.call(form.elements, element => {
@@ -134,7 +159,7 @@ $(document).ready(function() {
                     $(element).formSelect();
                 } else if (element.type == 'checkbox') {
                     $(element).prop('checked', false);
-                    $('[data-checkbox="'+$(element).attr('name')+'"]').addClass('hide');
+                    $('[data-checkbox="' + $(element).attr('name') + '"]').addClass('hide');
                 } else {
                     element.value = '';
                 }
@@ -142,8 +167,7 @@ $(document).ready(function() {
         }
     }
 
-    function viewUpdate(element, form)
-    {
+    function viewUpdate(element, form) {
         switch ($(form).attr('name')) {
             case 'long-vacation':
                 $('[data-name="long_vacation_finished_at"]').closest('tr').addClass('hide');
@@ -164,13 +188,12 @@ $(document).ready(function() {
         viewFieldUpdate(element, form);
     }
 
-    function viewFieldUpdate(element, form)
-    {
-        const field = $('[data-name="'+element.name+'"]');
+    function viewFieldUpdate(element, form) {
+        const field = $('[data-name="' + element.name + '"]');
         if (element.value) {
             let text = element.value;
             if (element.type == 'select-one') {
-                text = $(form).find('[value="'+element.value+'"]').text();
+                text = $(form).find('[value="' + element.value + '"]').text();
             }
             if (field.attr('data-currency')) {
                 text = formatCurrency(text, field.attr('data-currency'))
@@ -183,8 +206,7 @@ $(document).ready(function() {
         }
     }
 
-    function formatCurrency(value, currency)
-    {
+    function formatCurrency(value, currency) {
         const numberFormat = new Intl.NumberFormat('ru-RU', {
             style: 'currency',
             currency: currency,
