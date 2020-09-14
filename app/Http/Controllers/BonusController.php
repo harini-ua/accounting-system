@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\BonusesByRecruitDataTable;
 use App\DataTables\BonusesRecruitersDataTable;
 use App\DataTables\BonusesSalesManagersDataTable;
+use App\DataTables\BonusesByRecruitDataTable;
 use App\DataTables\InvoicesBonusesDataTable;
 use App\Http\Requests\BonusesShowRequest;
 use App\Models\CalendarYear;
@@ -52,7 +52,10 @@ class BonusController extends Controller
 
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
-        $calendarYears = CalendarYear::orderBy('name')->get();
+        $calendarYears = CalendarYear::orderBy('name')->get()->map(static function($calendarYear) {
+            $calendarYear->id = $calendarYear->name;
+            return $calendarYear;
+        });
 
         $positions = Position::whereIn('id', $this->supportPosition)->get();
 

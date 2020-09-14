@@ -2,7 +2,7 @@
 
 namespace App\View\Components;
 
-class SidebarForm extends FormAbstract
+final class SlideDownForm extends FormAbstract
 {
     /**
      * Get the view / contents that represent the component.
@@ -11,6 +11,6 @@ class SidebarForm extends FormAbstract
      */
     public function render()
     {
-        return view('components.sidebar-form');
+        return view('components.slide-down-form');
     }
 }

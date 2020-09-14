@@ -13,8 +13,19 @@
 {{-- page content --}}
 @section('content')
     <div class="person-edit-wrapper invoice-view-wrapper section">
+
+{{--        @include('pages.person.partials._slide-down-forms')--}}
+
+{{--        <div class="create-btn add-item-btn slide-down-btn">--}}
+{{--            <a href="#" class="waves-effect waves-light btn">--}}
+{{--                <i class="material-icons">add</i>--}}
+{{--                <span class="hide-on-small-only">Add</span>--}}
+{{--            </a>--}}
+{{--        </div>--}}
+
         <div class="row">
             <div class="col xl9 m8 s12">
+                @include('pages.person.partials._slide-down-forms')
                 <div class="card animate fadeLeft">
                     <div class="card-content invoice-print-area">
                         @include('pages.person.partials._form')
@@ -24,7 +35,6 @@
             @include('pages.person.partials._actions', ['isEdit' => true])
         </div>
     </div>
-    @include('pages.person.partials._sidebar-forms')
 @endsection
 
 {{-- page scripts --}}

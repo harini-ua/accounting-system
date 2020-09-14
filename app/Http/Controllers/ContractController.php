@@ -132,7 +132,7 @@ class ContractController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['link' => 'javascript:void(0)', 'name' => __('Contract')],
-            ['name' => __('Update')]
+            ['name' => __('Edit Contract')]
         ];
 
         $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
