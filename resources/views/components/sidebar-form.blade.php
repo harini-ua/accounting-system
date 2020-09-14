@@ -9,7 +9,8 @@
             </div>
             <div class="divider"></div>
             <!-- form start -->
-            <form name="{{ $id }}" class="edit-contact-item mb-5 mt-5" method="post" action="{{ route("$resource.$id", $model()) }}">
+            <form name="{{ $id }}" class="edit-contact-item mb-5 mt-5" method="post"
+                  action="{{ route("$resource.$id", $model()) }}">
                 @csrf
                 <div class="row">
                     {{ $slot }}

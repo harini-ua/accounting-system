@@ -1,5 +1,10 @@
 $(document).ready(function() {
 
+    $('.close-slide-down').on('click', function () {
+        $('.slide-down-trigger').removeClass('isOpen')
+        $('.slide-down-block').slideUp('fast')
+    })
+
     $('.person-list-wrapper').each(function () {
         let $this = $(this);
 
@@ -32,9 +37,13 @@ $(document).ready(function() {
     function handleSlideDown(id, callback = null)
     {
         const slideDown = $('#'+id+'-slide-down');
-
         $('#'+id+'-button').click(function() {
-            slideDown.slideDown('fast');
+            if (!$(this).hasClass('isOpen')) {
+                $('.slide-down-trigger').removeClass('isOpen')
+                $(this).addClass('isOpen')
+                $('.slide-down-block').slideUp('fast')
+                slideDown.slideDown('fast');
+            }
         });
 
         slideDown.find('button').click(function(e) {
@@ -53,6 +62,7 @@ $(document).ready(function() {
             sidebar.addClass('show');
         });
         sidebar.find('button').click(function(e) {
+            e.preventDefault()
             const form = document.forms[id];
           console.log(form);
           const formData = new FormData(form);
