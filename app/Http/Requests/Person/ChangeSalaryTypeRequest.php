@@ -30,4 +30,16 @@ class ChangeSalaryTypeRequest extends FormRequest
             'salary_type' => ['required', new EnumValue(SalaryType::class)],
         ];
     }
+
+    /**
+     * Get custom messages for validator errors.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'salary_type_changed_at.required' => 'asdfasdfasdfasdfas'
+        ];
+    }
 }

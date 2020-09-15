@@ -14,71 +14,125 @@ $(document).ready(function () {
         });
     });
 
-    $('.person-edit-wrapper').each(function () {
-        handleSlideDown('change-salary-type');
-        handleSlideDown('change-contract-type');
-        handleSlideDown('make-former', function (form) {
+    // $('.person-edit-wrapper').each(function () {
+    //     handleSlideDown('change-salary-type');
+    //     handleSlideDown('change-contract-type');
+    //     handleSlideDown('make-former', function (form) {
+    //         $('#back-to-active-button').removeClass('hide');
+    //         clearForm('back-to-active');
+    //     });
+    //     handleSlideDown('long-vacation', function (form) {
+    //         $('#back-to-active-button').removeClass('hide');
+    //         clearForm('back-to-active');
+    //     });
+    //     handleSlideDown('back-to-active', function (form) {
+    //         $('#back-to-active-button').addClass('hide');
+    //         $('#long-vacation-button').removeClass('hide');
+    //         clearForm('long-vacation');
+    //         clearForm('make-former');
+    //     });
+    //     handleSlideDown('pay-data');
+    // });
+    const submitCallbacks = {
+        'make-former': _ => {
             $('#back-to-active-button').removeClass('hide');
             clearForm('back-to-active');
-        });
-        handleSlideDown('long-vacation', function (form) {
+        },
+        'long-vacation': _ => {
             $('#back-to-active-button').removeClass('hide');
             clearForm('back-to-active');
-        });
-        handleSlideDown('back-to-active', function (form) {
+        },
+        'back-to-active': _ => {
             $('#back-to-active-button').addClass('hide');
             $('#long-vacation-button').removeClass('hide');
             clearForm('long-vacation');
             clearForm('make-former');
-        });
-        handleSlideDown('pay-data');
-    });
-
-    function handleSlideDown(id, callback = null) {
-        const slideDown = $('#' + id + '-slide-down');
-        $('#' + id + '-button').click(function () {
-            if (!$(this).hasClass('isOpen')) {
-                $('.slide-down-trigger').removeClass('isOpen')
-                $(this).addClass('isOpen')
-                $('.slide-down-block').slideUp('fast')
-                slideDown.slideDown('fast');
-            }
-        });
-
-        slideDown.find('button').click(function (e) {
-            const form = document.forms[id];
-            const formData = new FormData(form);
-        });
+        }
     }
 
-    $('.person-handle-submit').on('click', '.person-submit-btn', (e) => {
-        const form = $(e.target).parents('form').get(0),
-            formData = new FormData(form);
-        $.ajax({
-            url: $(form).attr('action'),
-            type: 'POST',
-            processData: false,
-            contentType: false,
-            data: formData,
-            success: resp => {
-                swal({
-                    title: resp.success === false ? 'Error!' : 'Successfully!',
-                    text: resp.message,
-                    type: resp.success === false ? 'error' : 'success',
-                });
-            },
-            error: resp => {
-                const errors = {...resp.responseJSON.errors}
-                console.log(errors);
-                for (let key in errors) {
-                    console.log(key);
-                    let formField = ($(form).find(`[name = ${key}] `));
-                    console.log(formField.parents('.input-field').find('.error-span'));
-                    formField.parents('.input-field').find('.error-span').text(errors[key].join(' '))
-                }
-            }
+    $('.slide-down-trigger').click(function () {
+        let slideDown = $(`#${$(this).attr('data-bind-block')}`),
+            animationSpeed = $('.slide-down-trigger.isOpen').length ? 1 : 'fast';
+        if (!$(this).hasClass('isOpen')) {
+            $('.slide-down-trigger.isOpen')
+            $('.slide-down-trigger').removeClass('isOpen')
+            $(this).addClass('isOpen')
+            $('.slide-down-block').slideUp(1)
+            slideDown.slideDown(animationSpeed);
+        }
+    });
+    // function handleSlideDown(id, callback = null) {
+    //     const slideDown = $('#' + id + '-slide-down');
+    //     $('#' + id + '-button').click(function () {
+    //         let animationSpeed = $('.slide-down-trigger.isOpen').length ? 1 : 'fast'
+    //         if (!$(this).hasClass('isOpen')) {
+    //             $('.slide-down-trigger.isOpen')
+    //             $('.slide-down-trigger').removeClass('isOpen')
+    //             $(this).addClass('isOpen')
+    //             $('.slide-down-block').slideUp(1)
+    //             slideDown.slideDown(animationSpeed);
+    //         }
+    //     });
+    //
+    //     // slideDown.find('button').click(function (e) {
+    //     //     const form = document.forms[id];
+    //     //     const formData = new FormData(form);
+    //     // });
+    // }
+    function enableFormBrn(form) {
+        const formData = new FormData(form.get(0)),
+            condition =  _ => [...formData.values()].some(el => el.split(' ').join('').length > 0)
+        formData.delete('_token');
+        if (condition()) {
+            form.find('.person-submit-btn').prop('disabled', false)
+        } else  {
+            form.find('.person-submit-btn').prop('disabled', true)
+
+        }
+    }
+
+    $('.person-handle-submit')
+        .on('input', 'input', function (e) {
+            const form = $(this).parents('form');
+            enableFormBrn(form)
         })
-    })
+        .on('change', 'input', function (e) {
+            const form = $(this).parents('form');
+            enableFormBrn(form)
+        })
+        .on('change', 'select', function (e) {
+            const form = $(this).parents('form');
+            enableFormBrn(form)
+        })
+        .on('click', '.person-submit-btn', (e) => {
+            const form = $(e.target).parents('form').get(0),
+                formId = $(form).attr('name'),
+                formData = new FormData(form),
+                hasCallback = Object.keys(submitCallbacks).includes(formId)
+            $.ajax({
+                url: $(form).attr('action'),
+                type: 'POST',
+                processData: false,
+                contentType: false,
+                data: formData,
+                success: resp => {
+                    swal({
+                        title: resp.success === false ? 'Error!' : 'Successfully!',
+                        text: resp.message,
+                        type: resp.success === false ? 'error' : 'success',
+                    });
+                    updateMainForm(form);
+                    hasCallback && submitCallbacks[formId]()
+                },
+                error: resp => {
+                    const errors = {...resp.responseJSON.errors}
+                    for (let key in errors) {
+                        let formField = ($(form).find(`[name = ${key}] `));
+                        formField.parents('.input-field').find('.error-span').text(errors[key].join(' '))
+                    }
+                }
+            })
+        })
 
     function handleSidebar(id, callback = null) {
         const sidebar = $('#' + id + '-sidebar');
@@ -91,9 +145,7 @@ $(document).ready(function () {
         sidebar.find('button').click(function (e) {
             e.preventDefault()
             const form = document.forms[id];
-            console.log(form);
             const formData = new FormData(form);
-            console.log(new FormData(form));
             $.ajax({
                 url: form.getAttribute('action'),
                 type: "POST",
@@ -145,7 +197,6 @@ $(document).ready(function () {
                     }
                 }
             }
-            // update field in view page
             viewUpdate(element, form);
         });
     }
@@ -178,7 +229,6 @@ $(document).ready(function () {
                 $('[data-name="long_vacation_compensation_sum"]').closest('tr').addClass('hide');
                 $('[data-name="long_vacation_comment"]').closest('tr').addClass('hide');
                 $('[data-name="long_vacation_plan_finished_at"]').closest('tr').addClass('hide');
-
                 $('[data-name="quited_at"]').closest('.info-block').addClass('hide');
                 break;
             case 'make-former':

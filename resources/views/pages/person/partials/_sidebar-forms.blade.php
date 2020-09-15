@@ -31,10 +31,11 @@
     </div>
     <x-date name="long_vacation_plan_finished_at" title="{{ __('Planning date of coming back to the office') }}" :model="$longVacation"></x-date>
 </x-sidebar-form>
-
+@if( $model->lastLongVacation() &&  $model->quited_at)
 <x-sidebar-form id="back-to-active" title="{{ __('Back to active employee') }}" :model="$model">
     <x-date name="long_vacation_finished_at" title="{{ __('Date of the work beginning') }}" :model="$model"></x-date>
 </x-sidebar-form>
+@endif
 
 <x-sidebar-form id="pay-data" title="{{ __('Pay Data') }}" :model="$model">
     <x-input name="code" title="{{ __('Code') }}" :model="$model"></x-input>
