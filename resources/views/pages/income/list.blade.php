@@ -28,8 +28,8 @@
         </div>
     </div>
     <div class="card-panel filter-panel accounts-page-card-panel animate fadeLeft">
+        <h6 class="width-100">Filters</h6>
         <div class="filter-block">
-
             <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-list-table"/>
             <div class="filter-block-buttons">
                 <x-filter

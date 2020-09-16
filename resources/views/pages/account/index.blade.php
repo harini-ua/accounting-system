@@ -23,7 +23,8 @@
     <div class="animate fadeLeft">
         <x-totals :options="$accountTypes" relation="accountsSum"/>
         <div class="card-panel filter-panel accounts-page-card-panel">
-            <div class="filter-block">
+            <h6 class="width-100">Filters</h6>
+            <div class="filter-block mb-0">
                 <x-date-filter start="{{ $startDate->format('d-m-Y') }}" end="{{ $endDate->format('d-m-Y') }}" table="accounts-list-datatable"/>
                 <x-filter
                         table="accounts-list-datatable"

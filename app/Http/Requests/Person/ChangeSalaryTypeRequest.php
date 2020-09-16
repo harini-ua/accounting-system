@@ -39,7 +39,7 @@ class ChangeSalaryTypeRequest extends FormRequest
     public function messages()
     {
         return [
-            'salary_type_changed_at.required' => 'asdfasdfasdfasdfas'
+            'salary_type_changed_at.required' => 'Date field is required'
         ];
     }
 }
