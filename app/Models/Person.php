@@ -94,6 +94,10 @@ class Person extends Model
      * @var mixed
      */
     private $start_date;
+    /**
+     * @var mixed
+     */
+    private $account_number;
 
     protected static function booted()
     {

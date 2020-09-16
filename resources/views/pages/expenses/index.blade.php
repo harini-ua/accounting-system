@@ -30,6 +30,7 @@
             </div>
         </div>
         <div class="card-panel filter-panel accounts-page-card-panel mb-2">
+            <h6 class="width-100">Filters</h6>
             <div class="filter-block">
                 <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="expense-datatable-table"/>
             </div>

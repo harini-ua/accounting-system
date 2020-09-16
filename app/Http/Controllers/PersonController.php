@@ -145,8 +145,16 @@ class PersonController extends Controller
         $contractTypes = PersonContractType::toCollection();
         $recruiters = User::where('position_id', Position::Recruiter())->get();
 
+        $hasPayData = false;
+        if($person->account_number !== null
+            || $person->code !== null
+            || $person->agreement !== null
+            || $person->note_salary_pay !== null) {
+            $hasPayData = true;
+        }
+
         return view('pages.person.edit', compact('breadcrumbs', 'pageConfigs', 'model', 'positions',
-            'currencies', 'salaryTypes', 'contractTypes', 'recruiters'
+            'currencies', 'salaryTypes', 'contractTypes', 'recruiters', 'hasPayData'
         ));
     }
 

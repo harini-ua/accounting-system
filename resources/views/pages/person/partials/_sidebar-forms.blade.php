@@ -6,7 +6,8 @@
 
 <x-sidebar-form id="change-contract-type" title="{{ __('Change type of contract') }}" :model="$model">
     <x-date name="contract_type_changed_at" title="{{ __('Date') }}" :model="$model"></x-date>
-    <x-select name="contract_type" title="{{ __('Type og Contract') }}" :options="$contractTypes" :model="$model"></x-select>
+    <x-select name="contract_type" title="{{ __('Type og Contract') }}" :options="$contractTypes"
+              :model="$model"></x-select>
 </x-sidebar-form>
 
 <x-sidebar-form id="make-former" title="{{ __('Make former employee') }}" :model="$model">
@@ -22,19 +23,24 @@
     <div class="col s12 mb-5">
         <x-checkbox-input checkboxName="long_vacation_compensation" :model="$longVacation">
             <x-slot name="checkbox">
-                <x-checkbox name="long_vacation_compensation" title="{{ __('Compensation') }}" :model="$longVacation"></x-checkbox>
+                <x-checkbox name="long_vacation_compensation" title="{{ __('Compensation') }}"
+                            :model="$longVacation"></x-checkbox>
             </x-slot>
             <x-slot name="input">
-                <x-input name="long_vacation_compensation_sum" title="{{ __('Compensation sum') }}" :model="$longVacation"></x-input>
+                <x-input name="long_vacation_compensation_sum" title="{{ __('Compensation sum') }}"
+                         :model="$longVacation"></x-input>
             </x-slot>
         </x-checkbox-input>
     </div>
-    <x-date name="long_vacation_plan_finished_at" title="{{ __('Planning date of coming back to the office') }}" :model="$longVacation"></x-date>
+    <x-date name="long_vacation_plan_finished_at" title="{{ __('Planning date of coming back to the office') }}"
+            :model="$longVacation"></x-date>
 </x-sidebar-form>
-
-<x-sidebar-form id="back-to-active" title="{{ __('Back to active employee') }}" :model="$model">
-    <x-date name="long_vacation_finished_at" title="{{ __('Date of the work beginning') }}" :model="$model"></x-date>
-</x-sidebar-form>
+@if( $model->lastLongVacation() &&  $model->quited_at)
+    <x-sidebar-form id="back-to-active" title="{{ __('Back to active employee') }}" :model="$model">
+        <x-date name="long_vacation_finished_at" title="{{ __('Date of the work beginning') }}"
+                :model="$model"></x-date>
+    </x-sidebar-form>
+@endif
 
 <x-sidebar-form id="pay-data" title="{{ __('Pay Data') }}" :model="$model">
     <x-input name="code" title="{{ __('Code') }}" :model="$model"></x-input>

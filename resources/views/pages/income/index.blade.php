@@ -38,6 +38,7 @@
         </div>
         <x-totals :options="$accountTypes" relation="planningSum"/>
         <div class="card-panel filter-panel accounts-page-card-panel">
+            <h6 class="width-100">Filters</h6>
             <div class="filter-block">
                 <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-table"/>
 

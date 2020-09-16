@@ -102,7 +102,6 @@ function clearForm(form) {
 
 $('body').on('click', '.slide-down-btn', function (e) {
     e.preventDefault()
-    console.log('test');
     $(this).parent().find('.slide-down-block').slideDown('fast')
     $(this).hide()
 
@@ -120,16 +119,41 @@ $('body').on('click', '.slide-up-btn', function (e) {
 
 
 // filters
-$('.custom-filter-input').each(function (i) {
-    $(this).val('')
+$('.select-filters').on('change', function (e) {
+    const text = $(this).find('option:selected').text()
+    const input = $(this).parents('.filter-btn').find('.custom-filter-input')
+    const label = input.parents('.filter-btn').find('.custom-filter-label')
+    if (text !== 'All') {
+        input.val(text).addClass('active')
+        label.addClass('active')
+    } else {
+        label.removeClass('active')
+        input.val('')
+
+    }
+
 })
+
+$('.custom-filter-trigger').on('click', function (e) {
+    const select = $(this).parents('.custom-filter-btn').find('.select-filters')
+    select.select2("open");
+})
+$('.custom-filter-input')
+    .each(function (i) {
+        $(this).val('')
+    })
+
 $('.dropdown-content').on('click', 'a', function (e) {
-    var text = $(this).text()
-    var inputField = $(this).parents('.input-field')
+    var text = $(this).text(),
+        inputField = $(this).parents('.input-field'),
+        label = inputField.find('.custom-filter-label')
     if (text !== 'All') {
         highLightField(inputField, text)
+        // label.text(label.text().substr(3))
+
     } else {
-        inputField.find('.custom-filter-label').removeClass('active')
+        // label.text(`By ${label.text()}`)
+        label.removeClass('active')
         inputField.find('.custom-filter-input').val('').removeClass('active')
     }
 })

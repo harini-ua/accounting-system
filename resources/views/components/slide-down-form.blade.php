@@ -10,7 +10,7 @@
             <div class="row">
                 <div class="col s12">
                     <div class="col s12 display-flex justify-content-end mt-3">
-                        <button type="button" class="btn waves-effect waves-light">{{ __('Save') }}</button>
+                        <button type="button"class="person-submit-btn btn waves-effect waves-light" disabled>{{ __('Save') }}</button>
                     </div>
                 </div>
             </div>
