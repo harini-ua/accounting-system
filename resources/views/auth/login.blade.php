@@ -38,7 +38,7 @@
                     <i class="material-icons prefix pt-2">lock_outline</i>
                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
                         name="password" required autocomplete="current-password">
-                    <label for="password">{{ __('password') }}</label>
+                    <label for="password">{{ __('Password') }}</label>
                     @error('password')
                     <small class="red-text ml-10" role="alert">
                         {{ $message }}

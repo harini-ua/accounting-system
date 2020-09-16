@@ -191,6 +191,16 @@ class Person extends Model
             ->latest();
     }
 
+    /**
+     * Get the offer that owns the person.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function offer()
+    {
+        return $this->hasOne(Offer::class, 'employee_id', 'id');
+    }
+
     /*
      * ***********************************
      * Methods

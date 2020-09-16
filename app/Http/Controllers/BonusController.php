@@ -19,13 +19,29 @@ class BonusController extends Controller
     ];
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the bonuses.
+     */
+    public function index()
+    {
+        return $this->listBoneses();
+    }
+
+    /**
+     * Display a listing of the bonuses by position.
      *
      * @param Position|null $position
-     *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
-    public function index(Position $position = null)
+    public function byPosition(Position $position)
+    {
+        return $this->listBoneses($position);
+    }
+
+    /**
+     * @param Position|null $position
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
+     */
+    private function listBoneses(Position $position = null)
     {
         // set default position
         $position = $position ?? Position::find(\App\Enums\Position::SalesManager);
@@ -80,7 +96,7 @@ class BonusController extends Controller
 
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
-            ['link' => route('bonuses.index', $person->position_id), 'name' => __('Bonuses')],
+            ['link' => route('bonuses.index'), 'name' => __('Bonuses')],
             ['name' => $person->name]
         ];
 

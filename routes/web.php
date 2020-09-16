@@ -131,7 +131,7 @@ Route::middleware(['auth'])->group(function() {
     // Bonuses
     Route::resource('bonuses', 'BonusController')->except(['index', 'show']);
     Route::get('/bonuses', 'BonusController@index')->name('bonuses.index');
-    Route::get('/bonuses/position/{position}', 'BonusController@index')->name('bonuses.index');
+    Route::get('/bonuses/position/{position}', 'BonusController@byPosition')->name('bonuses.byPosition');
     Route::get('/bonuses/person/{person}', 'BonusController@show')->name('bonuses.person.show');
 
     // Vacations
@@ -143,5 +143,8 @@ Route::middleware(['auth'])->group(function() {
             ->name('month')
             ->where(['year' => '\d\d\d\d', 'month' => '\d{1,2}']);
     });
+
+    // Offers
+    Route::resource('offers', 'OffersController');
 });
 

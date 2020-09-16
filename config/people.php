@@ -1,7 +1,10 @@
 <?php
 
 return [
-    'trial_period' => '2 months',
+    'trial_period' => [
+        'value' => 2,
+        'item' => 'months'
+    ],
     'bonuses' => [
         'recruit' => [
             /*
