@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css"
           href="{{asset('vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/dataTables.checkboxes.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2-materialize.css')}}">
 @endsection
 
 {{-- page styles --}}
@@ -23,7 +25,7 @@
     <div class="animate fadeLeft">
         <x-totals :options="$accountTypes" relation="accountsSum"/>
         <div class="card-panel filter-panel accounts-page-card-panel">
-            <h6 class="width-100">Filters</h6>
+            <h6 class="width-100 mb-1">Filters</h6>
             <div class="filter-block mb-0">
                 <x-date-filter start="{{ $startDate->format('d-m-Y') }}" end="{{ $endDate->format('d-m-Y') }}" table="accounts-list-datatable"/>
                 <x-filter
@@ -59,6 +61,8 @@
     <script src="{{asset('vendors/data-tables/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/js/datatables.checkboxes.min.js')}}"></script>
+    <script src="{{asset('vendors/select2/select2.full.min.js')}}"></script>
+    <script src="{{asset('js/scripts/form-select2.js')}}"></script>
 @endsection
 
 {{-- page scripts --}}
@@ -66,4 +70,5 @@
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/filters.js')}}"></script>
     {{--<script src="{{asset('js/scripts/accounts.js')}}"></script>--}}
+
 @endsection

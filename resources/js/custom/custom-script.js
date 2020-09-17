@@ -104,8 +104,8 @@ $('body').on('click', '.slide-down-btn', function (e) {
     e.preventDefault()
     $(this).parent().find('.slide-down-block').slideDown('fast')
     $(this).hide()
-
 })
+
 $('body').on('click', '.slide-up-btn', function (e) {
     e.preventDefault();
     var slideDownBlock = $(this).parents('.slide-down-block')
