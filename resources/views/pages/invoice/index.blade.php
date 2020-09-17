@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css"
           href="{{asset('vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/dataTables.checkboxes.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2-materialize.css')}}">
 @endsection
 
 {{-- page styles --}}
@@ -36,7 +38,7 @@
             </a>
         </div>
         <div class="card-panel filter-panel accounts-page-card-panel">
-            <h6 class="width-100">Filters</h6>
+            <h6 class="width-100 mb-1">Filters</h6>
             <div class="filter-block">
                 <x-date-filter
                         table="invoices-list-datatable"/>
@@ -78,6 +80,8 @@
     <script src="{{asset('vendors/data-tables/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/js/datatables.checkboxes.min.js')}}"></script>
+    <script src="{{asset('vendors/select2/select2.full.min.js')}}"></script>
+    <script src="{{asset('js/scripts/form-select2.js')}}"></script>
 @endsection
 
 {{-- page scripts --}}
