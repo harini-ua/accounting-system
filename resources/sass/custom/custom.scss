@@ -30,14 +30,20 @@ body {
         color: #ff4081;
     }
 }
+.filter-block {
+    .select2-container {
+        position: absolute;
+        top: -45px;
+        left: 0;
+    }
+    .select2-selection {
+        opacity: 0;
+        pointer-events: none;
+    }
 
-.select2-container {
-    position: absolute;
-    top: -45px;
-    left: 0;
 }
-.select2-selection {
-    opacity: 0;
+.select2-dropdown {
+    position: absolute !important;
 }
 
 .dropdown-trigger {
@@ -66,7 +72,6 @@ body {
         box-shadow: 0 1px 0 0 #ff4081;
     }
 }
-
 
 .custom-filter-input, .custom-filter-label {
     pointer-events: none;
@@ -221,7 +226,8 @@ label {
     display: flex;
     flex-wrap: nowrap;
     align-items: center;
-
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
     a {
         width: 100%;
         display: flex;
@@ -264,16 +270,13 @@ label {
 
 .filter-panel {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     justify-content: space-between;
     min-height: 120px;
     flex-wrap: wrap;
-
     .filter-block {
         display: flex;
-        margin-bottom: 10px;
         flex-wrap: nowrap;
-
         &-buttons {
             display: flex;
             width: min-content;
@@ -344,7 +347,7 @@ label {
     box-shadow: none;
     max-width: 100px;
     float: right;
-    margin-bottom: 10px;
+    margin-bottom: 17px;
     letter-spacing: 0.5px;
     transition: background-color 0.2s ease-out;
     cursor: pointer;
@@ -416,9 +419,7 @@ table.dataTable thead .sorting_desc {
     font-weight: 600;
 }
 
-.users-list-table {
 
-}
 
 table {
     width: 100% !important;

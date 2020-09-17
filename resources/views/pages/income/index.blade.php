@@ -17,8 +17,8 @@
 {{-- page styles --}}
 @section('page-style')
     <link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-sidebar.css')}}">
-    {{--<link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-wallets.css')}}">--}}
     <link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-users.css')}}">
+
 @endsection
 
 {{-- page content --}}
@@ -79,5 +79,7 @@
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
     <script src="{{asset('js/scripts/filters.js')}}"></script>
     <script src="{{asset('js/scripts/linked-selects.js')}}"></script>
+    <script src="{{asset('vendors/select2/select2.full.min.js')}}"></script>
+    <script src="{{asset('js/scripts/form-select2.js')}}"></script>
     {{--<script src="{{asset('js/scripts/accounts.js')}}"></script>--}}
 @endsection

@@ -30,11 +30,9 @@
                 @include('pages.certifications.partials._form')
             </div>
         </div>
-        <div class="row">
-            <div class="col s12">
                 <div class="card-panel filter-panel accounts-page-card-panel">
                     <h6 class="width-100">Filters</h6>
-                    <div class="filter-block">
+                    <div class="filter-block flex-wrap-important">
                         <div class="filter-block-buttons">
                             <x-filter
                                 table="certifications-list-datatable"
@@ -47,8 +45,6 @@
                     </div>
                     <x-reset-filters/>
                 </div>
-            </div>
-        </div>
         <div class="create-btn add-item-btn slide-down-btn">
             <a href="#" class="waves-effect waves-light btn">
                 <i class="material-icons">add</i>
