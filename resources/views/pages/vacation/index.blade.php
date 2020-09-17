@@ -24,7 +24,7 @@
     <div id="vue-app" class="users-list-wrapper section animate fadeLeft">
         {{-- controls start --}}
         <div class="card-panel filter-panel accounts-page-card-panel">
-            <h6 class="width-100">Filters</h6>
+            <h6 class="width-100 mb-1">Filters</h6>
             <div class="filter-block">
                 <x-filter
                     table="vacations-table"
