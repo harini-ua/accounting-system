@@ -13,6 +13,8 @@
 {{-- page content --}}
 @section('content')
     <section class="invoice-view-wrapper section">
+        @include('pages.person.partials._slide-down-forms', ['model' => $person])
+
         <div class="row">
             <div class="col xl9 m8 s12">
                 <div class="card animate fadeLeft">
@@ -157,9 +159,6 @@
             @include('pages.person.partials._actions', ['model' => $person, 'isEdit' => false])
         </div>
     </section>
-
-    @include('pages.person.partials._sidebar-forms', ['model' => $person])
-
 @endsection
 
 {{-- page scripts --}}
