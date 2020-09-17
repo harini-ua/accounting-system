@@ -11,13 +11,38 @@ class MoneyFlow extends Model
 {
     use SoftDeletes;
 
-    protected $fillable = ['date', 'account_from_id', 'sum_from', 'account_to_id', 'sum_to', 'currency_rate',
-        'fee', 'comment'];
+    public const TABLE_NAME = 'money_flows';
 
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = self::TABLE_NAME;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'date', 'account_from_id', 'sum_from', 'account_to_id', 'sum_to', 'currency_rate', 'fee', 'comment'
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
     protected $casts = [
         'date' => Date::class,
     ];
 
+    /**
+     * The array of booted models.
+     *
+     * @var array
+     */
     protected static function booted()
     {
         static::creating(function ($moneyFlow) {

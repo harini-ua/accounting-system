@@ -7,7 +7,6 @@ use App\Http\Requests\CertificationCreateRequest;
 use App\Http\Requests\CertificationUpdateRequest;
 use App\Models\Certification;
 use App\Models\Person;
-use Illuminate\Http\Request;
 
 class CertificationController extends Controller
 {
@@ -25,7 +24,7 @@ class CertificationController extends Controller
             ['name' => __("Certifications")]
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $people = Person::orderBy('name')->get();
 
@@ -68,7 +67,7 @@ class CertificationController extends Controller
             ['name' => $certification->name]
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $people = Person::all();
 

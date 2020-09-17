@@ -12,6 +12,15 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable, SoftDeletes;
 
+    public const TABLE_NAME = 'users';
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = self::TABLE_NAME;
+
     /**
      * The attributes that are mass assignable.
      *

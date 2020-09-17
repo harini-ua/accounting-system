@@ -9,8 +9,19 @@ class Wallet extends Model
 {
     use SoftDeletes;
 
+    public const TABLE_NAME = 'wallets';
+
     /**
-     * @var string[]
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = self::TABLE_NAME;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
      */
     protected $fillable = ['name', 'wallet_type_id'];
 
@@ -31,7 +42,7 @@ class Wallet extends Model
     }
 
     /**
-     *
+     * Create Accounts
      */
     public function createAccounts()
     {

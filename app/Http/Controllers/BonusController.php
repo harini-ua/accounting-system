@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\BonusesByRecruitDataTable;
 use App\DataTables\BonusesRecruitersDataTable;
 use App\DataTables\BonusesSalesManagersDataTable;
-use App\DataTables\BonusesByRecruitDataTable;
 use App\DataTables\InvoicesBonusesDataTable;
 use App\Http\Requests\BonusesShowRequest;
 use App\Models\CalendarYear;
@@ -30,6 +30,8 @@ class BonusController extends Controller
      * Display a listing of the bonuses by position.
      *
      * @param Position|null $position
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
      */
     public function byPosition(Position $position)
     {
@@ -66,7 +68,7 @@ class BonusController extends Controller
             ['name' => __("Bonuses")],
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $calendarYears = CalendarYear::orderBy('name')->get()->map(static function($calendarYear) {
             $calendarYear->id = $calendarYear->name;

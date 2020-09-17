@@ -6,19 +6,30 @@ use App\Casts\Date;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-/**
- * Class Account
- * @package App
- */
 class Account extends Model
 {
     use SoftDeletes;
+
+    public const TABLE_NAME = 'accounts';
+
     /**
-     * @var string[]
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = self::TABLE_NAME;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
      */
     protected $fillable = ['account_type_id', 'wallet_id', 'started_at', 'balance', 'status'];
+
     /**
-     * @var string[]
+     * The attributes that should be cast.
+     *
+     * @var array
      */
     protected $casts = [
         'started_at' => Date::class,

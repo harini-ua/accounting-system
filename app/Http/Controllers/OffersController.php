@@ -24,7 +24,7 @@ class OffersController extends Controller
             ['name' => __("Offers")]
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $people = Person::orderBy('name')->whereNotNull('quited_at')->get();
 
@@ -46,7 +46,7 @@ class OffersController extends Controller
             ['name' => __('Create')],
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $people = Person::whereDoesntHave('offer')
             ->whereNotNull('quited_at')
@@ -99,7 +99,7 @@ class OffersController extends Controller
             ['name' => __('Edit Offer')]
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $people = Person::whereId($offer->employee_id)
             ->orWhereDoesntHave('offer')

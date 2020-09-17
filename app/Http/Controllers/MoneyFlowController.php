@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\MoneyFlowsDataTable;
 use App\Http\Requests\MoneyFlowRequest;
-use App\Models\Wallet;
 use App\Models\Account;
 use App\Models\MoneyFlow;
-use App\DataTables\MoneyFlowsDataTable;
+use App\Models\Wallet;
 
 class MoneyFlowController extends Controller
 {
-
     /**
      * Display a listing of the resource.
      *
@@ -20,15 +19,15 @@ class MoneyFlowController extends Controller
     public function index(MoneyFlowsDataTable $dataTable)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['name' => "Money Flows"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['name' => __('Money Flows')]
         ];
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
 
-        return $dataTable->render('pages.money-flow.index', [
-            'pageConfigs' => $pageConfigs,
-            'breadcrumbs' => $breadcrumbs,
-        ]);
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        return $dataTable->render('pages.money-flow.index', compact(
+            'breadcrumbs', 'pageConfigs'
+        ));
     }
 
     /**
@@ -39,20 +38,18 @@ class MoneyFlowController extends Controller
     public function create()
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['link' => route('money-flows.index'), 'name' => "Money Flow"],
-            ['name' => "Add Money Flow"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('money-flows.index'), 'name' => __('Money Flow')],
+            ['name' => __('Create')]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $wallets = Wallet::with('accounts.accountType')->get();
 
-        return view('pages.money-flow.create', [
-            'breadcrumbs' => $breadcrumbs,
-            'pageConfigs' => $pageConfigs,
-            'wallets' => $wallets,
-        ]);
+        return view('pages.money-flow.create', compact(
+            'breadcrumbs', 'pageConfigs', 'wallets'
+        ));
     }
 
     /**
@@ -69,17 +66,6 @@ class MoneyFlowController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param MoneyFlow $moneyFlow
@@ -88,9 +74,9 @@ class MoneyFlowController extends Controller
     public function edit(MoneyFlow $moneyFlow)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['link' => route('money-flows.index'), 'name' => "Money Flow"],
-            ['name' => "Edit Money Flow"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('money-flows.index'), 'name' => __('Money Flow')],
+            ['name' => __('Edit Money Flow')]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
@@ -99,13 +85,9 @@ class MoneyFlowController extends Controller
         $accounts = Account::with('accountType')->get();
         $moneyFlow->load('accountFrom.wallet');
 
-        return view('pages.money-flow.edit', [
-            'breadcrumbs' => $breadcrumbs,
-            'pageConfigs' => $pageConfigs,
-            'model' => $moneyFlow,
-            'wallets' => $wallets,
-            'accounts' => $accounts,
-        ]);
+        return view('pages.money-flow.edit', compact(
+            'breadcrumbs', 'pageConfigs', 'wallets', 'accounts', 'moneyFlow'
+        ));
     }
 
     /**
@@ -135,6 +117,7 @@ class MoneyFlowController extends Controller
         if ($moneyFlow->delete()) {
             return response()->json(['success'=>true]);
         }
+
         return response()->json(['success'=>false]);
     }
 }

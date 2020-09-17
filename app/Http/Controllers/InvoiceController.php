@@ -47,7 +47,7 @@ class InvoiceController extends Controller
             ['name' => __("Invoices")]
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $clients = Client::with('contracts.invoices')
             ->has('contracts.invoices')->orderBy('name')->get();
@@ -72,7 +72,7 @@ class InvoiceController extends Controller
             ['name' => __('Create')],
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $clients = Client::with('contracts')->orderBy('name')->get();
         $wallets = Wallet::with('accounts.accountType')->orderBy('name')->get();
@@ -100,8 +100,6 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceCreateRequest $request)
     {
-        //$validator = Validator::make($request->all(), (new InvoiceCreateRequest)->rules());
-
         $invoiceData = $request->except(['client_id', 'wallet_id']);
 
         $invoice = $this->invoiceService->save($invoiceData);
@@ -124,7 +122,7 @@ class InvoiceController extends Controller
             ['name' => $invoice->number],
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $invoice->load(['items' => static function ($query) {
             $query->orderBy('created_at');
@@ -168,7 +166,7 @@ class InvoiceController extends Controller
             ['name' => $invoice->number],
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $invoice->load(['contract', 'items' => static function ($query) {
             $query->orderBy('created_at');
@@ -197,6 +195,7 @@ class InvoiceController extends Controller
      * @param Invoice              $invoice
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function update(InvoiceUpdateRequest $request, Invoice $invoice)
     {
