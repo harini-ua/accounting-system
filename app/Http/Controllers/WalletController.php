@@ -20,28 +20,17 @@ class WalletController extends Controller
     public function index(WalletDataTable $dataTable)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['name' => "Wallets"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['name' => __('Wallets')]
         ];
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $walletTypes = WalletType::all();
 
-        return $dataTable->render('pages.wallet.index', [
-            'pageConfigs' => $pageConfigs,
-            'breadcrumbs' => $breadcrumbs,
-            'walletTypes' => $walletTypes,
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return $dataTable->render('pages.wallet.index', compact(
+            'pageConfigs', 'breadcrumbs', 'walletTypes'
+        ));
     }
 
     /**
@@ -67,19 +56,18 @@ class WalletController extends Controller
     public function show(Wallet $wallet)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['link' => route('wallets.index'), 'name' => "Wallets"],
-            ['name' => "Wallet"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('wallets.index'), 'name' => __('Wallets')],
+            ['name' => __('Wallet')]
         ];
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $wallet->load(['walletType', 'accounts.accountType']);
 
-        return view('pages.wallet.show', [
-            'pageConfigs' => $pageConfigs,
-            'breadcrumbs' => $breadcrumbs,
-            'wallet' => $wallet,
-        ]);
+        return view('pages.wallet.show', compact(
+            'pageConfigs', 'breadcrumbs','wallet'
+        ));
     }
 
     /**
@@ -91,18 +79,16 @@ class WalletController extends Controller
     public function edit(Wallet $wallet)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['link' => route('wallets.index'), 'name' => "Wallets"],
-            ['name' => "Edit Wallet"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('wallets.index'), 'name' => __('Wallets')],
+            ['name' => __('Edit Wallet')]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        return view('pages.wallet.edit', [
-            'breadcrumbs' => $breadcrumbs,
-            'pageConfigs' => $pageConfigs,
-            'model' => $wallet,
-        ]);
+        return view('pages.wallet.edit', compact(
+            'pageConfigs', 'breadcrumbs','wallet'
+        ));
     }
 
     /**
@@ -132,6 +118,7 @@ class WalletController extends Controller
         if ($wallet->delete()) {
             return response()->json(['success'=>true]);
         }
+
         return response()->json(['success'=>false]);
     }
 

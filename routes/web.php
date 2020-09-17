@@ -19,8 +19,8 @@ Route::middleware(['auth'])->group(function() {
 
     // Users
     Route::resource('users', 'UserController')->except(['show']);
-    Route::get('/user-profile', 'UserController@userProfile')->name('user.profile');
-    Route::put('/user-profile', 'UserController@profileUpdate')->name('user.profile.update');
+    Route::get('/profile', 'UserController@userProfile')->name('user.profile');
+    Route::put('/profile', 'UserController@profileUpdate')->name('user.profile.update');
 
     // Wallets
     Route::resource('wallets', 'WalletController')->except(['create']);
@@ -32,65 +32,25 @@ Route::middleware(['auth'])->group(function() {
     // Money Flows
     Route::resource('money-flows', 'MoneyFlowController')->except(['show']);
 
-    // CLIENTS
-    Route::group(['prefix' => 'clients'], static function() {
-        Route::get('/', 'ClientController@index')->name('clients.index');
-        Route::get('/create', 'ClientController@create')->name('clients.create');
-        Route::post('/', 'ClientController@store')->name('clients.store');
-        Route::get('/{client}', 'ClientController@show')->name('clients.show');
-        Route::get('/{client}/edit', 'ClientController@edit')->name('clients.edit');
-        Route::put('/{client}', 'ClientController@update')->name('clients.update');
-        Route::delete('/{client}/delete', 'ClientController@destroy')->name('clients.destroy');
+    // Clients
+    Route::resource('clients', 'ClientController');
+    Route::get('clients/{client}/contracts', 'ClientController@clientContracts')->name('client.contracts');
 
-        Route::get('/{client}/contracts', 'ClientController@clientContracts')->name('client.contracts');
-    });
+    // Contracts
+    Route::resource('contracts', 'ContractController');
 
-    // CONTRACTS
-    Route::group(['prefix' => 'contracts'], static function() {
-        Route::get('/', 'ContractController@index')->name('contracts.index');
-        Route::get('/create', 'ContractController@create')->name('contracts.create');
-        Route::post('/', 'ContractController@store')->name('contracts.store');
-        Route::get('/{contract}', 'ContractController@show')->name('contracts.show');
-        Route::get('/{contract}/edit', 'ContractController@edit')->name('contracts.edit');
-        Route::put('/{contract}', 'ContractController@update')->name('contracts.update');
-        Route::delete('/{contract}/delete', 'ContractController@destroy')->name('contracts.destroy');
-    });
-
-    // INVOICES
+    // Invoices
+    Route::resource('invoices', 'InvoiceController');
     Route::group(['prefix' => 'invoices'], static function() {
-        Route::get('/', 'InvoiceController@index')->name('invoices.index');
-        Route::get('/create', 'InvoiceController@create')->name('invoices.create');
-        Route::post('/', 'InvoiceController@store')->name('invoices.store');
-        Route::get('/{invoice}', 'InvoiceController@show')->name('invoices.show');
-        Route::get('/{invoice}/edit', 'InvoiceController@edit')->name('invoices.edit');
-        Route::put('/{invoice}', 'InvoiceController@update')->name('invoices.update');
-        Route::delete('/{invoice}/delete', 'InvoiceController@destroy')->name('invoices.destroy');
-
         Route::get('{invoice}/download', 'InvoiceController@download')->name('invoices.download');
         Route::post('{invoice}/payment', 'InvoiceController@payment')->name('invoices.payment');
     });
 
-    // INVOICE-ITEMS
-    Route::group(['prefix' => 'invoice-items'], static function() {
-        Route::get('/', 'InvoiceItemController@index')->name('invoice-items.index');
-        Route::get('/create', 'InvoiceItemController@create')->name('invoice-items.create');
-        Route::post('/', 'InvoiceItemController@store')->name('invoice-items.store');
-        Route::get('/{invoice-item}', 'InvoiceItemController@show')->name('invoice-items.show');
-        Route::get('/{invoice-item}/edit', 'InvoiceItemController@edit')->name('invoice-items.edit');
-        Route::put('/{invoice-item}', 'InvoiceItemController@update')->name('invoice-items.update');
-        Route::delete('/{invoice-item}/delete', 'InvoiceItemController@destroy')->name('invoice-items.destroy');
-    });
+    // Invoice-item
+    Route::resource('invoice-items', 'InvoiceItemController');
 
-    // PAYMENTS
-    Route::group(['prefix' => 'payments'], static function() {
-        Route::get('/', 'PaymentController@index')->name('payments.index');
-        Route::get('/create', 'PaymentController@create')->name('payments.create');
-        Route::post('/', 'PaymentController@store')->name('payments.store');
-        Route::get('/{payment}', 'PaymentController@show')->name('payments.show');
-        Route::get('/{payment}/edit', 'PaymentController@edit')->name('payments.edit');
-        Route::put('/{payment}', 'PaymentController@update')->name('payments.update');
-        Route::delete('/{payment}/delete', 'PaymentController@destroy')->name('payments.destroy');
-    });
+    // Payments
+    Route::resource('payments', 'PaymentController');
 
     // Incomes
     Route::resource('incomes', 'IncomeController')->except(['create', 'show']);
@@ -102,6 +62,7 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('expenses', 'ExpenseController')->except(['show']);
 
     // People
+    Route::resource('people', 'PersonController');
     Route::group(['prefix' => 'people', 'as' => 'people.'], function() {
         Route::get('former-list', 'PersonController@formerList')->name('former-list');
         Route::post('change-salary-type/{person}', 'PersonController@changeSalaryType')->name('change-salary-type');
@@ -113,7 +74,6 @@ Route::middleware(['auth'])->group(function() {
         Route::patch('available-vacations/{person}', 'PersonController@updateAvailableVacations')->name('available-vacations');
         Route::patch('compensate/{person}', 'PersonController@compensate')->name('compensate');
     });
-    Route::resource('people', 'PersonController');
 
     // Certifications
     Route::resource('certifications', 'CertificationController')->except(['show']);
@@ -131,7 +91,7 @@ Route::middleware(['auth'])->group(function() {
     // Bonuses
     Route::resource('bonuses', 'BonusController')->except(['index', 'show']);
     Route::get('/bonuses', 'BonusController@index')->name('bonuses.index');
-    Route::get('/bonuses/position/{position}', 'BonusController@index')->name('bonuses.index');
+    Route::get('/bonuses/position/{position}', 'BonusController@byPosition')->name('bonuses.byPosition');
     Route::get('/bonuses/person/{person}', 'BonusController@show')->name('bonuses.person.show');
 
     // Vacations
@@ -143,5 +103,8 @@ Route::middleware(['auth'])->group(function() {
             ->name('month')
             ->where(['year' => '\d\d\d\d', 'month' => '\d{1,2}']);
     });
+
+    // Offers
+    Route::resource('offers', 'OffersController');
 });
 

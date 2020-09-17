@@ -22,9 +22,10 @@ class VacationController extends Controller
     public function index(VacationsDataTable $dataTable)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['name' => "Vacations"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['name' => __('Vacations')]
         ];
+
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $calendarYears = CalendarYear::orderBy('name')->get()->map(function($calendarYear) {
@@ -54,10 +55,11 @@ class VacationController extends Controller
         $monthName = Carbon::createFromDate($year, $month)->monthName;
 
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['link' => route('vacations.index'), 'name' => "Vacations"],
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('vacations.index'), 'name' => __('Vacations')],
             ['name' => "$monthName $year"]
         ];
+
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $days = $datatable->days();
@@ -76,21 +78,25 @@ class VacationController extends Controller
         $vacation = Vacation::firstOrNew($fields);
         $vacation->type = $request->get('type');
 
-        if ($request->payment_type == VacationPaymentType::Paid && $date < Carbon::parse($vacation->person->start_date)->addMonths(2)) {
+        if ($request->payment_type === VacationPaymentType::Paid && $date < Carbon::parse($vacation->person->start_date)->addMonths(2)) {
             throw new BadRequestHttpException('Person have to work more than 2 months for vacation!');
         }
-        if ($vacation->date == $vacation->person->compensated_at) {
+
+        if ($vacation->date === $vacation->person->compensated_at) {
             throw new BadRequestHttpException('Compensated vacations cannot be changed!');
         }
+
         if ($vacation->save()) {
             return response()->json($vacation, 201);
         }
+
         return response()->json([], 500);
     }
 
     /**
      * @param VacationDeleteRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
      */
     public function destroy(VacationDeleteRequest $request)
     {
@@ -98,12 +104,15 @@ class VacationController extends Controller
             ->where('person_id', $request->get('person_id'))
             ->where('payment_type', $request->get('payment_type'))
             ->firstOrFail();
-        if ($vacation->date == $vacation->person->compensated_at) {
+
+        if ($vacation->date === $vacation->person->compensated_at) {
             throw new BadRequestHttpException('Compensated vacations cannot be deleted!');
         }
+
         if ($vacation->delete()) {
             return response('', 204);
         }
+
         throw new HttpException(500);
     }
 }

@@ -28,10 +28,11 @@ class ContractController extends Controller
             ['name' => __('Contracts')]
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $clients = Client::all()->sortBy('name')
             ->pluck('name', 'id')->toArray();
+
         $clientsToCollection = Client::all()->sortBy('name');
 
         $salesManagersToCollection = User::byPosition(Position::SalesManager)->get();
@@ -43,7 +44,8 @@ class ContractController extends Controller
         $status = ContractStatus::toSelectArray();
 
         return $dataTable->render('pages.contract.index', compact(
-            'pageConfigs', 'breadcrumbs', 'clients', 'salesManagers', 'salesManagersToCollection', 'status', 'clientsToCollection' ,'statusToCollection'
+            'pageConfigs', 'breadcrumbs', 'clients', 'salesManagers',
+            'salesManagersToCollection', 'status', 'clientsToCollection' ,'statusToCollection'
         ));
     }
 
@@ -60,7 +62,7 @@ class ContractController extends Controller
             ['name' => __('Create')]
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $clients = Client::all()
             ->sortBy('name')
@@ -109,7 +111,7 @@ class ContractController extends Controller
             ['name' => $contract->name]
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $contract->load(['client', 'manager', 'invoices']);
 
@@ -135,7 +137,7 @@ class ContractController extends Controller
             ['name' => __('Edit Contract')]
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $contract->load('client');
 

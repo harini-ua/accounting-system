@@ -10,20 +10,23 @@ class CheckboxFilter extends Component
     public $url;
     public $name;
     public $title;
+    public $checked;
 
     /**
      * CheckboxFilter constructor.
-     * @param $table
-     * @param $url
-     * @param $name
-     * @param $title
+     * @param string $table
+     * @param string $url
+     * @param string $name
+     * @param string $title
+     * @param boolean $checked
      */
-    public function __construct($table, $url, $name, $title)
+    public function __construct($table, $url, $name, $title, $checked = false)
     {
         $this->table = $table;
         $this->url = $url;
         $this->name = $name;
         $this->title = $title;
+        $this->checked = $checked;
     }
 
     /**

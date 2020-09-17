@@ -20,10 +20,10 @@ class PaymentController extends Controller
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
-            ['name' => __("Payments")]
+            ['name' => __('Payments')]
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         return $dataTable->render('pages.payments.index', compact(
             'breadcrumbs', 'pageConfigs'
@@ -43,11 +43,9 @@ class PaymentController extends Controller
             ['name' => __('Create')]
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        return view('pages.payments.create', compact(
-            'breadcrumbs', 'pageConfigs'
-        ));
+        return view('pages.payments.create', compact('breadcrumbs', 'pageConfigs'));
     }
 
     /**
@@ -90,10 +88,10 @@ class PaymentController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['link' => 'javascript:void(0)', 'name' => __('Payment')],
-            ['name' => __('Update')]
+            ['name' => __('Edit')]
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         return view('pages.payments.view', compact(
             'breadcrumbs', 'pageConfigs', 'payment'
@@ -109,7 +107,7 @@ class PaymentController extends Controller
      */
     public function edit(Payment $payment)
     {
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $payment->load('contract');
 

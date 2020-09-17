@@ -17,7 +17,7 @@ class InvoiceItemController extends Controller
      */
     public function index(InvoiceItemsDataTable $dataTable)
     {
-        $pageConfigs = ['pageHeader' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         return $dataTable->render('pages.invoice-items.index', compact('pageConfigs'));
     }
@@ -29,7 +29,7 @@ class InvoiceItemController extends Controller
      */
     public function create()
     {
-        $pageConfigs = ['pageHeader' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         return view('pages.invoice-items.create', compact('pageConfigs'));
     }
@@ -61,7 +61,7 @@ class InvoiceItemController extends Controller
      */
     public function show(InvoiceItem $invoiceItem)
     {
-        $pageConfigs = ['pageHeader' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         return view('pages.invoice-items.view', compact('pageConfigs', 'invoiceItem'));
     }
@@ -75,7 +75,7 @@ class InvoiceItemController extends Controller
      */
     public function edit(InvoiceItem $invoiceItem)
     {
-        $pageConfigs = ['pageHeader' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $invoiceItem->load('invoice');
 

@@ -88,7 +88,9 @@ class BonusesByRecruitDataTable extends DataTable
 
         $dataTable->addColumn('end_trial_data', static function(Person $model) {
             return Carbon::parse($model->start_date)
-                ->add(\DateInterval::createFromDateString(config('people.trial_period')))
+                ->add(\DateInterval::createFromDateString(
+                    config('people.trial_period.value').' '.config('people.trial_period.item')
+                ))
                 ->format(config('general.date.format'));
         });
 

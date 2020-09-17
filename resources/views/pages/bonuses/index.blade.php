@@ -32,7 +32,7 @@
                             <x-filter
                                     table="bonuses-list-datatable"
                                     :options="$calendarYears"
-                                    url="{{ route('bonuses.index', $position->id) }}"
+                                    url="{{ route('bonuses.index') }}"
                                     name="year_filter"
                                     title="By Year"
                                     :default="$year"
@@ -50,7 +50,7 @@
                     <ul class="tabs">
                         @foreach($positions as $tab)
                         <li class="tab col s12 m6 l3">
-                            <a class="{{ $tab->id === $position->id ? 'active' : '' }}" data-bonuses-href="{{ route('bonuses.index', $tab->id) }}" href="#bonuses-tab-{{$tab->id}}">{{ $tab->name }}</a>
+                            <a class="{{ $tab->id === $position->id ? 'active' : '' }}" data-bonuses-href="{{ route('bonuses.byPosition', $tab->id) }}" href="#bonuses-tab-{{$tab->id}}">{{ $tab->name }}</a>
                         </li>
                         @endforeach
                     </ul>

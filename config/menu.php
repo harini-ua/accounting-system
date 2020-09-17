@@ -117,6 +117,13 @@ return [
             'icon' => 'monetization_on',
             'i18n' => 'monetization_on',
         ],
+        [
+            'url' => 'offers',
+            'name' => 'Offers',
+            'slug' => 'offers',
+            'icon' => 'beenhere',
+            'i18n' => 'beenhere',
+        ],
     ],
     'horizontal' => [
         //
