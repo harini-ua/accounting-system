@@ -6,6 +6,8 @@
 
 {{-- vendor styles --}}
 @section('vendor-style')
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2-materialize.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" type="text/css"
           href="{{asset('vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
@@ -21,27 +23,30 @@
 @section('content')
     <!-- bonus list -->
     <section class="bonus-list-wrapper users-list-wrapper section animate fadeLeft">
-        <div class="row">
-            <div class="col s12">
-                <div class="card-panel filter-panel accounts-page-card-panel">
-                    <h6 class="width-100">Filters</h6>
-                    <div class="filter-block">
-                        <div class="filter-block-buttons">
-                            <x-filter
-                                    table="bonuses-list-datatable"
-                                    :options="$calendarYears"
-                                    url="{{ route('bonuses.index') }}"
-                                    name="year_filter"
-                                    title="By Year"
-                                    :default="$year"
-                                    all="0"
-                            />
+        <div class="card-panel">
+            <div class="row">
+                <div class="col s12">
+                    <div class="filter-panel accounts-page-card-panel">
+                        <h6 class="width-100">Filters</h6>
+                        <div class="filter-block">
+                            <div class="filter-block-buttons">
+                                <x-filter
+                                        table="bonuses-list-datatable"
+                                        :options="$calendarYears"
+                                        url="{{ route('bonuses.index') }}"
+                                        name="year_filter"
+                                        title="By Year"
+                                        :default="$year"
+                                        all="0"
+                                />
+                            </div>
                         </div>
+                        <x-reset-filters/>
                     </div>
-                    <x-reset-filters/>
                 </div>
             </div>
         </div>
+
         <div class="card">
             <div class="row">
                 <div class="col s12">
@@ -71,6 +76,8 @@
 
 {{-- vendor scripts --}}
 @section('vendor-script')
+    <script src="{{asset('js/scripts/form-select2.js')}}"></script>
+    <script src="{{asset('vendors/select2/select2.full.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js')}}"></script>
 @endsection

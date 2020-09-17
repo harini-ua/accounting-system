@@ -6,7 +6,9 @@ use App\DataTables\BonusesByRecruitDataTable;
 use App\DataTables\BonusesRecruitersDataTable;
 use App\DataTables\BonusesSalesManagersDataTable;
 use App\DataTables\InvoicesBonusesDataTable;
+use App\Enums\Currency;
 use App\Http\Requests\BonusesShowRequest;
+use App\Models\CalendarMonth;
 use App\Models\CalendarYear;
 use App\Models\Person;
 use App\Models\Position;
@@ -61,7 +63,7 @@ class BonusController extends Controller
                 $dataTable = new BonusesSalesManagersDataTable();
         }
 
-        $year = CalendarYear::whereName($dataTable->year)->first();
+        $year = $dataTable->year;
 
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
@@ -70,10 +72,12 @@ class BonusController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        $calendarYears = CalendarYear::orderBy('name')->get()->map(static function($calendarYear) {
-            $calendarYear->id = $calendarYear->name;
-            return $calendarYear;
-        });
+        $calendarYears = CalendarYear::orderBy('name')->get()->map(
+            static function($calendarYear) {
+                $calendarYear->id = $calendarYear->name;
+                return $calendarYear;
+            }
+        );
 
         $positions = Position::whereIn('id', $this->supportPosition)->get();
 
@@ -104,17 +108,30 @@ class BonusController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
+        $filters = $request->query();
+
         switch ($person->position_id) {
             case \App\Enums\Position::Recruiter:
-                $dataTable = new BonusesByRecruitDataTable($person, $request->query());
+                $dataTable = new BonusesByRecruitDataTable($person, $filters);
                 break;
             case \App\Enums\Position::SalesManager:
             default:
-                $dataTable = new InvoicesBonusesDataTable($person, $request->query());
+                $dataTable = new InvoicesBonusesDataTable($person, $filters);
         }
 
+        $calendarYears = CalendarYear::orderBy('name')->get()
+            ->map(static function($calendarYear) {
+                $calendarYear->id = $calendarYear->name;
+                return $calendarYear;
+            }
+        );
+
+        $calendarMonths = CalendarMonth::orderBy('id')->get();
+
+        $currency = Currency::toCollection();
+
         return $dataTable->render("pages.bonuses.view", compact(
-            'breadcrumbs', 'pageConfigs', 'person'
+            'breadcrumbs', 'pageConfigs', 'person', 'filters', 'calendarYears', 'calendarMonths', 'currency'
         ));
     }
 }
