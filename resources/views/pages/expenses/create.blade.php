@@ -46,18 +46,8 @@
                                         :model="$model"
                                     ></x-select>
                                 </div>
-{{--                                <x-linked-selects--}}
-{{--                                    firstName="wallet_id"--}}
-{{--                                    firstTitle="Wallet"--}}
-{{--                                    secondName="account_id"--}}
-{{--                                    secondTitle="Account"--}}
-{{--                                    dataUrl="/wallets/[id]/accounts"--}}
-{{--                                    view="components.linked-selects.wallets-accounts"--}}
-{{--                                    :options="$wallets"--}}
-{{--                                    :model="$model"--}}
-{{--                                />--}}
-
                             </div>
+
                             <div class="row">
                                 <x-linked-selects
                                     firstName="wallet_id"
@@ -78,7 +68,6 @@
                                     Save changes
                                 </button>
                             </div>
-                    </div>
                     </form>
                     <!-- edit form ends -->
                 </div>
