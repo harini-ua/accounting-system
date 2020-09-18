@@ -17,6 +17,7 @@ class CreateAccountTypesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->char('symbol', 5);
+            $table->decimal('currency', 5, 2)->default(1);
             $table->timestamps();
         });
     }

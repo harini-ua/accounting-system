@@ -19,10 +19,12 @@ class AccountTypesSeeder extends Seeder
         AccountType::create([
             'name' => 'USD',
             'symbol' => '$',
+            'currency' => 28.09,
         ]);
         AccountType::create([
             'name' => 'EUR',
             'symbol' => '€',
+            'currency' => 33.35,
         ]);
         AccountType::create([
             'name' => 'Deposit UAH',

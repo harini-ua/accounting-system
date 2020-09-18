@@ -54,6 +54,14 @@ class CalendarMonth extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function getWorkingDaysAttribute()
+    {
+        return $this->calendar_days - $this->holidays - $this->weekends;
+    }
+
+    /**
      * @param Builder $query
      * @param string $year
      * @return Builder

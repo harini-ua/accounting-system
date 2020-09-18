@@ -16,10 +16,14 @@ class VacationSeeder extends Seeder
     public function run()
     {
         $people = Person::all();
+        $calendarMonths = \App\Models\CalendarMonth::ofYear(Carbon::now()->year)->get();
         factory(Vacation::class, 200)->create([
             'person_id' => function() use ($people) {
                 return $people->random()->id;
             },
+            'calendar_month_id' => function($vacation) use ($calendarMonths) {
+                return $calendarMonths->where('name', Carbon::parse($vacation['date'])->monthName)->first()->id;
+            }
         ]);
     }
 }

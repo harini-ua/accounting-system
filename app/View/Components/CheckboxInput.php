@@ -35,6 +35,12 @@ class CheckboxInput extends Component
      */
     public function isCheckboxChecked()
     {
-        return (bool) ($this->model ? $this->model->{$this->checkboxName} : old($this->checkboxName));
+        if (old($this->checkboxName)) {
+            return true;
+        }
+        if ($this->model) {
+            return $this->model->{$this->checkboxName};
+        }
+        return false;
     }
 }

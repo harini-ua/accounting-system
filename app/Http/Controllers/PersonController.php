@@ -19,11 +19,10 @@ use App\Http\Requests\Person\MakeFormerRequest;
 use App\Http\Requests\Person\PersonCreateRequest;
 use App\Http\Requests\Person\PersonUpdateRequest;
 use App\Http\Requests\Person\UpdateAvailableVacationsRequest;
-use App\Models\Holiday;
+use App\Models\CalendarMonth;
 use App\Models\Person;
 use App\User;
 use App\DataTables\PersonDataTable;
-use Illuminate\Support\Carbon;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
 class PersonController extends Controller
@@ -320,6 +319,10 @@ class PersonController extends Controller
 
             $person->vacations()->create([
                 'date' => $date,
+                'calendar_month_id' => CalendarMonth::ofYear($date->year)
+                    ->where('calendar_months.name', $date->monthName)
+                    ->first()
+                    ->id,
                 'type' => VacationType::Actual,
                 'payment_type' => VacationPaymentType::Paid,
                 'days' => $person->compensated_days,
