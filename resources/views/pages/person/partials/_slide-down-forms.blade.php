@@ -94,5 +94,6 @@
             <x-input name="note_salary_pay" title="{{ __('Notes For Salary payment') }}" :model="$model"></x-input>
         </div>
    </div>
+
 </x-slide-down-form>
 <!-- slide down forms end  -->

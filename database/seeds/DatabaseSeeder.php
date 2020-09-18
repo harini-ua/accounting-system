@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             $this->call(CertificationsSeeder::class);
             $this->call(VacationSeeder::class);
             $this->call(SalaryPaymentSeeder::class);
+            $this->call(OffersSeeder::class);
         }
     }
 }

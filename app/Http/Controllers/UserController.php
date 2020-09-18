@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\UsersDataTable;
 use App\Http\Requests\ProfileUpdate;
 use App\Http\Requests\UserStoreRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\Position;
 use App\User;
-use App\DataTables\UsersDataTable;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -21,11 +21,12 @@ class UserController extends Controller
     public function index(UsersDataTable $dataTable)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['name' => "Users"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['name' => __('Users')]
         ];
-        //Pageheader set true for breadcrumbs
-        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => false];
+
         $positions = Position::all();
 
         return $dataTable->render('pages.user.index', [
@@ -38,16 +39,16 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function create()
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['link' => route('users.index'), 'name' => "User"],
-            ['name' => "Add User"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('users.index'), 'name' => __('Users')],
+            ['name' => __('Create')]
         ];
-        //Pageheader set true for breadcrumbs
+
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $positions = Position::all();
@@ -92,11 +93,11 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['link' => route('users.index'), 'name' => "User"],
-            ['name' => "Edit User"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('users.index'), 'name' => __('Users')],
+            ['name' => __('Edit User')]
         ];
-        //Pageheader set true for breadcrumbs
+
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $user->load('position');
@@ -137,6 +138,7 @@ class UserController extends Controller
         if ($user->delete()) {
             return response()->json(['success' => true]);
         }
+
         return response()->json(['success' => false]);
     }
 
@@ -147,9 +149,11 @@ class UserController extends Controller
     public function userProfile(Request $request)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Pages"], ['name' => "User Profile Page"],
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('users.index'), 'name' => __('Users')],
+            ['name' => __('My Profile')],
         ];
-        //Pageheader set true for breadcrumbs
+
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $positions = Position::all();
@@ -169,12 +173,14 @@ class UserController extends Controller
     public function profileUpdate(ProfileUpdate $request)
     {
         $user = $request->user();
+
         $validatedData = $request->all();
         if (empty($validatedData['password'])) {
             unset($validatedData['password']);
         } else {
             $validatedData['password'] = bcrypt($validatedData['password']);
         }
+
         $user->fill($validatedData);
         $user->save();
 

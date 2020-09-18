@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\BonusesByRecruitDataTable;
 use App\DataTables\BonusesRecruitersDataTable;
 use App\DataTables\BonusesSalesManagersDataTable;
-use App\DataTables\BonusesByRecruitDataTable;
 use App\DataTables\InvoicesBonusesDataTable;
+use App\Enums\Currency;
 use App\Http\Requests\BonusesShowRequest;
+use App\Models\CalendarMonth;
 use App\Models\CalendarYear;
 use App\Models\Person;
 use App\Models\Position;
@@ -19,13 +21,31 @@ class BonusController extends Controller
     ];
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the bonuses.
+     */
+    public function index()
+    {
+        return $this->listBoneses();
+    }
+
+    /**
+     * Display a listing of the bonuses by position.
      *
      * @param Position|null $position
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
      */
-    public function index(Position $position = null)
+    public function byPosition(Position $position)
+    {
+        return $this->listBoneses($position);
+    }
+
+    /**
+     * @param Position|null $position
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
+     */
+    private function listBoneses(Position $position = null)
     {
         // set default position
         $position = $position ?? Position::find(\App\Enums\Position::SalesManager);
@@ -43,19 +63,21 @@ class BonusController extends Controller
                 $dataTable = new BonusesSalesManagersDataTable();
         }
 
-        $year = CalendarYear::whereName($dataTable->year)->first();
+        $year = $dataTable->year;
 
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['name' => __("Bonuses")],
         ];
 
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        $calendarYears = CalendarYear::orderBy('name')->get()->map(static function($calendarYear) {
-            $calendarYear->id = $calendarYear->name;
-            return $calendarYear;
-        });
+        $calendarYears = CalendarYear::orderBy('name')->get()->map(
+            static function($calendarYear) {
+                $calendarYear->id = $calendarYear->name;
+                return $calendarYear;
+            }
+        );
 
         $positions = Position::whereIn('id', $this->supportPosition)->get();
 
@@ -80,23 +102,36 @@ class BonusController extends Controller
 
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
-            ['link' => route('bonuses.index', $person->position_id), 'name' => __('Bonuses')],
+            ['link' => route('bonuses.index'), 'name' => __('Bonuses')],
             ['name' => $person->name]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
+        $filters = $request->query();
+
         switch ($person->position_id) {
             case \App\Enums\Position::Recruiter:
-                $dataTable = new BonusesByRecruitDataTable($person, $request->query());
+                $dataTable = new BonusesByRecruitDataTable($person, $filters);
                 break;
             case \App\Enums\Position::SalesManager:
             default:
-                $dataTable = new InvoicesBonusesDataTable($person, $request->query());
+                $dataTable = new InvoicesBonusesDataTable($person, $filters);
         }
 
+        $calendarYears = CalendarYear::orderBy('name')->get()
+            ->map(static function($calendarYear) {
+                $calendarYear->id = $calendarYear->name;
+                return $calendarYear;
+            }
+        );
+
+        $calendarMonths = CalendarMonth::orderBy('id')->get();
+
+        $currency = Currency::toCollection();
+
         return $dataTable->render("pages.bonuses.view", compact(
-            'breadcrumbs', 'pageConfigs', 'person'
+            'breadcrumbs', 'pageConfigs', 'person', 'filters', 'calendarYears', 'calendarMonths', 'currency'
         ));
     }
 }

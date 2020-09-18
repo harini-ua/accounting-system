@@ -26,25 +26,34 @@ class BonusesByRecruitDataTable extends DataTable
     /** @var Person $recruiter */
     public $recruiter;
 
-    /** @var array $query */
-    public $query;
-
     /** @var string $firstPart */
     public $firstPart;
 
     /** @var string $secondPart */
     public $secondPart;
 
+    /** @var string $year */
+    public $year;
+
+    /** @var integer $month */
+    public $month;
+
+    /** @var string $currency */
+    public $currency;
+
     /**
      * ContractsDataTable constructor.
      *
      * @param Person $recruiter
-     * @param array  $query
+     * @param array  $filters
      */
-    public function __construct(Person $recruiter, array $query)
+    public function __construct(Person $recruiter, array $filters)
     {
         $this->recruiter = $recruiter;
-        $this->query = $query;
+
+        $this->year = $filters['year'] ?? null;
+        $this->month = $filters['month'] ?? null;
+        $this->currency = $filters['currency'] ?? null;
 
         $fraction = config('people.bonuses.recruit.fraction');
         $this->firstPart = $this->recruiter->bonuses_reward * fraction_to_decimal($fraction);
@@ -88,7 +97,9 @@ class BonusesByRecruitDataTable extends DataTable
 
         $dataTable->addColumn('end_trial_data', static function(Person $model) {
             return Carbon::parse($model->start_date)
-                ->add(\DateInterval::createFromDateString(config('people.trial_period')))
+                ->add(\DateInterval::createFromDateString(
+                    config('people.trial_period.value').' '.config('people.trial_period.item')
+                ))
                 ->format(config('general.date.format'));
         });
 
@@ -101,6 +112,23 @@ class BonusesByRecruitDataTable extends DataTable
         });
 
         $dataTable->rawColumns(self::COLUMNS);
+
+        $dataTable->filter(function($query) {
+            if ($this->request->has('year_filter')) {
+                $this->year = $this->request->get('year_filter');
+                $query->whereYear('start_date', $this->year);
+                $query->orWhere('year(date_add(date_add(start_date, interval 2 month), interval 1 day))', $this->year);
+            }
+            if ($this->request->has('month_filter')) {
+                $this->month = $this->request->get('month_filter');
+                $query->whereMonth('start_date', $this->month);
+                $query->orWhere('month(date_add(date_add(start_date, interval 2 month), interval 1 day))', $this->year);
+            }
+            if ($this->request->has('currency_filter')) {
+                $this->currency = $this->request->get('currency_filter');
+                $query->where('currency', $this->currency);
+            }
+        }, true);
 
         return $dataTable;
     }
@@ -130,8 +158,8 @@ class BonusesByRecruitDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('person-table')
-            ->addTableClass('subscription-table responsive-table highlight')
+            ->setTableId('bonuses-person-table')
+            ->addTableClass('table responsive-table highlight row-border')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')

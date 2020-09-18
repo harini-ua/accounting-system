@@ -8,9 +8,9 @@ $(document).ready(function () {
         const name = filterButton.attr('data-name');
         const table = $('#' + filterButton.attr('data-table')).DataTable();
 
-        filterButton.on('click', '.option', function(e) {
+        filterButton.on('change', '.select-filters', function(e) {
             e.preventDefault();
-            filters.set(name, this.dataset.id);
+            filters.set(name, this.value);
             table.ajax.url(filters.url(route)).load();
             $(document).trigger({
                 type: 'filterChange',
@@ -67,5 +67,7 @@ $(document).ready(function () {
             });
         });
     });
+
+    $('.select2').select2().trigger('change')
 
 });

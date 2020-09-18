@@ -36,10 +36,15 @@ class InvoicesBonusesDataTable extends DataTable
      * ContractsDataTable constructor.
      *
      * @param Person $person
+     * @param array  $filters
      */
-    public function __construct(Person $person)
+    public function __construct(Person $person, array $filters)
     {
         $this->person = $person;
+
+        $this->year = $filters['year'] ?? null;
+        $this->month = $filters['month'] ?? null;
+        $this->currency = $filters['currency'] ?? null;
     }
 
     /**
@@ -90,6 +95,23 @@ class InvoicesBonusesDataTable extends DataTable
 
         $dataTable->rawColumns(self::COLUMNS);
 
+        $dataTable->filter(function($query) {
+            if ($this->request->has('year_filter')) {
+                $this->year = $this->request->get('year_filter');
+                $query->whereYear('invoices.pay_date', $this->year);
+            }
+            if ($this->request->has('month_filter')) {
+                $this->month = $this->request->get('month_filter');
+                $query->whereMonth('invoices.pay_date', $this->month);
+            }
+            if ($this->request->has('currency_filter')) {
+                $this->currency = $this->request->get('currency_filter');
+                $query->join('accounts', 'accounts.id', '=', 'invoices.account_id');
+                $query->join('account_types', 'account_types.id', '=', 'accounts.account_type_id');
+                $query->where('account_types.name', $this->currency);
+            }
+        }, true);
+
         $dataTable->orderColumn('number', static function($query, $order) {
             $query->orderBy('invoices.id', $order);
         });
@@ -125,7 +147,7 @@ class InvoicesBonusesDataTable extends DataTable
      *
      * @param \App\Models\Invoice $model
      *
-     * @return \Illuminate\Database\Query\Builder
+     * @return \Illuminate\Database\Eloquent\Builder
      */
     public function query(Invoice $model)
     {
@@ -133,17 +155,22 @@ class InvoicesBonusesDataTable extends DataTable
             ->select('invoice_id', DB::raw('sum(received_sum) as received_sum, sum(fee) as fee'))
             ->groupBy('invoice_id');
 
-        return $model->with(['contract.client', 'account.wallet', 'account.accountType'])
-            ->where('invoices.sales_manager_id', $this->person->id)
-            ->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
-            ->leftJoinSub($paymentSums, 'payment_sums', static function($join) {
-                $join->on('payment_sums.invoice_id', '=', 'invoices.id');
-            })
-            ->select([
-                'invoices.*',
-                'payment_sums.fee as fee',
-                'payment_sums.received_sum as received_sum'
-            ])->newQuery();
+        $query = $model->newQuery();
+
+        $query->with(['contract.client', 'account.wallet', 'account.accountType']);
+        $query->where('invoices.sales_manager_id', $this->person->id);
+
+        $query->join('contracts', 'contracts.id', '=', 'invoices.contract_id');
+        $query->leftJoinSub($paymentSums, 'payment_sums', static function($join) {
+            $join->on('payment_sums.invoice_id', '=', 'invoices.id');
+        });
+        $query->select([
+            'invoices.*',
+            'payment_sums.fee as fee',
+            'payment_sums.received_sum as received_sum'
+        ]);
+
+        return $query->newQuery();
     }
 
     /**
@@ -155,8 +182,8 @@ class InvoicesBonusesDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('invoices-bonuses-list-datatable')
-            ->addTableClass('table responsive-table highlight')
+            ->setTableId('bonuses-person-table')
+            ->addTableClass('table responsive-table highlight row-border')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->searching(false)

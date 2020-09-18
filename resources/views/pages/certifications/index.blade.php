@@ -30,24 +30,21 @@
                 @include('pages.certifications.partials._form')
             </div>
         </div>
-        <div class="row">
-            <div class="col s12">
                 <div class="card-panel filter-panel accounts-page-card-panel">
-                    <div class="filter-block">
+                    <h6 class="width-100 mb-1">Filters</h6>
+                    <div class="filter-block flex-wrap-important">
                         <div class="filter-block-buttons">
                             <x-filter
-                                    table="certifications-list-datatable"
-                                    :options="$people"
-                                    url="{{ route('certifications.index') }}"
-                                    name="person_filter"
-                                    title="By Person"
+                                table="certifications-list-datatable"
+                                :options="$people"
+                                url="{{ route('certifications.index') }}"
+                                name="person_filter"
+                                title="By Person"
                             />
                         </div>
                     </div>
                     <x-reset-filters/>
                 </div>
-            </div>
-        </div>
         <div class="create-btn add-item-btn slide-down-btn">
             <a href="#" class="waves-effect waves-light btn">
                 <i class="material-icons">add</i>

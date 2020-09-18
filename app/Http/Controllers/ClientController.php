@@ -16,16 +16,6 @@ use Illuminate\Http\Request;
 class ClientController extends Controller
 {
     /**
-     * Instantiate a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //..
-    }
-
-    /**
      * Display a listing of the clients.
      *
      * @param ClientsDataTable $dataTable
@@ -39,9 +29,9 @@ class ClientController extends Controller
             ['name' => __('Clients')]
         ];
 
-        $pageConfigs = ['pageHeader' => true];
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        return $dataTable->render('pages.client.index', compact('pageConfigs'), ['breadcrumbs' => $breadcrumbs]);
+        return $dataTable->render('pages.client.index', compact('breadcrumbs', 'pageConfigs'));
     }
 
     /**
@@ -54,7 +44,7 @@ class ClientController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['link' => route('clients.index'), 'name' => __('Clients')],
-            ['name' => 'Create']
+            ['name' => __('Create')]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
@@ -65,7 +55,7 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in client.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -92,8 +82,6 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
-
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['link' => route('clients.index'), 'name' => __('Clients')],
@@ -125,7 +113,7 @@ class ClientController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['link' => route('clients.index'), 'name' => __('Clients')],
-            ['name' => 'Edit Client']
+            ['name' => __('Edit Client')]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
@@ -138,8 +126,8 @@ class ClientController extends Controller
     /**
      * Update the specified resource in client.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  Client $client
+     * @param ClientUpdateRequest $request
+     * @param Client              $client
      *
      * @return \Illuminate\Http\RedirectResponse
      */
@@ -159,9 +147,10 @@ class ClientController extends Controller
     /**
      * Remove the specified resource from client.
      *
-     * @param  Client $client
+     * @param Client $client
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Exception
      */
     public function destroy(Client $client)
     {
@@ -171,7 +160,6 @@ class ClientController extends Controller
                 'message' => __('Client has been deleted successfully.')
             ]);
         }
-
 
         return response()->json([
             'success' => false,

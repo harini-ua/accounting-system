@@ -10,6 +10,20 @@ class Income extends Model
 {
     use SoftDeletes;
 
+    public const TABLE_NAME = 'incomes';
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = self::TABLE_NAME;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
     protected $fillable = ['contract_id', 'account_id', 'plan_date', 'plan_sum'];
 
     /**

@@ -11,6 +11,20 @@ class Expense extends Model
 {
     use SoftDeletes;
 
+    public const TABLE_NAME = 'expenses';
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = self::TABLE_NAME;
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
     /**
@@ -53,5 +67,4 @@ class Expense extends Model
     {
         return $this->belongsTo(ExpenseCategory::class);
     }
-
 }

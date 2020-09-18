@@ -152,10 +152,6 @@ class InvoicesDataTable extends DataTable
             $query->orderBy('invoices.status', $order);
         });
 
-//        $dataTable->with('total_sum', $query->sum('total'));
-//        $dataTable->with('total_fee', $query->sum('fee'));
-//        $dataTable->with('total_received_sum', $query->sum('received_sum'));
-
         return $dataTable;
     }
 
@@ -175,7 +171,9 @@ class InvoicesDataTable extends DataTable
             ->whereBetween('payments.date', $dates)
             ->groupBy('invoice_id');
 
-        return $model->with(['contract.client', 'account.wallet', 'account.accountType'])
+        return $model->with([
+                'contract.client', 'account.wallet', 'account.accountType'
+            ])
             ->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
             ->leftJoinSub($paymentSums, 'payment_sums', static function($join) {
                 $join->on('payment_sums.invoice_id', '=', 'invoices.id');
@@ -203,14 +201,6 @@ class InvoicesDataTable extends DataTable
             ->minifiedAjax()
             ->dom('Bfrtip')
             ->language([ 'processing' => view('partials.preloader-circular')->render() ])
-//            ->footerCallback('function() {
-//                var api = this.api();
-//                var payload = api.ajax.json();
-//                $(api.column(5).footer()).html(payload.total_sum);
-//                $(api.column(6).footer()).html(payload.total_fee);
-//                $(api.column(7).footer()).html(payload.total_received_sum);
-//            }')
-//            ->scrollX(true)
             ->orderBy(0);
     }
 

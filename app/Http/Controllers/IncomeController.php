@@ -16,10 +16,11 @@ class IncomeController extends Controller
     public function list(IncomeListDataTable $dataTable)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['name' => __("Actual Income")]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['name' => __('Actual Income')]
         ];
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $clients = Client::with('contracts')->orderBy('name')->get();
         $wallets = Wallet::with('accounts.accountType')->orderBy('name')->get();
@@ -50,10 +51,11 @@ class IncomeController extends Controller
     public function index(IncomesDataTable $dataTable)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => __("Home")],
-            ['name' => __("Sales planning")]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['name' => __('Sales planning')]
         ];
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $clients = Client::with('contracts')->orderBy('name')->get();
         $wallets = Wallet::with('accounts.accountType')->orderBy('name')->get();
@@ -73,20 +75,11 @@ class IncomeController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  IncomeRequest  $request
-     * @return \Illuminate\Http\Response
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(IncomeRequest $request)
     {
@@ -98,21 +91,11 @@ class IncomeController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  Income $income
-     * @return \Illuminate\Http\Response
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function edit(Income $income)
     {
@@ -137,7 +120,8 @@ class IncomeController extends Controller
      *
      * @param  IncomeRequest  $request
      * @param  Income $income
-     * @return \Illuminate\Http\Response
+     *
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(IncomeRequest $request, Income $income)
     {

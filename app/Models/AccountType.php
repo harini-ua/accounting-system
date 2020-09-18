@@ -7,10 +7,6 @@ use App\Services\Formatter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Class AccountType
- * @package App
- */
 class AccountType extends Model
 {
     const UAH = 1;
@@ -18,8 +14,27 @@ class AccountType extends Model
     const EUR = 3;
     const DEPOSIT_UAH = 4;
 
+    public const TABLE_NAME = 'account_types';
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = self::TABLE_NAME;
+
+    /**
+     * The attributes that are appends.
+     *
+     * @var array
+     */
     protected $appends = ['accountsSum', 'invoicedSum', 'receivedSum', 'planningSum', 'expensesPlanSum', 'expensesRealSum'];
 
+    /**
+     * The attributes that are hidden.
+     *
+     * @var array
+     */
     protected $hidden = ['accountsSum', 'invoicedSum', 'receivedSum', 'planningSum', 'expensesSum'];
 
     /*
@@ -102,6 +117,7 @@ class AccountType extends Model
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function invoicedSum()
     {

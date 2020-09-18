@@ -3,18 +3,37 @@
 namespace App\Models;
 
 use App\Casts\Date;
+use App\Enums\Position;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use App\Enums\Position;
 use Illuminate\Support\Carbon;
 
 class Person extends Model
 {
     use SoftDeletes;
 
+    public const TABLE_NAME = 'people';
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = self::TABLE_NAME;
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
     protected $guarded = ['id', 'created_at', 'updated_at', 'deleted_at'];
 
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
     protected $casts = [
         'start_date' => Date::class,
         'contract_type_changed_at' => Date::class,
@@ -34,67 +53,92 @@ class Person extends Model
      * @var int|mixed
      */
     private $growth_plan;
+
     /**
      * @var int|mixed
      */
     private $team_lead;
+
     /**
      * @var int|mixed
      */
     private $team_lead_reward;
+
     /**
      * @var int|mixed
      */
     private $tech_lead;
+
     /**
      * @var int|mixed
      */
     private $bonuses;
+
     /**
      * @var int|mixed
      */
     private $tech_lead_reward;
+
     /**
      * @var int|mixed
      */
     private $bonuses_reward;
+
     /**
      * @var mixed
      */
     private $currency;
+
     /**
      * @var mixed|null
      */
     private $quited_at;
+
     /**
      * @var mixed|null
      */
     private $quit_reason;
+
     /**
      * @var mixed
      */
     private $available_vacations;
+
     /**
      * @var int|mixed
      */
     private $compensated_days;
+
     /**
      * @var false|mixed
      */
     private $compensate;
+
     /**
      * @var Carbon|mixed
      */
     private $compensated_at;
+
     /**
      * @var mixed
      */
     private $payment;
+
     /**
      * @var mixed
      */
     private $start_date;
 
+    /**
+     * @var mixed
+     */
+    private $account_number;
+
+    /**
+     * The array of booted models.
+     *
+     * @var array
+     */
     protected static function booted()
     {
         static::creating(function ($person) {
@@ -105,6 +149,7 @@ class Person extends Model
                     ->diffInMonths(Carbon::createFromDate($startCurrentYear->year, $startDate->month, $startDate->day))  * 1.25;
             }
         });
+
         static::saving(function ($person) {
             $person->rate = round($person->salary / 160, 2);
         });
@@ -191,6 +236,16 @@ class Person extends Model
             ->latest();
     }
 
+    /**
+     * Get the offer that owns the person.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function offer()
+    {
+        return $this->hasOne(Offer::class, 'employee_id', 'id');
+    }
+
     /*
      * ***********************************
      * Methods
@@ -205,6 +260,7 @@ class Person extends Model
         if (!array_key_exists('latestVacations', $this->relations)) {
             $this->load('latestVacations');
         }
+
         return $this->latestVacations->first();
     }
 
@@ -245,5 +301,4 @@ class Person extends Model
 
         return $date;
     }
-
 }

@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\AccountType;
 use App\DataTables\AccountsDataTable;
 use App\Http\Requests\AccountRequest;
-use App\Models\Wallet;
 use App\Models\Account;
+use App\Models\AccountType;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -21,56 +21,20 @@ class AccountController extends Controller
     public function index(AccountsDataTable $dataTable)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['name' => "Accounts"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['name' => __('Accounts')]
         ];
-        $pageConfigs = ['bodyCustomClass' => 'app-page', 'pageHeader' => true, 'isFabButton' => true];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $wallets = Wallet::all();
         $startDate = Carbon::now()->startOfMonth();
         $endDate = Carbon::now();
         $accountTypes = AccountType::with('accountsSum')->get();
 
-        return $dataTable->render('pages.account.index', [
-            'pageConfigs' => $pageConfigs,
-            'breadcrumbs' => $breadcrumbs,
-            'wallets' => $wallets,
-            'startDate' => $startDate,
-            'endDate' => $endDate,
-            'accountTypes' => $accountTypes,
-        ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return $dataTable->render('pages.account.index', compact(
+            'breadcrumbs', 'pageConfigs', 'wallets', 'startDate', 'endDate', 'accountTypes'
+        ));
     }
 
     /**
@@ -82,15 +46,16 @@ class AccountController extends Controller
     public function edit(Account $account)
     {
         $breadcrumbs = [
-            ['link' => route('home'), 'name' => "Home"],
-            ['link' => route('accounts.index'), 'name' => "Accounts"],
-            ['name' => "Edit Account"]
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('accounts.index'), 'name' => __('Accounts')],
+            ['name' => __('Edit Account')]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $wallets = Wallet::all();
         $accountTypes = AccountType::all();
+
         return view('pages.account.edit', [
             'breadcrumbs' => $breadcrumbs,
             'pageConfigs' => $pageConfigs,
@@ -110,22 +75,13 @@ class AccountController extends Controller
     public function update(AccountRequest $request, Account $account)
     {
         $account->fill($request->all());
+
         if (! $request->status) {
             $account->status = 0;
         }
+
         $account->save();
 
         return redirect()->route('accounts.index');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

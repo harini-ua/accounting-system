@@ -9,8 +9,27 @@ use Illuminate\Database\Eloquent\Model;
 
 class CalendarMonth extends Model
 {
+    public const TABLE_NAME = 'calendar_months';
+
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = self::TABLE_NAME;
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
     protected $guarded = ['id', 'created_at', 'updated_at'];
 
+    /**
+     * The attributes that are appends.
+     *
+     * @var array
+     */
     protected $appends = ['quarter', 'halfYear'];
 
     /**
@@ -26,16 +45,16 @@ class CalendarMonth extends Model
      */
     public function getQuarterAttribute()
     {
-        if (in_array($this->name, Month::firstQuarter())) {
+        if (in_array($this->name, Month::firstQuarter(), true)) {
             return 'first';
         }
-        if (in_array($this->name, Month::secondQuarter())) {
+        if (in_array($this->name, Month::secondQuarter(), true)) {
             return 'second';
         }
-        if (in_array($this->name, Month::thirdQuarter())) {
+        if (in_array($this->name, Month::thirdQuarter(), true)) {
             return 'third';
         }
-        if (in_array($this->name, Month::forthQuarter())) {
+        if (in_array($this->name, Month::forthQuarter(), true)) {
             return 'fourth';
         }
     }
@@ -45,10 +64,11 @@ class CalendarMonth extends Model
      */
     public function getHalfYearAttribute()
     {
-        if (in_array($this->name, array_merge(Month::firstQuarter(), Month::secondQuarter()))) {
+        if (in_array($this->name, array_merge(Month::firstQuarter(), Month::secondQuarter()), true)) {
             return 'first';
         }
-        if (in_array($this->name, array_merge(Month::thirdQuarter(), Month::forthQuarter()))) {
+
+        if (in_array($this->name, array_merge(Month::thirdQuarter(), Month::forthQuarter()), true)) {
             return 'second';
         }
     }
@@ -69,6 +89,7 @@ class CalendarMonth extends Model
     public function scopeOfYear(Builder $query, string $year)
     {
         (new YearScope($year))->apply($query, $this);
+
         return $query;
     }
 }
