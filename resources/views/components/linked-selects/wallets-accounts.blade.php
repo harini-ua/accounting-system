@@ -24,7 +24,6 @@
         <span class="error-span"></span>
     </div>
 </div>
-
 <div class="col s12 m6">
     <div class="col s12 input-field">
         <select id="{{ $secondName }}" name="{{ $secondName }}" data-placeholder="{{ __('- Select '.$secondTitle.' -') }}"

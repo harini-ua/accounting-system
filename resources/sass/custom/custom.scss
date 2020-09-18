@@ -192,6 +192,7 @@ label {
     z-index: 1001;
     max-width: calc(100% - 134px);
     padding: 10px 0 !important;
+    margin-bottom: 40px;
     @media screen and (max-width: 995px) {
         z-index: 1;
     }
@@ -403,7 +404,7 @@ table.dataTable thead .sorting_desc {
 
 .create-btn {
     position: absolute;
-    top: -30px;
+    top: -41px;
     right: 0;
     z-index: 998;
 
