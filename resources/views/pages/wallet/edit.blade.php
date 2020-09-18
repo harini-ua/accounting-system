@@ -14,13 +14,13 @@
                 <div class="row">
                     <div class="col s12">
                         <!-- form start -->
-                        <form id="accountForm" method="POST" action="{{ route('wallets.update', $model) }}">
+                        <form id="accountForm" method="POST" action="{{ route('wallets.update', $wallet) }}">
                             @csrf
                             @method('PUT')
                             <div class="row">
                                 <div class="col s12 m6">
                                     <div class="row">
-                                        <x-input name="name" title="Name" :model="$model"></x-input>
+                                        <x-input name="name" title="Name" :model="$wallet"></x-input>
                                     </div>
                                 </div>
                                 <div class="col s12 display-flex justify-content-end mt-3">

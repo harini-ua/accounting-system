@@ -62,7 +62,6 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('expenses', 'ExpenseController')->except(['show']);
 
     // People
-    Route::resource('people', 'PersonController');
     Route::group(['prefix' => 'people', 'as' => 'people.'], function() {
         Route::get('former-list', 'PersonController@formerList')->name('former-list');
         Route::post('change-salary-type/{person}', 'PersonController@changeSalaryType')->name('change-salary-type');
@@ -74,6 +73,7 @@ Route::middleware(['auth'])->group(function() {
         Route::patch('available-vacations/{person}', 'PersonController@updateAvailableVacations')->name('available-vacations');
         Route::patch('compensate/{person}', 'PersonController@compensate')->name('compensate');
     });
+    Route::resource('people', 'PersonController');
 
     // Certifications
     Route::resource('certifications', 'CertificationController')->except(['show']);

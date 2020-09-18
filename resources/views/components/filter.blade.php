@@ -11,10 +11,9 @@
     </a>
     <label class="custom-filter-label"> {{ $title }}</label>
     <select id="select filter-filter-{{ $table }}-{{ $id }}" class="position-absolute opacity-0 select-filters select2 browser-default">
-        <option class="first_default" value="">All</option>
+        @if($all)<option class="first_default" value="">All</option>@endif
         @foreach($options as $option)
-            <option value="{{ $option->id }}">{{ $option->name }}</option>
+            <option value="{{ $option->id }}" @if($default !== null && $default == $option->id) selected @endif>{{ $option->name }}</option>
         @endforeach
     </select>
 </div>
-

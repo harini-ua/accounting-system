@@ -26,8 +26,8 @@ class OfferCreateRequest extends FormRequest
         return [
             'employee_id' => 'required|unique:offers,employee_id',
             'start_date' => 'required|date_format:d-m-Y',
-            'trial_period' => 'required|integer|between:1,12',
-            'bonuses' => 'required|integer|between:1,100',
+            'trial_period' => 'nullable|integer|between:1,12',
+            'bonuses' => 'nullable|integer|between:1,100',
             'salary' => 'required|numeric|max:1000000|min:0',
             'salary_review' => 'boolean',
             'sum' => 'exclude_unless:salary_review,1|required_with:salary_review|numeric|max:1000000|min:0',

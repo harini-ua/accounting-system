@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col s12" id="account">
                     <!-- users edit account form start -->
-                    <form id="accountForm" method="POST" action="{{ route('money-flows.update', $model) }}">
+                    <form id="accountForm" method="POST" action="{{ route('money-flows.update', $moneyFlow) }}">
                         @csrf
                         @method('PUT')
                         <div class="row">
@@ -36,13 +36,13 @@
                                         dataUrl="/wallets/[id]/accounts"
                                         view="components.linked-selects.wallets-accounts-money-flow"
                                         :options="$wallets"
-                                        :model="$model"
+                                        :model="$moneyFlow"
                                     />
-                                    <x-date name="date" title="Date" :model="$model"></x-date>
-                                    <x-input name="sum_from" title="Sum" :model="$model"></x-input>
-                                    <x-input name="currency_rate" title="Currency Rate" :model="$model"></x-input>
-                                    <x-input name="fee" title="Fee" :model="$model"></x-input>
-                                    <x-textarea name="comment" title="Comment" :model="$model"></x-textarea>
+                                    <x-date name="date" title="Date" :model="$moneyFlow"></x-date>
+                                    <x-input name="sum_from" title="Sum" :model="$moneyFlow"></x-input>
+                                    <x-input name="currency_rate" title="Currency Rate" :model="$moneyFlow"></x-input>
+                                    <x-input name="fee" title="Fee" :model="$moneyFlow"></x-input>
+                                    <x-textarea name="comment" title="Comment" :model="$moneyFlow"></x-textarea>
                                 </div>
                             </div>
                             <div class="col s12 m6">
@@ -57,9 +57,9 @@
                                         dataUrl="/wallets/[id]/accounts"
                                         view="components.linked-selects.wallets-accounts-money-flow-to"
                                         :options="$wallets"
-                                        :model="$model"
+                                        :model="$moneyFlow"
                                     />
-                                    <x-input name="sum_to" title="Sum" :model="$model"></x-input>
+                                    <x-input name="sum_to" title="Sum" :model="$moneyFlow"></x-input>
                                 </div>
                             </div>
                             <div class="col s12 display-flex justify-content-end mt-3">

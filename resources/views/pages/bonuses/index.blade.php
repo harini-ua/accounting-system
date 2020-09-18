@@ -23,27 +23,30 @@
 @section('content')
     <!-- bonus list -->
     <section class="bonus-list-wrapper users-list-wrapper section animate fadeLeft">
-        <div class="row">
-            <div class="col s12">
-                <div class="card-panel filter-panel accounts-page-card-panel">
-                    <h6 class="width-100 mb-1">Filters</h6>
-                    <div class="filter-block">
-                        <div class="filter-block-buttons">
-                            <x-filter
-                                    table="bonuses-list-datatable"
-                                    :options="$calendarYears"
-                                    url="{{ route('bonuses.index') }}"
-                                    name="year_filter"
-                                    title="By Year"
-                                    :default="$year"
-                                    all="0"
-                            />
+        <div class="card-panel">
+            <div class="row">
+                <div class="col s12">
+                    <div class="filter-panel accounts-page-card-panel">
+                        <h6 class="width-100">Filters</h6>
+                        <div class="filter-block">
+                            <div class="filter-block-buttons">
+                                <x-filter
+                                        table="bonuses-list-datatable"
+                                        :options="$calendarYears"
+                                        url="{{ route('bonuses.index') }}"
+                                        name="year_filter"
+                                        title="By Year"
+                                        :default="$year"
+                                        all="0"
+                                />
+                            </div>
                         </div>
+                        <x-reset-filters/>
                     </div>
-                    <x-reset-filters/>
                 </div>
             </div>
         </div>
+
         <div class="card">
             <div class="row">
                 <div class="col s12">

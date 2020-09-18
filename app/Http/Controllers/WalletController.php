@@ -87,7 +87,7 @@ class WalletController extends Controller
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         return view('pages.wallet.edit', compact(
-            'pageConfigs', 'breadcrumbs','wallet'
+            'pageConfigs', 'breadcrumbs', 'wallet'
         ));
     }
 
