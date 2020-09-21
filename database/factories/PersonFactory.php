@@ -19,6 +19,7 @@ $factory->define(Person::class, function (Faker $faker) {
         'name' => $faker->name,
         'position_id' => \App\Enums\Position::getRandomValue(),
         'start_date' => $startDate,
+        'trial_period' => random_int(1, 2),
         'department' => $faker->jobTitle,
         'skills' => $faker->sentence,
         'certifications' => rand(0, 1) ? $faker->sentence : null,

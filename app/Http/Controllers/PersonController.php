@@ -352,4 +352,14 @@ class PersonController extends Controller
 
         throw new BadRequestHttpException();
     }
+
+    /**
+     * @param Person $person
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function info(Person $person)
+    {
+        return response()->json($person->toArray());
+    }
 }

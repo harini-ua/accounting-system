@@ -72,6 +72,7 @@ Route::middleware(['auth'])->group(function() {
         Route::post('pay-data/{person}', 'PersonController@payData')->name('pay-data');
         Route::patch('available-vacations/{person}', 'PersonController@updateAvailableVacations')->name('available-vacations');
         Route::patch('compensate/{person}', 'PersonController@compensate')->name('compensate');
+        Route::get('{person}/info', 'PersonController@info')->name('info');
     });
     Route::resource('people', 'PersonController');
 

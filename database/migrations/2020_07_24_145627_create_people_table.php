@@ -20,6 +20,8 @@ class CreatePeopleTable extends Migration
             $table->string('department')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->date('start_date');
+            $table->smallInteger('trial_period')->nullable();
+            $table->date('end_trial_period_date');
             $table->text('skills')->nullable();
             $table->text('certifications')->nullable();
             $table->decimal('available_vacations', 5, 2)->default(15);

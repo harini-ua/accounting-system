@@ -33,15 +33,13 @@ const sassOptions = {
     precision: 5
 };
 
-console.log(process.env.MIX_CONTENT_LAYOUT);
-
 // themes Core stylesheets
 mixAssetsDir('sass/custom/**/!(_)*.scss', (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions));
 
 // pages Core stylesheets
 mixAssetsDir('sass/pages/**/!(_)*.scss', (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions));
 
-// Themescss task
+// Theme scss task
 mixAssetsDir('sass/themes/**/!(_)*.scss', (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions));
 
 // Core stylesheets

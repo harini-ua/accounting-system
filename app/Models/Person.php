@@ -152,6 +152,11 @@ class Person extends Model
 
         static::saving(function ($person) {
             $person->rate = round($person->salary / 160, 2);
+
+            if($person->isDirty(['start_date', 'trial_period'])) {
+                $trialPeriod = ($person->trial_period) ?? config('people.trial_period.value');
+                $person->end_trial_period_date = \Carbon\Carbon::parse($person->start_date)->addMonths($trialPeriod);
+            }
         });
     }
 
