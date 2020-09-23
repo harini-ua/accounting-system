@@ -1,0 +1,141 @@
+<?php
+
+namespace App\DataTables;
+
+use App\Enums\Currency;
+use App\Enums\SalaryReviewProfGrowthType;
+use App\Enums\SalaryReviewReason;
+use App\Models\SalaryReview;
+use App\Services\Formatter;
+use Carbon\Carbon;
+use Yajra\DataTables\Html\Column;
+use Yajra\DataTables\Services\DataTable;
+
+class SalaryReviewDataTable extends DataTable
+{
+    const COLUMNS = [
+        'person',
+        'date',
+        'sum',
+        'reason',
+        'comment',
+    ];
+
+    /**
+     * OffersDataTables constructor.
+     */
+    public function __construct()
+    {
+        //..
+    }
+
+    /**
+     * Build DataTable class.
+     *
+     * @param mixed $query Results from query() method.
+     * @return \Yajra\DataTables\DataTableAbstract
+     */
+    public function dataTable($query)
+    {
+        $dataTable = datatables()->eloquent($query);
+
+        $dataTable->addColumn('person', static function (SalaryReview $model) {
+            return view('partials.view-link', ['model' => $model->person]);
+        });
+
+        $dataTable->addColumn('date', static function (SalaryReview $model) {
+            return Carbon::parse($model->date)->format(config('general.date.format'));
+        });
+
+        $dataTable->addColumn('sum', static function(SalaryReview $model) {
+            return Formatter::currency($model->sum, Currency::symbol($model->person->currency));
+        });
+
+        $dataTable->addColumn('reason', static function(SalaryReview $model) {
+            $reason = SalaryReviewReason::getDescription($model->reason);
+
+            if ($model->reason === SalaryReviewReason::PROFESSIONAL_GROWTH) {
+                $reason .= ' ('.SalaryReviewProfGrowthType::getDescription($model->prof_growth).')';
+            }
+
+            return $reason;
+        });
+
+        $dataTable->addColumn('comment', static function(SalaryReview $model) {
+            return view('partials.text-tooltip', ['text' => $model->comment, 'limit' => 50]);
+        });
+
+        $dataTable->addColumn('action', static function(SalaryReview $model) {
+            return view('partials.actions', ['actions' => ['edit', 'delete'], 'model' => $model]);
+        });
+
+        $dataTable->rawColumns(self::COLUMNS);
+
+        $dataTable->filterColumn('person', static function($query, $keyword) {
+            $query->join('people', 'salary_reviews.person_id', '=', 'people.id');
+            $query->where('people.name', 'like', "%$keyword%");
+        });
+
+        $dataTable->filter(function($query) {
+            if ($this->request->has('person_filter')) {
+                $query->where('salary_reviews.person_id', '=', $this->request->input('person_filter'));
+            }
+        }, true);
+
+        return $dataTable;
+    }
+
+    /**
+     * Get query source of dataTable.
+     *
+     * @param SalaryReview $model
+     *
+     * @return \Illuminate\Database\Query\Builder
+     */
+    public function query(SalaryReview $model)
+    {
+        return $model
+            ->with(['person'])
+            ->newQuery();
+    }
+
+    /**
+     * Optional method if you want to use html builder.
+     *
+     * @return \Yajra\DataTables\Html\Builder
+     * @throws \Throwable
+     */
+    public function html()
+    {
+        return $this->builder()
+            ->setTableId('salary-review-list-datatable')
+            ->addTableClass('table responsive-table highlight')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->language([ 'processing' => view('partials.preloader-circular')->render() ])
+            ->orderBy(0);
+    }
+
+    /**
+     * Get columns.
+     *
+     * @return array
+     */
+    protected function getColumns()
+    {
+        $data[] = Column::make('id')->hidden();
+        $data[] = Column::make('person');
+        $data[] = Column::make('date');
+        $data[] = Column::make('sum');
+        $data[] = Column::make('reason');
+        $data[] = Column::make('comment');
+        $data[] = Column::computed('action')
+            ->exportable(false)
+            ->printable(false)
+            ->width(60)
+            ->addClass('text-center');
+
+        return $data;
+    }
+}

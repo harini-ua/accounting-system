@@ -49,6 +49,27 @@ return [
         \App\Enums\Position::Designer => 'Designer',
     ],
 
+    \App\Enums\SalaryReviewProfGrowthType::class => [
+        \App\Enums\SalaryReviewProfGrowthType::BEFORE_PLANNED => 'Before planned',
+        \App\Enums\SalaryReviewProfGrowthType::ON_TIME => 'On-time',
+        \App\Enums\SalaryReviewProfGrowthType::OVERDUE => 'Overdue',
+    ],
+
+    \App\Enums\SalaryReviewReason::class => [
+        \App\Enums\SalaryReviewReason::TRIAL_PERIOD_COMPLETED => 'Trial period completed',
+        \App\Enums\SalaryReviewReason::DESERVED => 'Deserved',
+        \App\Enums\SalaryReviewReason::PROFESSIONAL_GROWTH => 'Professional growth',
+        \App\Enums\SalaryReviewReason::CERTIFICATE => 'Certificate',
+        \App\Enums\SalaryReviewReason::DEMOTION => 'Demotion',
+        \App\Enums\SalaryReviewReason::POOR_PERFORMANCE => 'Poor performance',
+        \App\Enums\SalaryReviewReason::OTHER => 'Other',
+    ],
+
+    \App\Enums\SalaryReviewType::class => [
+        \App\Enums\SalaryReviewType::ACTUAL => 'Actual',
+        \App\Enums\SalaryReviewType::PENDING => 'Pending',
+    ],
+
     \App\Enums\SalaryType::class => [
         \App\Enums\SalaryType::Fixed40 => 'Fixed 40 hours week',
         \App\Enums\SalaryType::Fixed30 => 'Fixed 30 hours week',

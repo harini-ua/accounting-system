@@ -2,22 +2,21 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title', __('Invoices'))
+@section('title', __('Salary Reviews'))
 
 {{-- vendor styles --}}
 @section('vendor-style')
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" type="text/css"
           href="{{asset('vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/dataTables.checkboxes.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2-materialize.css')}}">
 @endsection
 
 {{-- page styles --}}
 @section('page-style')
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/app-sidebar.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-users.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/salary-reviews.css')}}">
 @endsection
 
 {{-- page content --}}
@@ -32,37 +31,24 @@
         </div>
         <!-- create invoice button-->
         <div class="create-btn invoice-create-btn">
-            <a href="{{ route('invoices.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
+            <a href="{{ route('salary-reviews.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
                 <i class="material-icons">add</i>
-                <span class="hide-on-small-only">{{ __("Add Invoice") }}</span>
+                <span class="hide-on-small-only">{{ __("Add Salary Review") }}</span>
             </a>
         </div>
         <div class="card-panel filter-panel accounts-page-card-panel">
             <h6 class="width-100 mb-1">Filters</h6>
             <div class="filter-block">
-                <x-date-filter
-                        table="invoices-list-datatable"/>
-                <div class="filter-block-buttons">
-                    <x-filter
-                            table="invoices-list-datatable"
-                            :options="$status"
-                            url="{{ route('invoices.index') }}"
-                            name="status_filter"
-                            title="By Status"
-                    />
-
-                    <x-filter
-                            table="invoices-list-datatable"
-                            :options="$clients"
-                            url="{{ route('invoices.index') }}"
-                            name="client_filter"
-                            title="By Client"
-                    />
-                </div>
+                <x-filter
+                        table="salary-review-list-datatable"
+                        :options="$people"
+                        url="{{ route('salary-reviews.index') }}"
+                        name="person_filter"
+                        title="By Person"
+                />
             </div>
 
             <x-reset-filters/>
-
         </div>
 
         <div class="users-list-table">
@@ -91,5 +77,5 @@
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
     <script src="{{asset('js/scripts/filters.js')}}"></script>
-    <script src="{{asset('js/scripts/invoice.js')}}"></script>
+    <script src="{{asset('js/scripts/salary-reviews.js')}}"></script>
 @endsection

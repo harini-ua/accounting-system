@@ -107,5 +107,8 @@ Route::middleware(['auth'])->group(function() {
 
     // Offers
     Route::resource('offers', 'OffersController');
+
+    // Salary Reviews
+    Route::resource('salary-reviews', 'SalaryReviewController');
 });
 

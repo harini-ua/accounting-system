@@ -251,6 +251,16 @@ class Person extends Model
         return $this->hasOne(Offer::class, 'employee_id', 'id');
     }
 
+    /**
+     * Get the salary reviews that owns the person.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function salaryReviews()
+    {
+        return $this->hasMany(SalaryReview::class, 'person_id', 'id');
+    }
+
     /*
      * ***********************************
      * Methods

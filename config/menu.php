@@ -124,6 +124,13 @@ return [
             'icon' => 'beenhere',
             'i18n' => 'beenhere',
         ],
+        [
+            'url' => 'salary-reviews',
+            'name' => 'Salary Reviews',
+            'slug' => 'salary-reviews',
+            'icon' => 'local_atm',
+            'i18n' => 'local_atm',
+        ],
     ],
     'horizontal' => [
         //
