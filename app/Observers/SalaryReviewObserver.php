@@ -17,7 +17,7 @@ class SalaryReviewObserver
     public function saving(SalaryReview $salaryReview)
     {
         if($salaryReview->isDirty(['reason'])) {
-            if ($salaryReview->get('reason') !== SalaryReviewReason::PROFESSIONAL_GROWTH) {
+            if ($salaryReview->reason !== SalaryReviewReason::PROFESSIONAL_GROWTH) {
                 $salaryReview->prof_growth = null;
             }
         }

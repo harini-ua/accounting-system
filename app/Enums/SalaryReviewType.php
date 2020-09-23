@@ -10,7 +10,7 @@ final class SalaryReviewType extends Enum implements LocalizedEnum
     use CollectionTrait;
 
     const ACTUAL = 'ACTUAL';
-    const PENDING = 'PENDING';
+    const PLANNED = 'PLANNED';
 
     /**
      * Get the description for an enum value
@@ -39,7 +39,7 @@ final class SalaryReviewType extends Enum implements LocalizedEnum
             case self::ACTUAL:
                 $values = ['green', '#4caf50'];
                 break;
-            case self::PENDING:
+            case self::PLANNED:
             default:
                 $values = ['blue', '#2196f3'];
         }
@@ -62,7 +62,7 @@ final class SalaryReviewType extends Enum implements LocalizedEnum
             case self::ACTUAL:
                 $icon = 'done_all';
                 break;
-            case self::PENDING:
+            case self::PLANNED:
                 $icon = 'hourglass_empty';
                 break;
             default:

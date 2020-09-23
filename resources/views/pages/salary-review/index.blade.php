@@ -39,13 +39,25 @@
         <div class="card-panel filter-panel accounts-page-card-panel">
             <h6 class="width-100 mb-1">Filters</h6>
             <div class="filter-block">
+                <x-date-filter
+                        table="salary-review-list-datatable"></x-date-filter>
                 <x-filter
                         table="salary-review-list-datatable"
                         :options="$people"
                         url="{{ route('salary-reviews.index') }}"
                         name="person_filter"
-                        title="By Person"
-                />
+                        title="By Person"></x-filter>
+                <x-filter
+                        table="salary-review-list-datatable"
+                        :options="$reasons"
+                        url="{{ route('salary-reviews.index') }}"
+                        name="reason_filter"
+                        title="By Reason"></x-filter>
+                <x-checkbox-filter
+                        table="salary-review-list-datatable"
+                        title="Show All"
+                        name="all_people"
+                        url="{{ route('salary-reviews.index') }}"></x-checkbox-filter>
             </div>
 
             <x-reset-filters/>

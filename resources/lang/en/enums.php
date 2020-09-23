@@ -67,7 +67,7 @@ return [
 
     \App\Enums\SalaryReviewType::class => [
         \App\Enums\SalaryReviewType::ACTUAL => 'Actual',
-        \App\Enums\SalaryReviewType::PENDING => 'Pending',
+        \App\Enums\SalaryReviewType::PLANNED => 'Planned',
     ],
 
     \App\Enums\SalaryType::class => [

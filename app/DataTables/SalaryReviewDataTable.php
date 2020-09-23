@@ -5,6 +5,7 @@ namespace App\DataTables;
 use App\Enums\Currency;
 use App\Enums\SalaryReviewProfGrowthType;
 use App\Enums\SalaryReviewReason;
+use App\Models\Person;
 use App\Models\SalaryReview;
 use App\Services\Formatter;
 use Carbon\Carbon;
@@ -54,7 +55,7 @@ class SalaryReviewDataTable extends DataTable
         $dataTable->addColumn('reason', static function(SalaryReview $model) {
             $reason = SalaryReviewReason::getDescription($model->reason);
 
-            if ($model->reason === SalaryReviewReason::PROFESSIONAL_GROWTH) {
+            if (($model->reason === SalaryReviewReason::PROFESSIONAL_GROWTH) && $model->prof_growth) {
                 $reason .= ' ('.SalaryReviewProfGrowthType::getDescription($model->prof_growth).')';
             }
 
@@ -79,6 +80,22 @@ class SalaryReviewDataTable extends DataTable
         $dataTable->filter(function($query) {
             if ($this->request->has('person_filter')) {
                 $query->where('salary_reviews.person_id', '=', $this->request->input('person_filter'));
+            }
+            if ($this->request->has('reason_filter')) {
+                $query->where('salary_reviews.reason', '=', $this->request->input('reason_filter'));
+            }
+            if ($this->request->has('start_date')) {
+                $query->where('invoices.plan_income_date', '>=', \Illuminate\Support\Carbon::parse($this->request->input('start_date'))->startOfMonth());
+            }
+            if ($this->request->has('end_date')) {
+                $query->where('invoices.plan_income_date', '<=', Carbon::parse($this->request->input('end_date'))->endOfMonth());
+            }
+            if (!$this->request->has('all_people')) {
+                $people = Person::whereNull('people.quited_at')
+                    ->distinct('people.id')
+                    ->pluck('people.id')
+                    ->toArray();
+                $query->whereIn('person_id', $people);
             }
         }, true);
 

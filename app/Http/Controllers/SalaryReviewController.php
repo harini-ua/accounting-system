@@ -30,9 +30,10 @@ class SalaryReviewController extends Controller
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $people = Person::orderBy('name')->get();
+        $reasons = SalaryReviewReason::toCollection();
 
         return $dataTable->render('pages.salary-review.index', compact(
-            'pageConfigs', 'breadcrumbs', 'people'
+            'pageConfigs', 'breadcrumbs', 'people', 'reasons'
         ));
     }
 
