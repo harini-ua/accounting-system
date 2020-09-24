@@ -9,10 +9,11 @@ use App\Models\Person;
 use App\Models\SalaryReview;
 use App\Services\Formatter;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class SalaryReviewDataTable extends DataTable
+class SalaryReviewByPersonDataTable extends DataTable
 {
     const COLUMNS = [
         'person',
@@ -22,12 +23,15 @@ class SalaryReviewDataTable extends DataTable
         'comment',
     ];
 
+    /** @var mixed */
+    public $year;
+
     /**
      * OffersDataTables constructor.
      */
     public function __construct()
     {
-        //..
+        $this->year = $this->request()->input('year_filter') ?? Carbon::now()->year;
     }
 
     /**
@@ -113,6 +117,7 @@ class SalaryReviewDataTable extends DataTable
     {
         return $model
             ->with(['person'])
+            ->groupBy('person_id')
             ->newQuery();
     }
 
@@ -141,18 +146,19 @@ class SalaryReviewDataTable extends DataTable
      */
     protected function getColumns()
     {
-        $data[] = Column::make('id')->hidden();
-        $data[] = Column::make('person');
-        $data[] = Column::make('date');
-        $data[] = Column::make('sum');
-        $data[] = Column::make('reason');
-        $data[] = Column::make('comment');
-        $data[] = Column::computed('action')
+        $columns[] = Column::make('id')->hidden();
+        $columns[] = Column::make('person');
+        $columns[] = Column::make('date');
+        $columns[] = Column::make('sum');
+        $columns[] = Column::make('reason');
+        $columns[] = Column::make('comment');
+
+        $lastColumns[] = Column::computed('action')
             ->exportable(false)
             ->printable(false)
             ->width(60)
             ->addClass('text-center');
 
-        return $data;
+        return $columns;
     }
 }

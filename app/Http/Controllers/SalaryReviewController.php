@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\SalaryReviewDataTable;
+use App\DataTables\SalaryReviewByYearDataTable;
 use App\Enums\SalaryReviewProfGrowthType;
 use App\Enums\SalaryReviewReason;
 use App\Enums\SalaryReviewType;
 use App\Http\Requests\SalaryReviewCreateRequest;
 use App\Http\Requests\SalaryReviewUpdateRequest;
+use App\Models\CalendarYear;
 use App\Models\Person;
 use App\Models\SalaryReview;
 
@@ -16,11 +17,11 @@ class SalaryReviewController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param SalaryReviewDataTable $dataTable
+     * @param SalaryReviewByYearDataTable $dataTable
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(SalaryReviewDataTable $dataTable)
+    public function index(SalaryReviewByYearDataTable $dataTable)
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
@@ -29,11 +30,17 @@ class SalaryReviewController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        $people = Person::orderBy('name')->get();
-        $reasons = SalaryReviewReason::toCollection();
+        $calendarYears = CalendarYear::orderBy('name')->get()->map(
+            static function($calendarYear) {
+                $calendarYear->id = $calendarYear->name;
+                return $calendarYear;
+            }
+        );
+
+        $year = $dataTable->year;
 
         return $dataTable->render('pages.salary-review.index', compact(
-            'pageConfigs', 'breadcrumbs', 'people', 'reasons'
+            'pageConfigs', 'breadcrumbs', 'calendarYears', 'year'
         ));
     }
 

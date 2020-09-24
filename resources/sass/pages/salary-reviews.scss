@@ -5,3 +5,24 @@
 @import 'variables.scss';
 
 //..
+
+.dataTable {
+    .underline {
+        text-decoration: underline;
+    }
+    .highlight {
+        background-color: whitesmoke !important;
+    }
+    .border {
+        border: 1px solid #e0e0e0;
+    }
+    .border-left {
+        border-left: 1px solid #e0e0e0;
+    }
+    .border-right {
+        border-right: 1px solid #e0e0e0;
+    }
+    .small-text {
+        font-size: small;
+    }
+}

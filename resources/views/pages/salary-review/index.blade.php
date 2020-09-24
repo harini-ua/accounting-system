@@ -22,7 +22,7 @@
 {{-- page content --}}
 @section('content')
     <!-- invoice list -->
-    <section class="invoice-list-wrapper users-list-wrapper section animate fadeLeft">
+    <section class="salary-review-list-wrapper users-list-wrapper section animate fadeLeft">
         <div class="create-btn add-item-btn slide-down-btn">
             <a href="#" class="waves-effect waves-light btn slide-down-btn">
                 <i class="material-icons">add</i>
@@ -36,31 +36,45 @@
                 <span class="hide-on-small-only">{{ __("Add Salary Review") }}</span>
             </a>
         </div>
-        <div class="card-panel filter-panel accounts-page-card-panel">
+
+        <div class="filters-panel">
+            <ul class="collapsible">
+                <li class="active">
+                    <div class="collapsible-header">
+                        <i class="material-icons">filter_list</i>{{ __('Filters') }}
+                    </div>
+                    <div class="collapsible-body" style="background-color: white">
+                        <x-checkbox-filter
+                                table="salary-review-list-datatable"
+                                title="Show All"
+                                name="all_people"
+                                url="{{ route('salary-reviews.index') }}">
+                        </x-checkbox-filter>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="card-panel filter-panel accounts-page-card-panel" style="display: none">
             <h6 class="width-100 mb-1">Filters</h6>
             <div class="filter-block">
-                <x-date-filter
-                        table="salary-review-list-datatable"></x-date-filter>
                 <x-filter
                         table="salary-review-list-datatable"
-                        :options="$people"
+                        :options="$calendarYears"
                         url="{{ route('salary-reviews.index') }}"
-                        name="person_filter"
-                        title="By Person"></x-filter>
-                <x-filter
-                        table="salary-review-list-datatable"
-                        :options="$reasons"
-                        url="{{ route('salary-reviews.index') }}"
-                        name="reason_filter"
-                        title="By Reason"></x-filter>
+                        name="year_filter"
+                        title="By Year"
+                        :default="$year"
+                        all="0"
+                ></x-filter>
                 <x-checkbox-filter
                         table="salary-review-list-datatable"
                         title="Show All"
                         name="all_people"
-                        url="{{ route('salary-reviews.index') }}"></x-checkbox-filter>
+                        url="{{ route('salary-reviews.index') }}">
+                </x-checkbox-filter>
             </div>
 
-            <x-reset-filters/>
         </div>
 
         <div class="users-list-table">

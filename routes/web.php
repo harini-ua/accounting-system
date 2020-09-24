@@ -110,5 +110,8 @@ Route::middleware(['auth'])->group(function() {
 
     // Salary Reviews
     Route::resource('salary-reviews', 'SalaryReviewController');
+    Route::group(['prefix' => 'salary-reviews', 'as' => 'salary-reviews.'], function() {
+        Route::get('year/{year}', 'SalaryReviewController@byYear')->name('byYear');
+        Route::get('year/{year}/quarter/{quarter}', 'SalaryReviewController@byQuarter')->name('byQuarter');
+    });
 });
-
