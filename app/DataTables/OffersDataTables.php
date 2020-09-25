@@ -88,7 +88,6 @@ class OffersDataTables extends DataTable
             if ($this->request->has('person_filter')) {
                 $query->where('offers.employee_id', '=', $this->request->input('person_filter'));
             }
-
             if (!$this->request->has('all_employee')) {
                 $query->whereNull('people.quited_at');
             }

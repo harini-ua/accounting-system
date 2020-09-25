@@ -65,11 +65,11 @@ class CalendarMonth extends Model
      */
     public function getHalfYearAttribute()
     {
-        if (in_array($this->name, array_merge(Month::firstQuarter(), Month::secondQuarter()), true)) {
+        if (in_array($this->name, Month::firstHalfYear(), true)) {
             return 'first';
         }
 
-        if (in_array($this->name, array_merge(Month::thirdQuarter(), Month::forthQuarter()), true)) {
+        if (in_array($this->name, Month::secondHalfYear(), true)) {
             return 'second';
         }
     }

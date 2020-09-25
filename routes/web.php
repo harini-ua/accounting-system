@@ -72,6 +72,7 @@ Route::middleware(['auth'])->group(function() {
         Route::post('pay-data/{person}', 'PersonController@payData')->name('pay-data');
         Route::patch('available-vacations/{person}', 'PersonController@updateAvailableVacations')->name('available-vacations');
         Route::patch('compensate/{person}', 'PersonController@compensate')->name('compensate');
+        Route::get('{person}/info', 'PersonController@info')->name('info');
     });
     Route::resource('people', 'PersonController');
 
@@ -107,6 +108,13 @@ Route::middleware(['auth'])->group(function() {
 
     // Offers
     Route::resource('offers', 'OffersController');
+
+    // Salary Reviews
+    Route::resource('salary-reviews', 'SalaryReviewController');
+    Route::group(['prefix' => 'salary-reviews', 'as' => 'salary-reviews.'], function() {
+        Route::get('year/{year}', 'SalaryReviewController@byYear')->name('byYear');
+        Route::get('year/{year}/quarter/{quarter}', 'SalaryReviewController@byQuarter')->name('byQuarter');
+    });
 
     // Salary
     Route::get('/salary', 'SalaryController@index')->name('salary.index');

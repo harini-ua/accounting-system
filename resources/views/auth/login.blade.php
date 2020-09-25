@@ -23,8 +23,15 @@
             <div class="row margin">
                 <div class="input-field col s12">
                     <i class="material-icons prefix pt-2">person_outline</i>
-                    <input id="email" type="email" class=" @error('email') is-invalid @enderror" name="email"
-                        value="{{ old('email') }}" required autocomplete="email" autofocus>
+                    <input id="email"
+                           type="email"
+                           class=" @error('email') is-invalid @enderror"
+                           name="email"
+                           value="{{ (\Illuminate\Support\Facades\App::environment('local')) ? 'admin@admin.com' : old('email') }}"
+                           required
+                           autocomplete="email"
+                           autofocus
+                    />
                     <label for="email" class="center-align">{{ __('Email') }}</label>
                     @error('email')
                     <small class="red-text ml-10" role="alert">
@@ -36,8 +43,14 @@
             <div class="row margin">
                 <div class="input-field col s12">
                     <i class="material-icons prefix pt-2">lock_outline</i>
-                    <input id="password" type="password" class="form-control @error('password') is-invalid @enderror"
-                        name="password" required autocomplete="current-password">
+                    <input id="password"
+                           type="password"
+                           class="form-control @error('password') is-invalid @enderror"
+                           name="password"
+                           @if((\Illuminate\Support\Facades\App::environment('local'))) value="123calculator123" @endif
+                           required
+                           autocomplete="current-password"
+                    >
                     <label for="password">{{ __('Password') }}</label>
                     @error('password')
                     <small class="red-text ml-10" role="alert">

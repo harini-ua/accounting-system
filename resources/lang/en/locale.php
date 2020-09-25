@@ -161,4 +161,5 @@ return [
     "Bonuses"=> "Bonuses",
     "Vacations"=> "Vacations",
     "Offers"=> "Offers",
+    "Salary Reviews"=> "Salary Reviews",
 ];

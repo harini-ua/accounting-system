@@ -15,7 +15,7 @@
     <!-- edit start -->
     <div class="section">
         <div class="row">
-            <div class="col s12 m6 l6">
+            <div class="col s12">
                 <div class="card">
                     <div class="card-content">
                         @include('pages.certifications.partials._form')

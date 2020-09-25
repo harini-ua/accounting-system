@@ -12,8 +12,9 @@
 
 {{-- page content --}}
 @section('content')
+
     <!-- edit start -->
-    <div class="section">
+    <section class="offer-create-wrapper users-list-wrapper section animate fadeLeft">
         <div class="row">
             <div class="col s12">
                 <div class="card">
@@ -23,7 +24,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     <!-- edit ends -->
 @endsection
 
@@ -37,5 +38,5 @@
 {{-- page scripts --}}
 @section('page-script')
     <script src="{{asset('js/scripts/checkbox-input.js')}}"></script>
-    <script src="{{asset('js/scripts/offer.js')}}"></script>
+    <script src="{{asset('js/scripts/offers.js')}}"></script>
 @endsection

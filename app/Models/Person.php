@@ -68,6 +68,11 @@ class Person extends Model
 
         static::saving(function ($person) {
             $person->rate = round($person->salary / 160, 2);
+
+            if($person->isDirty(['start_date', 'trial_period'])) {
+                $trialPeriod = ($person->trial_period) ?? config('people.trial_period.value');
+                $person->end_trial_period_date = \Carbon\Carbon::parse($person->start_date)->addMonths($trialPeriod);
+            }
         });
     }
 
@@ -183,6 +188,16 @@ class Person extends Model
     public function offer()
     {
         return $this->hasOne(Offer::class, 'employee_id', 'id');
+    }
+
+    /**
+     * Get the salary reviews that owns the person.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function salaryReviews()
+    {
+        return $this->hasMany(SalaryReview::class, 'person_id', 'id');
     }
 
     /*

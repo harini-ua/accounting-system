@@ -8,6 +8,7 @@ use App\Models\Contract;
 use App\Models\Holiday;
 use App\Models\Invoice;
 use App\Models\Offer;
+use App\Models\SalaryReview;
 use App\Observers\CalendarYearObserver;
 use App\Models\InvoiceItem;
 use App\Observers\ContractObserver;
@@ -15,6 +16,7 @@ use App\Observers\HolidayObserver;
 use App\Observers\InvoiceItemObserver;
 use App\Observers\InvoiceObserver;
 use App\Observers\OfferObserver;
+use App\Observers\SalaryReviewObserver;
 use App\Services\FilterService;
 use Illuminate\Support\ServiceProvider;
 
@@ -43,5 +45,6 @@ class AppServiceProvider extends ServiceProvider
         CalendarYear::observe(CalendarYearObserver::class);
         Holiday::observe(HolidayObserver::class);
         Offer::observe(OfferObserver::class);
+        SalaryReview::observe(SalaryReviewObserver::class);
     }
 }

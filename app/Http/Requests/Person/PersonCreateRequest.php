@@ -34,6 +34,7 @@ class PersonCreateRequest extends FormRequest
             'position_id' => ['required', new EnumValue(Position::class, false)],
             'department' => 'nullable|string|min:3',
             'start_date' => 'required|date_format:d-m-Y',
+            'trial_period' => 'nullable|integer|between:1,12',
             'skills' => 'nullable|string|min:3',
             'certifications' => 'nullable|string|min:3',
             'salary' => 'required|numeric|max:1000000|min:0',

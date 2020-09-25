@@ -12,21 +12,18 @@
 
 {{-- page content --}}
 @section('content')
-<!-- edit start -->
-<div class="section">
-    <div class="card">
-        <div class="card-content">
-            <!-- <div class="card-body"> -->
-            <div class="row">
-                <div class="col s12" id="account">
-                    <!-- form start -->
-                    <form method="POST" action="{{ route('incomes.update', $income) }}">
-                        @csrf
-                        @method('PUT')
-                        <div class="row">
-                            <div class="col s12 m6">
-                                <div class="divider mt-2 mb-2"></div>
-                                <div class="row">
+    <!-- edit start -->
+    <div class="section">
+        <div class="card">
+            <div class="card-content">
+                <!-- <div class="card-body"> -->
+                <div class="row">
+                    <div class="col s12" id="account">
+                        <!-- form start -->
+                        <form method="POST" action="{{ route('incomes.update', $income) }}">
+                            @csrf
+                            @method('PUT')
+                            <div class="row">
                                     <x-linked-selects
                                         firstName="client_id"
                                         firstTitle="Client"
@@ -47,31 +44,29 @@
                                         :options="$wallets"
                                         :model="$income"
                                     />
+                                <div class="col s12 m6">
+                                        <x-date name="plan_date" title="Planning Date" :model="$income"></x-date>
                                 </div>
-                            </div>
-                            <div class="col s12 m6">
-                                <div class="divider mt-2 mb-2"></div>
-                                <div class="row">
-                                    <x-date name="plan_date" title="Planning Date" :model="$income"></x-date>
-                                    <x-input name="plan_sum" title="Planning Sum" :model="$income"></x-input>
+                                <div class="col s12 m6">
+                                        <x-input name="plan_sum" title="Planning Sum" :model="$income"></x-input>
                                 </div>
-                            </div>
-                            <div class="col s12 display-flex justify-content-end mt-3">
-                                <a href="{{ route('incomes.index') }}" class="btn btn-light mr-1">Cancel</a>
+                                <div class="col s12 display-flex justify-content-end mt-3">
+                                    <a href="{{ route('incomes.index') }}" class="cancel-btn btn btn-light mr-1">Cancel</a>
 
-                                <button type="submit" class="btn waves-effect waves-light">
-                                    Save changes</button>
+                                    <button type="submit" class="btn waves-effect waves-light">
+                                        Save changes
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                    </form>
-                    <!-- form ends -->
+                        </form>
+                        <!-- form ends -->
+                    </div>
                 </div>
+                <!-- </div> -->
             </div>
-            <!-- </div> -->
         </div>
     </div>
-</div>
-<!-- edit ends -->
+    <!-- edit ends -->
 @endsection
 
 {{-- vendor scripts --}}
