@@ -25,26 +25,22 @@ $(document).ready(function () {
             $('[name="earned"]').val(earned);
         }
         updateTotal();
-        M.updateTextFields();
     });
 
     $('#salary-payment-form').on('keyup', '[name="overtime_hours"]', function() {
         let overtimePay = Number($('#person-info').attr('data-rate') * $('[name="overtime_hours"]').val()).toFixed(2);
         $('[name="overtime_pay"]').val(overtimePay);
         updateTotal();
-        M.updateTextFields();
     });
 
     $('#salary-payment-form').on('keyup', '[name="fines"]', function() {
         let val = parseFloat($('[name="fines"]').val());
         $('[name="fines"]').val(val ? -Math.abs(val) : null);
         updateTotal();
-        M.updateTextFields();
     });
 
     $('#salary-payment-form').on('keyup', '[name="monthly_bonus"], [name="tax_compensation"]', function() {
         updateTotal();
-        M.updateTextFields();
     });
 
     function updateTotal()
@@ -57,6 +53,8 @@ $(document).ready(function () {
 
         $('[name="total_usd"]').val(total);
         $('[name="total_uah"]').val(Number(convert('USD', 'UAH', total)).toFixed(2));
+
+        M.updateTextFields();
     }
 
     function convert(from, to, value)

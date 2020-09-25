@@ -10,6 +10,7 @@ use App\Models\AccountType;
 use App\Models\CalendarMonth;
 use App\Models\Person;
 use App\Models\SalaryPayment;
+use App\Models\Vacation;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -118,11 +119,10 @@ class SalaryPaymentService
 
     private function setVacations(): void
     {
-        $vacations = $this->person ? $this->person
-            ->vacations
-            ->where('calendar_month_id', $this->calendarMonth->id)
+        $vacations = $this->person ? Vacation::where('calendar_month_id', $this->calendarMonth->id)
+            ->where('person_id', $this->person->id)
             ->where('payment_type', \App\Enums\VacationPaymentType::Paid)
-            ->count() : null;
+            ->sum('days') : null;
         $this->salaryPayment->vacations = $vacations;
     }
 
@@ -175,11 +175,21 @@ class SalaryPaymentService
         if ($personStartDate > $dateFrom) {
             $dateFrom = $personStartDate;
         }
+
         $sumEarned = SalaryPayment::whereBetween('payment_date', [$dateFrom, $date])
             ->where('person_id', $person->id)
             ->sum('earned');
 
-        $days = $dateFrom->diffInDays($date);
+        $allWorkedDays = CalendarMonth::whereBetween('date', [$dateFrom, $date])
+            ->selectRaw('sum(calendar_days - holidays - weekends) as sum')
+            ->first()
+            ->sum;
+
+        $allVacations = Vacation::whereBetween('date', [$dateFrom, $date])
+            ->where('person_id', $person->id)
+            ->sum('days');
+
+        $days = $allWorkedDays - $allVacations;
 
         return $days ? round($sumEarned / $days * $vacations, 2) : 0;
     }
@@ -219,7 +229,7 @@ class SalaryPaymentService
         if (SalaryType::isHourly($person->salary_type)) {
             return round($person->rate * $salaryPayment->worked_hours, 2);
         }
-        return $calendarMonth->working_hours ? round($person->salary / $calendarMonth->working_hours * ($salaryPayment->worked_days - $salaryPayment->vacations), 2) : 0;
+        return $calendarMonth->working_hours ? round($person->salary / $calendarMonth->working_days * $salaryPayment->worked_days, 2) : 0;
     }
 
     /**
