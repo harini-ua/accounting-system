@@ -28,7 +28,7 @@ class ContractUpdateRequest extends FormRequest
         return [
             'client_id' => 'required|exists:clients,id',
             'name' => 'required|string|min:3',
-            'commend' => 'string',
+            'comment' => 'nullable|string',
             'sales_manager_id' => 'required|exists:people,id',
             'status' => ['required', new EnumValue(ContractStatus::class)]
         ];

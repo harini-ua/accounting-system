@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enums\InvoiceStatus;
+use App\Enums\Position;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -31,15 +32,15 @@ class InvoiceCreateRequest extends FormRequest
             'contract_id' => 'required|exists:contracts,id',
             'account_id' => 'required|exists:accounts,id',
             'sales_manager_id' => ['required',
-                Rule::exists('users', 'id')->where(static function ($query) {
-                    $query->where('position_id', 5);
+                Rule::exists('people', 'id')->where(static function ($query) {
+                    $query->where('position_id', Position::SalesManager);
                 })
             ],
             'date' => 'required|date',
             'status' => ['required', new EnumValue(InvoiceStatus::class)],
             'plan_income_date' => 'required|date',
-            'discount' => 'numeric',
-            'total' => 'numeric',
+            'discount' => 'nullable|numeric',
+            'total' => 'nullable|numeric',
         ];
 
         $itemRules = (new InvoiceItemCreateRequest)->rules();

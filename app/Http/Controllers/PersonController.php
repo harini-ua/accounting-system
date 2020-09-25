@@ -20,6 +20,7 @@ use App\Http\Requests\Person\MakeFormerRequest;
 use App\Http\Requests\Person\PersonCreateRequest;
 use App\Http\Requests\Person\PersonUpdateRequest;
 use App\Http\Requests\Person\UpdateAvailableVacationsRequest;
+use App\Models\CalendarMonth;
 use App\Models\Person;
 use App\User;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -80,7 +81,7 @@ class PersonController extends Controller
         $currencies = Currency::toCollection();
         $salaryTypes = SalaryType::toCollection();
         $contractTypes = PersonContractType::toCollection();
-        $recruiters = User::where('position_id', Position::Recruiter())->get();
+        $recruiters = Person::where('position_id', Position::Recruiter)->get();
 
         return view('pages.person.create', compact(
             'breadcrumbs', 'pageConfigs', 'positions',
@@ -150,7 +151,7 @@ class PersonController extends Controller
         $currencies = Currency::toCollection();
         $salaryTypes = SalaryType::toCollection();
         $contractTypes = PersonContractType::toCollection();
-        $recruiters = User::where('position_id', Position::Recruiter())->get();
+        $recruiters = Person::where('position_id', Position::Recruiter)->get();
 
         $hasPayData = false;
         if($person->account_number !== null
@@ -342,6 +343,10 @@ class PersonController extends Controller
 
             $person->vacations()->create([
                 'date' => $date,
+                'calendar_month_id' => CalendarMonth::ofYear($date->year)
+                    ->where('calendar_months.name', $date->monthName)
+                    ->first()
+                    ->id,
                 'type' => VacationType::Actual,
                 'payment_type' => VacationPaymentType::Paid,
                 'days' => $person->compensated_days,

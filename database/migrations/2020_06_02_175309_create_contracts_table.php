@@ -17,7 +17,7 @@ class CreateContractsTable extends Migration
             $table->id();
             $table->unsignedInteger('client_id');
             $table->string('name');
-            $table->text('comment');
+            $table->text('comment')->nullable();
             $table->unsignedBigInteger('sales_manager_id');
             $table->string('status', 20)
                 ->default(\App\Enums\ContractStatus::OPENED);

@@ -31,7 +31,7 @@ class CreatePeopleTable extends Migration
             // Salary
             $table->decimal('salary', 9,2);
             $table->string('currency', 5)->default(\App\Enums\Currency::USD);
-            $table->decimal('rate', 4,2);
+            $table->decimal('rate', 5,2);
             $table->string('salary_type', 10)->default(\App\Enums\SalaryType::Fixed40);
             $table->string('contract_type', 15)->default(\App\Enums\PersonContractType::Individual2);
             $table->date('contract_type_changed_at')->nullable();

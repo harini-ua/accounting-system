@@ -16,6 +16,7 @@ class CreateCalendarMonthsTable extends Migration
         Schema::create('calendar_months', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('calendar_year_id');
+            $table->date('date');
             $table->string('name', 10);
             $table->smallInteger('calendar_days')->default(0);
             $table->smallInteger('holidays')->default(0);

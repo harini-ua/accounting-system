@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DataTables\InvoicesDataTable;
 use App\DataTables\PaymentsByInvoiceDataTable;
 use App\Enums\InvoiceStatus;
+use App\Enums\Position;
 use App\Http\Requests\InvoiceCreateRequest;
 use App\Http\Requests\InvoiceUpdateRequest;
 use App\Http\Requests\PaymentCreateRequest;
@@ -12,10 +13,10 @@ use App\Models\Account;
 use App\Models\Client;
 use App\Models\Invoice;
 use App\Models\Payment;
+use App\Models\Person;
 use App\Models\Wallet;
 use App\Services\Formatter;
 use App\Services\InvoiceService;
-use App\User;
 use Barryvdh\DomPDF\Facade as PDF;
 
 class InvoiceController extends Controller
@@ -77,7 +78,7 @@ class InvoiceController extends Controller
         $clients = Client::with('contracts')->orderBy('name')->get();
         $wallets = Wallet::with('accounts.accountType')->orderBy('name')->get();
 
-        $sales = User::where('position_id', 5)->get();
+        $sales = Person::where('position_id', Position::SalesManager)->get();
 
         $config = config('invoices');
         $image = $config['logo'];
@@ -100,6 +101,7 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceCreateRequest $request)
     {
+
         $invoiceData = $request->except(['client_id', 'wallet_id']);
 
         $invoice = $this->invoiceService->save($invoiceData);
@@ -134,7 +136,7 @@ class InvoiceController extends Controller
 
         $billTo = [
             'company' => $client->company_name,
-            'address' => Formatter::address($client->billingAddress),
+            'address' => $client->billingAddress ? Formatter::address($client->billingAddress) : null,
             'email' => $client->email,
             'phone' => $client->phone,
         ];
@@ -175,7 +177,7 @@ class InvoiceController extends Controller
         $clients = Client::with('contracts')->orderBy('name')->get();
         $wallets = Wallet::with('accounts.accountType')->orderBy('name')->get();
 
-        $sales = User::where('position_id', 5)->get();
+        $sales = Person::where('position_id', Position::SalesManager)->get();
 
         $config = config('invoices');
         $image = $config['logo'];
