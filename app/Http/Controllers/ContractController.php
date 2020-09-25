@@ -10,7 +10,7 @@ use App\Http\Requests\ContractCreateRequest;
 use App\Http\Requests\ContractUpdateRequest;
 use App\Models\Client;
 use App\Models\Contract;
-use App\User;
+use App\Models\Person;
 
 class ContractController extends Controller
 {
@@ -35,9 +35,9 @@ class ContractController extends Controller
 
         $clientsToCollection = Client::all()->sortBy('name');
 
-        $salesManagersToCollection = User::byPosition(Position::SalesManager)->get();
+        $salesManagersToCollection = Person::byPosition(Position::SalesManager)->get();
 
-        $salesManagers = User::byPosition(Position::SalesManager)->get()
+        $salesManagers = Person::byPosition(Position::SalesManager)->get()
             ->pluck('name', 'id')->toArray();
 
         $statusToCollection = ContractStatus::toCollection();
@@ -68,7 +68,7 @@ class ContractController extends Controller
             ->sortBy('name')
             ->pluck('name', 'id')->toArray();
 
-        $salesManagers = User::byPosition(Position::SalesManager)->get()
+        $salesManagers = Person::byPosition(Position::SalesManager)->get()
             ->pluck('name', 'id')->toArray();
 
         $status = ContractStatus::toSelectArray();
@@ -144,7 +144,7 @@ class ContractController extends Controller
         $clients = Client::all()->sortBy('name')
             ->pluck('name', 'id')->toArray();
 
-        $salesManagers = User::byPosition(Position::SalesManager)->get()
+        $salesManagers = Person::byPosition(Position::SalesManager)->get()
             ->sortBy('name')->pluck('name', 'id')->toArray();
 
         $status = ContractStatus::toSelectArray();

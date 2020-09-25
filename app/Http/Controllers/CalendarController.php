@@ -76,4 +76,15 @@ class CalendarController extends Controller
             ->get()
             ->toJson(JSON_NUMERIC_CHECK);
     }
+
+    /**
+     * @param $calendarYearId
+     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
+     */
+    public function yearMonths($calendarYearId)
+    {
+        $calendarMonths = CalendarMonth::where('calendar_year_id', $calendarYearId)->get();
+
+        return $calendarMonths->prepend(['id' => '', 'name' => __('- Select Month -')]);
+    }
 }

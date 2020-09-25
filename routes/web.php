@@ -84,6 +84,7 @@ Route::middleware(['auth'])->group(function() {
     Route::delete('/calendar/{year}', 'CalendarController@destroy')->name('calendar.destroy')->where('year', '\d\d\d\d');
     Route::put('/calendar/updateMonth/{calendarMonth}', 'CalendarController@updateMonth');
     Route::get('/months/{year}', 'CalendarController@months')->name('calendar.months')->where('year', '\d\d\d\d');
+    Route::get('calendar/year/{calendarYearId}/months', 'CalendarController@yearMonths')->name('calendar.year.months');
 
     // Holiday
     Route::resource('holidays', 'HolidayController');
@@ -106,5 +107,13 @@ Route::middleware(['auth'])->group(function() {
 
     // Offers
     Route::resource('offers', 'OffersController');
+
+    // Salary
+    Route::get('/salary', 'SalaryController@index')->name('salary.index');
+    Route::get('/salary/{year}/{month}', 'SalaryController@month')
+        ->name('salary.month')
+        ->where(['year' => '\d\d\d\d', 'month' => '\d{1,2}']);
+    Route::get('/salary-payments/create', 'SalaryController@create')->name('salary-payments.create');
+    Route::resource('salary-payments', 'SalaryController')->except(['index', 'create']);
 });
 

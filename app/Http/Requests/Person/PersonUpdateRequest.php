@@ -50,8 +50,8 @@ class PersonUpdateRequest extends FormRequest
             'bonuses_reward' => 'exclude_unless:bonuses,1|required_with:bonuses|integer|max:1000|min:0',
             'recruiter_id' => [
                 'nullable',
-                Rule::exists('users', 'id')->where(function ($query) {
-                    $query->where('position_id', Position::Recruiter());
+                Rule::exists('people', 'id')->where(function ($query) {
+                    $query->where('position_id', Position::Recruiter);
                 }),
             ],
         ];

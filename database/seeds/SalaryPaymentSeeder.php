@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\SalaryType;
+use App\Models\CalendarMonth;
 use Illuminate\Database\Seeder;
 use App\Models\SalaryPayment;
 use Carbon\Carbon;
@@ -48,7 +50,14 @@ class SalaryPaymentSeeder extends Seeder
                     'worked_days' => function() use ($calendarMonth, $vacations) {
                         return $calendarMonth->workingDays - $vacations;
                     },
+                    'earned' => function($salaryPayment) use ($person, $calendarMonth, $vacations) {
+                        if (SalaryType::isHourly($person->salary_type)) {
+                            return round($person->rate * $salaryPayment['worked_hours'], 2);
+                        }
+                        return round($person->salary / $calendarMonth->getWorkingHours($person->salary_type) * ($salaryPayment['worked_hours'] - $vacations), 2);
+                    },
                     'vacations' => $vacations,
+                    'vacation_compensation' => CalendarMonth::calcHours($vacations, $person->salary_type) * $person->rate,
                     'bonuses' => function() use ($person) {
                         if ($person->position_id == Position::SalesManager || $person->position_id == Position::Recruiter) {
                             return json_encode([

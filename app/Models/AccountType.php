@@ -198,4 +198,15 @@ class AccountType extends Model
 
         return $related ? Formatter::currency($related->$field, $this->symbol) : 0;
     }
+
+    /**
+     * @return mixed
+     */
+    public static function currencies()
+    {
+        return self::all(['currency_type', 'currency'])
+            ->mapWithKeys(function($accountType) {
+                return [$accountType->currency_type => $accountType->currency];
+            });
+    }
 }

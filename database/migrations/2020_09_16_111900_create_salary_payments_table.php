@@ -21,10 +21,12 @@ class CreateSalaryPaymentsTable extends Migration
             $table->unsignedBigInteger('account_id');
 
             $table->smallInteger('worked_days');
-            $table->smallInteger('worked_hours');
-            $table->smallInteger('overtime_hours')->nullable();
+            $table->decimal('worked_hours', 5, 2);
+            $table->decimal('earned', 9, 2);
+            $table->decimal('overtime_hours', 5, 2)->nullable();
             $table->json('bonuses')->nullable();
             $table->smallInteger('vacations')->nullable();
+            $table->decimal('vacation_compensation', 9, 2)->nullable();
             $table->decimal('monthly_bonus', 9,2)->nullable();
             $table->decimal('fines', 9, 2)->nullable();
             $table->decimal('tax_compensation', 9,2)->nullable();

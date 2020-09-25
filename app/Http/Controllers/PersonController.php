@@ -81,7 +81,7 @@ class PersonController extends Controller
         $currencies = Currency::toCollection();
         $salaryTypes = SalaryType::toCollection();
         $contractTypes = PersonContractType::toCollection();
-        $recruiters = User::where('position_id', Position::Recruiter())->get();
+        $recruiters = Person::where('position_id', Position::Recruiter)->get();
 
         return view('pages.person.create', compact(
             'breadcrumbs', 'pageConfigs', 'positions',
@@ -151,7 +151,7 @@ class PersonController extends Controller
         $currencies = Currency::toCollection();
         $salaryTypes = SalaryType::toCollection();
         $contractTypes = PersonContractType::toCollection();
-        $recruiters = User::where('position_id', Position::Recruiter())->get();
+        $recruiters = Person::where('position_id', Position::Recruiter)->get();
 
         $hasPayData = false;
         if($person->account_number !== null
