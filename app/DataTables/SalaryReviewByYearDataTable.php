@@ -17,7 +17,7 @@ class SalaryReviewByYearDataTable extends DataTable
         'person',
         'basic_salary',
         'total',
-        'delta',
+        'salary',
     ];
 
     /** @var mixed */
@@ -35,7 +35,9 @@ class SalaryReviewByYearDataTable extends DataTable
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
+     *
      * @return \Yajra\DataTables\DataTableAbstract
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function dataTable($query)
     {
@@ -46,20 +48,24 @@ class SalaryReviewByYearDataTable extends DataTable
         });
 
         $dataTable->addColumn('basic_salary', static function (SalaryReview $model) {
-            return Formatter::currency($model->person->salary, Currency::symbol($model->person->currency));
+            $value = $model->person->salary - $model->total;
+
+            return Formatter::currency($value, Currency::symbol($model->person->currency));
         });
 
         $dataTable->rawColumns(array_merge($this->addMonthColumnsToDatatable($dataTable), self::COLUMNS));
 
         $dataTable->addColumn('total', static function(SalaryReview $model) {
-            $value = random_int(100, 300);
+            $value = $model->total;
+            $class = $value < 0 ? "red-text" : "";
+            $value = Formatter::currency($value, Currency::symbol($model->person->currency));
 
-            return Formatter::currency($value, Currency::symbol($model->person->currency));
+            return '<span class="'.$class.'">'.$value.'</span>';
         });
 
-        $dataTable->addColumn('delta', static function(SalaryReview $model) {
-            $value = random_int(-100, 300);
-            $class = $value < 0 ? "red-text" : "green-text";
+        $dataTable->addColumn('salary', static function(SalaryReview $model) {
+            $value = $model->person->salary;
+            $class = ($value - ($model->person->salary - $model->total)) < 0 ? "red-text" : "";
             $value = Formatter::currency($value, Currency::symbol($model->person->currency));
 
             return '<span class="'.$class.'">'.$value.'</span>';
@@ -106,11 +112,18 @@ class SalaryReviewByYearDataTable extends DataTable
      * @param SalaryReview $model
      *
      * @return \Illuminate\Database\Eloquent\Builder
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function query(SalaryReview $model)
     {
         $query = $model->newQuery();
+
+        $query->select('salary_reviews.*');
+
         $query->with(['person']);
+
+        $this->addMonthsSelect($query);
+
         $query->whereYear('date', $this->year);
         $query->groupBy('person_id');
 
@@ -135,8 +148,7 @@ class SalaryReviewByYearDataTable extends DataTable
             ->orderBy(1, 'asc')
             ->parameters([
                 'columnDefs' => [
-                    ['targets' => [1], 'className' => ''],
-                    ['targets' => [2], 'className' => 'small-text'],
+                    ['targets' => [1, 2], 'className' => 'small-text'],
                     ['targets' => [3, 6, 9, 12], 'className' => 'small-text border-left center-align'],
                     ['targets' => [4, 7, 10, 13], 'className' => 'small-text center-align'],
                     ['targets' => [5, 8, 11, 14], 'className' => 'small-text border-right center-align'],
@@ -149,6 +161,7 @@ class SalaryReviewByYearDataTable extends DataTable
      * Get columns.
      *
      * @return array
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     protected function getColumns()
     {
@@ -159,7 +172,7 @@ class SalaryReviewByYearDataTable extends DataTable
         $monthColumns = $this->monthColumns();
 
         $secondColumns[] = Column::make('total')->orderable(false);
-        $secondColumns[] = Column::make('delta')->orderable(false);
+        $secondColumns[] = Column::make('salary')->orderable(false);
 
         return array_merge($firstColumns, $monthColumns, $secondColumns);
     }
@@ -176,12 +189,12 @@ class SalaryReviewByYearDataTable extends DataTable
             $monthName = strtolower($month->monthName);
             $monthColumns[] = $monthName;
             $dataTable->addColumn($monthName, function(SalaryReview $model) use ($month, $monthName) {
-                $value = random_int(-100, 300);
-                $class = $value < 0 ? "red-text" : "green-text";
+                $value = $model->{$monthName};
+                $class = $value < 0 ? "red-text" : "";
                 $value = Formatter::currency($value, Currency::symbol($model->person->currency));
                 $value = '<span class="'.$class.'">'.$value.'</span>';
 
-                return (random_int(0,1)) ? $value : '-';
+                return $model->{$monthName} ? $value : '-';
             });
         }
 
@@ -213,5 +226,21 @@ class SalaryReviewByYearDataTable extends DataTable
         }
 
         return $columns;
+    }
+
+    /**
+     * Add months select
+     *
+     * @param $query
+     *
+     * @throws \Carbon\Exceptions\InvalidFormatException
+     */
+    protected function addMonthsSelect($query): void
+    {
+        foreach($this->period() as $month) {
+            $monthName = strtolower($month->monthName);
+            $query->selectRaw("sum(case when month(date)={$month->month} and year(date)='{$this->year}' then sum end) as {$monthName}");
+        }
+        $query->selectRaw("sum(case when year(date)='{$this->year}' then sum end) as total");
     }
 }

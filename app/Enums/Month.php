@@ -80,4 +80,26 @@ final class Month extends Enum
     {
         return array_merge(self::thirdQuarter(), self::forthQuarter());
     }
+
+    /**
+     * Get months by quarter
+     *
+     * @param $quarter
+     *
+     * @return string[]
+     */
+    public static function byQuarter($quarter)
+    {
+        switch ($quarter) {
+            case 1:
+            default:
+                return self::firstQuarter();
+            case 2:
+                return self::secondQuarter();
+            case 3:
+                return self::thirdQuarter();
+            case 4:
+                return self::forthQuarter();
+        }
+    }
 }

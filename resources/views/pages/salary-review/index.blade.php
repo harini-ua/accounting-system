@@ -44,37 +44,32 @@
                         <i class="material-icons">filter_list</i>{{ __('Filters') }}
                     </div>
                     <div class="collapsible-body" style="background-color: white">
-                        <x-checkbox-filter
-                                table="salary-review-list-datatable"
-                                title="Show All"
-                                name="all_people"
-                                url="{{ route('salary-reviews.index') }}">
-                        </x-checkbox-filter>
+                        <div class="filter-block">
+                            <div class="row">
+                                <div class="col s6 m3">
+                                    <x-filter
+                                            table="salary-review-list-datatable"
+                                            :options="$calendarYears"
+                                            url="{{ route('salary-reviews.index') }}"
+                                            name="year_filter"
+                                            title="By Year"
+                                            :default="$year"
+                                            all="0"
+                                    ></x-filter>
+                                </div>
+                                <div class="col s6 m3">
+                                    <x-checkbox-filter
+                                            table="salary-review-list-datatable"
+                                            title="Show All"
+                                            name="all_people"
+                                            url="{{ route('salary-reviews.index') }}">
+                                    </x-checkbox-filter>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </li>
             </ul>
-        </div>
-
-        <div class="card-panel filter-panel accounts-page-card-panel" style="display: none">
-            <h6 class="width-100 mb-1">Filters</h6>
-            <div class="filter-block">
-                <x-filter
-                        table="salary-review-list-datatable"
-                        :options="$calendarYears"
-                        url="{{ route('salary-reviews.index') }}"
-                        name="year_filter"
-                        title="By Year"
-                        :default="$year"
-                        all="0"
-                ></x-filter>
-                <x-checkbox-filter
-                        table="salary-review-list-datatable"
-                        title="Show All"
-                        name="all_people"
-                        url="{{ route('salary-reviews.index') }}">
-                </x-checkbox-filter>
-            </div>
-
         </div>
 
         <div class="users-list-table">

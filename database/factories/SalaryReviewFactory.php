@@ -18,6 +18,12 @@ $factory->define(\App\Models\SalaryReview::class, function (Faker $faker) {
     $salaryReview['reason'] = $faker->randomElement(\App\Enums\SalaryReviewReason::getKeys());
     $salaryReview['comment'] = $faker->text(200);
 
+    if($salaryReview['reason'] == 'POOR_PERFORMANCE') {
+        $salaryReview['type'] = \App\Enums\SalaryReviewType::ACTUAL;
+        $salaryReview['sum'] = 0 - $salaryReview['sum'];
+        $salaryReview['date'] = $faker->dateTimeBetween('-1 year', 'now');
+    }
+
     if ($salaryReview['reason'] === 'PROFESSIONAL_GROWTH') {
         $salaryReview['prof_growth'] = $faker->randomElement(\App\Enums\SalaryReviewProfGrowthType::getKeys());
     }
