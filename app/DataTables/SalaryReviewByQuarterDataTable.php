@@ -11,7 +11,7 @@ use Carbon\CarbonPeriod;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class SalaryReviewByYearDataTable extends DataTable
+class SalaryReviewByQuarterDataTable extends DataTable
 {
     const COLUMNS = [
         'person',

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\SalaryReviewByQuarterDataTable;
 use App\DataTables\SalaryReviewByYearDataTable;
+use App\Enums\QuartersYear;
 use App\Enums\SalaryReviewProfGrowthType;
 use App\Enums\SalaryReviewReason;
 use App\Enums\SalaryReviewType;
@@ -41,6 +43,40 @@ class SalaryReviewController extends Controller
 
         return $dataTable->render('pages.salary-review.index', compact(
             'pageConfigs', 'breadcrumbs', 'calendarYears', 'year'
+        ));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param SalaryReviewByQuarterDataTable $dataTable
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function byQuarter(SalaryReviewByQuarterDataTable $dataTable, $year, $quarter)
+    {
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('salary-reviews.index'), 'name' => __('Salary Reviews')],
+            ['link' => route('salary-reviews.index'), 'name' => __($year.' y.')],
+            ['name' => __(integerToRoman($quarter).' qr.')]
+        ];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $calendarYears = CalendarYear::orderBy('name')->get()->map(
+            static function($calendarYear) {
+                $calendarYear->id = $calendarYear->name;
+                return $calendarYear;
+            }
+        );
+
+        $year = $dataTable->year;
+
+        $quarter = QuartersYear::toCollection();
+
+        return $dataTable->render('pages.salary-review.quarter', compact(
+            'pageConfigs', 'breadcrumbs', 'calendarYears', 'year', 'quarter'
         ));
     }
 
