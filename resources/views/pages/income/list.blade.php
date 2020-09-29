@@ -29,34 +29,46 @@
             <x-totals title="Received" :options="$accountTypes" relation="receivedSum"/>
         </div>
     </div>
-    <div class="card-panel filter-panel accounts-page-card-panel animate fadeLeft">
-        <h6 class="width-100 mb-1">Filters</h6>
-        <div class="filter-block">
-            <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-list-table"/>
-            <div class="filter-block-buttons">
-                <x-filter
-                    table="incomes-list-table"
-                    :options="$clients"
-                    url="{{ route('incomes.list') }}"
-                    name="client_filter"
-                    title="By Client"
-                />
-
-                <x-filter
-                    table="incomes-list-table"
-                    :options="$wallets"
-                    url="{{ route('incomes.list') }}"
-                    name="wallet_filter"
-                    title="By Wallet"
-                    className="filter-btn invoice-filter-action"
-                />
+    <ul class="collapsible m-0">
+        <li class="active">
+            <div class="collapsible-header p-0">
+                <div class="box-shadow-none width-100  card-panel m-0 display-flex align-items-center justify-content-between">
+                    <div class="display-flex align-items-center">
+                        <i class="material-icons">arrow_upward</i>
+                        <h6 class="m-0">  Filters</h6>
+                    </div>
+                    <x-reset-filters/>
+                </div>
             </div>
-        </div>
+            <div class="collapsible-body mt-0 p-0">
+                <div class="m-0 box-shadow-none filter-panel accounts-page-card-panel card-panel">
+                    <div class="filter-block mb-0">
+                        <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-list-table"/>
+                        <div class="filter-block-buttons">
+                            <x-filter
+                                table="incomes-list-table"
+                                :options="$clients"
+                                url="{{ route('incomes.list') }}"
+                                name="client_filter"
+                                title="By Client"
+                            />
 
-        <x-checkbox-filter title="Received" name="received" table="incomes-list-table"
-                           url="{{ route('incomes.list') }}"/>
-        <x-reset-filters/>
-    </div>
+                            <x-filter
+                                table="incomes-list-table"
+                                :options="$wallets"
+                                url="{{ route('incomes.list') }}"
+                                name="wallet_filter"
+                                title="By Wallet"
+                                className="filter-btn invoice-filter-action"
+                            />
+                        </div>
+                        <x-checkbox-filter title="Received" name="received" table="incomes-list-table"
+                                           url="{{ route('incomes.list') }}"/>
+                    </div>
+                </div>
+            </div>
+        </li>
+    </ul>
     <!-- list -->
     <section class="users-list-wrapper section animate fadeLeft">
         <div class="users-list-table">

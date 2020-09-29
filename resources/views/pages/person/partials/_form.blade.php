@@ -30,10 +30,7 @@
         <div class="col s12 m6">
             {{-- add info start --}}
             <h4 class="card-title">{{ __('Additional information') }}</h4>
-            <div class="row">
-                <x-checkbox name="growth_plan" title="Professional Growth plan" :model="$model"></x-checkbox>
-            </div>
-
+            <x-checkbox name="growth_plan" title="Professional Growth plan" :model="$model"></x-checkbox>
             <x-checkbox-input checkboxName="tech_lead" :model="$model">
                 <x-slot name="checkbox">
                     <x-checkbox name="tech_lead" title="Tech Lead" :model="$model"></x-checkbox>
@@ -61,7 +58,7 @@
                 </x-slot>
             </x-checkbox-input>
 
-            <div class="row mt-8">
+            <div class="pt-9">
                 <x-select name="recruiter_id" title="Recruiter" :options="$recruiters" :model="$model" firstTitle="Recruiter"></x-select>
             </div>
             {{-- add info end --}}

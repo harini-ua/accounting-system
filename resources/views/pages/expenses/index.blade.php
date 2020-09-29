@@ -29,14 +29,28 @@
                 <x-totals title="Real" :options="$accountTypes" relation="expensesRealSum"/>
             </div>
         </div>
-        <div class="card-panel filter-panel accounts-page-card-panel mb-2">
-            <h6 class="width-100 mb-1">Filters</h6>
-            <div class="filter-block">
-                <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="expense-datatable-table"/>
-            </div>
-            <x-reset-filters/>
-        </div>
 
+
+        <ul class="collapsible m-0">
+            <li class="active">
+                <div class="collapsible-header p-0">
+                    <div class="box-shadow-none width-100  card-panel m-0 display-flex align-items-center justify-content-between">
+                        <div class="display-flex align-items-center">
+                            <i class="material-icons">arrow_upward</i>
+                            <h6 class="m-0">  Filters</h6>
+                        </div>
+                        <x-reset-filters/>
+                    </div>
+                </div>
+                <div class="collapsible-body mt-0 p-0">
+                    <div class="m-0 box-shadow-none filter-panel accounts-page-card-panel card-panel">
+                        <div class="filter-block mb-0">
+                            <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="expense-datatable-table"/>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
         <div class=" create-btn invoice-create-btn add-item-btn">
             <a href="{{ route('expenses.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
                 <i class="material-icons">add</i>

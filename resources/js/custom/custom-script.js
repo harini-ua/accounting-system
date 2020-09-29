@@ -16,6 +16,7 @@ $.ajaxSetup({
     }
 });
 
+
 // Custom Filters
 class Filters {
     constructor() {
@@ -126,7 +127,13 @@ $('.select-filters').on('change', function (e) {
     if (text !== 'All') {
         input.val(text).addClass('active')
         label.addClass('active')
+        const labelTextToArray = label.text().split(' ')
+        const index = labelTextToArray.findIndex(el => el === 'By')
+        index >= 0 && labelTextToArray.splice(index, 1)
+        label.text(labelTextToArray.join(' '))
     } else {
+        const condition = !label.text().split(' ').includes('By')
+        condition && label.text(`By ${label.text()}`)
         label.removeClass('active')
         input.val('')
 
@@ -161,4 +168,69 @@ $('.dropdown-content').on('click', 'a', function (e) {
 function highLightField(inputField, text) {
     inputField.find('.custom-filter-label').addClass('active')
     inputField.find('.custom-filter-input').val(text).addClass('active')
+}
+
+$(function () {
+
+
+    $('.collapsible').on('click', 'li', function () {
+        const icon = $(this).find('.collapsible-header').find('i')
+
+        if ($(this).hasClass('active')) {
+            icon.text('arrow_upward')
+        } else {
+            icon.text('filter_list')
+        }
+    })
+
+        from = $("#from")
+            .datepicker({
+                format: 'yyyy-mm-dd',
+                changeMonth: true,
+                numberOfMonths: 3,
+                onOpen: datePickerOnOpenModal,
+                onClose: datePickerOnCloseModal
+            })
+            .on("change", function () {
+
+                to.datepicker({
+                    minDate: new Date($(this).val()),
+                    format: 'yyyy-mm-dd',
+                    changeMonth: true,
+                    numberOfMonths: 3,
+                    onOpen: datePickerOnOpenModal,
+                    onClose: datePickerOnCloseModal
+                });
+            }),
+        to = $("#to").datepicker({
+            format: 'yyyy-mm-dd',
+            changeMonth: true,
+            numberOfMonths: 3,
+            onOpen: datePickerOnOpenModal,
+            onClose: datePickerOnCloseModal
+        })
+            .on("change", function () {
+                from.datepicker({
+                    format: 'yyyy-mm-dd',
+                    changeMonth: true,
+                    numberOfMonths: 3,
+                    onOpen: datePickerOnOpenModal,
+                    onClose: datePickerOnCloseModal,
+                    maxDate: new Date($(this).val())
+                });
+            });
+})
+
+function datePickerOnOpenModal() {
+    $('.section').addClass('modal-is-open')
+    $('.section').removeClass('relative')
+    $('body').append($(
+        '<div>', {
+            class: 'modal-overlay is-open',
+        })
+    )
+}
+
+function datePickerOnCloseModal() {
+    $('.section').addClass('relative')
 }
