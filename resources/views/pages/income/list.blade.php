@@ -21,7 +21,8 @@
 
 {{-- page content --}}
 @section('content')
-    <div class="totals-container row totals-2-col animate fadeLeft">
+    <section class="animate section fadeLeft">
+    <div class="totals-container row totals-2-col">
         <div class="col s12 m6">
             <x-totals title="Invoiced" :options="$accountTypes" relation="invoicedSum"/>
         </div>
@@ -70,7 +71,7 @@
         </li>
     </ul>
     <!-- list -->
-    <section class="users-list-wrapper section animate fadeLeft">
+    <section class="users-list-wrapper section">
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">
@@ -81,6 +82,8 @@
             </div>
         </div>
     </section>
+    </section>
+
 @endsection
 
 {{-- vendor scripts --}}

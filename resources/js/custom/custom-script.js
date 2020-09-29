@@ -156,10 +156,7 @@ $('.dropdown-content').on('click', 'a', function (e) {
         label = inputField.find('.custom-filter-label')
     if (text !== 'All') {
         highLightField(inputField, text)
-        // label.text(label.text().substr(3))
-
     } else {
-        // label.text(`By ${label.text()}`)
         label.removeClass('active')
         inputField.find('.custom-filter-input').val('').removeClass('active')
     }
