@@ -98,6 +98,7 @@ body {
 
 .chip {
     background-color: transparent !important;
+    font-size: 15px;
     padding: 5px;
 }
 
@@ -400,6 +401,12 @@ table.dataTable thead .sorting_desc {
     }
 }
 
+.dataTables_filter {
+    label {
+        font-size: 15px;
+    }
+}
+
 .dataTables_scrollHeadInner, .dataTables_scrollHeadInner {
     width: 100% !important;
 }
@@ -459,6 +466,7 @@ table {
     }
 }
 .totals-list {
+    margin: 0 -1rem !important;
     h6 {
         color: #fff;
     }

@@ -34,10 +34,9 @@ License: You must have a valid license purchased only from themeforest(the above
   <title>@yield('title') | Budget Calculator</title>
   <link rel="apple-touch-icon" href="../../images/favicon/apple-touch-icon-152x152.png">
   <link rel="shortcut icon" type="image/x-icon" href="../../images/favicon/favicon-32x32.png">
-
+  @routes
   {{-- Include core + vendor Styles --}}
   @include('panels.styles')
-
 </head>
 <!-- END: Head-->
 

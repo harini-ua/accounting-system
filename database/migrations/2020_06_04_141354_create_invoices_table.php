@@ -34,7 +34,7 @@ class CreateInvoicesTable extends Migration
 
             $table->foreign('contract_id')->on('contracts')->references('id')->onDelete('cascade');
             $table->foreign('account_id')->on('accounts')->references('id')->onDelete('cascade');
-            $table->foreign('sales_manager_id')->on('users')->references('id')->onDelete('cascade');
+            $table->foreign('sales_manager_id')->on('people')->references('id')->onDelete('cascade');
         });
     }
 

@@ -9,7 +9,7 @@
             @endforeach
         @else
             @foreach ($options as $option)
-                <option {{ old($name) == $option->id ? 'selected' : '' }}value="{{ $option->id }}">{{ $option->name }}</option>
+                <option {{ old($name) === $option->id ? 'selected' : '' }} {{ $selected($option) }} value="{{ $option->id }}">{{ $option->name }}</option>
             @endforeach
         @endif
     </select>

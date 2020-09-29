@@ -15,6 +15,7 @@
                 <x-select name="position_id" title="Position" :options="$positions" :model="$model"></x-select>
                 <x-input name="department" title="Department" :model="$model"></x-input>
                 <x-date name="start_date" title="Date of the work beginning" :model="$model"></x-date>
+                <x-input name="trial_period" title="{{ __('Trial Period (In Months)') }}" type="number" min="1" max="12" default="{{ config('people.trial_period.value') }}" :model="$model"></x-input>
                 <x-input name="salary" title="Salary" :model="$model"></x-input>
                 <x-select name="currency" title="Currency" :options="$currencies" :model="$model"></x-select>
                 <x-textarea name="skills" title="Skills" :model="$model"></x-textarea>

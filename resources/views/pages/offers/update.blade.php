@@ -13,7 +13,7 @@
 {{-- page content --}}
 @section('content')
     <!-- edit start -->
-    <div class="section">
+    <section class="offer-update-wrapper users-list-wrapper section animate fadeLeft">
         <div class="row">
             <div class="col s12">
                 <div class="card">
@@ -23,7 +23,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
     <!-- edit ends -->
 @endsection
 

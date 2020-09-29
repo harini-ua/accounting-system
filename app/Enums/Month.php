@@ -52,6 +52,14 @@ final class Month extends Enum
     /**
      * @return string[]
      */
+    public static function firstHalfYear()
+    {
+        return array_merge(self::firstQuarter(), self::secondQuarter());
+    }
+
+    /**
+     * @return string[]
+     */
     public static function thirdQuarter()
     {
         return [self::July, self::August, self::September];
@@ -65,5 +73,33 @@ final class Month extends Enum
         return [self::October, self::November, self::December];
     }
 
+    /**
+     * @return string[]
+     */
+    public static function secondHalfYear()
+    {
+        return array_merge(self::thirdQuarter(), self::forthQuarter());
+    }
 
+    /**
+     * Get months by quarter
+     *
+     * @param $quarter
+     *
+     * @return string[]
+     */
+    public static function byQuarter($quarter)
+    {
+        switch ($quarter) {
+            case 1:
+            default:
+                return self::firstQuarter();
+            case 2:
+                return self::secondQuarter();
+            case 3:
+                return self::thirdQuarter();
+            case 4:
+                return self::forthQuarter();
+        }
+    }
 }

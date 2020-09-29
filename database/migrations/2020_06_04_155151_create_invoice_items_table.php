@@ -17,7 +17,7 @@ class CreateInvoiceItemsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('invoice_id');
             $table->string('title', 100);
-            $table->text('description');
+            $table->text('description')->nullable();
             $table->string('type', 50);
             $table->integer('qty');
             $table->decimal('rate', 15,2);

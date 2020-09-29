@@ -17,7 +17,7 @@
             <x-date name="start_date" title="{{ __('Date of the work beginning') }}" :model="$model"></x-date>
         </div>
         <div class="col s12 m6">
-            <x-input name="trial_period" title="{{ __('Trial Period (in months)') }}" type="number" min="1" max="12" default="{{ config('people.trial_period.value') }}" :model="$model"></x-input>
+            <x-input name="trial_period" title="{{ __('Trial Period (In Months)') }}" type="number" min="1" max="12" default="{{ config('people.trial_period.value') }}" :model="$model"></x-input>
         </div>
     </div>
     <div class="row">

@@ -20,6 +20,8 @@ class CreatePeopleTable extends Migration
             $table->string('department')->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
             $table->date('start_date');
+            $table->smallInteger('trial_period')->nullable();
+            $table->date('end_trial_period_date');
             $table->text('skills')->nullable();
             $table->text('certifications')->nullable();
             $table->decimal('available_vacations', 5, 2)->default(15);
@@ -29,7 +31,7 @@ class CreatePeopleTable extends Migration
             // Salary
             $table->decimal('salary', 9,2);
             $table->string('currency', 5)->default(\App\Enums\Currency::USD);
-            $table->decimal('rate', 4,2);
+            $table->decimal('rate', 5,2);
             $table->string('salary_type', 10)->default(\App\Enums\SalaryType::Fixed40);
             $table->string('contract_type', 15)->default(\App\Enums\PersonContractType::Individual2);
             $table->date('contract_type_changed_at')->nullable();

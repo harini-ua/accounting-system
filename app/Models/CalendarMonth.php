@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Month;
 use App\Scopes\YearScope;
+use App\Services\SalaryPaymentService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -64,13 +65,21 @@ class CalendarMonth extends Model
      */
     public function getHalfYearAttribute()
     {
-        if (in_array($this->name, array_merge(Month::firstQuarter(), Month::secondQuarter()), true)) {
+        if (in_array($this->name, Month::firstHalfYear(), true)) {
             return 'first';
         }
 
-        if (in_array($this->name, array_merge(Month::thirdQuarter(), Month::forthQuarter()), true)) {
+        if (in_array($this->name, Month::secondHalfYear(), true)) {
             return 'second';
         }
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getWorkingDaysAttribute()
+    {
+        return $this->calendar_days - $this->holidays - $this->weekends;
     }
 
     /**
@@ -83,5 +92,14 @@ class CalendarMonth extends Model
         (new YearScope($year))->apply($query, $this);
 
         return $query;
+    }
+
+    /**
+     * @param string $salaryType
+     * @return float|int
+     */
+    public function getWorkingHours(string $salaryType)
+    {
+        return SalaryPaymentService::calcHours($this->working_days, $salaryType);
     }
 }

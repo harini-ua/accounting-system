@@ -17,7 +17,7 @@ class CreateOffersTable extends Migration
             $table->id();
             $table->unsignedBigInteger('employee_id');
             $table->date('start_date');
-            $table->smallInteger('trial_period')->default(config('people.trial_period.value'));
+            $table->smallInteger('trial_period')->nullable();
             $table->date('end_trial_period_date');
             $table->smallInteger('bonuses')->nullable();
             $table->decimal('salary', 9,2);

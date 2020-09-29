@@ -34,6 +34,7 @@ class PersonUpdateRequest extends FormRequest
             'position_id' => ['required', new EnumValue(Position::class, false)],
             'department' => 'nullable|string|min:3',
             'start_date' => 'required|date_format:d-m-Y',
+            'trial_period' => 'nullable|integer|between:1,12',
             'skills' => 'nullable|string|min:3',
             'certifications' => 'nullable|string|min:3',
             'salary' => 'required|numeric|max:1000000|min:0',
@@ -43,15 +44,15 @@ class PersonUpdateRequest extends FormRequest
             'last_salary' => 'nullable|numeric|max:1000000|min:0',
             'growth_plan' => 'boolean',
             'tech_lead' => 'boolean',
-            'tech_lead_reward' => 'nullable|numeric|max:1000000|min:0',
+            'tech_lead_reward' => 'exclude_unless:tech_lead,1|required_with:tech_lead|numeric|max:1000000|min:0',
             'team_lead' => 'boolean',
-            'team_lead_reward' => 'nullable|numeric|max:1000000|min:0',
+            'team_lead_reward' => 'exclude_unless:team_lead,1|required_with:team_lead|numeric|max:1000000|min:0',
             'bonuses' => 'boolean',
-            'bonuses_reward' => 'nullable|integer|max:1000|min:0',
+            'bonuses_reward' => 'exclude_unless:bonuses,1|required_with:bonuses|integer|max:1000|min:0',
             'recruiter_id' => [
                 'nullable',
-                Rule::exists('users', 'id')->where(function ($query) {
-                    $query->where('position_id', Position::Recruiter());
+                Rule::exists('people', 'id')->where(function ($query) {
+                    $query->where('position_id', Position::Recruiter);
                 }),
             ],
         ];

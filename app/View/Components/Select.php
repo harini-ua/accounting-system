@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
 
 class Select extends Component
@@ -10,26 +11,30 @@ class Select extends Component
     public $options;
     public $title;
     public $model;
+    public $default;
     public $search;
     public $disabled;
     public $firstTitle;
 
     /**
      * Select constructor.
-     * @param $name
-     * @param $options
-     * @param $title
-     * @param $model
-     * @param $search
-     * @param bool $disabled
-     * @param $firstTitle
+     *
+     * @param string $name
+     * @param        $options
+     * @param null   $title
+     * @param null   $model
+     * @param null   $default
+     * @param bool   $search
+     * @param bool   $disabled
+     * @param string $firstTitle
      */
-    public function __construct($name, $options, $title = null, $model = null, $search = false, $disabled = false, $firstTitle = '')
+    public function __construct(string $name, $options, $title = null, $model = null, $default = null, $search = false, $disabled = false, $firstTitle = '')
     {
         $this->name = $name;
         $this->options = $options;
         $this->title = $title;
         $this->model = $model;
+        $this->default = $default;
         $this->search = $search;
         $this->disabled = $disabled;
         $this->firstTitle = $firstTitle;
@@ -41,7 +46,11 @@ class Select extends Component
      */
     public function selected($option)
     {
-        return $this->model->{$this->name} == $option->id ? 'selected' : '';
+        if ($this->model !== null) {
+            return $this->model->{$this->name} == $option->id ? 'selected' : '';
+        }
+
+        return $this->default == $option->id ? 'selected' : '';
     }
 
     /**
