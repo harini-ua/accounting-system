@@ -29,30 +29,40 @@
                 @include('pages.offers.partials._form')
             </div>
         </div>
-        <div class="row">
-            <div class="col s12">
-                <div class="card-panel filter-panel accounts-page-card-panel">
-                    <div class="filter-block">
-                        <div class="filter-block-buttons">
-                            <x-filter
+        <ul class="collapsible m-0">
+            <li class="active">
+                <div class="collapsible-header p-0">
+                    <div class="box-shadow-none width-100  card-panel m-0 display-flex align-items-center justify-content-between">
+                        <div class="display-flex align-items-center">
+                            <i class="material-icons">arrow_upward</i>
+                            <h6 class="m-0">  Filters</h6>
+                        </div>
+                        <x-reset-filters/>
+                    </div>
+                </div>
+                <div class="collapsible-body mt-0 p-0">
+                    <div class="m-0 box-shadow-none filter-panel accounts-page-card-panel card-panel">
+                        <div class="filter-block mb-0">
+                            <div class="filter-block-buttons">
+                                <x-filter
                                     table="offers-list-datatable"
                                     :options="$people"
                                     url="{{ route('offers.index') }}"
                                     name="person_filter"
                                     title="By Employee"
-                            />
+                                />
+                            </div>
                             <x-checkbox-filter
-                                    title="Show All"
-                                    name="all_employee"
-                                    table="offers-list-datatable"
-                                    url="{{ route('offers.index') }}"
+                                title="Show All"
+                                name="all_employee"
+                                table="offers-list-datatable"
+                                url="{{ route('offers.index') }}"
                             />
                         </div>
                     </div>
-                    <x-reset-filters/>
                 </div>
-            </div>
-        </div>
+            </li>
+        </ul>
         <div class="create-btn invoice-create-btn">
             <a href="{{ route('offers.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
                 <i class="material-icons">add</i>

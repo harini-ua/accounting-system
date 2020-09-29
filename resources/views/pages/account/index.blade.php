@@ -22,23 +22,37 @@
 
 {{-- page content --}}
 @section('content')
-    <div class="animate fadeLeft">
+    <section class="section animate fadeLeft">
         <x-totals :options="$accountTypes" relation="accountsSum"/>
-        <div class="card-panel filter-panel accounts-page-card-panel">
-            <h6 class="width-100 mb-1">Filters</h6>
-            <div class="filter-block mb-0">
-                <x-date-filter start="{{ $startDate->format('d-m-Y') }}" end="{{ $endDate->format('d-m-Y') }}" table="accounts-list-datatable"/>
-                <x-filter
-                        table="accounts-list-datatable"
-                        :options="$wallets"
-                        url="{{ route('accounts.index') }}"
-                        name="wallet_filter"
-                        title="By Wallet"
-                />
-            </div>
-            <x-reset-filters/>
-        </div>
-        <section class="users-list-wrapper section">
+        <ul class="collapsible m-0">
+            <li class="active">
+                <div class="collapsible-header p-0">
+                    <div class="box-shadow-none width-100  card-panel m-0 display-flex align-items-center justify-content-between">
+                        <div class="display-flex align-items-center">
+                            <i class="material-icons">arrow_upward</i>
+                            <h6 class="m-0">  Filters</h6>
+                        </div>
+                        <x-reset-filters/>
+                    </div>
+                </div>
+                <div class="collapsible-body mt-0 p-0">
+                    <div class="m-0 box-shadow-none filter-panel accounts-page-card-panel card-panel">
+                        <div class="filter-block mb-0">
+                            <x-date-filter start="{{ $startDate->format('d-m-Y') }}"
+                                           end="{{ $endDate->format('d-m-Y') }}" table="accounts-list-datatable"/>
+                            <x-filter
+                                table="accounts-list-datatable"
+                                :options="$wallets"
+                                url="{{ route('accounts.index') }}"
+                                name="wallet_filter"
+                                title="By Wallet"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <div class="users-list-wrapper section">
             <div class="users-list-table">
                 <div class="card">
                     <div class="card-content">
@@ -50,10 +64,8 @@
                     </div>
                 </div>
             </div>
-        </section>
-    </div>
-    {{--<section class="list-wrapper section">--}}
-    {{--</section>--}}
+        </div>
+    </section>
 @endsection
 
 {{-- vendor scripts --}}

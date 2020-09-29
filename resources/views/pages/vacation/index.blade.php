@@ -23,26 +23,40 @@
 @section('content')
     <div id="vue-app" class="users-list-wrapper section animate fadeLeft">
         {{-- controls start --}}
-        <div class="card-panel filter-panel accounts-page-card-panel">
-            <h6 class="width-100 mb-1">Filters</h6>
-            <div class="filter-block">
-                <x-filter
-                    table="vacations-table"
-                    :options="$calendarYears"
-                    url="{{ route('vacations.index') }}"
-                    name="year_filter"
-                    title="By Year"
-                    all="0"
-                />
-                <x-checkbox-filter
-                    title="Show All"
-                    name="show_all"
-                    table="vacations-table"
-                    url="{{ route('vacations.index') }}"
-                />
-            </div>
-            <x-reset-filters/>
-        </div>
+
+        <ul class="collapsible m-0">
+            <li class="active">
+                <div class="collapsible-header p-0">
+                    <div class="box-shadow-none width-100  card-panel m-0 display-flex align-items-center justify-content-between">
+                        <div class="display-flex align-items-center">
+                            <i class="material-icons">arrow_upward</i>
+                            <h6 class="m-0">  Filters</h6>
+                        </div>
+                        <x-reset-filters/>
+                    </div>
+                </div>
+                <div class="collapsible-body mt-0 p-0">
+                    <div class="m-0 box-shadow-none filter-panel accounts-page-card-panel card-panel">
+                        <div class="filter-block mb-0">
+                            <x-filter
+                                table="vacations-table"
+                                :options="$calendarYears"
+                                url="{{ route('vacations.index') }}"
+                                name="year_filter"
+                                title="By Year"
+                                all="0"
+                            />
+                            <x-checkbox-filter
+                                title="Show All"
+                                name="show_all"
+                                table="vacations-table"
+                                url="{{ route('vacations.index') }}"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
 
         {{-- controls end --}}
         {{-- content start --}}

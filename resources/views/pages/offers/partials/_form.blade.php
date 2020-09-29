@@ -27,8 +27,6 @@
         <div class="col s12 m6">
             <x-textarea name="additional_conditions" title="{{ __('Additional Conditions') }}" :model="$model"></x-textarea>
         </div>
-    </div>
-    <div class="row">
         <div class="col s12 m6">
             <x-checkbox-input checkboxName="salary_review" :model="$model">
                 <x-slot name="checkbox">
@@ -39,9 +37,6 @@
                     <x-input name="salary_after_review" title="Salary After Review" :model="$model"></x-input>
                 </x-slot>
             </x-checkbox-input>
-        </div>
-        <div class="col s12 m6">
-
         </div>
     </div>
     <div class="row">
