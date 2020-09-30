@@ -15,6 +15,7 @@ $(document).ready(function () {
 
     $(document).on('pjax:complete', function() {
         M.updateTextFields();
+        $('[name="wallet_id"], [name="account_id"]').select2();
     });
 
     $('#salary-payment-form').on('keyup', '[name="worked_hours"]', function() {

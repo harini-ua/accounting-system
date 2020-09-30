@@ -15,6 +15,7 @@ class Input extends Component
     public $default;
     public $disabled;
     public $icon;
+    public $readonly;
 
     public $min;
     public $max;
@@ -32,7 +33,7 @@ class Input extends Component
      * @param bool $disabled
      */
     public function __construct($name, $title = null, $model = null, $type = 'text', $field = '', $default = null,
-                                $min = null, $max = null, $disabled = false, $icon = '')
+                                $min = null, $max = null, $disabled = false, $icon = '', $readonly = false)
     {
         $this->name = $name;
         $this->title = $title;
@@ -42,6 +43,7 @@ class Input extends Component
         $this->default = $default;
         $this->disabled = $disabled;
         $this->icon = $icon;
+        $this->readonly = $readonly;
 
         $this->min = $min;
         $this->max = $max;
@@ -79,5 +81,13 @@ class Input extends Component
     public function disabled()
     {
         return $this->disabled ? 'disabled' : '';
+    }
+
+    /**
+     * @return string
+     */
+    public function readonly()
+    {
+        return $this->disabled ? 'readonly' : '';
     }
 }

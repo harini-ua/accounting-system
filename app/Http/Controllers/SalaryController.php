@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\SalaryPaymentRequest;
 use App\Models\CalendarMonth;
 use App\Models\CalendarYear;
 use App\Models\Person;
@@ -51,15 +52,16 @@ class SalaryController extends Controller
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $calendarYears = CalendarYear::orderBy('name')->with('calendarMonths')->get();
-        $calendarMonth = null;
-        $date = Carbon::now();
         if ($request->has(['year', 'month'])) {
             $year = $calendarYears->where('id', $request->year)->first()->name;
             $date = Carbon::createFromDate($year, $request->month);
-            $calendarMonth = CalendarMonth::ofYear($year)
-                ->where('calendar_months.name', $date->monthName)
-                ->first();
+        } else {
+            $date = Carbon::now();
+            $year = $date->year;
         }
+        $calendarMonth = CalendarMonth::ofYear($year)
+            ->where('calendar_months.name', $date->monthName)
+            ->first();
 
         $wallets = Wallet::with('accounts.accountType')->get();
         $people = Person::whereNull('quited_at')->orderBy('name')->get(); // todo: pick only if final payslip isn't paid
@@ -77,12 +79,20 @@ class SalaryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param SalaryPaymentRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(SalaryPaymentRequest $request)
     {
-        //
+        $salaryPayment = SalaryPayment::firstOrNew([
+            'calendar_month_id' => $request->calendar_month_id,
+            'person_id' => $request->person_id,
+        ]);
+        $salaryPayment->fill($request->all());
+        $salaryPayment->bonuses = json_decode($request->bonuses);
+        $salaryPayment->save();
+
+        return redirect('/'); // todo: redirect to salary month list
     }
 
     /**

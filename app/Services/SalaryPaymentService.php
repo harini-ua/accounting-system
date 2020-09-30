@@ -40,14 +40,16 @@ class SalaryPaymentService
         $this->salaryPayment = new SalaryPayment;
         $this->setCalendarMonth($calendarMonth);
         $this->setPerson($people, $request);
-        $this->setSymbol();
-        $this->setFields();
-        $this->setCurrencies();
-        $this->setVacations();
-        $this->fillCalendarMonth();
-        $this->fillSalaryPayment();
-        $this->setBonuses();
-        $this->setTotals();
+        if ($this->person) {
+            $this->setSymbol();
+            $this->setFields();
+            $this->setCurrencies();
+            $this->setVacations();
+            $this->fillCalendarMonth();
+            $this->fillSalaryPayment();
+            $this->setBonuses();
+            $this->setTotals();
+        }
     }
 
     /**
