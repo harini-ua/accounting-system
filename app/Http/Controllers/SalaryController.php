@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\DataTables\SalaryDataTable;
+use App\Enums\Currency;
 use App\Http\Requests\SalaryPaymentRequest;
 use App\Models\CalendarMonth;
 use App\Models\CalendarYear;
@@ -22,9 +24,26 @@ class SalaryController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(SalaryDataTable $dataTable)
     {
-        //
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __('Home')],
+            ['name' => __('Salaries')]
+        ];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $year = $dataTable->year;
+        $calendarYears = CalendarYear::orderBy('name')->get()->map(function($calendarYear) {
+            $calendarYear->id = $calendarYear->name;
+            return $calendarYear;
+        });
+        $currencies = Currency::toCollection()->filter(function($currency) {
+            return in_array($currency->id, [Currency::UAH, Currency::USD]);
+        });
+
+        return $dataTable->render('pages.salary.index', compact('breadcrumbs', 'pageConfigs',
+            'calendarYears', 'currencies', 'year'));
     }
 
     /**
@@ -37,7 +56,7 @@ class SalaryController extends Controller
     {
         $validator = Validator::make($request->only(['year', 'month']), [
             'year' => 'sometimes|exists:calendar_years,id',
-            'month' => 'sometimes|integer|min:1|max:12',
+            'month' => 'sometimes|exists:calendar_months,id',
         ]);
         if ($validator->fails()) {
             abort(404);
@@ -45,7 +64,7 @@ class SalaryController extends Controller
 
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
-            ['link' => route('salary.index'), 'name' => __('Salary')],
+            ['link' => route('salaries.index'), 'name' => __('Salary')],
             ['name' => __('Create')],
         ];
 
@@ -55,20 +74,20 @@ class SalaryController extends Controller
         if ($request->has(['year', 'month'])) {
             $year = $calendarYears->where('id', $request->year)->first()->name;
             $date = Carbon::createFromDate($year, $request->month);
+            $calendarMonth = CalendarMonth::find($request->month);
         } else {
             $date = Carbon::now();
             $year = $date->year;
+            $calendarMonth = CalendarMonth::ofYear($year)
+                ->where('calendar_months.name', $date->monthName)
+                ->first();
         }
-        $calendarMonth = CalendarMonth::ofYear($year)
-            ->where('calendar_months.name', $date->monthName)
-            ->first();
 
         $wallets = Wallet::with('accounts.accountType')->get();
         $people = Person::whereNull('quited_at')->orderBy('name')->get(); // todo: pick only if final payslip isn't paid
 
         $salaryPaymentService = new SalaryPaymentService($calendarMonth, $people, $request, $date);
         extract($salaryPaymentService->data());
-
 
         return view('pages.salary.create', compact(
             'breadcrumbs', 'pageConfigs', 'calendarYears', 'calendarMonth', 'salaryPayment', 'people', 'person',

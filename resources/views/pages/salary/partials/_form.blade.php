@@ -73,7 +73,7 @@
                     <tr><td>{{ __('Salary') }}:</td><td>{{ \App\Services\Formatter::currency($person->salary, $symbol) }}</td></tr>
                     <tr><td>{{ __('Currency') }}:</td><td>{{ \App\Enums\Currency::getDescription($person->currency) }}</td></tr>
                     <tr><td>{{ __('Hourly rate') }}:</td><td>{{ \App\Services\Formatter::currency($person->rate, $symbol) }}</td></tr>
-                    @if($person->actualBonuses)
+                    @if($person->actualBonuses && $person->actualBonuses->count() > 0)
                     <tr><td colspan="2" class="center-align">{{ __('Bonuses') }}</td></tr>
                         @foreach($person->actualBonuses as $bonus)
                             <tr><td>{{ $bonus->currency }}:</td><td>{{ \App\Services\Formatter::currency($bonus->value, \App\Enums\Currency::symbol($bonus->currency)) }}</td></tr>
