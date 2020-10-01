@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\DataTables\SalaryDataTable;
+use App\DataTables\SalaryMonthDataTable;
 use App\Enums\Currency;
 use App\Http\Requests\SalaryPaymentRequest;
 use App\Models\CalendarMonth;
@@ -44,6 +45,35 @@ class SalaryController extends Controller
 
         return $dataTable->render('pages.salary.index', compact('breadcrumbs', 'pageConfigs',
             'calendarYears', 'currencies', 'year'));
+    }
+
+    /**
+     * @param $year
+     * @param $month
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
+    public function month($year, $month)
+    {
+        if (!CalendarYear::where('name', $year)->exists() || !($month >= 1 && $month <= 12)) {
+            abort(404);
+        }
+
+        $dataTable = new SalaryMonthDataTable($year, $month);
+        if ($dataTable->request()->ajax()) {
+            return $dataTable->ajax();
+        }
+
+        $monthName = Carbon::createFromDate($year, $month)->monthName;
+
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('salaries.index'), 'name' => __('Salaries')],
+            ['name' => "$monthName $year"]
+        ];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        return $dataTable->render('pages.salary.month', compact('breadcrumbs', 'pageConfigs', 'year', 'month', 'monthName'));
     }
 
     /**

@@ -193,7 +193,7 @@ class SalaryPaymentService
 
         $days = $allWorkedDays - $allVacations;
 
-        return $days ? round($sumEarned / $days * $vacations, 2) : 0;
+        return $days ? round($sumEarned / $days * $vacations, 2) : null;
     }
 
     /**
