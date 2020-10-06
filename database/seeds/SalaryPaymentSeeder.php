@@ -56,8 +56,8 @@ class SalaryPaymentSeeder extends Seeder
                         }
                         return round($person->salary / $calendarMonth->getWorkingHours($person->salary_type) * ($salaryPayment['worked_hours'] - $vacations), 2);
                     },
-                    'vacations' => $vacations,
-                    'vacation_compensation' => \App\Services\SalaryPaymentService::calcHours($vacations, $person->salary_type) * $person->rate,
+                    'vacations' => $vacations ?: null,
+                    'vacation_compensation' => $vacations ? \App\Services\SalaryPaymentService::calcHours($vacations, $person->salary_type) * $person->rate : null,
                     'bonuses' => function() use ($person) {
                         if ($person->position_id == Position::SalesManager || $person->position_id == Position::Recruiter) {
                             return json_encode([

@@ -40,14 +40,16 @@ class SalaryPaymentService
         $this->salaryPayment = new SalaryPayment;
         $this->setCalendarMonth($calendarMonth);
         $this->setPerson($people, $request);
-        $this->setSymbol();
-        $this->setFields();
-        $this->setCurrencies();
-        $this->setVacations();
-        $this->fillCalendarMonth();
-        $this->fillSalaryPayment();
-        $this->setBonuses();
-        $this->setTotals();
+        if ($this->person) {
+            $this->setSymbol();
+            $this->setFields();
+            $this->setCurrencies();
+            $this->setVacations();
+            $this->fillCalendarMonth();
+            $this->fillSalaryPayment();
+            $this->setBonuses();
+            $this->setTotals();
+        }
     }
 
     /**
@@ -191,7 +193,7 @@ class SalaryPaymentService
 
         $days = $allWorkedDays - $allVacations;
 
-        return $days ? round($sumEarned / $days * $vacations, 2) : 0;
+        return $days ? round($sumEarned / $days * $vacations, 2) : null;
     }
 
     /**

@@ -16,7 +16,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class VacationsDataTable extends DataTable
 {
-    private $year;
+    public $year;
 
     /**
      * VacationsDataTable constructor.

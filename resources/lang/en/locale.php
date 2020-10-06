@@ -162,4 +162,6 @@ return [
     "Vacations"=> "Vacations",
     "Offers"=> "Offers",
     "Salary Reviews"=> "Salary Reviews",
+    "Salaries"=> "Salaries",
+    "Add Salary"=> "Add Salary",
 ];

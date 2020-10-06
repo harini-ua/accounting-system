@@ -3,6 +3,10 @@
 namespace App\Http\Controllers;
 
 
+use App\DataTables\SalaryDataTable;
+use App\DataTables\SalaryMonthDataTable;
+use App\Enums\Currency;
+use App\Http\Requests\SalaryPaymentRequest;
 use App\Models\CalendarMonth;
 use App\Models\CalendarYear;
 use App\Models\Person;
@@ -21,9 +25,55 @@ class SalaryController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(SalaryDataTable $dataTable)
     {
-        //
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __('Home')],
+            ['name' => __('Salaries')]
+        ];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        $year = $dataTable->year;
+        $calendarYears = CalendarYear::orderBy('name')->get()->map(function($calendarYear) {
+            $calendarYear->id = $calendarYear->name;
+            return $calendarYear;
+        });
+        $currencies = Currency::toCollection()->filter(function($currency) {
+            return in_array($currency->id, [Currency::UAH, Currency::USD]);
+        });
+
+        return $dataTable->render('pages.salary.index', compact('breadcrumbs', 'pageConfigs',
+            'calendarYears', 'currencies', 'year'));
+    }
+
+    /**
+     * @param $year
+     * @param $month
+     * @return \Illuminate\Http\JsonResponse|mixed
+     */
+    public function month($year, $month)
+    {
+        if (!CalendarYear::where('name', $year)->exists() || !($month >= 1 && $month <= 12)) {
+            abort(404);
+        }
+
+        $dataTable = new SalaryMonthDataTable($year, $month);
+        if ($dataTable->request()->ajax()) {
+            return $dataTable->ajax();
+        }
+
+        $monthName = Carbon::createFromDate($year, $month)->monthName;
+
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('salaries.index'), 'name' => __('Salaries')],
+            ['name' => "$monthName $year"]
+        ];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        return $dataTable->render('pages.salary.month', compact('breadcrumbs', 'pageConfigs', 'year', 'month', 'monthName'));
     }
 
     /**
@@ -36,7 +86,7 @@ class SalaryController extends Controller
     {
         $validator = Validator::make($request->only(['year', 'month']), [
             'year' => 'sometimes|exists:calendar_years,id',
-            'month' => 'sometimes|integer|min:1|max:12',
+            'month' => 'sometimes|exists:calendar_months,id',
         ]);
         if ($validator->fails()) {
             abort(404);
@@ -44,18 +94,20 @@ class SalaryController extends Controller
 
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
-            ['link' => route('salary.index'), 'name' => __('Salary')],
+            ['link' => route('salaries.index'), 'name' => __('Salary')],
             ['name' => __('Create')],
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $calendarYears = CalendarYear::orderBy('name')->with('calendarMonths')->get();
-        $calendarMonth = null;
-        $date = Carbon::now();
         if ($request->has(['year', 'month'])) {
             $year = $calendarYears->where('id', $request->year)->first()->name;
             $date = Carbon::createFromDate($year, $request->month);
+            $calendarMonth = CalendarMonth::find($request->month);
+        } else {
+            $date = Carbon::now();
+            $year = $date->year;
             $calendarMonth = CalendarMonth::ofYear($year)
                 ->where('calendar_months.name', $date->monthName)
                 ->first();
@@ -67,7 +119,6 @@ class SalaryController extends Controller
         $salaryPaymentService = new SalaryPaymentService($calendarMonth, $people, $request, $date);
         extract($salaryPaymentService->data());
 
-
         return view('pages.salary.create', compact(
             'breadcrumbs', 'pageConfigs', 'calendarYears', 'calendarMonth', 'salaryPayment', 'people', 'person',
             'symbol', 'wallets', 'currencies', 'fields'
@@ -77,12 +128,20 @@ class SalaryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param Request $request
+     * @param SalaryPaymentRequest $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(SalaryPaymentRequest $request)
     {
-        //
+        $salaryPayment = SalaryPayment::firstOrNew([
+            'calendar_month_id' => $request->calendar_month_id,
+            'person_id' => $request->person_id,
+        ]);
+        $salaryPayment->fill($request->all());
+        $salaryPayment->bonuses = json_decode($request->bonuses);
+        $salaryPayment->save();
+
+        return redirect('/'); // todo: redirect to salary month list
     }
 
     /**

@@ -33,8 +33,10 @@ class VacationController extends Controller
             $calendarYear->id = $calendarYear->name;
             return $calendarYear;
         });
+        $year = $dataTable->year;
 
-        return $dataTable->render('pages.vacation.index', compact('breadcrumbs', 'pageConfigs', 'calendarYears'));
+        return $dataTable->render('pages.vacation.index', compact('breadcrumbs', 'pageConfigs',
+            'calendarYears', 'year'));
     }
 
     /**

@@ -2,7 +2,7 @@
 @extends('layouts.contentLayoutMaster')
 
 {{-- page title --}}
-@section('title', "Vacations")
+@section('title', __('Salaries'))
 
 {{-- vendor styles --}}
 @section('vendor-style')
@@ -21,8 +21,16 @@
 
 {{-- page content --}}
 @section('content')
-    <div id="vue-app" class="users-list-wrapper section animate fadeLeft">
-        {{-- controls start --}}
+    <div class="users-list-wrapper section animate fadeLeft">
+
+        <!-- create button-->
+        <div class="create-btn invoice-create-btn">
+            <a href="{{ route('salary-payments.create') }}"
+               class="btn waves-effect waves-light invoice-create z-depth-4">
+                <i class="material-icons">add</i>
+                <span class="hide-on-small-only">{{ __("Add Salary") }}</span>
+            </a>
+        </div>
 
         <ul class="collapsible m-0">
             <li class="active">
@@ -39,19 +47,28 @@
                     <div class="m-0 box-shadow-none filter-panel accounts-page-card-panel card-panel">
                         <div class="filter-block mb-0">
                             <x-filter
-                                table="vacations-table"
+                                table="salary-table"
                                 :options="$calendarYears"
-                                url="{{ route('vacations.index') }}"
+                                url="{{ route('salaries.index') }}"
                                 name="year_filter"
                                 title="By Year"
                                 :default="$year"
                                 all="0"
                             />
+                            <x-filter
+                                table="salary-table"
+                                :options="$currencies"
+                                url="{{ route('salaries.index') }}"
+                                name="currency_filter"
+                                title="Currency"
+                                default="{{ \App\Enums\Currency::USD }}"
+                                all="0"
+                            />
                             <x-checkbox-filter
                                 title="Show All"
                                 name="show_all"
-                                table="vacations-table"
-                                url="{{ route('vacations.index') }}"
+                                table="salary-table"
+                                url="{{ route('salaries.index') }}"
                             />
                         </div>
                     </div>
