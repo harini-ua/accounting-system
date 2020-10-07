@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use App\Casts\Date;
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Account extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, SoftCascadeTrait;
+
+    protected $softCascade = ['moneyFlowsFrom', 'moneyFlowsTo', 'invoices', 'incomes', 'salaryPayments'];
 
     public const TABLE_NAME = 'accounts';
 
@@ -49,5 +52,45 @@ class Account extends Model
     public function accountType()
     {
         return $this->belongsTo(AccountType::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function moneyFlowsFrom()
+    {
+        return $this->hasMany(MoneyFlow::class, 'account_from_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function moneyFlowsTo()
+    {
+        return $this->hasMany(MoneyFlow::class, 'account_to_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function invoices()
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function incomes()
+    {
+        return $this->hasMany(Income::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function salaryPayments()
+    {
+        return $this->hasMany(SalaryPayment::class);
     }
 }

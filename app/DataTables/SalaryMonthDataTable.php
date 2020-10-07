@@ -206,6 +206,7 @@ class SalaryMonthDataTable extends DataTable
 //            ->leftJoin('salary_payments', 'salary_payments.person_id', '=', 'people.id')
             ->leftJoin('salary_payments', function($join) {
                 $join->on('salary_payments.person_id', '=', 'people.id')
+                    ->whereNull('salary_payments.deleted_at')
                     ->where('salary_payments.calendar_month_id', $this->calendarMonth->id);
             })
             ->whereNull('people.quited_at')

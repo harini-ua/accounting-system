@@ -41,6 +41,17 @@
                         </option>
                     @endforeach
                 @endif
+            @else
+                @php($client = old($firstName) ? $options->find(old($firstName)) : $options->first())
+                <option class="first_default">{{ __('- Select '.$secondTitle.' -') }}</option>
+                @if($client)
+                    @foreach ($client->contracts as $contract)
+                        <option {{ old($secondName) == $contract->id ? 'selected' : '' }}
+                                value="{{ $contract->id }}">
+                            {{ $contract->name }}
+                        </option>
+                    @endforeach
+                @endif
             @endif
         </select>
         @error('contract_id')<small class="errorTxt1">

@@ -65,6 +65,7 @@ class SalaryDataTable extends DataTable
             ->selectRaw("sum($totalColumn) as total")
             ->join('salary_payments', 'salary_payments.person_id', '=', 'people.id')
             ->join('calendar_months', 'salary_payments.calendar_month_id', '=', 'calendar_months.id')
+            ->whereNull('salary_payments.deleted_at')
             ->groupBy('people.id')
             ->orderBy('people.name');
         $this->addMonthsSelect($query);

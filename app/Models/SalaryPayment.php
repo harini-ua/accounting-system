@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\Casts\Date;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SalaryPayment extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'calendar_month_id',
         'person_id',

@@ -36,6 +36,7 @@ class CreateSalaryPaymentsTable extends Migration
             $table->text('comments')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('calendar_month_id')->on('calendar_months')->references('id')->onDelete('cascade');
             $table->foreign('person_id')->on('people')->references('id')->onDelete('cascade');
