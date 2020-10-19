@@ -18,7 +18,6 @@
                     name="wallet_type_id"
                     title="Wallet Type"
                     :options="$walletTypes"
-                    firstTitle="Wallet Type"
             ></x-select>
         </div>
     </div>

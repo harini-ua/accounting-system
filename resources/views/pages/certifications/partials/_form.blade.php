@@ -6,7 +6,7 @@
     @csrf
     <div class="row">
         <div class="col s12 m6">
-            <x-select name="person_id" :options="$people" :model="$model" firstTitle="Person" :search="true"></x-select>
+            <x-select name="person_id" :options="$people" title="{{ __('Person') }}" :model="$model" firstTitle="Person" :search="true"></x-select>
         </div>
         <div class="col s12 m6">
             <x-input name="name" title="{{ __('Name') }}" :model="$model" field="name"></x-input>

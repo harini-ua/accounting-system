@@ -18,14 +18,14 @@
 
 {{-- page content --}}
 @section('content')
+    <div class="create-btn">
+        <a href="{{ route('clients.create') }}" class="btn">
+            <i class="material-icons">add</i>
+            <span class="hide-on-small-only">{{ __('Add Client') }}</span>
+        </a>
+    </div>
     <!-- client list start -->
     <section id="clients" class="users-list-wrapper section animate fadeLeft">
-        <div class="create-btn">
-            <a href="{{ route('clients.create') }}" class="btn z-depth-4">
-                <i class="material-icons">add</i>
-                <span class="hide-on-small-only">{{ __('Add Client') }}</span>
-            </a>
-        </div>
         <div class="users-list-table">
         <div class="card">
                 <div class="card-content">

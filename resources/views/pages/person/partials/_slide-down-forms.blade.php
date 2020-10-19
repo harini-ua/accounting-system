@@ -47,6 +47,11 @@
             <x-input name="long_vacation_comment" title="{{ __('Comments') }}" :model="$longVacation"></x-input>
         </div>
         <div class="col s12 m6">
+            <x-date name="long_vacation_plan_finished_at" title="{{ __('Planning date of coming back to the office') }}" :model="$longVacation"></x-date>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col s12 m6">
             <x-checkbox-input checkboxName="long_vacation_compensation" :model="$longVacation">
                 <x-slot name="checkbox">
                     <x-checkbox name="long_vacation_compensation" title="{{ __('Compensation') }}" :model="$longVacation"></x-checkbox>
@@ -55,11 +60,6 @@
                     <x-input name="long_vacation_compensation_sum" title="{{ __('Compensation sum') }}" :model="$longVacation"></x-input>
                 </x-slot>
             </x-checkbox-input>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s12 m6">
-            <x-date name="long_vacation_plan_finished_at" title="{{ __('Planning date of coming back to the office') }}" :model="$longVacation"></x-date>
         </div>
     </div>
 </x-slide-down-form>

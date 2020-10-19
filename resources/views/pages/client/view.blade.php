@@ -19,16 +19,14 @@
 @section('content')
     <!-- client update start -->
     <div id="clients" class="users-list-wrapper section">
-        <div class="row">
-            <div>
-            </div>
-            <div class="page-layout row">
-                <div class="col pb-2">
-                    <div class="card details-card height-100 pb-10">
-                        <div class="card-content">
-                            <h5>Clients detail</h5>
-                            <div class="row mt-5">
-                                <div class="col s6">
+        <div class="page-layout client-detail">
+            <div class="page-layout-col">
+                <div class="card details-card pb-10">
+                    <div class="card-content">
+                        <h5>Clients detail</h5>
+                        <div class="row mt-5">
+                            <div class="col s6 center-align p10">
+                                <div class="mini-banner">
                                     <h6 class="indigo-text">{{ __('Contracts') }}</h6>
                                     <h5 class=" m-0">
                                         <a href="#"
@@ -37,105 +35,101 @@
                                            data-tooltip="{{ __('Total: ').$client->contracts->count().' / '.__('Closed: ').$closedContract }}">{{ $client->contracts->count().'/'.$closedContract}}</a>
                                     </h5>
                                 </div>
-                                <div class="col s6">
+
+                            </div>
+                            <div class="col s6 center-align p10">
+                                <div class="mini-banner">
                                     <h6 class="purple-text">{{ __('Balance') }}</h6>
                                     <h5 class="m-0"><a class="purple-text text-darken-1" href="#">+$40</a></h5>
                                 </div>
                             </div>
+                        </div>
+                        <div class="row pt-4 client-detail-block">
+                            <h6 class="col s12 mt-1 mb-2"> {{ __('Contact') }} </h6>
+                            <!-- Phone -->
+                            <div class="col s12 phone mb-3">
+                                <i class="mr-3 material-icons display-inline">call</i>
+                                <p class="m-0 display-inline">{{ $client->phone }}</p>
+                            </div>
+                            <!-- Mail -->
+                            <div class="col s12 mail  mb-1">
+                                <i class="material-icons mr-3 display-inline"> mail_outline</i>
+                                <p class="m-0 display-inline">{{ $client->email }} </p>
+                                <a href="mailto:{{ $client->email }}"
+                                   class="btn-small indigo float-right"><i
+                                        class="material-icons">mail_outline</i></a>
+                            </div>
+                        </div>
+                        <hr>
+                        @if($address = $client->billingAddress)
+                            <div class="row client-detail-block">
+                                <h6 class="col s12 mt-1 mb-2"> {{ __('Address') }} </h6>
+                                <div class="col s12 place mb-2 display-flex">
+                                    <i class="material-icons mr-3">place</i>
+                                    <p class="m-0">{{ $address->postal_code }}, {{ $address->country }}
+                                        , {{ $address->state }}, {{ $address->city }} {{ $address->address }}</p>
+
+                                </div>
+                            </div>
+                        @endif
+                        @if($bank = $client->bank)
                             <hr>
                             <div class="row">
-                                <h6 class="col s12 mt-3"> {{ __('Contact') }} </h6>
-                                <!-- Phone -->
-                                <div class="col s12 phone mb-2 p-0">
-                                    <div class="col s2 m2 l2"><i class="material-icons">call</i></div>
-                                    <div class="col s10 m10 l10">
-                                        <p class="m-0">{{ $client->phone }}</p>
-                                    </div>
-                                </div>
-                                <!-- Mail -->
-                                <div class="col s12 mail p-0">
-                                    <div class="col s2 m2 l2"><i class="material-icons">mail_outline</i></div>
-                                    <div class="col s10 m10 l10">
-                                        <p class="m-0">{{ $client->email }} <a href="mailto:{{ $client->email }}"
-                                                                               class="btn-small indigo float-right"><i
-                                                    class="material-icons">mail_outline</i></a></p>
-                                    </div>
+                                <h6 class="col s12 mt-3 mb-1"> {{ __('Bank Details') }}</h6>
+                                <div class="col s12">
+                                    <table class="responsive-table">
+                                        <tbody>
+                                        @if($bank->name)
+                                            <tr>
+                                                <td>{{ __('Bank') }}:</td>
+                                                <td>{{ $bank->name }}</td>
+                                            </tr>@endif
+                                        @if($bank->address)
+                                            <tr>
+                                                <td>{{ __('Bank Address') }}:</td>
+                                                <td>{{ $bank->address }}</td>
+                                            </tr>@endif
+                                        @if($bank->account)
+                                            <tr>
+                                                <td>{{ __('Account #') }}:</td>
+                                                <td>{{ $bank->account }}</td>
+                                            </tr>@endif
+                                        @if($bank->iban)
+                                            <tr>
+                                                <td>{{ __('IBAN') }}:</td>
+                                                <td>{{ $bank->iban }}</td>
+                                            </tr>@endif
+                                        @if($bank->swift)
+                                            <tr>
+                                                <td>{{ __('SWIFT CODE') }}:</td>
+                                                <td>{{ $bank->swift }}</td>
+                                            </tr>@endif
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                            <hr>
-                            @if($address = $client->billingAddress)
-                                <div class="row">
-                                    <h6 class="col s12 mt-3"> {{ __('Address') }} </h6>
-                                    <!-- Address -->
-                                    <div class="col s12 place mb-2 p-0">
-                                        <div class="col s2 m2 l2"><i class="material-icons">place</i></div>
-                                        <div class="col s10 m10 l10">
-                                            <p class="m-0">{{ $address->postal_code }}, {{ $address->country }}
-                                                , {{ $address->state }}, {{ $address->city }}</p>
-                                            <p class="m-0">{{ $address->address }}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endif
-                            @if($bank = $client->bank)
-                                <hr>
-                                <div class="row">
-                                    <h6 class="col s12"> {{ __('Bank Details') }}</h6>
-                                    <div class="col s12 padding-2">
-                                        <table class="responsive-table">
-                                            <tbody>
-                                            @if($bank->name)
-                                                <tr>
-                                                    <td>{{ __('Bank') }}:</td>
-                                                    <td>{{ $bank->name }}</td>
-                                                </tr>@endif
-                                            @if($bank->address)
-                                                <tr>
-                                                    <td>{{ __('Bank Address') }}:</td>
-                                                    <td>{{ $bank->address }}</td>
-                                                </tr>@endif
-                                            @if($bank->account)
-                                                <tr>
-                                                    <td>{{ __('Account #') }}:</td>
-                                                    <td>{{ $bank->account }}</td>
-                                                </tr>@endif
-                                            @if($bank->iban)
-                                                <tr>
-                                                    <td>{{ __('IBAN') }}:</td>
-                                                    <td>{{ $bank->iban }}</td>
-                                                </tr>@endif
-                                            @if($bank->swift)
-                                                <tr>
-                                                    <td>{{ __('SWIFT CODE') }}:</td>
-                                                    <td>{{ $bank->swift }}</td>
-                                                </tr>@endif
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            @endif
-                        </div>
-                        <a href="{{ route('clients.edit', $client) }}"
-                           class="position-absolute btn-small float-right edit-btn">{{ __('Edit') }}</a>
+                        @endif
                     </div>
+                    <a href="{{ route('clients.edit', $client) }}"
+                       class="position-absolute btn-small float-right edit-btn">{{ __('Edit') }}</a>
                 </div>
-                <div class="col pb-2">
-                    <div class="card user-card-negative-margin height-100" id="feed">
-                        <div class="card-content card-border-gray">
-                            <h5>{{ __('Contracts') }}</h5>
-                            <!-- datatable start -->
-                            <div class="users-list-table">
-                                <!-- datatable start -->
-                                <div class="responsive-table">
-                                    {{ $dataTable->table() }}
-                                </div>
-                                <!-- datatable ends -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
+            <div class="page-layout-col">
+                <div class=" card user-card-negative-margin " id="feed">
+                    <div class="card-content card-border-gray">
+                        <h5>{{ __('Contracts') }}</h5>
+                        <!-- datatable start -->
+                        <div class="users-list-table">
+                            <!-- datatable start -->
+                            <div class="responsive-table">
+                                {{ $dataTable->table() }}
+                            </div>
+                            <!-- datatable ends -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
     <!-- client update ends -->

@@ -21,25 +21,18 @@
 
 {{-- page content --}}
 @section('content')
+    <div class="create-btn invoice-create-btn">
+        <a href="{{ route('salary-reviews.create') }}"
+           class="btn waves-effect waves-light invoice-create z-depth-4">
+            <i class="material-icons">add</i>
+            <span class="hide-on-small-only">{{ __("Add Salary Review") }}</span>
+        </a>
+    </div>
     <!-- invoice list -->
     <section class="salary-review-list-wrapper users-list-wrapper section animate fadeLeft">
-        <div class="create-btn add-item-btn slide-down-btn">
-            <a href="#" class="waves-effect waves-light btn slide-down-btn">
-                <i class="material-icons">add</i>
-                <span class="hide-on-small-only">Add</span>
-            </a>
-        </div>
         <!-- create invoice button-->
-        <div class="create-btn invoice-create-btn">
-            <a href="{{ route('salary-reviews.create') }}"
-               class="btn waves-effect waves-light invoice-create z-depth-4">
-                <i class="material-icons">add</i>
-                <span class="hide-on-small-only">{{ __("Add Salary Review") }}</span>
-            </a>
-        </div>
-
         <div class="filters-panel">
-            <ul class="collapsible">
+            <ul class="collapsible mt-0">
                 <li class="active">
                     <div class="collapsible-header p-0">
                         <div

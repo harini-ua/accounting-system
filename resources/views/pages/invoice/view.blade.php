@@ -30,19 +30,22 @@
                     <div class="row">
                         <div class="col s12">
                             <ul class="tabs">
-                                <li class="tab col m3"><a class="active" href="#invoice-tab">{{ __('Invoice') }}</a></li>
-                                <li class="tab col m3"><a class="payments-tab" href="#payments-tab">{{ __('Payments') }}</a></li>
+                                <li class="tab col m3"><a class="active" href="#invoice-tab">{{ __('Invoice') }}</a>
+                                </li>
+                                <li class="tab col m3"><a class="payments-tab"
+                                                          href="#payments-tab">{{ __('Payments') }}</a></li>
                             </ul>
                         </div>
                         <div id="invoice-tab" class="col s12">
                             <div class="card-content invoice-print-area">
                                 <!-- header section -->
                                 <div class="row invoice-date-number">
-                                    <div class="col xl4 s12">
-                                        <span class="invoice-number mr-1">{{ $invoice->number }}</span>
+                                    <div class="col xl4 s12 pt-1 pb-1">
+                                        <img src="{{ $image['src'] }}" alt="logo" height="{{ $image['height'] }}"
+                                             width="{{ $image['width'] }}"/>
                                     </div>
                                     <div class="col xl8 s12">
-                                        <div class="invoice-date display-flex align-items-center flex-wrap">
+                                        <div class="invoice-date display-flex align-items-center flex-wrap mb-1">
                                             <div class="mr-3">
                                                 <small>Date Issue:</small>
                                                 <span>{{ \Carbon\Carbon::parse($invoice->created_at)->format('d-m-Y') }}</span>
@@ -51,24 +54,46 @@
                                                 <small>Date Due:</small>
                                                 <span>{{ $invoice->plan_income_date }}</span>
                                             </div>
+
+
                                         </div>
+                                        <span class="invoice-number float-right">{{ $invoice->number }}</span>
+
                                     </div>
+
+
                                 </div>
                                 <!-- logo and title -->
-                                <div class="row mt-3 invoice-logo-title">
+                                <div class="row invoice-logo-title">
                                     @if($image)
                                         <div class="col m6 s12 invoice-logo display-flex pt-1 push-m6">
-                                            <img src="{{ $image['src'] }}" alt="logo" height="{{ $image['height'] }}" width="{{ $image['width'] }}" />
+
                                         </div>
                                     @endif
-                                    <div class="col m6 s12 pull-m6">
+                                    <div class="col m6 s12 pull-m6 pt-2">
                                         <h4 class="indigo-text">{{ __('Invoice') }}</h4>
                                         <span>{{ $invoice->name }}</span>
                                     </div>
                                 </div>
 
                                 <!-- invoice address and contact -->
-                                <div class="row invoice-info">
+                                <div class="row invoice-info pt-3">
+                                    <div class="col m6 s12">
+                                        <div class="divider show-on-small hide-on-med-and-up mb-3"></div>
+                                        <h6 class="invoice-to">{{ __('Bill To') }}</h6>
+                                        <div class="invoice-address">
+                                            <span>{{ $billTo['company'] }}</span>
+                                        </div>
+                                        <div class="invoice-address">
+                                            <span>{{ $billTo['address'] }}</span>
+                                        </div>
+                                        <div class="invoice-address">
+                                            <span>{{ $billTo['email'] }}</span>
+                                        </div>
+                                        <div class="invoice-address">
+                                            <span>{{ $billTo['phone'] }}</span>
+                                        </div>
+                                    </div>
                                     <div class="col m6 s12">
                                         @if(count($billFrom))
                                             <h6 class="invoice-from">{{ __('Bill From') }}</h6>
@@ -86,22 +111,6 @@
                                             </div>
                                         @endif
                                     </div>
-                                    <div class="col m6 s12">
-                                        <div class="divider show-on-small hide-on-med-and-up mb-3"></div>
-                                        <h6 class="invoice-to">{{ __('Bill To') }}</h6>
-                                        <div class="invoice-address">
-                                            <span>{{ $billTo['company'] }}</span>
-                                        </div>
-                                        <div class="invoice-address">
-                                            <span>{{ $billTo['address'] }}</span>
-                                        </div>
-                                        <div class="invoice-address">
-                                            <span>{{ $billTo['email'] }}</span>
-                                        </div>
-                                        <div class="invoice-address">
-                                            <span>{{ $billTo['phone'] }}</span>
-                                        </div>
-                                    </div>
                                 </div>
                                 <div class="divider mb-3 mt-3"></div>
                                 <!-- product details table-->
@@ -111,9 +120,9 @@
                                         <tr>
                                             <th>{{ __('Item') }}</th>
                                             <th>{{ __('Description') }}</th>
-                                            <th>{{ __('Type') }}</th>
-                                            <th>{{ __('Qty') }}</th>
-                                            <th>{{ __('Rate') }}</th>
+                                            <th class="pr-2 pl-2">{{ __('Type') }}</th>
+                                            <th class="pr-2 pl-2">{{ __('Qty') }}</th>
+                                            <th class="pr-2 pl-2">{{ __('Rate') }}</th>
                                             <th class="right-align">{{ __('Sum') }}</th>
                                         </tr>
                                         </thead>
@@ -122,9 +131,9 @@
                                             <tr>
                                                 <td>{{ $item->title }}</td>
                                                 <td>{{ $item->description }}</td>
-                                                <td>{{ \App\Enums\InvoiceItemType::getDescription($item->type) }}</td>
-                                                <td>{{ $item->qty }}</td>
-                                                <td>{!! \App\Services\Formatter::currency($item->rate, $invoice->account->accountType->symbol, true) !!}</td>
+                                                <td class="pr-2 pl-2">{{ \App\Enums\InvoiceItemType::getDescription($item->type) }}</td>
+                                                <td class="pr-2 pl-2">{{ $item->qty }}</td>
+                                                <td class="pr-2 pl-2">{!! \App\Services\Formatter::currency($item->rate, $invoice->account->accountType->symbol, true) !!}</td>
                                                 <td class="indigo-text right-align">{!! \App\Services\Formatter::currency($item->sum, $invoice->account->accountType->symbol, true) !!}</td>
                                             </tr>
                                         @endforeach
@@ -146,7 +155,8 @@
                                                 </li>
                                                 <li class="display-flex justify-content-between">
                                                     <span class="invoice-discount-title">{{ __('Discount') }}</span>
-                                                    <h6 class="invoice-discount-value currency">- {!! \App\Services\Formatter::currency($invoice->discount, $invoice->account->accountType->symbol, true) !!}</h6>
+                                                    <h6 class="invoice-discount-value currency">
+                                                        - {!! \App\Services\Formatter::currency($invoice->discount, $invoice->account->accountType->symbol, true) !!}</h6>
                                                 </li>
                                                 <li class="divider mt-2 mb-2"></li>
                                                 <li class="display-flex justify-content-between">
@@ -155,7 +165,9 @@
                                                 </li>
                                                 <li class="display-flex justify-content-between">
                                                     <span class="invoice-paid-title">{{ __('Paid to date') }}</span>
-                                                    <h6 class="invoice-paid-value currency" data-paid="{{ $invoice->payments->sum('fee') }}">- {!! \App\Services\Formatter::currency($invoice->payments->sum('fee'), $invoice->account->accountType->symbol, true) !!}</h6>
+                                                    <h6 class="invoice-paid-value currency"
+                                                        data-paid="{{ $invoice->payments->sum('fee') }}">
+                                                        - {!! \App\Services\Formatter::currency($invoice->payments->sum('fee'), $invoice->account->accountType->symbol, true) !!}</h6>
                                                 </li>
                                             </ul>
                                         </div>
@@ -180,24 +192,26 @@
                 <div class="card invoice-action-wrapper">
                     <div class="card-content">
                         <div class="invoice-action-btn">
-                            <a href="#" class="btn btn-light-indigo waves-effect waves-light display-flex align-items-center justify-content-center invoice-print">
-                                <i class="material-icons mr-5">print</i>
+                            <a href="#"
+                               class="btn btn-light-indigo waves-effect waves-light display-flex align-items-center justify-content-center invoice-print">
                                 <span>{{ __('Print') }}</span>
                             </a>
                         </div>
                         <div class="invoice-action-btn">
-                            <a target="_blank" href="{{ route('invoices.download', $invoice) }}" class="btn btn-light-indigo waves-effect waves-light display-flex align-items-center justify-content-center invoice-download">
-                                <i class="material-icons mr-5">file_download</i>
+                            <a target="_blank" href="{{ route('invoices.download', $invoice) }}"
+                               class="btn btn-light-indigo waves-effect waves-light display-flex align-items-center justify-content-center invoice-download">
                                 <span>{{ __('Download') }}</span>
                             </a>
                         </div>
                         <div class="invoice-action-btn">
-                            <a href="{{ route('invoices.edit', $invoice) }}" class="btn-block btn btn-light-indigo waves-effect waves-light">
+                            <a href="{{ route('invoices.edit', $invoice) }}"
+                               class="btn-block btn btn-light-indigo waves-effect waves-light">
                                 <span>{{ __('Edit Invoice') }}</span>
                             </a>
                         </div>
                         <div id="payment-button" class="invoice-action-btn">
-                            <span class="btn-block btn waves-effect waves-light display-flex align-items-center justify-content-center">
+                            <span
+                                class="btn-block btn waves-effect waves-light display-flex align-items-center justify-content-center">
                                 <span>{{ __('Add Payment') }}</span>
                             </span>
                         </div>
@@ -229,6 +243,6 @@
     <script src="{{asset('js/scripts/filters.js')}}"></script>
     <script src="{{ asset('js/scripts/invoice.js') }}"></script>
     <script>
-      const numberFormat = @json(array_values(config('general.number.format')));
+        const numberFormat = @json(array_values(config('general.number.format')));
     </script>
 @endsection

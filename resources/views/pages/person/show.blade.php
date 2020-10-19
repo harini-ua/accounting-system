@@ -14,8 +14,7 @@
 @section('content')
     <section class="invoice-view-wrapper section">
         @include('pages.person.partials._slide-down-forms', ['model' => $person])
-
-        <div class="row">
+        <div class="row changed-row-margin">
             <div class="col xl9 m8 s12">
                 <div class="card animate fadeLeft">
                     <div class="card-content invoice-print-area">
@@ -34,8 +33,7 @@
                         {{-- logo and title start --}}
                         <div class="row mt-3">
                             <div class="col m6 s12">
-                                <h4 class="indigo-text">{{ __('Person') }}</h4>
-                                <span>{{ $person->name }}</span>
+                                <h4 class="indigo-text">{{ $person->name }}</h4>
                             </div>
                         </div>
                         <div class="divider mb-3 mt-3"></div>
@@ -45,7 +43,7 @@
                             <h6 class="card-title">{{ __('Main Info') }}</h6>
                             <table class="responsive-table">
                                 <tbody>
-                                <tr><td>{{ __('Position') }}:</td><td>{{ \App\Enums\Position::getDescription($person->position_id) }}</td></tr>
+                                <tr><td class="width-50">{{ __('Position') }}:</td><td class="width-50">{{ \App\Enums\Position::getDescription($person->position_id) }}</td></tr>
                                 @if($person->department)<tr><td>{{ __('Department') }}:</td><td>{{ $person->department }}</td></tr>@endif
                                 <tr><td>{{ __('Salary') }}:</td><td>{{ \App\Services\Formatter::currency($person->salary, $symbol) }}</td></tr>
                                 <tr><td>{{ __('Hourly rate') }}:</td><td>{{ \App\Services\Formatter::currency($person->rate, $symbol) }}</td></tr>
@@ -58,46 +56,49 @@
                                 </tbody>
                             </table>
                         </div>
-                        {{-- main-info end --}}
-                        {{-- additional-info start --}}
+                         {{--main-info end--}}
+                         {{--additional-info start--}}
                         <div class="additional-info info-block mt-3">
                             <h6 class="card-title">{{ __('Additional information') }}</h6>
                             <table class="responsive-table">
                                 <tbody>
-                                <tr><td>{{ __('Professional Growth plan') }}:</td><td>@if($person->growth_plan)<i class="material-icons">done</i>@else<i class="material-icons">clear</i>@endif</td><td></td></tr>
+                                <tr><td class="width-50">{{ __('Professional Growth plan') }}:</td><td class="width-40">
+                                        @if($person->growth_plan)<i class="material-icons green-text">done</i>
+                                        @else<i class="material-icons pink-text">clear</i>
+                                        @endif</td><td class="width-10"></td></tr>
                                 <tr>
                                     <td>{{ __('Tech Lead') }}:</td>
-                                    <td>@if($person->tech_lead)<i class="material-icons">done</i>@else<i class="material-icons">clear</i>@endif</td>
+                                    <td>@if($person->tech_lead)<i class="material-icons green-text">done</i>@else<i class="material-icons pink-text">clear</i>@endif</td>
                                     <td>@if($person->tech_lead_reward){{ \App\Services\Formatter::currency($person->tech_lead_reward, $symbol) }}@endif</td>
                                 </tr>
                                 <tr>
                                     <td>{{ __('Team Lead') }}:</td>
-                                    <td>@if($person->team_lead)<i class="material-icons">done</i>@else<i class="material-icons">clear</i>@endif</td>
+                                    <td>@if($person->team_lead)<i class="material-icons green-text">done</i>@else<i class="material-icons pink-text">clear</i>@endif</td>
                                     <td>@if($person->team_lead_reward){{ \App\Services\Formatter::currency($person->team_lead_reward, $symbol) }}@endif</td>
                                 </tr>
                                 <tr>
                                     <td>{{ __('Bonuses') }}:</td>
-                                    <td>@if($person->bonuses)<i class="material-icons">done</i>@else<i class="material-icons">clear</i>@endif</td>
+                                    <td>@if($person->bonuses)<i class="material-icons green-text">done</i>@else<i class="material-icons pink-text">clear</i>@endif</td>
                                     <td>@if($person->bonuses_reward){{ \App\Services\Formatter::currency($person->bonuses_reward, '%') }}@endif</td>
                                 </tr>
                                 @if($person->recruiter)<tr><td>{{ __('Recruiter') }}:</td><td>{{ $person->recruiter->name }}</td><td></td></tr>@endif
                                 </tbody>
                             </table>
                         </div>
-                        {{-- additional-info end --}}
+                         {{--additional-info end--}}
                         @if($person->salary_changed_at)
-                            {{-- salary-changed-info start --}}
+                             {{--salary-changed-info start--}}
                             <div class="salary-changed-info info-block mt-3">
                                 <h6 class="card-title">{{ __('Salary changed') }}</h6>
                                 <table class="responsive-table">
                                     <tbody>
-                                    @if($person->salary_changed_at)<tr><td>{{ __('Date of change salary') }}:</td><td>{{ $person->salary_changed_at }}</td></tr>@endif
+                                    @if($person->salary_changed_at)<tr><td class="width-50">{{ __('Date of change salary') }}:</td><td class="width-50">{{ $person->salary_changed_at }}</td></tr>@endif
                                     @if($person->salary_change_reason)<tr><td>{{ __('Reason of change salary') }}:</td><td>{{ $person->salary_change_reason }}</td></tr>@endif
                                     @if($person->last_salary)<tr><td>{{ __('Previous salary') }}:</td><td>{{ \App\Services\Formatter::currency($person->last_salary, $symbol) }}</td></tr>@endif
                                     </tbody>
                                 </table>
                             </div>
-                            {{-- salary-changed-info end --}}
+                             {{--salary-changed-info end--}}
                         @endif
                         {{-- long-vacation-info start --}}
                         @php($longVacation = $person->lastLongVacation())
@@ -141,8 +142,8 @@
                             <table class="responsive-table">
                                 <tbody>
                                     <tr{{ empty($person->quited_at) ? ' class=hide' : '' }}>
-                                        <td>{{ __('Date') }}:</td>
-                                        <td data-name="quited_at">{{ $person->quited_at }}</td>
+                                        <td class="width-50">{{ __('Date') }}:</td>
+                                        <td class="width-50" data-name="quited_at">{{ $person->quited_at }}</td>
                                     </tr>
                                     <tr{{ empty($person->quit_reason) ? ' class=hide' : '' }}>
                                         <td>{{ __('Reason') }}:</td>

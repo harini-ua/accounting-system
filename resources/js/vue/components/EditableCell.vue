@@ -39,14 +39,28 @@ export default {
 }
 </script>
 
-<style scoped>
-    .editable-cell input {
-        max-width: fit-content;
+<style scoped lang="scss">
+    .editable-cell  {
+        position: relative;
+        input {
+            max-width: fit-content;
+            border: none !important;
+            margin: 0;
+            font-size: 14px;
+            font-weight: 400;
+            height: auto;
+            position: relative;
+        }
     }
     .editable-cell i {
         display: none;
+        position: absolute;
+        left: -3px;
     }
     .editable-cell:hover i {
         display: inline;
+        font-size: 0.8rem;
+        top: 50%;
+        transform: translateY(-50%);
     }
 </style>

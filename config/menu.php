@@ -104,6 +104,13 @@ return [
             'i18n' => 'school',
         ],
         [
+            "url"=> "calendar",
+            "name"=> "Calendar",
+            "slug"=> "calendar",
+            "icon"=> "today",
+            "i18n"=> "Calendar",
+        ],
+        [
             'url' => 'vacations',
             'name' => 'Vacations',
             'slug' => 'vacations',

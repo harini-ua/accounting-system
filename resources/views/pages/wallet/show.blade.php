@@ -22,15 +22,12 @@
 
                         <!-- logo and title -->
                         <div class="row mt-3 invoice-logo-title">
-                            <div class="col m6 s12 display-flex invoice-logo mt-1 push-m6">
-{{--                                <img src="{{asset('images/gallery/pixinvent-logo.png')}}" alt="logo" height="46" width="164">--}}
-                            </div>
-                            <div class="col m6 s12 pull-m6">
-                                <h4 class="indigo-text">{{ $wallet->name }}</h4><br>
+                            <div class="col m6 s12"></div>
+                            <div class="col m6 s12 pull-m6 mb-4">
+                                <h4 class="indigo-text mb-0 mt-0">{{ $wallet->name }}</h4><br>
                                 <span>{{ $wallet->walletType->name }}</span>
                             </div>
                         </div>
-                        <div class="divider mb-3 mt-3"></div>
                         <!-- product details table-->
                         <div class="invoice-product-details">
                             <table class="responsive-table">
@@ -47,12 +44,12 @@
                                         <td>{{ $account->accountType->name }}</td>
                                         <td>
                                             @if($account->status)
-                                                <span class="chip lighten-5 green green-text">Active</span>
+                                                <span class="chip green green-text">Active</span>
                                             @else
-                                                <span class="chip lighten-5 red red-text">Inactive</span>
+                                                <span class="chip red red-text">Inactive</span>
                                             @endif
                                         </td>
-                                        <td class="indigo-text right-align">{{ $account->balance }}</td>
+                                        <td class="right-align">{{ $account->balance }}</td>
                                     </tr>
                                 @endforeach
                                 </tbody>

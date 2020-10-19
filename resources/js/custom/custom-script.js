@@ -171,7 +171,7 @@ $(function () {
 
 
     $('.collapsible').on('click', 'li', function () {
-        const icon = $(this).find('.collapsible-header').find('i')
+        const icon = $(this).find('.collapsible-header').find('.collapsible-arrow')
 
         if ($(this).hasClass('active')) {
             icon.text('arrow_upward')
@@ -189,7 +189,7 @@ $(function () {
                 onClose: datePickerOnCloseModal
             })
             .on("change", function () {
-
+                highlightLabel($(this))
                 to.datepicker({
                     minDate: new Date($(this).val()),
                     format: 'yyyy-mm-dd',
@@ -199,7 +199,7 @@ $(function () {
                     onClose: datePickerOnCloseModal
                 });
             }),
-        to = $("#to").datepicker({
+            to = $("#to").datepicker({
             format: 'yyyy-mm-dd',
             changeMonth: true,
             numberOfMonths: 3,
@@ -207,6 +207,7 @@ $(function () {
             onClose: datePickerOnCloseModal
         })
             .on("change", function () {
+                highlightLabel($(this))
                 from.datepicker({
                     format: 'yyyy-mm-dd',
                     changeMonth: true,
@@ -227,7 +228,60 @@ function datePickerOnOpenModal() {
         })
     )
 }
+function highlightLabel (input) {
+    input.parent()
+        .find('.custom-filter-label')
+        .addClass('active')
+}
 
 function datePickerOnCloseModal() {
     $('.section').addClass('relative')
 }
+
+
+// custom form select
+
+$('.select-trigger').on('click', function () {
+    const select = $(this).parents('.input-field').find('.form-select')
+    select.select2('open')
+
+})
+
+$('.form-select').on('change', function (e) {
+    const defaultValue = $(this).find('.first_default').text()
+    const parent = $(this).parents('.input-field')
+    const input = parent.find('.select-trigger')
+    const label = parent.find('label')
+    const bindedSelect = $('#' + $(this).attr('data-binded-select'))
+
+    if ($(this).val() !== defaultValue ) {
+        const selectedOptionValue =$(this).find(`option[value = ${$(this).val()}]`).text()
+        input.val(selectedOptionValue)
+        label.addClass('active')
+    } else {
+        if(bindedSelect) {
+            bindedSelect.parents('.input-field').find('.select-trigger').val('');
+            bindedSelect.parents('.input-field').find('label').removeClass('active');
+        }
+        input.val('')
+        label.removeClass('active')
+    }
+})
+
+
+$('body').on('change', '.custom-select', function (e) {
+    const parent = $(this).parents('.input-field')
+    const input = parent.find('.custom-select-input')
+    const label = parent.find('label')
+    const defaultValue = $(this).find('.first_default').val()
+    if ($(this).val() !== defaultValue && $(this).val() !== '' ) {
+        const selectedOptionValue =$(this).find(`option[value = ${$(this).val()}]`).text()
+        input.val(selectedOptionValue)
+        label.addClass('active')
+    } else {
+        input.val('')
+        label.removeClass('active')
+    }
+})
+
+

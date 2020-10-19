@@ -138,6 +138,7 @@ class PersonDataTable extends DataTable
                     ->addTableClass('subscription-table responsive-table highlight')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
+                    ->pageLength(15)
                     ->dom('Bfrtip')
                     ->language([ 'processing' => view('partials.preloader-circular')->render() ])
                     ->orderBy(0, 'desc');
@@ -154,11 +155,11 @@ class PersonDataTable extends DataTable
             Column::make('id'),
             Column::make('name')->searchable(),
             Column::make('position'),
-            Column::make('start_date')->title('Date of the work beginning'),
+            Column::make('start_date')->title('Date of the work<br> beginning'),
             Column::make('salary'),
             Column::make('salary_type'),
             Column::make('contract_type')->title('Type of contract'),
-            Column::make('growth_plan')->title('Professional Growth'),
+            Column::make('growth_plan')->title('Professional <br> Growth'),
             Column::make('tech_lead'),
             Column::make('team_lead'),
             Column::computed('action')

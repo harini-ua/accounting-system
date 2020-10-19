@@ -31,7 +31,7 @@ class ClientsDataTable extends DataTable
                 return '<a target="_blank" href="'.route('clients.show', $model->id).'">'.$model->name.'</a>';
             })
             ->addColumn('email', static function(Client $model) {
-                return '<a href="mailto:'.$model->email.'"><i class="material-icons">email</i> '.$model->email.'</a>';
+                return '<a href="mailto:'.$model->email.'">'.$model->email.'</a>';
             })
             ->addColumn('city', static function(Client $model) {
                 return $model->billingAddress ? $model->billingAddress->city : null;
@@ -72,7 +72,7 @@ class ClientsDataTable extends DataTable
             ->addTableClass('subscription-table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
-//            ->scrollX(true)
+            ->pageLength(15)
             ->dom('Bfrtip')
             ->language([ 'processing' => view('partials.preloader-circular')->render() ])
             ->orderBy(0);

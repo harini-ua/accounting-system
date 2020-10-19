@@ -25,8 +25,7 @@
                         @method('PUT')
                         <div class="row">
                             <div class="col s12 m6">
-                                <h5>From:</h5>
-                                <div class="divider mt-2 mb-2"></div>
+                                <h5 class="indigo-text">From:</h5>
                                 <div class="row">
                                     <x-linked-selects
                                         firstName="wallet_from_id"
@@ -46,8 +45,7 @@
                                 </div>
                             </div>
                             <div class="col s12 m6">
-                                <h5>To:</h5>
-                                <div class="divider mt-2 mb-2"></div>
+                                <h5 class="purple-text">To:</h5>
                                 <div class="row">
                                     <x-linked-selects
                                         firstName="wallet_to_id"
@@ -63,7 +61,7 @@
                                 </div>
                             </div>
                             <div class="col s12 display-flex justify-content-end mt-3">
-                                <a href="{{ route('money-flows.index') }}" class="btn btn-light mr-1">Cancel</a>
+                                <a href="{{ route('money-flows.index') }}" class="btn cancel-btn mr-1">Cancel</a>
                                 <button type="submit" class="btn waves-effect waves-light">
                                     Save changes</button>
                             </div>

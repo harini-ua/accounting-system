@@ -1,1 +1,1 @@
-<span class="chip {{$color}}-text">{{ strtoupper($status) }}</span>
+<span class="chip {{$color}}-text">{{ $status }}</span>

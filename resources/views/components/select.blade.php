@@ -1,5 +1,7 @@
-<div class="col s12 input-field">
-    <select @if($search)class="select2 browser-default"@endif name="{{ $name }}" id="{{$name}}" {{ $disabled() }}>
+<div class="col s12 input-field custom-select-wrapper">
+    <input type="text" class="custom-select-input" id="{{$name}}-input" value="{{$selectedOptionName()}}">
+    <label class="select-label" for="{{ $name }}-input">{{ $title }}</label>
+    <select class="custom-select @if($search) select2 browser-default @endif" name="{{ $name }}" id="{{$name}}" {{ $disabled() }}>
         @if($isDefaultOption())
             <option class="first_default" value="">{{ $defaultOptionName }}</option>
         @endif
@@ -14,9 +16,7 @@
         @endif
     </select>
     @if($title)
-    <label for="{{ $name }}">{{ $title }}</label>
     <span class="error-span"></span>
-
     @endif
     @error($name)<span class="errorTxt1"><div id="{{$name}}-error" class="error">{{ $message }}</div></span>@enderror
 </div>

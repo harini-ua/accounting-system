@@ -9,7 +9,7 @@
     <input type="hidden" name="type" value="{{ \App\Enums\SalaryReviewType::getKey(\App\Enums\SalaryReviewType::ACTUAL) }}">
     <div class="row">
         <div class="col s12 m6">
-            <x-select name="person_id" :options="$people" :model="$model" firstTitle="{{ __('Person') }}" :search="true"></x-select>
+            <x-select name="person_id" title="{{ __('Person') }}" :options="$people" :model="$model" firstTitle="{{ __('Person') }}" :search="true"></x-select>
         </div>
         <div class="col s12 m6">
             <x-date name="date" title="{{ __('Date') }}" :model="$model"></x-date>
@@ -17,10 +17,10 @@
     </div>
     <div class="row">
         <div class="col s12 m6">
-            <x-select name="reason" :options="$reasons" :model="$model" firstTitle="{{ __('Reason') }}"></x-select>
+            <x-select name="reason" title="{{ __('Reason') }}"  :options="$reasons" :model="$model" firstTitle="{{ __('Reason') }}"></x-select>
         </div>
         <div class="col s12 m6">
-            <x-select name="prof_growth" :disabled="true" :options="$profGrowthTypes" :model="$model" firstTitle="{{ __('Profession Growth') }}"></x-select>
+            <x-select name="prof_growth" title="{{ __('Profession Growth') }}" :disabled="true" :options="$profGrowthTypes" :model="$model" firstTitle="{{ __('Profession Growth') }}"></x-select>
         </div>
     </div>
     <div class="row">

@@ -1,6 +1,5 @@
 <template>
     <div class="holidays-component">
-        <h6>Holidays</h6>
         <div class="responsive-table">
             <table>
                 <thead>
@@ -8,7 +7,7 @@
                     <th>Date</th>
                     <th>Name</th>
                     <th>Date of the moved vacation</th>
-                    <th>Actions</th>
+                    <th class="action">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,10 +33,10 @@
                 </tr>
                 </tbody>
             </table>
-            <div class="mt-5">
-                <span class="btn waves-effect waves-light z-depth-4" @click="add">
+            <div class="mt-5 mb-3">
+                <span class="add-holiday-btn btn waves-effect waves-light display-flex float-right" @click="add">
                     <i class="material-icons">add</i>
-                    <span class="hide-on-small-only">Add</span>
+                    <span>Add</span>
                 </span>
             </div>
         </div>
@@ -128,8 +127,38 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     .holidays-component .responsive-table {
         overflow-x: auto;
+        td {
+            padding: 10px 5px;
+        }
+        th {
+            width: 30%;
+            &.action {
+                width: 10%;
+            }
+        }
+        .add-holiday-btn {
+            max-width: 100px;
+        }
+    }
+    @media screen and (max-width: 600px) {
+        .holidays-component .responsive-table {
+            th {
+                width: auto;
+                font-size: 12px;
+                &.action {
+                    width: 10%;
+                }
+            }
+            td {
+                font-size: 12px;
+                padding: 10px 5px !important;
+                i {
+                    font-size: 15px;
+                }
+            }
+        }
     }
 </style>

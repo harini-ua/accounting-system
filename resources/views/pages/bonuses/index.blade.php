@@ -22,14 +22,14 @@
 {{-- page content --}}
 @section('content')
     <!-- bonus list -->
+    <div class="pt-1"></div>
     <section class="bonus-list-wrapper users-list-wrapper section animate fadeLeft">
-
-        <ul class="collapsible m-0">
+        <ul class="collapsible card">
             <li class="active">
                 <div class="collapsible-header p-0">
                     <div class="box-shadow-none width-100  card-panel m-0 display-flex align-items-center justify-content-between">
                         <div class="display-flex align-items-center">
-                            <i class="material-icons">arrow_upward</i>
+                            <i class="material-icons collapsible-arrow">arrow_upward</i>
                             <h6 class="m-0">  Filters</h6>
                         </div>
                         <x-reset-filters/>

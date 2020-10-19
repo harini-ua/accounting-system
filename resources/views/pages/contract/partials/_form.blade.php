@@ -64,20 +64,6 @@
         </div>
         <div class="col s12 m6">
             <div class="input-field col s12">
-                <textarea name="comment"
-                          class="materialize-textarea"
-                          id="comment">{{ $contract->comment ?? null }}</textarea>
-                <label for="name" class="active">{{ __('Comment') }}</label>
-                <span class="error-span"></span>
-                @error('comment')
-                <small class="errorTxt2">
-                    <div id="comment-error" class="error">{{ $message }}</div>
-                </small>
-                @enderror
-            </div>
-        </div>
-        <div class="col s12 m6">
-            <div class="input-field col s12">
                 <select name="status" id="status"
                         class="select2 browser-default">
 
@@ -89,6 +75,20 @@
                 @error('status')
                 <small class="errorTxt2">
                     <div id="status-error" class="error">{{ $message }}</div>
+                </small>
+                @enderror
+            </div>
+        </div>
+        <div class="col s12 m6">
+            <div class="input-field col s12">
+                <textarea name="comment"
+                          class="materialize-textarea"
+                          id="comment">{{ $contract->comment ?? null }}</textarea>
+                <label for="name" class="active">{{ __('Comment') }}</label>
+                <span class="error-span"></span>
+                @error('comment')
+                <small class="errorTxt2">
+                    <div id="comment-error" class="error">{{ $message }}</div>
                 </small>
                 @enderror
             </div>

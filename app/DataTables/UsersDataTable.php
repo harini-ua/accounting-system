@@ -55,6 +55,7 @@ class UsersDataTable extends DataTable
                     ->addTableClass('subscription-table responsive-table highlight')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
+                    ->pageLength(16)
                     ->dom('Bfrtip')
                     ->language([ 'processing' => view('partials.preloader-circular')->render() ])
                     ->orderBy(0);

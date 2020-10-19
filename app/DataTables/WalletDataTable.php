@@ -62,6 +62,7 @@ class WalletDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->dom('Bfrtip')
+                    ->pageLength(16)
                     ->language([ 'processing' => view('partials.preloader-circular')->render() ])
                     ->orderBy(0);
     }

@@ -21,13 +21,14 @@
 {{-- page content --}}
 @section('content')
     <!-- list -->
+    <div class=" create-btn invoice-create-btn add-item-btn">
+        <a href="{{ route('money-flows.create') }}" class="btn waves-effect waves-light invoice-create">
+            <i class="material-icons">add</i>
+            <span class="hide-on-small-only">Add</span>
+        </a>
+    </div>
     <section class="users-list-wrapper section animate fadeLeft">
-        <div class=" create-btn invoice-create-btn add-item-btn">
-            <a href="{{ route('money-flows.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
-                <i class="material-icons">add</i>
-                <span class="hide-on-small-only">Add</span>
-            </a>
-        </div>
+
         <div class="">
             <div class="users-list-table">
                 <div class="card">

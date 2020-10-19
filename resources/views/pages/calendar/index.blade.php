@@ -20,46 +20,22 @@
     <div id="vue-app" class="section animate fadeLeft">
         <div class="row invoice-view-wrapper">
             {{-- content start --}}
-            <div class="col xl6 l12 s12 animate fadeLeft">
+            <div class="col l10 s12 animate fadeLeft">
                 <div class="card">
-                    <div class="card-content">
-                        <calendar-table
-                            quarter="first"
-                            quarter-name="I quarter"
-                            update-cell-url="{{ url('/calendar/updateMonth') }}"
-                        ></calendar-table>
-                    </div>
-                    <div class="card-content">
-                        <calendar-table
-                            quarter="second"
-                            quarter-name="II quarter"
-                            update-cell-url="{{ url('/calendar/updateMonth') }}"
-                            half-year="first"
-                        ></calendar-table>
-                    </div>
-                    <div class="card-content">
-                        <calendar-table
-                            quarter="third"
-                            quarter-name="III quarter"
-                            update-cell-url="{{ url('/calendar/updateMonth') }}"
-                        ></calendar-table>
-                    </div>
-                    <div class="card-content">
-                        <calendar-table
-                            quarter="fourth"
-                            quarter-name="IV quarter"
-                            update-cell-url="{{ url('/calendar/updateMonth') }}"
-                            half-year="second"
-                            year="2020"
-                        ></calendar-table>
-                    </div>
-                </div>
-            </div>
-            {{-- content end --}}
-            <div class="holidays-wrap col xl4 s12 animate fadeLeft">
-                <div class="card">
-                    <div class="card-content">
-                        <holidays :data="{{ $holidays->toJson() }}" store-url="{{ route('holidays.store') }}"></holidays>
+                    <div class="card-content padding-2">
+                        <ul class="tabs mb-2">
+                            <li class="tab col s3"><a class="uppercase active" href="#test1">calaendar</a></li>
+                            <li class="tab col s3"><a class="uppercase" href="#test2">holidays</a></li>
+                        </ul>
+                        <div id="test1">
+                            <calendar-table
+                                update-cell-url="{{ url('/calendar/updateMonth') }}"
+                            ></calendar-table>
+                        </div>
+                        <div id="test2">
+                            <holidays :data="{{ $holidays->toJson() }}"
+                                      store-url="{{ route('holidays.store') }}"></holidays>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -70,17 +46,17 @@
                         <ul class="pagination center-align">
                             <li class="{{ $paginator->prev() ? 'waves-effect' : 'disabled' }}">
                                 @if($paginator->prev())<a href="{{ $paginator->prev() }}">@else<span>@endif
-                                    <i class="material-icons">chevron_left</i>
-                                @if($paginator->prev())</a>@else</span>@endif
+                                        <i class="material-icons">chevron_left</i>
+                                    @if($paginator->prev())</a>@else</span>@endif
                             </li>
                             <li class="{{ $paginator->next() ? 'waves-effect' : 'disabled' }}">
                                 @if($paginator->next())<a href="{{ $paginator->next() }}">@else<span>@endif
-                                    <i class="material-icons">chevron_right</i>
-                                @if($paginator->next())</a>@else</span>@endif
+                                        <i class="material-icons">chevron_right</i>
+                                    @if($paginator->next())</a>@else</span>@endif
                             </li>
                         </ul>
                         <div class="invoice-action-btn">
-                            <a href="{{ route('calendar.create') }}" class="btn-block btn waves-effect waves-light">
+                            <a href="{{ route('calendar.create') }}" class=" display-flex justify-content-center btn waves-effect waves-light">
                                 <i class="material-icons">add</i>
                                 <span>Add</span>
                             </a>
