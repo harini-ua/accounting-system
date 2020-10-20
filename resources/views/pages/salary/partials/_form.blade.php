@@ -23,6 +23,7 @@
         </div>
     </div>
     <div class="row" data-pjax>
+        @if($person)
         <div class="col s12 m6">
             <x-input name="working_days" 23321
                      title="{{ __('Number of working days') }}" :model="$calendarMonth" disabled="true"></x-input>
@@ -30,9 +31,10 @@
             <x-input name="working_hours" title="{{ __('Number of working hours') }}" :model="$calendarMonth" disabled="true"></x-input>
             <x-input name="worked_hours" title="{{ __('Number of worked hours') }}" :model="$model"></x-input>
             <x-input name="delta_hours" title="{{ __('Delta hours') }}" :model="$model" disabled="true"></x-input>
-            <x-input name="earned" title="{{ __('Earned') }}" :model="$model" disabled="true" icon="{{ $symbol }}"></x-input>
+            <x-input name="earned" title="{{ __('Earned') }}" :model="$model" readonly="true" icon="{{ $symbol }}"></x-input>
             <x-input name="overtime_hours" title="{{ __('Overtime hours') }}" :model="$model"></x-input>
             <x-input name="overtime_pay" title="{{ __('Overtime pay') }}" :model="$model" disabled="true" icon="{{ $symbol }}"></x-input>
+            <input type="hidden" name="bonuses" value="{{ $person->actualBonuses ? json_encode($person->actualBonuses, JSON_NUMERIC_CHECK) : '' }}"/>
             <x-input name="vacations" title="{{ __('Vacation') }}" :model="$model" disabled="true"></x-input>
             <x-input name="vacations_hours" type="hidden" :model="$model" disabled="true"></x-input>
             <x-input name="vacation_compensation" title="{{ __('Vacation compensation') }}" :model="$model" disabled="true" icon="{{ $symbol }}"></x-input>
@@ -40,7 +42,7 @@
             <x-input name="monthly_bonus" title="{{ __('Monthly bonus') }}" :model="$model" icon="{{ $symbol }}"></x-input>
             <x-input name="fines" title="{{ __('Fines') }}" :model="$model" icon="{{ $symbol }}"></x-input>
             <x-input name="tax_compensation" title="{{ __('Tax compensation') }}" :model="$model" icon="{{ \App\Enums\Currency::symbol(\App\Enums\Currency::UAH) }}"></x-input>
-            <x-input name="total_usd" title="{{ __('Total USD') }}" :model="$model" disabled="true" icon="{{ \App\Enums\Currency::symbol(\App\Enums\Currency::USD) }}"></x-input>
+            <x-input name="total_usd" title="{{ __('Total USD') }}" :model="$model" readonly="true" icon="{{ \App\Enums\Currency::symbol(\App\Enums\Currency::USD) }}"></x-input>
             <x-input name="currency" type="hidden" :model="$model"></x-input>
             <x-input name="total_uah" title="{{ __('Total UAH') }}" :model="$model" disabled="true" icon="{{ \App\Enums\Currency::symbol(\App\Enums\Currency::UAH) }}"></x-input>
             <x-linked-selects
@@ -56,7 +58,6 @@
             <x-textarea name="comments" title="{{ __('Comments') }}"></x-textarea>
         </div>
         <div class="col s12 m6">
-            @if($person)
             <div
                 id="person-info"
                 class="person-info info-block"
@@ -73,7 +74,7 @@
                     <tr><td>{{ __('Salary') }}:</td><td>{{ \App\Services\Formatter::currency($person->salary, $symbol) }}</td></tr>
                     <tr><td>{{ __('Currency') }}:</td><td>{{ \App\Enums\Currency::getDescription($person->currency) }}</td></tr>
                     <tr><td>{{ __('Hourly rate') }}:</td><td>{{ \App\Services\Formatter::currency($person->rate, $symbol) }}</td></tr>
-                    @if($person->actualBonuses)
+                    @if($person->actualBonuses && $person->actualBonuses->count() > 0)
                     <tr><td colspan="2" class="center-align">{{ __('Bonuses') }}</td></tr>
                         @foreach($person->actualBonuses as $bonus)
                             <tr><td>{{ $bonus->currency }}:</td><td>{{ \App\Services\Formatter::currency($bonus->value, \App\Enums\Currency::symbol($bonus->currency)) }}</td></tr>
@@ -82,14 +83,14 @@
                     </tbody>
                 </table>
             </div>
-            @endif
         </div>
+        @endif
     </div>
     <div class="row">
         <div class="col s12">
             <div class="col s12 display-flex justify-content-end mt-3">
                 <a href="{{ url()->previous() }}" class="cancel-btn btn btn-light mr-1">{{ __('Cancel') }}</a>
-                <button type="submit" class="btn waves-effect waves-light">{{ isset($model) ? __('Update') : __('Create') }}</button>
+                <button type="submit" class="btn waves-effect waves-light">{{ $isEdit ? __('Update') : __('Create') }}</button>
             </div>
         </div>
     </div>

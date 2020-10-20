@@ -108,7 +108,8 @@ return [
             "name"=> "Calendar",
             "slug"=> "calendar",
             "icon"=> "today",
-            "i18n"=> "Calendar",
+            "i18n"=> "Calendar"
+
         ],
         [
             'url' => 'vacations',

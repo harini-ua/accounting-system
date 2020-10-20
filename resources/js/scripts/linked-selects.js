@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $('.linked').change(function() {
+    $('form').on('change', '.linked', function() {
         $.ajax({
             url: this.dataset.url.replace('[id]', this.value),
             type: "GET",

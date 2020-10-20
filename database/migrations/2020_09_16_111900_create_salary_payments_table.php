@@ -31,11 +31,12 @@ class CreateSalaryPaymentsTable extends Migration
             $table->decimal('fines', 9, 2)->nullable();
             $table->decimal('tax_compensation', 9,2)->nullable();
             $table->decimal('total_usd', 9, 2);
-            $table->decimal('currency', 5, 2);
+            $table->decimal('currency', 9, 2);
             $table->date('payment_date')->nullable();
             $table->text('comments')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('calendar_month_id')->on('calendar_months')->references('id')->onDelete('cascade');
             $table->foreign('person_id')->on('people')->references('id')->onDelete('cascade');

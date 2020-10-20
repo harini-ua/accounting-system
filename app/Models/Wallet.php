@@ -2,12 +2,15 @@
 
 namespace App\Models;
 
+use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Wallet extends Model
 {
-    use SoftDeletes;
+    use SoftDeletes, SoftCascadeTrait;
+
+    protected $softCascade = ['accounts'];
 
     public const TABLE_NAME = 'wallets';
 

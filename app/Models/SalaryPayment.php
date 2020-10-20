@@ -4,10 +4,30 @@ namespace App\Models;
 
 use App\Casts\Date;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SalaryPayment extends Model
 {
-    protected $guarded = ['id', 'created_at', 'updated_at'];
+    use SoftDeletes;
+
+    protected $fillable = [
+        'calendar_month_id',
+        'person_id',
+        'account_id',
+        'worked_days',
+        'worked_hours',
+        'earned',
+        'overtime_hours',
+        'vacations',
+        'vacation_compensation',
+        'monthly_bonus',
+        'fines',
+        'tax_compensation',
+        'total_usd',
+        'currency',
+        'payment_date',
+        'comments'
+    ];
 
     protected $casts = [
         'payment_date' => Date::class,

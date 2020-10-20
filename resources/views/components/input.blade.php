@@ -12,6 +12,7 @@
         id="{{ $id }}"
         value="{{ $value() }}"
         {{ $disabled() }}
+        {{ $readonly() }}
     />
 @if($type !== 'hidden')
     <label for="{{ $id }}">{{ $title }}</label>

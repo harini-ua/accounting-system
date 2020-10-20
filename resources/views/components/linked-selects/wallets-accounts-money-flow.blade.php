@@ -41,6 +41,17 @@
                 </option>
                 @endforeach
             @endif
+        @else
+            @php($wallet = old($firstName) ? $options->find(old($firstName)) : $options->first())
+            <option class="first_default">{{ __('- Select '.$secondTitle.' -') }}</option>
+            @if($wallet)
+                @foreach ($wallet->accounts as $account)
+                    <option {{ old($secondName) == $account->id ? 'selected' : '' }}
+                            value="{{ $account->id }}">
+                        {{ $account->accountType->name }}
+                    </option>
+                @endforeach
+            @endif
         @endif
     </select>
 </div>
