@@ -4,6 +4,7 @@
 
 use App\Models\Person;
 use Faker\Generator as Faker;
+use App\Enums\Position;
 
 $factory->define(Person::class, function (Faker $faker) {
 
@@ -13,11 +14,12 @@ $factory->define(Person::class, function (Faker $faker) {
     $salary = $faker->randomFloat(2, 100, 5000);
     $techLead = $faker->boolean;
     $teamLead = $faker->boolean;
-    $bonuses = $faker->boolean;
+    $positionId = Position::getRandomValue();
+    $bonuses = $positionId == Position::Recruiter || Position::SalesManager;
 
     return [
         'name' => $faker->name,
-        'position_id' => \App\Enums\Position::getRandomValue(),
+        'position_id' => $positionId,
         'start_date' => $startDate,
         'trial_period' => random_int(1, 2),
         'department' => $faker->jobTitle,

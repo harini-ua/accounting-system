@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Enums\Month;
 use App\Scopes\YearScope;
+use App\Services\SalaryPaymentService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -74,6 +75,14 @@ class CalendarMonth extends Model
     }
 
     /**
+     * @return mixed
+     */
+    public function getWorkingDaysAttribute()
+    {
+        return $this->calendar_days - $this->holidays - $this->weekends;
+    }
+
+    /**
      * @param Builder $query
      * @param string $year
      * @return Builder
@@ -83,5 +92,14 @@ class CalendarMonth extends Model
         (new YearScope($year))->apply($query, $this);
 
         return $query;
+    }
+
+    /**
+     * @param string $salaryType
+     * @return float|int
+     */
+    public function getWorkingHours(string $salaryType)
+    {
+        return SalaryPaymentService::calcHours($this->working_days, $salaryType);
     }
 }

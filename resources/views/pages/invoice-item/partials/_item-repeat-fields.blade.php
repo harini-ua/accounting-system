@@ -24,7 +24,7 @@
             <div class="invoice-item display-flex mb-1">
                 <div class="invoice-item-filed row pt-1">
                     <div class="col s12 m3 input-field">
-                        <input type="text" name="items[{{ $i }}][title]" value="{{ old("items.$i.title") ?? (!empty($items) && $items[$i]->title) ? $items[$i]->title :  null }}" class="item-title">
+                        <input type="text" name="items[{{ $i }}][title]" value="{{ old("items.$i.title") ?? ((!empty($items) && $items[$i]->title) ? $items[$i]->title :  null) }}" class="item-title">
                         <label for="title">{{ __('Item Title') }}</label>
                         @error('items.'.$i.'.title')<small class="errorTxt1"><div id="title-error" class="error">{{ $message }}</div></small>@enderror
                     </div>
@@ -40,13 +40,13 @@
                     </div>
                     <div class="col m2 s12 input-field">
                         <input type="text" name="items[{{ $i }}][qty]"
-                               value="{{ old("items.$i.qty") ?? (!empty($items) && $items[$i]->qty) ? $items[$i]->qty : null }}"
+                               value="{{ old("items.$i.qty") ?? ((!empty($items) && $items[$i]->qty) ? $items[$i]->qty : null) }}"
                                class="item-qty" placeholder="0">
                         @error('items.'.$i.'.qty')<small class="errorTxt1"><div id="title-error" class="error">{{ $message }}</div></small>@enderror
                     </div>
                     <div class="col m2 s12 input-field">
                         <input type="text" name="items[{{ $i }}][rate]"
-                               value="{{ old("items.$i.rate") ?? (!empty($items) && $items[$i]->rate) ? $items[$i]->rate : null }}"
+                               value="{{ old("items.$i.rate") ?? ((!empty($items) && $items[$i]->rate) ? $items[$i]->rate : null) }}"
                                class="item-rate" placeholder="0.00">
                         @error('items.'.$i.'.rate')<small class="errorTxt1"><div id="title-error" class="error">{{ $message }}</div></small>@enderror
                     </div>

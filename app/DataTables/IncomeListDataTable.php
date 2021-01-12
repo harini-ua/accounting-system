@@ -2,16 +2,13 @@
 
 namespace App\DataTables;
 
+use App\Enums\InvoiceStatus;
 use App\Models\Contract;
 use App\Models\Invoice;
 use App\Services\FilterService;
 use App\Services\Formatter;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class IncomeListDataTable extends DataTable
@@ -47,7 +44,10 @@ class IncomeListDataTable extends DataTable
                 return view('partials.view-link', ['model' => $model->account->wallet]);
             })
             ->addColumn('status', function(Invoice $model) {
-                return "<span class='chip green-text'>{$model->status}</span>";
+                return view('partials.view-status', [
+                    'status' => InvoiceStatus::getDescription($model->status),
+                    'color' => InvoiceStatus::getColor($model->status, 'class'),
+                ]);
             })
             ->addColumn('sales', function(Invoice $model) {
                 return $model->salesManager->name;

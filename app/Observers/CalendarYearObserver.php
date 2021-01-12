@@ -84,6 +84,7 @@ class CalendarYearObserver
 
             CalendarMonth::create([
                 'calendar_year_id' => $calendarYear->id,
+                'date' => $firstDay,
                 'name' => $month,
                 'calendar_days' => $firstDay->diffInDays($lastDay),
                 'weekends' => $weekends,

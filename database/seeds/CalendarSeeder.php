@@ -12,6 +12,7 @@ class CalendarSeeder extends Seeder
      */
     public function run()
     {
+        factory(CalendarYear::class)->create(['name' => \Illuminate\Support\Carbon::now()->subYear()->year]);
         factory(CalendarYear::class)->create();
     }
 }

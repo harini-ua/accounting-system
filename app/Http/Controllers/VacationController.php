@@ -7,6 +7,7 @@ use App\DataTables\VacationsDataTable;
 use App\Enums\VacationPaymentType;
 use App\Http\Requests\VacationDeleteRequest;
 use App\Http\Requests\VacationRequest;
+use App\Models\CalendarMonth;
 use App\Models\CalendarYear;
 use App\Models\Vacation;
 use Illuminate\Support\Carbon;
@@ -32,8 +33,10 @@ class VacationController extends Controller
             $calendarYear->id = $calendarYear->name;
             return $calendarYear;
         });
+        $year = $dataTable->year;
 
-        return $dataTable->render('pages.vacation.index', compact('breadcrumbs', 'pageConfigs', 'calendarYears'));
+        return $dataTable->render('pages.vacation.index', compact('breadcrumbs', 'pageConfigs',
+            'calendarYears', 'year'));
     }
 
     /**
@@ -77,6 +80,7 @@ class VacationController extends Controller
         $date = $fields['date'] = Carbon::parse($request->get('date'));
         $vacation = Vacation::firstOrNew($fields);
         $vacation->type = $request->get('type');
+        $vacation->calendar_month_id = CalendarMonth::ofYear($date->year)->where('calendar_months.name', $date->monthName)->first()->id;
 
         if ($request->payment_type === VacationPaymentType::Paid && $date < Carbon::parse($vacation->person->start_date)->addMonths(2)) {
             throw new BadRequestHttpException('Person have to work more than 2 months for vacation!');

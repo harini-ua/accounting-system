@@ -104,6 +104,14 @@ return [
             'i18n' => 'school',
         ],
         [
+            "url"=> "calendar",
+            "name"=> "Calendar",
+            "slug"=> "calendar",
+            "icon"=> "today",
+            "i18n"=> "Calendar"
+
+        ],
+        [
             'url' => 'vacations',
             'name' => 'Vacations',
             'slug' => 'vacations',
@@ -130,6 +138,13 @@ return [
             'slug' => 'salary-reviews',
             'icon' => 'local_atm',
             'i18n' => 'local_atm',
+        ],
+        [
+            'url' => 'salaries',
+            'name' => 'Salaries',
+            'slug' => 'salaries',
+            'icon' => 'payment',
+            'i18n' => 'payment',
         ],
     ],
     'horizontal' => [

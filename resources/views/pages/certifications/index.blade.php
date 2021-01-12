@@ -30,10 +30,20 @@
                 @include('pages.certifications.partials._form')
             </div>
         </div>
-                <div class="card-panel filter-panel accounts-page-card-panel">
-                    <h6 class="width-100 mb-1">Filters</h6>
-                    <div class="filter-block flex-wrap-important">
-                        <div class="filter-block-buttons">
+        <ul class="collapsible m-0">
+            <li class="active">
+                <div class="collapsible-header p-0">
+                    <div class="box-shadow-none width-100  card-panel m-0 display-flex align-items-center justify-content-between">
+                        <div class="display-flex align-items-center">
+                            <i class="material-icons">arrow_upward</i>
+                            <h6 class="m-0">  Filters</h6>
+                        </div>
+                        <x-reset-filters/>
+                    </div>
+                </div>
+                <div class="collapsible-body mt-0 p-0">
+                    <div class="m-0 box-shadow-none filter-panel accounts-page-card-panel card-panel">
+                        <div class="filter-block mb-0">
                             <x-filter
                                 table="certifications-list-datatable"
                                 :options="$people"
@@ -43,8 +53,9 @@
                             />
                         </div>
                     </div>
-                    <x-reset-filters/>
                 </div>
+            </li>
+        </ul>
         <div class="create-btn add-item-btn slide-down-btn">
             <a href="#" class="waves-effect waves-light btn">
                 <i class="material-icons">add</i>

@@ -13,6 +13,9 @@ class Input extends Component
     public $type;
     public $field;
     public $default;
+    public $disabled;
+    public $icon;
+    public $readonly;
 
     public $min;
     public $max;
@@ -20,15 +23,17 @@ class Input extends Component
     /**
      * Input constructor.
      * @param string $name
-     * @param string $title
+     * @param null $title
      * @param null|Model $model
      * @param string $type
      * @param string $field
      * @param null $default
      * @param null|integer $min
      * @param null|integer $max
+     * @param bool $disabled
      */
-    public function __construct($name, $title = null, $model = null, $type = 'text', $field = '', $default = null, $min = null, $max = null)
+    public function __construct($name, $title = null, $model = null, $type = 'text', $field = '', $default = null,
+                                $min = null, $max = null, $disabled = false, $icon = '', $readonly = false)
     {
         $this->name = $name;
         $this->title = $title;
@@ -36,6 +41,9 @@ class Input extends Component
         $this->type = $type;
         $this->field = $field ?: $name;
         $this->default = $default;
+        $this->disabled = $disabled;
+        $this->icon = $icon;
+        $this->readonly = $readonly;
 
         $this->min = $min;
         $this->max = $max;
@@ -65,5 +73,21 @@ class Input extends Component
     public function id(): string
     {
         return $this->name . '_' . spl_object_id($this);
+    }
+
+    /**
+     * @return string
+     */
+    public function disabled()
+    {
+        return $this->disabled ? 'disabled' : '';
+    }
+
+    /**
+     * @return string
+     */
+    public function readonly()
+    {
+        return $this->disabled ? 'readonly' : '';
     }
 }

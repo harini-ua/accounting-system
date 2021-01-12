@@ -53,8 +53,8 @@ class PersonCreateRequest extends FormRequest
             'bonuses_reward' => 'nullable|integer|max:1000|min:0',
             'recruiter_id' => [
                 'nullable',
-                Rule::exists('users', 'id')->where(function ($query) {
-                    $query->where('position_id', Position::Recruiter());
+                Rule::exists('people', 'id')->where(function ($query) {
+                    $query->where('position_id', Position::Recruiter);
                 }),
             ],
         ];

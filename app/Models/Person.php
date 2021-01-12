@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Person extends Model
 {
@@ -48,91 +49,6 @@ class Person extends Model
         'quited_at' => Date::class,
         'compensated_at' => Date::class,
     ];
-
-    /**
-     * @var int|mixed
-     */
-    private $growth_plan;
-
-    /**
-     * @var int|mixed
-     */
-    private $team_lead;
-
-    /**
-     * @var int|mixed
-     */
-    private $team_lead_reward;
-
-    /**
-     * @var int|mixed
-     */
-    private $tech_lead;
-
-    /**
-     * @var int|mixed
-     */
-    private $bonuses;
-
-    /**
-     * @var int|mixed
-     */
-    private $tech_lead_reward;
-
-    /**
-     * @var int|mixed
-     */
-    private $bonuses_reward;
-
-    /**
-     * @var mixed
-     */
-    private $currency;
-
-    /**
-     * @var mixed|null
-     */
-    private $quited_at;
-
-    /**
-     * @var mixed|null
-     */
-    private $quit_reason;
-
-    /**
-     * @var mixed
-     */
-    private $available_vacations;
-
-    /**
-     * @var int|mixed
-     */
-    private $compensated_days;
-
-    /**
-     * @var false|mixed
-     */
-    private $compensate;
-
-    /**
-     * @var Carbon|mixed
-     */
-    private $compensated_at;
-
-    /**
-     * @var mixed
-     */
-    private $payment;
-
-    /**
-     * @var mixed
-     */
-    private $start_date;
-
-    /**
-     * @var mixed
-     */
-    private $account_number;
 
     /**
      * The array of booted models.
@@ -195,6 +111,16 @@ class Person extends Model
     }
 
     /**
+     * Get the hired people by the person.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function candidates()
+    {
+        return $this->hasMany(Person::class, 'recruiter_id', 'id');
+    }
+
+    /**
      * Get the certifications that owns the person.
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -213,6 +139,19 @@ class Person extends Model
     public function scopeIsBonuses($query)
     {
         return $query->where('bonuses', true);
+    }
+
+    /**
+     * Scope a query user by position.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param integer                               $positionId
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByPosition($query, $positionId)
+    {
+        return $query->where('position_id', $positionId);
     }
 
     /**
@@ -315,5 +254,65 @@ class Person extends Model
         }
 
         return $date;
+    }
+
+    /**
+     * @param Carbon|null $date
+     * @return \Illuminate\Support\Collection|null
+     */
+    public function getBonuses(Carbon $date = null)
+    {
+        $date = $date ?? Carbon::now();
+        $from = $date->sub('1 month')->startOfMonth();
+        $to = $from->copy()->endOfMonth();
+
+        if ($this->position_id == Position::SalesManager) {
+            $result = DB::table('payments')
+                ->selectRaw('sum(payments.received_sum) as value, account_types.currency_type as currency')
+                ->join('invoices', 'invoices.id', '=', 'payments.invoice_id')
+                ->join('people', 'people.id', '=', 'invoices.sales_manager_id')
+                ->join('accounts', 'accounts.id', '=', 'invoices.account_id')
+                ->join('account_types', 'account_types.id', '=', 'accounts.account_type_id')
+                ->where('people.id', $this->id)
+                ->whereBetween('payments.date', [$from, $to])
+                ->groupBy('account_types.id')
+                ->get();
+
+            return $result->mapToGroups(function($bonus) {
+                return [$bonus->currency => $bonus];
+            })->map(function($bonuses, $currency) {
+                return (object)[
+                    'currency' =>$currency,
+                    'value' => $bonuses->sum('value') / 100 * $this->bonuses_reward,
+                ];
+            });
+        } elseif ($this->position_id == Position::Recruiter) {
+            $result = DB::table('people')
+                ->selectRaw('sum(salary) as value, currency')
+                ->where('recruiter_id', $this->id)
+                ->where(function($query) use ($from, $to) {
+                    $query->whereBetween('start_date', [$from, $to])
+                        ->orWhere(function($query) use ($from) {
+                            $from = $from->copy()->sub('2 months');
+                            $to = $from->copy()->endOfMonth();
+                            $query->whereBetween('start_date', [$from, $to])
+                                ->where(function($query) {
+                                    $query->whereNull('quited_at')
+                                        ->orWhereRaw('quited_at > date_add(start_date, interval 2 month)');
+                                });
+                        });
+                })
+                ->groupBy('currency')
+                ->get();
+
+            return $result->map(function($bonus) {
+                return (object)[
+                    'currency' =>$bonus->currency,
+                    'value' => $bonus->value / 100 * $this->bonuses_reward,
+                ];
+            });
+        }
+
+        return null;
     }
 }
