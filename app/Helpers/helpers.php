@@ -236,3 +236,11 @@ if (!function_exists('previousOr'))
         return url()->previous() === url()->current() ? route($routeName) : url()->previous();
     }
 }
+
+if (!function_exists('active'))
+{
+    function active($condition)
+    {
+        return $condition ? 'active' : '';
+    }
+}

@@ -1,7 +1,9 @@
 @php($model = $user ?? null)
-<form id="account" class="{{isset($model) ? '' : 'handle-submit-form'}}" method="POST"
+<form id="account" method="POST"
+      class="{{ isset($model) ? '' : 'handle-submit-form'}}"
       action="{{ isset($model) ? route('users.update', $model) : route('users.store') }}"
-      data-created-item="user" >
+      data-created-item="user"
+>
     @if(isset($model)) @method('PUT') @endif
     @csrf
     <div class="row">

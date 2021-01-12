@@ -38,12 +38,12 @@
             </a>
         </div>
         <ul class="collapsible card m-0">
-            <li class="active">
+            <li class="{{ active(config('general.ui.datatable.filter.show')) }}">
                 <div class="collapsible-header p-0">
                     <div class="box-shadow-none width-100  card-panel m-0 display-flex align-items-center justify-content-between">
                         <div class="display-flex align-items-center">
                             <i class="material-icons">arrow_upward</i>
-                            <h6 class="m-0">  Filters</h6>
+                            <h6 class="m-0">  {{ __('Filters') }}</h6>
                         </div>
                         <x-reset-filters/>
                     </div>
@@ -78,35 +78,6 @@
                 </div>
             </li>
         </ul>
-{{--        <div class="card-panel filter-panel accounts-page-card-panel">--}}
-{{--            <h6 class="width-100 mb-1">Filters</h6>--}}
-{{--            <div class="filter-block flex-wrap-important">--}}
-{{--                <x-filter--}}
-{{--                        table="contracts-list-datatable"--}}
-{{--                        :options="$statusToCollection"--}}
-{{--                        url="{{ route('contracts.index') }}"--}}
-{{--                        name="status_filter"--}}
-{{--                        title="By Status"--}}
-{{--                        className="filter-btn contract-filter-action"--}}
-{{--                />--}}
-{{--                <x-filter--}}
-{{--                        table="contracts-list-datatable"--}}
-{{--                        :options="$clientsToCollection"--}}
-{{--                        url="{{ route('contracts.index') }}"--}}
-{{--                        name="client_filter"--}}
-{{--                        title="By Client"--}}
-{{--                />--}}
-{{--                <x-filter--}}
-{{--                        table="contracts-list-datatable"--}}
-{{--                        :options="$salesManagersToCollection"--}}
-{{--                        url="{{ route('contracts.index') }}"--}}
-{{--                        name="sales_managers_filter"--}}
-{{--                        title="By Sales Manager"--}}
-{{--                />--}}
-
-{{--            </div>--}}
-{{--            <x-reset-filters/>--}}
-{{--        </div>--}}
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">

@@ -14,5 +14,12 @@ return [
             'dec_point' => ',',
             'thousands_sep' => ' ',
         ]
+    ],
+    'ui' => [
+        'datatable' => [
+            'filter' => [
+                'show' => true,
+            ]
+        ]
     ]
 ];
