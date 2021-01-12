@@ -30,18 +30,16 @@ class ContractController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        $clients = Client::all()->sortBy('name')
-            ->pluck('name', 'id')->toArray();
+        $clients = Client::all()->sortBy('name');
 
         $clientsToCollection = Client::all()->sortBy('name');
 
         $salesManagersToCollection = Person::byPosition(Position::SalesManager)->get();
 
-        $salesManagers = Person::byPosition(Position::SalesManager)->get()
-            ->pluck('name', 'id')->toArray();
+        $salesManagers = Person::byPosition(Position::SalesManager)->get();
 
         $statusToCollection = ContractStatus::toCollection();
-        $status = ContractStatus::toSelectArray();
+        $status = ContractStatus::toCollection();
 
         return $dataTable->render('pages.contract.index', compact(
             'pageConfigs', 'breadcrumbs', 'clients', 'salesManagers',
@@ -84,6 +82,7 @@ class ContractController extends Controller
      * @param ContractCreateRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function store(ContractCreateRequest $request)
     {
@@ -133,7 +132,7 @@ class ContractController extends Controller
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
-            ['link' => 'javascript:void(0)', 'name' => __('Contract')],
+            ['link' => route('contracts.index'), 'name' => __('Contracts')],
             ['name' => __('Edit Contract')]
         ];
 
@@ -141,13 +140,9 @@ class ContractController extends Controller
 
         $contract->load('client');
 
-        $clients = Client::all()->sortBy('name')
-            ->pluck('name', 'id')->toArray();
-
-        $salesManagers = Person::byPosition(Position::SalesManager)->get()
-            ->sortBy('name')->pluck('name', 'id')->toArray();
-
-        $status = ContractStatus::toSelectArray();
+        $clients = Client::all()->sortBy('name');
+        $salesManagers = Person::byPosition(Position::SalesManager)->get()->sortBy('name');
+        $status = ContractStatus::toCollection();
 
         return view('pages.contract.update', compact(
             'pageConfigs', 'breadcrumbs', 'contract', 'clients', 'salesManagers', 'status'
