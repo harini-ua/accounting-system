@@ -32,7 +32,7 @@
     <div class="row">
         <div class="col s12">
             <div class="col s12 display-flex justify-content-end mt-3">
-                <a href="{{ url()->previous() }}" class=" btn cancel-btn {{ isset($model) ? __('') : __('slide-up-btn') }} mr-1">{{ __('Cancel') }}</a>
+                <a href="{{ previousOr('users.index') }}" class=" btn cancel-btn {{ isset($model) ? __('') : __('slide-up-btn') }} mr-1">{{ __('Cancel') }}</a>
                 <button type="submit" class="btn waves-effect waves-light">{{ isset($model) ? __('Update') : __('Add User') }}</button>
             </div>
         </div>

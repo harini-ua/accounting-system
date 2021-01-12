@@ -228,3 +228,11 @@ if (!function_exists('update_page_config'))
         }
     }
 }
+
+if (!function_exists('previousOr'))
+{
+    function previousOr($routeName)
+    {
+        return url()->previous() === url()->current() ? route($routeName) : url()->previous();
+    }
+}

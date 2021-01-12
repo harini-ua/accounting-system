@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UserStoreRequest extends FormRequest
 {
@@ -25,7 +26,7 @@ class UserStoreRequest extends FormRequest
     {
         return [
             'name' => 'required|string|min:3',
-            'email' => 'required|email|unique:users',
+            'email' => ['required', 'email', Rule::unique('users')->whereNull('deleted_at')],
             'position_id' => 'nullable',
             'password' => 'required|string|min:8',
         ];

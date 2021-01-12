@@ -27,8 +27,8 @@ class ClientUpdateRequest extends FormRequest
         return [
             'name' => 'required|string|min:3',
             'company_name' => 'required|string|min:2',
-            'email' => ['required', 'email', Rule::unique('clients')->ignore($this->client->id)],
-            'phone' => ['required', 'string', Rule::unique('clients')->ignore($this->client->id)],
+            'email' => ['required', 'email', Rule::unique('clients')->ignore($this->client->id)->whereNull('deleted_at')],
+            'phone' => ['required', 'string', Rule::unique('clients')->ignore($this->client->id)->whereNull('deleted_at')],
             // address
             'country' => 'nullable|string|min:2',
             'address' => 'nullable|string|min:3',
