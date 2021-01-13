@@ -27,9 +27,11 @@ class CreateSalaryPaymentsTable extends Migration
             $table->json('bonuses')->nullable();
             $table->smallInteger('vacations')->nullable();
             $table->decimal('vacation_compensation', 9, 2)->nullable();
-            $table->decimal('monthly_bonus', 9,2)->nullable();
+            $table->decimal('monthly_bonus', 9, 2)->nullable();
             $table->decimal('fines', 9, 2)->nullable();
-            $table->decimal('tax_compensation', 9,2)->nullable();
+            $table->decimal('tax_compensation', 9, 2)->nullable();
+            $table->decimal('other_compensation', 9, 2)->nullable();
+            $table->string('other_compensation_description')->nullable();
             $table->decimal('total_usd', 9, 2);
             $table->decimal('currency', 9, 2);
             $table->date('payment_date')->nullable();

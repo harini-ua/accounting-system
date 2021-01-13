@@ -37,6 +37,8 @@ class SalaryPaymentRequest extends FormRequest
             'monthly_bonus' => 'nullable|numeric|max:1000000|min:0',
             'fines' => 'nullable|numeric|max:1000000|min:0',
             'tax_compensation' => 'nullable|numeric|max:1000000|min:0',
+            'other_compensation' => 'nullable|numeric|max:1000000|min:0',
+            'other_compensation_description' => 'nullable|string',
             'total_usd' => 'required|numeric|max:1000000|min:0',
             'currency' => 'required|numeric|max:1000000|min:0',
             'payment_date' => 'nullable|date_format:d-m-Y',

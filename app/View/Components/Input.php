@@ -22,18 +22,23 @@ class Input extends Component
 
     /**
      * Input constructor.
-     * @param string $name
-     * @param null $title
-     * @param null|Model $model
-     * @param string $type
-     * @param string $field
-     * @param null $default
+     *
+     * @param string       $name
+     * @param null         $title
+     * @param null|Model   $model
+     * @param string       $type
+     * @param string       $field
+     * @param null         $default
      * @param null|integer $min
      * @param null|integer $max
-     * @param bool $disabled
+     * @param bool         $disabled
+     * @param string       $icon
+     * @param bool         $readonly
      */
-    public function __construct($name, $title = null, $model = null, $type = 'text', $field = '', $default = null,
-                                $min = null, $max = null, $disabled = false, $icon = '', $readonly = false)
+    public function __construct(
+        string $name, $title = null, $model = null, $type = 'text', $field = '', $default = null,
+        $min = null, $max = null, $disabled = false, $icon = '', $readonly = false
+    )
     {
         $this->name = $name;
         $this->title = $title;

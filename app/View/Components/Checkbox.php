@@ -44,7 +44,7 @@ class Checkbox extends Component
     /**
      * @return string
      */
-    public function checked(): string
+    public function checked()
     {
         return $this->value() ? 'checked' : '';
     }

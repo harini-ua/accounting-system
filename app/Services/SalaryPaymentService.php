@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Services;
 
 use App\Enums\Currency;
@@ -89,6 +88,7 @@ class SalaryPaymentService
             'monthly_bonus' => $this->person->currency,
             'fines' => $this->person->currency,
             'tax_compensation' => Currency::UAH,
+            'other_compensation' => Currency::UAH,
         ];
     }
 

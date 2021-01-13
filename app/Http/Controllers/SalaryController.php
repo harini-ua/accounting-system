@@ -100,7 +100,7 @@ class SalaryController extends Controller
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['link' => route('salaries.index'), 'name' => __('Salary')],
-            ['name' => __('Create')],
+            ['name' => __('Create Salary')],
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];

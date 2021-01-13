@@ -14,7 +14,6 @@ use Yajra\DataTables\Services\DataTable;
 
 class SalaryMonthDataTable extends DataTable
 {
-
     private $year;
     private $month;
     private $calendarMonth;
@@ -123,6 +122,12 @@ class SalaryMonthDataTable extends DataTable
                 }
                 return $this->moneyFormat($model, 'tax_compensation');
             })
+            ->addColumn('other_compensation', function(Person $model) {
+                if (is_null($model->other_compensation)) {
+                    return null;
+                }
+                return $this->moneyFormat($model, 'other_compensation');
+            })
             ->addColumn('total_usd', function(Person $model) {
                 if (is_null($model->salary_payments_id)) {
                     return null;
@@ -197,6 +202,7 @@ class SalaryMonthDataTable extends DataTable
                 'salary_payments.monthly_bonus',
                 'salary_payments.fines',
                 'salary_payments.tax_compensation',
+                'salary_payments.other_compensation',
                 'salary_payments.payment_date',
                 'salary_payments.bonuses as salary_payments_bonuses',
                 'salary_payments.total_usd',
@@ -257,6 +263,7 @@ class SalaryMonthDataTable extends DataTable
             Column::make('monthly_bonus')->searchable(false)->orderable(false),
             Column::make('fines')->searchable(false)->orderable(false),
             Column::make('tax_compensation')->searchable(false)->orderable(false),
+            Column::make('other_compensation')->searchable(false)->orderable(false),
             Column::make('total_usd')->searchable(false)->orderable(false),
             Column::make('total_uah')->searchable(false)->orderable(false),
             Column::make('payment_method')->searchable(false)->orderable(false),

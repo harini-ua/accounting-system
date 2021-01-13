@@ -23,6 +23,8 @@ class SalaryPayment extends Model
         'monthly_bonus',
         'fines',
         'tax_compensation',
+        'other_compensation',
+        'other_compensation_description',
         'total_usd',
         'currency',
         'payment_date',
@@ -35,6 +37,8 @@ class SalaryPayment extends Model
     ];
 
     /**
+     * Get the person that owns the salary payment.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function person()
@@ -43,6 +47,8 @@ class SalaryPayment extends Model
     }
 
     /**
+     * Get the calendar month that owns the salary payment.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function calendarMonth()
@@ -51,7 +57,9 @@ class SalaryPayment extends Model
     }
 
     /**
-     * Get the account that owns the contract.
+     * Get the account that owns the salary payment.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function account()
     {

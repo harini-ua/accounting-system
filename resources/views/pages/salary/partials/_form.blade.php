@@ -41,6 +41,8 @@
             <x-input name="monthly_bonus" title="{{ __('Monthly bonus') }}" :model="$model" icon="{{ $symbol }}"></x-input>
             <x-input name="fines" title="{{ __('Fines') }}" :model="$model" icon="{{ $symbol }}"></x-input>
             <x-input name="tax_compensation" title="{{ __('Tax compensation') }}" :model="$model" icon="{{ \App\Enums\Currency::symbol(\App\Enums\Currency::UAH) }}"></x-input>
+            <x-input name="other_compensation" title="{{ __('Other compensation') }}" :model="$model" icon="{{ \App\Enums\Currency::symbol(\App\Enums\Currency::UAH) }}"></x-input>
+            <x-input name="other_compensation_description" title="{{ __('Other compensation description') }}" :model="$model"></x-input>
             <x-input name="total_usd" title="{{ __('Total USD') }}" :model="$model" readonly="true" icon="{{ \App\Enums\Currency::symbol(\App\Enums\Currency::USD) }}"></x-input>
             <x-input name="currency" type="hidden" :model="$model"></x-input>
             <x-input name="total_uah" title="{{ __('Total UAH') }}" :model="$model" disabled="true" icon="{{ \App\Enums\Currency::symbol(\App\Enums\Currency::UAH) }}"></x-input>
