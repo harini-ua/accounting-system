@@ -14,7 +14,7 @@ class Formatter
      *
      * @return string
      */
-    public static function currency($value, $symbol = null, $html = false)
+    public static function currency($value, $symbol = null, $html = false): string
     {
         $currency_format = config('general.currency.format');
         $delimiter = config('general.currency.delimiter');
@@ -33,7 +33,7 @@ class Formatter
      *
      * @return string
      */
-    public static function address(Address $address, $type = 'invoices')
+    public static function address(Address $address, $type = 'invoices'): string
     {
         $address_format = config($type.'.address.format');
 

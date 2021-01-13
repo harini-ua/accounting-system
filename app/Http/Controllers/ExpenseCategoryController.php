@@ -68,10 +68,11 @@ class ExpenseCategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  ExpenseCategoryRequest  $request
-     * @param  ExpenseCategory $expenseCategory
+     * @param ExpenseCategoryRequest $request
+     * @param ExpenseCategory        $expenseCategory
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function update(ExpenseCategoryRequest $request, ExpenseCategory $expenseCategory)
     {

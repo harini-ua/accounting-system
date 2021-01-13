@@ -53,19 +53,26 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    // Login
-    public function showLoginForm(){
+    /**
+     * Show login form
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showLoginForm()
+    {
        $pageConfigs = ['bodyCustomClass' => 'login-bg', 'isCustomizer' => false];
 
         return view('/auth/login', [
             'pageConfigs' => $pageConfigs
         ]);
-      }
-      /**
+    }
+
+    /**
      * Log the user out of the application.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\Routing\Redirector
      */
     public function logout(Request $request)
     {

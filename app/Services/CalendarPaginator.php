@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services;
-
 
 use App\Models\CalendarYear;
 use Illuminate\Database\Eloquent\Collection;
@@ -20,7 +18,10 @@ class CalendarPaginator
 
     /**
      * CalendarPaginator constructor.
+     *
      * @param Request $request
+     *
+     * @throws NotFoundHttpException
      */
     public function __construct(Request $request)
     {
@@ -30,16 +31,20 @@ class CalendarPaginator
 
     /**
      * @param Request $request
+     *
      * @return int|mixed
+     * @throws NotFoundHttpException
      */
     private function getYear(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'year' => 'sometimes|exists:calendar_years,name',
         ]);
+
         if ($validator->fails()) {
             throw new NotFoundHttpException();
         }
+
         return $request->has('year') ? $request->input('year') : Carbon::now()->year;
     }
 
@@ -67,6 +72,7 @@ class CalendarPaginator
     {
         $calendarYear = $years->where('name', $year)->first();
         $params = Carbon::now()->year != $year ? ['year' => $year] : [];
+
         return $calendarYear ? route($routeName, $params) : null;
     }
 
@@ -119,5 +125,4 @@ class CalendarPaginator
 
         return false;
     }
-
 }

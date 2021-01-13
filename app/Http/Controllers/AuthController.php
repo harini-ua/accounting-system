@@ -9,9 +9,18 @@ use Validator;
 
 class AuthController extends Controller
 {
+    /**
+     * @var int
+     */
     public $successStatus = 200;
 
-    //register api
+    /**
+     * User register api
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -21,8 +30,9 @@ class AuthController extends Controller
             'c_password' => 'required|same:password',
         ]);
 
-        if($validator->fails()){
-            return response()->json(['error'=>$validator->errors()],401);
+        if ($validator->fails()) {
+            return response()
+                ->json(['error' => $validator->errors()], 401);
         }
 
         $input = $request->all();
@@ -31,23 +41,32 @@ class AuthController extends Controller
         $success['token'] =  $user->createToken('Personal Access Token')->accessToken;
         $success['name'] =  $user->name;
 
-        return response()->json(['success'=>$success], $this->successStatus);
+        return response()->json(['success' => $success], $this->successStatus);
     }
 
-    // login api
+    /**
+     * User login api
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function login()
     {
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
             $success['token'] = $user->createToken('LoginToken')->accessToken;
             $success['name'] = $user->name;
-            return response()->json(['success'=>$success],$this->successStatus);
+
+            return response()->json(['success' => $success], $this->successStatus);
         }
 
         return response()->json(['error'=>'Unauthorised'],401);
     }
 
-    // user detail api
+    /**
+     * User detail api
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function user()
     {
         $user = Auth::user();
@@ -55,11 +74,15 @@ class AuthController extends Controller
         return response()->json(['success' => $user], $this->successStatus);
     }
 
-    // user logout api
+    /**
+     * User logout api
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout()
     {
         $user = Auth::user();
 
-        return response()->json(['success'=>'Successfully Logout!']);
+        return response()->json(['success' => 'Successfully Logout!' ]);
     }
 }

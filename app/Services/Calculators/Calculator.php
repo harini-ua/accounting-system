@@ -1,20 +1,13 @@
 <?php
 
-
 namespace App\Services\Calculators;
-
 
 use App\Models\Expense;
 use App\Models\MoneyFlow;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Calculator
- * @package App\Services
- */
 class Calculator
 {
-
     /**
      * @param Model $model
      * @return Calculable
@@ -56,5 +49,4 @@ class Calculator
         $moneyFlowCalculator = self::getCalculator($model);
         $moneyFlowCalculator->update();
     }
-
 }

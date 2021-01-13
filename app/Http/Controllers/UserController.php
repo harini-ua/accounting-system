@@ -115,8 +115,10 @@ class UserController extends Controller
      * Update the specified resource in storage.
      *
      * @param UserUpdateRequest $request
-     * @param User $user
+     * @param User              $user
+     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function update(UserUpdateRequest $request, User $user)
     {

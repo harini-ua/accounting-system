@@ -71,12 +71,17 @@ class RegisterController extends Controller
         ]);
     }
 
-    // Register
-    public function showRegistrationForm(){
+    /**
+     * Show register form
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showRegistrationForm()
+    {
          $pageConfigs = ['bodyCustomClass' => 'register-bg', 'isCustomizer' => false];
   
         return view('/auth/register', [
             'pageConfigs' => $pageConfigs
         ]);
-      }
+    }
 }

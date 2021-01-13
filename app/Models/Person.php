@@ -229,17 +229,21 @@ class Person extends Model
 
     /**
      * @param int $month
-     * @return Carbon
+     *
+     * @return \Carbon\Carbon
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
-    public function getCompensationDate(int $month): Carbon
+    public function getCompensationDate(int $month): \Carbon\Carbon
     {
         $date = Carbon::now()->setMonth($month)->startOfMonth();
+
         $holidays = Holiday::ofYear($date->year)
             ->whereMonth('date', $month)
             ->get(['date', 'name', 'moved_date'])
             ->map(function($holiday) {
                 return Carbon::parse($holiday->moved_date ?: $holiday->date)->day;
             })->toArray();
+
         $vacations = $this->vacations()
             ->whereYear('date', $date->year)
             ->whereMonth('date', $month)
@@ -247,6 +251,7 @@ class Person extends Model
             ->map(function($vacation) {
                 return Carbon::parse($vacation->date)->day;
             })->toArray();
+
         $busyDays = array_merge($holidays, $vacations);
 
         while ($date->isWeekend() || in_array($date->day, $busyDays)) {
@@ -279,14 +284,16 @@ class Person extends Model
                 ->get();
 
             return $result->mapToGroups(function($bonus) {
-                return [$bonus->currency => $bonus];
+                return [ $bonus->currency => $bonus ];
             })->map(function($bonuses, $currency) {
                 return (object)[
                     'currency' =>$currency,
                     'value' => $bonuses->sum('value') / 100 * $this->bonuses_reward,
                 ];
             });
-        } elseif ($this->position_id == Position::Recruiter) {
+        }
+
+        if ($this->position_id == Position::Recruiter) {
             $result = DB::table('people')
                 ->selectRaw('sum(salary) as value, currency')
                 ->where('recruiter_id', $this->id)
@@ -307,7 +314,7 @@ class Person extends Model
 
             return $result->map(function($bonus) {
                 return (object)[
-                    'currency' =>$bonus->currency,
+                    'currency' => $bonus->currency,
                     'value' => $bonus->value / 100 * $this->bonuses_reward,
                 ];
             });

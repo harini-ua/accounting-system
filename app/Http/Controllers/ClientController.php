@@ -58,6 +58,7 @@ class ClientController extends Controller
      * @param Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function store(ClientCreateRequest $request)
     {
@@ -130,6 +131,7 @@ class ClientController extends Controller
      * @param Client              $client
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function update(ClientUpdateRequest $request, Client $client)
     {
@@ -186,8 +188,12 @@ class ClientController extends Controller
     }
 
     /**
+     * Attach bank
+     *
      * @param Request $request
-     * @param Client $client
+     * @param Client  $client
+     *
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     private function attachBank(Request $request, Client $client)
     {
@@ -196,19 +202,25 @@ class ClientController extends Controller
             $bank->fill($request->only(['account', 'iban', 'swift']));
             $bank->name = $request->bank_name;
             $bank->address = $request->bank_address;
+
             $client->bank()->save($bank);
         }
     }
 
     /**
+     * Attach billing address
+     *
      * @param Request $request
-     * @param Client $client
+     * @param Client  $client
+     *
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     private function attachBillingAddress(Request $request, Client $client)
     {
         if ($request->anyFilled(['country', 'city', 'state', 'address', 'postal_code'])) {
             $address = $client->billingAddress ?: new Address;
             $address->fill($request->only(['country', 'city', 'state', 'address', 'postal_code']));
+
             $client->billingAddress()->save($address);
         }
     }

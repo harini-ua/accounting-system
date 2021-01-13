@@ -45,15 +45,18 @@ class PaymentController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        return view('pages.payments.create', compact('breadcrumbs', 'pageConfigs'));
+        return view('pages.payments.create', compact(
+            'breadcrumbs', 'pageConfigs'
+        ));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function store(Request $request)
     {
@@ -111,7 +114,9 @@ class PaymentController extends Controller
 
         $payment->load('contract');
 
-        return view('pages.payments.update', compact('pageConfigs', 'payment'));
+        return view('pages.payments.update', compact(
+            'pageConfigs', 'payment'
+        ));
     }
 
     /**
@@ -121,6 +126,7 @@ class PaymentController extends Controller
      * @param Payment                  $payment
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function update(Request $request, Payment $payment)
     {

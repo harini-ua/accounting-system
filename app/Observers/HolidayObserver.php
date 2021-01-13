@@ -67,7 +67,9 @@ class HolidayObserver
 
     /**
      * @param Holiday $holiday
-     * @param false $original
+     * @param false   $original
+     *
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function calculationMonthHolidays(Holiday $holiday, $original = false)
     {

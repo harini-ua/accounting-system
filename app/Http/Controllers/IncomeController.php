@@ -118,10 +118,11 @@ class IncomeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  IncomeRequest  $request
-     * @param  Income $income
+     * @param IncomeRequest $request
+     * @param Income        $income
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function update(IncomeRequest $request, Income $income)
     {

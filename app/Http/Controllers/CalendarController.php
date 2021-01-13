@@ -25,7 +25,9 @@ class CalendarController extends Controller
         $months = CalendarMonth::ofYear($paginator->year())->get();
         $holidays = Holiday::ofYear($paginator->year())->orderBy('date')->get();
 
-        return view('pages.calendar.index', compact('breadcrumbs', 'pageConfigs', 'months', 'holidays', 'paginator'));
+        return view('pages.calendar.index', compact(
+            'breadcrumbs', 'pageConfigs', 'months', 'holidays', 'paginator'
+        ));
     }
 
     /**

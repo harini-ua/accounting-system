@@ -3,7 +3,6 @@
 
 namespace App\Services;
 
-
 use App\Enums\Currency;
 use App\Enums\SalaryType;
 use App\Models\AccountType;
@@ -40,6 +39,7 @@ class SalaryPaymentService
         $this->salaryPayment = new SalaryPayment;
         $this->setCalendarMonth($calendarMonth);
         $this->setPerson($people, $request);
+
         if ($this->person) {
             $this->setSymbol();
             $this->setFields();
@@ -134,10 +134,11 @@ class SalaryPaymentService
             ->mapWithKeys(function($accountType) {
                 return [$accountType->currency_type => $accountType->currency];
             });
+
         $this->salaryPayment->currency = $this->currencies[Currency::USD];
     }
 
-    private function fillSalaryPayment()
+    private function fillSalaryPayment(): void
     {
         $this->salaryPayment->vacations_hours = $this->person ? self::calcHours($this->salaryPayment->vacations, $this->person->salary_type) : null;
         $this->salaryPayment->vacation_compensation = $this->person ? self::calcVacationCompensation($this->person, $this->salaryPayment->vacations, $this->date) : null;
@@ -146,28 +147,32 @@ class SalaryPaymentService
         $this->salaryPayment->leads = $this->person ? self::calcLeads($this->salaryPayment, $this->person) : null;
     }
 
-    private function fillCalendarMonth()
+    private function fillCalendarMonth(): void
     {
         $this->calendarMonth->working_hours = $this->person ? $this->calendarMonth->getWorkingHours($this->person->salary_type) : null;
     }
 
-    private function setBonuses()
+    private function setBonuses(): void
     {
         $this->person->actualBonuses = $this->person->getBonuses($this->date);
         $this->person->totalBonusesUSD = self::totalBonusesUSD($this->person, $this->currencies);
     }
 
-    private function setTotals()
+    private function setTotals(): void
     {
         $this->salaryPayment->total_usd = self::calcTotalUSD($this->salaryPayment, $this->person, $this->currencies, $this->fields);
         $this->salaryPayment->total_uah = self::convert($this->currencies, Currency::USD, Currency::UAH, $this->salaryPayment->total_usd);
     }
 
     /**
-     * @param Person $person
-     * @param int $vacations
+     * Calculate vacation compensation
+     *
+     * @param Person      $person
+     * @param int         $vacations
      * @param Carbon|null $date
+     *
      * @return float|int
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private static function calcVacationCompensation(Person $person, int $vacations, Carbon $date = null)
     {
@@ -197,10 +202,13 @@ class SalaryPaymentService
     }
 
     /**
+     * Convert currency
+     *
      * @param $currencies
      * @param $from
      * @param $to
      * @param $value
+     *
      * @return float|int
      */
     private static function convert($currencies, $from, $to, $value)
@@ -209,9 +217,12 @@ class SalaryPaymentService
     }
 
     /**
+     * Convert to USD
+     *
      * @param $currencies
      * @param $currency
      * @param $value
+     *
      * @return float|int
      */
     private static function convertToUSD($currencies, $currency, $value)
@@ -219,11 +230,13 @@ class SalaryPaymentService
         return self::convert($currencies, $currency, Currency::USD, $value);
     }
 
-
     /**
+     * Calculate how much earned
+     *
      * @param SalaryPayment $salaryPayment
      * @param Person $person
      * @param CalendarMonth $calendarMonth
+     *
      * @return float|int
      */
     private static function calcEarned(SalaryPayment $salaryPayment, Person $person, CalendarMonth $calendarMonth)
@@ -235,8 +248,11 @@ class SalaryPaymentService
     }
 
     /**
+     * Calculate leads
+     *
      * @param SalaryPayment $salaryPayment
      * @param Person $person
+     *
      * @return float|int
      */
     private static function calcLeads(SalaryPayment $salaryPayment, Person $person)
@@ -245,34 +261,43 @@ class SalaryPaymentService
     }
 
     /**
+     * Calculate total USD
+     *
      * @param SalaryPayment $salaryPayment
      * @param Person $person
      * @param $currencies
      * @param array $fields
+     *
      * @return float
      */
-    private static function calcTotalUSD(SalaryPayment $salaryPayment, Person $person, $currencies, array $fields)
+    private static function calcTotalUSD(SalaryPayment $salaryPayment, Person $person, $currencies, array $fields): float
     {
         $total = 0;
         foreach($fields as $field => $currency) {
             $total += self::convertToUSD($currencies, $currency, $salaryPayment->$field);
         }
+
         $bonuses = self::totalBonusesUSD($person, $currencies);
+
         return round($total + $bonuses, 2);
     }
 
     /**
+     * Get total bonuses USD
+     *
      * @param Person $person
      * @param $currencies
+     *
      * @return float|null
      */
-    private static function totalBonusesUSD(Person $person, $currencies)
+    private static function totalBonusesUSD(Person $person, $currencies): ?float
     {
         if ($person->actualBonuses) {
             return round($person->actualBonuses->reduce(function($carry, $bonus) use ($currencies) {
                     return $carry + $currencies[$bonus->currency] * $bonus->value;
                 }, 0) / $currencies[Currency::USD], 2);
         }
+
         return null;
     }
 }

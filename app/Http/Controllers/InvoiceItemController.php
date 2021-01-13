@@ -37,9 +37,10 @@ class InvoiceItemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function store(Request $request)
     {
@@ -89,6 +90,7 @@ class InvoiceItemController extends Controller
      * @param InvoiceItem              $invoiceItem
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function update(Request $request, InvoiceItem $invoiceItem)
     {

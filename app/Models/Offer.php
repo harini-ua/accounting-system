@@ -28,7 +28,10 @@ class Offer extends Model
      *
      * @var array
      */
-    protected $fillable = ['employee_id', 'start_date', 'trial_period', 'end_trial_period_date', 'bonuses', 'salary', 'salary_review', 'sum', 'salary_after_review', 'additional_conditions'];
+    protected $fillable = [
+        'employee_id', 'start_date', 'trial_period', 'end_trial_period_date', 'bonuses', 'salary',
+        'salary_review', 'sum', 'salary_after_review', 'additional_conditions'
+    ];
 
     /**
      * The attributes that should be cast.

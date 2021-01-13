@@ -117,10 +117,11 @@ class ExpenseController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  ExpensesRequest $request
-     * @param  Expense $expense
+     * @param ExpensesRequest $request
+     * @param Expense         $expense
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function update(ExpensesRequest $request, Expense $expense)
     {

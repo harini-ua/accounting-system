@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services;
-
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -17,7 +15,10 @@ class FilterService
 
     /**
      * FilterService constructor.
+     *
      * @param Request $request
+     *
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function __construct(Request $request)
     {
@@ -199,5 +200,4 @@ class FilterService
             });
         });
     }
-
 }

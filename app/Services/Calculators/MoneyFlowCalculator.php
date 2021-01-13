@@ -2,15 +2,10 @@
 
 namespace App\Services\Calculators;
 
-
 use App\Models\Account;
 use App\Models\MoneyFlow;
 use Illuminate\Support\Facades\DB;
 
-/**
- * Class MoneyFlowCalculator
- * @package App\Services
- */
 class MoneyFlowCalculator implements Calculable
 {
     /**
@@ -80,6 +75,7 @@ class MoneyFlowCalculator implements Calculable
         $accountFromOriginal->balance += $moneyFlow->getOriginal('sum_from') + $moneyFlow->getOriginal('fee');
         $accountFromOriginal->save();
 
+        /** @var Account $accountFrom */
         $accountFrom = $moneyFlow->accountFrom()->first();
         $accountFrom->balance -= $moneyFlow->sum_from + $moneyFlow->fee;
         $accountFrom->save();
@@ -88,6 +84,7 @@ class MoneyFlowCalculator implements Calculable
         $accountToOriginal->balance -= $moneyFlow->getOriginal('sum_to');
         $accountToOriginal->save();
 
+        /** @var Account $accountTo */
         $accountTo = $moneyFlow->accountTo()->first();
         $accountTo->balance += $moneyFlow->sum_to;
         $accountTo->save();

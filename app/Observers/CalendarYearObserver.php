@@ -14,8 +14,10 @@ class CalendarYearObserver
     /**
      * Handle the calendar year "creating" event.
      *
-     * @param  CalendarYear  $calendarYear
+     * @param CalendarYear $calendarYear
+     *
      * @return void
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function creating(CalendarYear $calendarYear)
     {
@@ -27,15 +29,15 @@ class CalendarYearObserver
     /**
      * Handle the calendar year "created" event.
      *
-     * @param  CalendarYear  $calendarYear
+     * @param CalendarYear $calendarYear
+     *
      * @return void
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function created(CalendarYear $calendarYear)
     {
-
         // Create holidays
         if ($calendarYear->id != 1) {
-
             $holidays = new Collection();
 
             // Get $lastYearHolidays to copy them in next year
@@ -70,7 +72,6 @@ class CalendarYearObserver
 
         // Create Calendar months
         foreach (Month::toArray() as $month) {
-
             $firstDay = Carbon::parse("$month {$calendarYear->name}")->startOfMonth();
             $lastDay = (clone $firstDay)->addMonth();
 
@@ -91,7 +92,6 @@ class CalendarYearObserver
                 'holidays' => $holidaysCount,
             ]);
         }
-
     }
 
     /**

@@ -156,6 +156,7 @@ class ContractController extends Controller
      * @param Contract              $contract
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function update(ContractUpdateRequest $request, Contract $contract)
     {

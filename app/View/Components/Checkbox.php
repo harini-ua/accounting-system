@@ -41,7 +41,10 @@ class Checkbox extends Component
         return $this->model ? $this->model->{$this->name} : old($this->name);
     }
 
-    public function checked()
+    /**
+     * @return string
+     */
+    public function checked(): string
     {
         return $this->value() ? 'checked' : '';
     }

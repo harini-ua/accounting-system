@@ -35,8 +35,9 @@ class VacationController extends Controller
         });
         $year = $dataTable->year;
 
-        return $dataTable->render('pages.vacation.index', compact('breadcrumbs', 'pageConfigs',
-            'calendarYears', 'year'));
+        return $dataTable->render('pages.vacation.index', compact(
+            'breadcrumbs', 'pageConfigs', 'calendarYears', 'year'
+        ));
     }
 
     /**
@@ -67,7 +68,9 @@ class VacationController extends Controller
 
         $days = $datatable->days();
 
-        return view('pages.vacation.month', compact('breadcrumbs', 'pageConfigs', 'year', 'month', 'monthName', 'days'));
+        return view('pages.vacation.month', compact(
+            'breadcrumbs', 'pageConfigs', 'year', 'month', 'monthName', 'days'
+        ));
     }
 
     /**

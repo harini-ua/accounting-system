@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Services\Calculators;
-
 
 use App\Models\Account;
 use App\Models\Expense;

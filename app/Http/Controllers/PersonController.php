@@ -216,8 +216,10 @@ class PersonController extends Controller
 
     /**
      * @param ChangeSalaryTypeRequest $request
-     * @param Person $person
+     * @param Person                  $person
+     *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function changeSalaryType(ChangeSalaryTypeRequest $request, Person $person)
     {
@@ -229,8 +231,10 @@ class PersonController extends Controller
 
     /**
      * @param ChangeContractTypeRequest $request
-     * @param Person $person
+     * @param Person                    $person
+     *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function changeContractType(ChangeContractTypeRequest $request, Person $person)
     {
@@ -242,8 +246,10 @@ class PersonController extends Controller
 
     /**
      * @param MakeFormerRequest $request
-     * @param Person $person
+     * @param Person            $person
+     *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function makeFormer(MakeFormerRequest $request, Person $person)
     {
@@ -255,8 +261,10 @@ class PersonController extends Controller
 
     /**
      * @param LongVacationRequest $request
-     * @param Person $person
+     * @param Person              $person
+     *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function longVacation(LongVacationRequest $request, Person $person)
     {
@@ -277,8 +285,10 @@ class PersonController extends Controller
 
     /**
      * @param BackActiveRequest $request
-     * @param Person $person
+     * @param Person            $person
+     *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function backToActive(BackActiveRequest $request, Person $person)
     {

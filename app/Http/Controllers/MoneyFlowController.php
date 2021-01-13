@@ -94,8 +94,10 @@ class MoneyFlowController extends Controller
      * Update the specified resource in storage.
      *
      * @param MoneyFlowRequest $request
-     * @param MoneyFlow $moneyFlow
+     * @param MoneyFlow        $moneyFlow
+     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function update(MoneyFlowRequest $request, MoneyFlow $moneyFlow)
     {

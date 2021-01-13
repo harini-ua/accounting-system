@@ -14,7 +14,7 @@ class PricingService
      *
      * @return float
      */
-    public static function applyDiscount(float $target, float $discount, int $decimals, bool $rate = false)
+    public static function applyDiscount(float $target, float $discount, int $decimals, bool $rate = false): float
     {
         if ($rate) {
             return round($target * (1 - $discount / 100), $decimals);
@@ -33,7 +33,7 @@ class PricingService
      *
      * @return float
      */
-    public static function applyTax(float $target, float $tax, int $decimals, bool $rate = false)
+    public static function applyTax(float $target, float $tax, int $decimals, bool $rate = false): float
     {
         if ($rate) {
             return round($target * (1 + $tax / 100), $decimals);
@@ -51,7 +51,7 @@ class PricingService
      *
      * @return float
      */
-    public static function applyQuantity(float $target, float $quantity, int $decimals)
+    public static function applyQuantity(float $target, float $quantity, int $decimals): float
     {
         return round($target * $quantity, $decimals);
     }

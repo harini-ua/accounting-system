@@ -259,6 +259,7 @@ class InvoiceController extends Controller
      * @param PaymentCreateRequest $request
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function payment(Invoice $invoice, PaymentCreateRequest $request)
     {

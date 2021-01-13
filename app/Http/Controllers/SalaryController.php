@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\DataTables\SalaryDataTable;
 use App\DataTables\SalaryMonthDataTable;
 use App\Enums\Currency;
@@ -23,6 +22,8 @@ class SalaryController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param SalaryDataTable $dataTable
+     *
      * @return Response
      */
     public function index(SalaryDataTable $dataTable)
@@ -35,16 +36,19 @@ class SalaryController extends Controller
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $year = $dataTable->year;
+
         $calendarYears = CalendarYear::orderBy('name')->get()->map(function($calendarYear) {
             $calendarYear->id = $calendarYear->name;
             return $calendarYear;
         });
+
         $currencies = Currency::toCollection()->filter(function($currency) {
-            return in_array($currency->id, [Currency::UAH, Currency::USD]);
+            return in_array($currency->id, [Currency::UAH, Currency::USD], true);
         });
 
-        return $dataTable->render('pages.salary.index', compact('breadcrumbs', 'pageConfigs',
-            'calendarYears', 'currencies', 'year'));
+        return $dataTable->render('pages.salary.index', compact(
+            'breadcrumbs', 'pageConfigs', 'calendarYears', 'currencies', 'year'
+        ));
     }
 
     /**
@@ -88,6 +92,7 @@ class SalaryController extends Controller
             'year' => 'sometimes|exists:calendar_years,id',
             'month' => 'sometimes|exists:calendar_months,id',
         ]);
+
         if ($validator->fails()) {
             abort(404);
         }
@@ -101,6 +106,7 @@ class SalaryController extends Controller
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $calendarYears = CalendarYear::orderBy('name')->with('calendarMonths')->get();
+
         if ($request->has(['year', 'month'])) {
             $year = $calendarYears->where('id', $request->year)->first()->name;
             $date = Carbon::createFromDate($year, $request->month);
@@ -120,8 +126,8 @@ class SalaryController extends Controller
         extract($salaryPaymentService->data());
 
         return view('pages.salary.create', compact(
-            'breadcrumbs', 'pageConfigs', 'calendarYears', 'calendarMonth', 'salaryPayment', 'people', 'person',
-            'symbol', 'wallets', 'currencies', 'fields'
+            'breadcrumbs', 'pageConfigs', 'calendarYears', 'calendarMonth', 'salaryPayment',
+            'people', 'person', 'symbol', 'wallets', 'currencies', 'fields'
         ));
     }
 
@@ -129,7 +135,9 @@ class SalaryController extends Controller
      * Store a newly created resource in storage.
      *
      * @param SalaryPaymentRequest $request
+     *
      * @return Response
+     * @throws \GuzzleHttp\Exception\InvalidArgumentException
      */
     public function store(SalaryPaymentRequest $request)
     {
@@ -137,6 +145,7 @@ class SalaryController extends Controller
             'calendar_month_id' => $request->calendar_month_id,
             'person_id' => $request->person_id,
         ]);
+
         $salaryPayment->fill($request->all());
         $salaryPayment->bonuses = json_decode($request->bonuses);
         $salaryPayment->save();

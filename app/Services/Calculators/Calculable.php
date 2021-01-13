@@ -2,7 +2,6 @@
 
 namespace App\Services\Calculators;
 
-
 interface Calculable
 {
     public function create(): void;

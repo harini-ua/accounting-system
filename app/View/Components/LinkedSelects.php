@@ -48,6 +48,9 @@ class LinkedSelects extends Component
         return view($this->view);
     }
 
+    /**
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\UrlGenerator|string
+     */
     public function url()
     {
         return url($this->dataUrl);

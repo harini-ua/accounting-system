@@ -31,10 +31,11 @@ class HolidayController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  HolidayUpdateRequest $request
-     * @param  \App\Models\Holiday  $holiday
+     * @param HolidayUpdateRequest $request
+     * @param \App\Models\Holiday  $holiday
      *
      * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function update(HolidayUpdateRequest $request, Holiday $holiday)
     {

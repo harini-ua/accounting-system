@@ -137,10 +137,11 @@ class SalaryReviewController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  SalaryReviewUpdateRequest $request
-     * @param  SalaryReview $salaryReview
+     * @param SalaryReviewUpdateRequest $request
+     * @param SalaryReview              $salaryReview
      *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function update(SalaryReviewUpdateRequest $request, SalaryReview $salaryReview)
     {

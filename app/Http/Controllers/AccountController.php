@@ -69,8 +69,10 @@ class AccountController extends Controller
      * Update the specified resource in storage.
      *
      * @param AccountRequest $request
-     * @param Account $account
+     * @param Account        $account
+     *
      * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
      */
     public function update(AccountRequest $request, Account $account)
     {

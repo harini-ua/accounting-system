@@ -10,8 +10,10 @@ class OfferObserver
     /**
      * Handle the invoice "saving" event.
      *
-     * @param  \App\Models\Offer $offer
+     * @param \App\Models\Offer $offer
+     *
      * @return void
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function saving(Offer $offer)
     {
