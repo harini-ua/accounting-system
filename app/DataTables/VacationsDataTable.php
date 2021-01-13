@@ -30,7 +30,9 @@ class VacationsDataTable extends DataTable
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
+     *
      * @return \Yajra\DataTables\DataTableAbstract
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function dataTable($query)
     {
@@ -72,7 +74,9 @@ class VacationsDataTable extends DataTable
      * Get query source of dataTable.
      *
      * @param Person $model
+     *
      * @return \Illuminate\Database\Eloquent\Builder
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function query(Person $model)
     {
@@ -120,6 +124,7 @@ class VacationsDataTable extends DataTable
      * Optional method if you want to use html builder.
      *
      * @return \Yajra\DataTables\Html\Builder
+     * @throws \Throwable
      */
     public function html()
     {
@@ -152,6 +157,7 @@ class VacationsDataTable extends DataTable
      * Get columns.
      *
      * @return array
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     protected function getColumns()
     {
@@ -184,6 +190,7 @@ class VacationsDataTable extends DataTable
 
     /**
      * @return CarbonPeriod
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function period()
     {
@@ -192,6 +199,8 @@ class VacationsDataTable extends DataTable
 
     /**
      * @param $query
+     *
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function addMonthsQuery($query)
     {
@@ -203,12 +212,15 @@ class VacationsDataTable extends DataTable
 
     /**
      * @param $query
+     *
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function addLongVacationMonthQuery($query)
     {
         $longVacationsQuery = DB::table('long_vacations')
             ->select('person_id')
             ->groupBy('person_id');
+
         foreach($this->period() as $month) {
             $monthName = strtolower($month->monthName);
             $longVacationsQuery->selectRaw("
@@ -222,6 +234,7 @@ class VacationsDataTable extends DataTable
                 then 1 else 0 end) as long_vacation_$monthName
             ");
         }
+
         $query->leftJoinSub($longVacationsQuery, 'long_vacations', function($join) {
             $join->on('long_vacations.person_id', '=', 'people.id');
         });
@@ -229,6 +242,7 @@ class VacationsDataTable extends DataTable
 
     /**
      * @return array
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function monthColumns()
     {
@@ -238,12 +252,15 @@ class VacationsDataTable extends DataTable
                 ->title("<a class='text-decoration-underline' data-month-link href='".route('vacations.month', [$this->year, $month->month])."'>{$month->shortMonthName}</a>")
                 ->searchable(false);
         }
+
         return $columns;
     }
 
     /**
      * @param string $prefix
+     *
      * @return string[]
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function monthFields($prefix = '')
     {
@@ -255,10 +272,13 @@ class VacationsDataTable extends DataTable
 
     /**
      * @param $eloquent
+     *
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function addMonthColumnsToDatatable($eloquent)
     {
         $rawColumns = [];
+
         foreach($this->period() as $month) {
             $monthName = strtolower($month->monthName);
             $rawColumns[] = $monthName;
@@ -279,6 +299,7 @@ class VacationsDataTable extends DataTable
                 return $model->$monthName ?: 0;
             });
         }
+
         $eloquent->rawColumns($rawColumns);
     }
 
@@ -304,6 +325,7 @@ class VacationsDataTable extends DataTable
                             ->orWhereYear('quited_at', $year);
                     });
             });
+
         if (!$this->request()->filled('show_all')) {
             $query->whereNull('people.quited_at');
         }

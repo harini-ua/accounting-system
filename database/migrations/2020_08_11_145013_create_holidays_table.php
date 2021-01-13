@@ -21,7 +21,8 @@ class CreateHolidaysTable extends Migration
             $table->date('moved_date')->nullable();
             $table->timestamps();
 
-            $table->foreign('calendar_year_id')->on('calendar_years')->references('id')->onDelete('cascade');
+            $table->foreign('calendar_year_id')
+                ->on('calendar_years')->references('id')->onDelete('cascade');
         });
     }
 

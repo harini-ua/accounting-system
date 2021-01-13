@@ -28,13 +28,9 @@ class CreateMoneyFlowsTable extends Migration
             $table->softDeletes();
 
             $table->foreign('account_from_id')
-                ->on('accounts')
-                ->references('id')
-                ->onDelete('cascade');
+                ->on('accounts')->references('id')->onDelete('cascade');
             $table->foreign('account_to_id')
-                ->on('accounts')
-                ->references('id')
-                ->onDelete('cascade');
+                ->on('accounts')->references('id')->onDelete('cascade');
         });
     }
 

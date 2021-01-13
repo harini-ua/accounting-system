@@ -25,7 +25,6 @@ final class DayType extends Enum
     const Actual = VacationType::Actual;
     const Sick = VacationType::Sick;
 
-
     /**
      * @return array[]
      */

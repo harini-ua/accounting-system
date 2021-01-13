@@ -65,7 +65,6 @@ class CalendarYearObserver
 
                 $holidays->push($holiday);
             }
-
         } else {
             $holidays = $calendarYear->holidays;
         }

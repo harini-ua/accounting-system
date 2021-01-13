@@ -89,6 +89,8 @@ class BonusesSalesManagersDataTable extends BonusesDataTableAbstract
      * Add months select
      *
      * @param $query
+     *
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     protected function addMonthsSelect($query): void
     {
@@ -111,6 +113,8 @@ class BonusesSalesManagersDataTable extends BonusesDataTableAbstract
      * Add months sub select
      *
      * @param $query
+     *
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     protected function addMonthsSubSelect($query): void
     {

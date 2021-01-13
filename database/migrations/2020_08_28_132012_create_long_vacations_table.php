@@ -25,7 +25,8 @@ class CreateLongVacationsTable extends Migration
             $table->date('long_vacation_finished_at')->nullable();
             $table->timestamps();
 
-            $table->foreign('person_id')->on('people')->references('id')->cascadeOnDelete();
+            $table->foreign('person_id')
+                ->on('people')->references('id')->cascadeOnDelete();
         });
     }
 

@@ -62,8 +62,10 @@ class CreatePeopleTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('user_id')->on('users')->references('id')->onDelete('set null');
-            $table->foreign('recruiter_id')->on('users')->references('id')->onDelete('set null');
+            $table->foreign('user_id')
+                ->on('users')->references('id')->onDelete('set null');
+            $table->foreign('recruiter_id')
+                ->on('users')->references('id')->onDelete('set null');
         });
     }
 

@@ -25,8 +25,10 @@ class CreateExpensesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('account_id')->on('accounts')->references('id')->onDelete('cascade');
-            $table->foreign('expense_category_id')->on('expense_categories')->references('id')->onDelete('cascade');
+            $table->foreign('account_id')
+                ->on('accounts')->references('id')->onDelete('cascade');
+            $table->foreign('expense_category_id')
+                ->on('expense_categories')->references('id')->onDelete('cascade');
         });
     }
 

@@ -41,17 +41,18 @@ class ExpenseCategoryDataTable extends DataTable
      * Optional method if you want to use html builder.
      *
      * @return \Yajra\DataTables\Html\Builder
+     * @throws \Throwable
      */
     public function html()
     {
         return $this->builder()
-                    ->setTableId('expense-category-table')
-                    ->addTableClass('table responsive-table highlight')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->language([ 'processing' => view('partials.preloader-circular')->render() ])
-                    ->orderBy(0);
+            ->setTableId('expense-category-table')
+            ->addTableClass('table responsive-table highlight')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->language([ 'processing' => view('partials.preloader-circular')->render() ])
+            ->orderBy(0);
     }
 
     /**

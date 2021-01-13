@@ -22,8 +22,10 @@ class CreateIncomesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('contract_id')->on('contracts')->references('id')->onDelete('cascade');
-            $table->foreign('account_id')->on('accounts')->references('id')->onDelete('cascade');
+            $table->foreign('contract_id')
+                ->on('contracts')->references('id')->onDelete('cascade');
+            $table->foreign('account_id')
+                ->on('accounts')->references('id')->onDelete('cascade');
         });
     }
 

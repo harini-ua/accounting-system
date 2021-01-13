@@ -12,8 +12,10 @@ class HolidayObserver
     /**
      * Handle the holiday "created" event.
      *
-     * @param  \App\Models\Holiday  $holiday
+     * @param \App\Models\Holiday $holiday
+     *
      * @return void
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function created(Holiday $holiday)
     {
@@ -23,8 +25,10 @@ class HolidayObserver
     /**
      * Handle the holiday "updated" event.
      *
-     * @param  \App\Models\Holiday  $holiday
+     * @param \App\Models\Holiday $holiday
+     *
      * @return void
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function updated(Holiday $holiday)
     {
@@ -35,8 +39,10 @@ class HolidayObserver
     /**
      * Handle the holiday "deleted" event.
      *
-     * @param  \App\Models\Holiday  $holiday
+     * @param \App\Models\Holiday $holiday
+     *
      * @return void
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function deleted(Holiday $holiday)
     {

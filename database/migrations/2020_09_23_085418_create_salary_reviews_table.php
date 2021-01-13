@@ -25,7 +25,8 @@ class CreateSalaryReviewsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('person_id')->on('people')->references('id')->onDelete('cascade');
+            $table->foreign('person_id')
+                ->on('people')->references('id')->onDelete('cascade');
         });
     }
 

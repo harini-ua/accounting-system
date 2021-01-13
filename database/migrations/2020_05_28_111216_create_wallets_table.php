@@ -20,11 +20,8 @@ class CreateWalletsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table
-                ->foreign('wallet_type_id')
-                ->on('wallet_types')
-                ->references('id')
-                ->onDelete('cascade');
+            $table->foreign('wallet_type_id')
+                ->on('wallet_types')->references('id')->onDelete('cascade');
         });
     }
 

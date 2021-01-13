@@ -23,7 +23,6 @@ final class InvoiceItemType extends Enum implements LocalizedEnum
         return parent::getDescription($value);
     }
 
-
     /**
      * Get the color values for an type
      *

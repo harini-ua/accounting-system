@@ -24,16 +24,10 @@ class CreateAccountsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table
-                ->foreign('account_type_id')
-                ->on('account_types')
-                ->references('id')
-                ->onDelete('cascade');
-            $table
-                ->foreign('wallet_id')
-                ->on('wallets')
-                ->references('id')
-                ->onDelete('cascade');
+            $table->foreign('account_type_id')
+                ->on('account_types')->references('id')->onDelete('cascade');
+            $table->foreign('wallet_id')
+                ->on('wallets')->references('id')->onDelete('cascade');
         });
     }
 

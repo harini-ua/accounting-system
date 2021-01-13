@@ -27,7 +27,8 @@ class CreateOffersTable extends Migration
             $table->text('additional_conditions')->nullable();
             $table->timestamps();
 
-            $table->foreign('employee_id')->on('users')->references('id');
+            $table->foreign('employee_id')
+                ->on('users')->references('id');
         });
     }
 

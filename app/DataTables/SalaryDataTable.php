@@ -71,6 +71,7 @@ class SalaryDataTable extends DataTable
         $this->addMonthsSelect($query);
         $this->addLongVacationMonthQuery($query);
         $this->addFilterQuery($query);
+
         return $query;
     }
 
@@ -78,6 +79,7 @@ class SalaryDataTable extends DataTable
      * Optional method if you want to use html builder.
      *
      * @return \Yajra\DataTables\Html\Builder
+     * @throws \Throwable
      */
     public function html()
     {
@@ -153,6 +155,7 @@ class SalaryDataTable extends DataTable
                             ->orWhereYear('quited_at', $year);
                     });
             });
+
         if (!$this->request()->filled('show_all')) {
             $query->whereNull('people.quited_at');
         }
@@ -160,14 +163,21 @@ class SalaryDataTable extends DataTable
 
     /**
      * @return CarbonPeriod
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function period()
     {
-        return CarbonPeriod::create(Carbon::createFromDate($this->year)->startOfYear(), '1 month', Carbon::createFromDate($this->year)->endOfYear());
+        return CarbonPeriod::create(
+            Carbon::createFromDate($this->year)->startOfYear(),
+            '1 month',
+            Carbon::createFromDate($this->year)->endOfYear()
+        );
     }
 
     /**
      * @param $query
+     *
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function addMonthsSelect($query)
     {
@@ -183,27 +193,33 @@ class SalaryDataTable extends DataTable
 
     /**
      * @return array
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function monthColumns()
     {
         $columns = [];
+
         foreach($this->period() as $month) {
             $columns[] = Column::make(strtolower($month->monthName))
                 ->title("<a class='text-decoration-underline' data-month-link href='"
                     .route('salaries.month', [$this->year, $month->month])."'>{$month->shortMonthName}</a>")
                 ->searchable(false);
         }
+
         return $columns;
     }
 
     /**
      * @param $query
+     *
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function addLongVacationMonthQuery($query)
     {
         $longVacationsQuery = DB::table('long_vacations')
             ->select('person_id')
             ->groupBy('person_id');
+
         foreach($this->period() as $month) {
             $monthName = strtolower($month->monthName);
             $longVacationsQuery->selectRaw("
@@ -217,6 +233,7 @@ class SalaryDataTable extends DataTable
                 then 1 else 0 end) as long_vacation_$monthName
             ");
         }
+
         $query->leftJoinSub($longVacationsQuery, 'long_vacations', function($join) {
             $join->on('long_vacations.person_id', '=', 'people.id');
         });
@@ -224,10 +241,13 @@ class SalaryDataTable extends DataTable
 
     /**
      * @param $eloquent
+     *
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function addMonthColumnsToDatatable($eloquent)
     {
         $rawColumns = [];
+
         foreach($this->period() as $month) {
             $monthName = strtolower($month->monthName);
             $rawColumns[] = $monthName;
@@ -238,16 +258,20 @@ class SalaryDataTable extends DataTable
                         return '<span data-color="#eeeeee"></span>';
                     }
                 }
+
                 if ($model->{"long_vacation_$monthName"}) {
                     return '<span data-color="#e7feff"></span>';
                 }
+
                 $startDate = Carbon::parse($model->start_date)->startOfMonth();
                 if ($month->year == $startDate->year && $month < $startDate) {
                     return '<span data-color="#f5f2ff"></span>';
                 }
+
                 return $model->$monthName ? Formatter::currency(round($model->$monthName, 2), Currency::symbol($this->currency)) : null;
             });
         }
+
         $eloquent->rawColumns($rawColumns);
     }
 }

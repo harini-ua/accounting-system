@@ -24,7 +24,8 @@ class CreateBanksTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('client_id')->on('clients')->references('id')->onDelete('cascade');
+            $table->foreign('client_id')
+                ->on('clients')->references('id')->onDelete('cascade');
         });
     }
 

@@ -23,8 +23,10 @@ class CreateVacationsTable extends Migration
             $table->smallInteger('days')->default(1);
             $table->timestamps();
 
-            $table->foreign('calendar_month_id')->on('calendar_months')->references('id')->onDelete('cascade');
-            $table->foreign('person_id')->on('people')->references('id')->onDelete('cascade');
+            $table->foreign('calendar_month_id')
+                ->on('calendar_months')->references('id')->onDelete('cascade');
+            $table->foreign('person_id')
+                ->on('people')->references('id')->onDelete('cascade');
         });
     }
 

@@ -24,8 +24,11 @@ class VacationMonthDataTable extends DataTable
 
     /**
      * VacationMonthDataTable constructor.
+     *
      * @param $year
      * @param $month
+     *
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function __construct($year, $month)
     {
@@ -38,7 +41,9 @@ class VacationMonthDataTable extends DataTable
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
+     *
      * @return \Yajra\DataTables\DataTableAbstract
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function dataTable($query)
     {
@@ -46,7 +51,7 @@ class VacationMonthDataTable extends DataTable
             ->eloquent($query)
             //definitions
             ->addColumn('name', function(Person $model) {
-                return $model->payment == VacationPaymentType::Paid ? view('partials.view-link', ['model' => $model]) : '';
+                return $model->payment === VacationPaymentType::Paid ? view('partials.view-link', ['model' => $model]) : '';
             })
             ->addColumn('compensate', function(Person $model) {
                 $date = Carbon::createFromDate($this->year, $this->month)->startOfMonth();
@@ -66,7 +71,9 @@ class VacationMonthDataTable extends DataTable
      * Get query source of dataTable.
      *
      * @param Person $model
+     *
      * @return \Illuminate\Database\Eloquent\Builder
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function query(Person $model)
     {
@@ -122,11 +129,11 @@ class VacationMonthDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('vacation-month-table')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->orderBy(0);
+            ->setTableId('vacation-month-table')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->orderBy(0);
     }
 
     /**
@@ -169,6 +176,7 @@ class VacationMonthDataTable extends DataTable
 
     /**
      * @return mixed
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function fetchHolidays()
     {
@@ -207,10 +215,15 @@ class VacationMonthDataTable extends DataTable
 
     /**
      * @return CarbonPeriod
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function period()
     {
-        return CarbonPeriod::create(Carbon::createFromDate($this->year, $this->month)->startOfMonth(), '1 day', Carbon::createFromDate($this->year, $this->month)->endOfMonth());
+        return CarbonPeriod::create(
+            Carbon::createFromDate($this->year, $this->month)->startOfMonth(),
+            '1 day',
+            Carbon::createFromDate($this->year, $this->month)->endOfMonth()
+        );
     }
 
     /**
@@ -239,6 +252,8 @@ class VacationMonthDataTable extends DataTable
 
     /**
      * @param $eloquent
+     *
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function addDayColumns($eloquent)
     {
@@ -300,6 +315,8 @@ class VacationMonthDataTable extends DataTable
 
     /**
      * @param $query
+     *
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     private function addLongVacationMonthQuery($query)
     {

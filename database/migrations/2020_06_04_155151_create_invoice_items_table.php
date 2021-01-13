@@ -25,7 +25,8 @@ class CreateInvoiceItemsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('invoice_id')->on('invoices')->references('id')->onDelete('cascade');
+            $table->foreign('invoice_id')
+                ->on('invoices')->references('id')->onDelete('cascade');
         });
     }
 

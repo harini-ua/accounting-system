@@ -23,7 +23,8 @@ class CreateCalendarMonthsTable extends Migration
             $table->smallInteger('weekends')->default(0);
             $table->timestamps();
 
-            $table->foreign('calendar_year_id')->on('calendar_years')->references('id')->onDelete('cascade');
+            $table->foreign('calendar_year_id')
+                ->on('calendar_years')->references('id')->onDelete('cascade');
         });
     }
 

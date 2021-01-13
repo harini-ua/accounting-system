@@ -30,7 +30,9 @@ abstract class BonusesDataTableAbstract extends DataTable
      * Build DataTable class.
      *
      * @param mixed $query Results from query() method.
+     *
      * @return \Yajra\DataTables\DataTableAbstract
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     public function dataTable($query)
     {
@@ -110,6 +112,7 @@ abstract class BonusesDataTableAbstract extends DataTable
      * Get columns.
      *
      * @return array
+     * @throws \Carbon\Exceptions\InvalidFormatException
      */
     protected function getColumns()
     {
@@ -140,7 +143,11 @@ abstract class BonusesDataTableAbstract extends DataTable
      */
     protected function period()
     {
-        return CarbonPeriod::create(Carbon::createFromDate($this->year)->startOfYear(), '1 month', Carbon::createFromDate($this->year)->endOfYear());
+        return CarbonPeriod::create(
+            Carbon::createFromDate($this->year)->startOfYear(),
+            '1 month',
+            Carbon::createFromDate($this->year)->endOfYear()
+        );
     }
 
     /**

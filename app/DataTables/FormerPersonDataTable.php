@@ -39,12 +39,10 @@ class FormerPersonDataTable extends DataTable
             ->addColumn('salary', function(Person $model) {
                 return Formatter::currency($model->salary, Currency::symbol($model->currency));
             })
-
             // filters
             ->filterColumn('name', function($query, $keyword) {
                 $query->where('name', 'like', "%$keyword%");
             })
-
             // orders
             ->orderColumn('name', function($query, $order) {
                 $query->orderBy('name', $order);
@@ -78,6 +76,7 @@ class FormerPersonDataTable extends DataTable
      * Optional method if you want to use html builder.
      *
      * @return \Yajra\DataTables\Html\Builder
+     * @throws \Throwable
      */
     public function html()
     {
