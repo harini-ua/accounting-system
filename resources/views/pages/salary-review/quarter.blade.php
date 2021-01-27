@@ -47,27 +47,6 @@
                         <div class="filter-block">
                             <div class="row">
                                 <div class="col s6 m3">
-                                    <x-filter
-                                            table="salary-review-list-datatable"
-                                            :options="$calendarYears"
-                                            url="{{ route('salary-reviews.index') }}"
-                                            name="year_filter"
-                                            title="By Year"
-                                            :default="$year"
-                                            all="0"
-                                    ></x-filter>
-                                </div>
-                                <div class="col s6 m3">
-                                    <x-filter
-                                            table="salary-review-list-datatable"
-                                            :options="$quarter"
-                                            url="{{ route('salary-reviews.index') }}"
-                                            name="quarter_filter"
-                                            title="By Quarter"
-                                            all="0"
-                                    ></x-filter>
-                                </div>
-                                <div class="col s6 m3">
                                     <x-checkbox-filter
                                             table="salary-review-list-datatable"
                                             title="Show All"
@@ -108,5 +87,5 @@
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
     <script src="{{asset('js/scripts/filters.js')}}"></script>
-    <script src="{{asset('js/scripts/salary-reviews.js')}}"></script>
+    <script src="{{asset('js/scripts/salary-reviews-quarter.js')}}"></script>
 @endsection

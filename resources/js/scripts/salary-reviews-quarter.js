@@ -12,19 +12,14 @@ $(document).ready(function () {
         .before(`
       <tr class="quarter-head">
         <th colspan="2"></th>
-        <th colspan="3" class="center-align border"><a class="qr1 underline" target="_blank">I Quarter</a></th>
-        <th colspan="3" class="center-align border"><a class="qr2 underline" target="_blank">II Quarter</a></th>
-        <th colspan="3" class="center-align border"><a class="qr3 underline" target="_blank">III Quarter</a></th>
-        <th colspan="3" class="center-align border"><a class="qr4 underline" target="_blank">IV Quarter</a></th>
-        <th colspan="2" class="center-align"></th>
+        <th colspan="3" class="center-align border"><a class="quarter underline" target="_blank"></a></th>
+        <th colspan="2" class="center-align"><a class="year underline" href="javascript:void(0);"></a></th>
       </tr>
       `);
 
-      let year = window.filters.get('year_filter');
-      $('a.qr1').attr('href', route('salary-reviews.quarter', [year, 1]));
-      $('a.qr2').attr('href', route('salary-reviews.quarter', [year, 2]));
-      $('a.qr3').attr('href', route('salary-reviews.quarter', [year, 3]));
-      $('a.qr4').attr('href', route('salary-reviews.quarter', [year, 4]));
+      let url = window.location.href;
+      let quarter = url.substr(url.lastIndexOf('/') + 1);
+      $('a.quarter').text(romanize(quarter) + ' Quarter');
 
       $('.tooltipped').tooltip();
     });

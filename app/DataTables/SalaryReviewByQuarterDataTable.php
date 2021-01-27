@@ -23,12 +23,16 @@ class SalaryReviewByQuarterDataTable extends DataTable
     /** @var mixed */
     public $year;
 
+    /** @var mixed */
+    public $quarter;
+
     /**
      * OffersDataTables constructor.
      */
-    public function __construct()
+    public function __construct($year, $quarter)
     {
-        $this->year = $this->request()->input('year_filter') ?? Carbon::now()->year;
+        $this->year = $year ?? Carbon::now()->year;
+        $this->quarter = $quarter;
     }
 
     /**
@@ -149,10 +153,11 @@ class SalaryReviewByQuarterDataTable extends DataTable
             ->parameters([
                 'columnDefs' => [
                     ['targets' => [1, 2], 'className' => 'small-text'],
-                    ['targets' => [3, 6, 9, 12], 'className' => 'small-text border-left center-align'],
-                    ['targets' => [4, 7, 10, 13], 'className' => 'small-text center-align'],
-                    ['targets' => [5, 8, 11, 14], 'className' => 'small-text border-right center-align'],
-                    ['targets' => [15, 16], 'className' => 'small-text center-align'],
+                    ['targets' => [3], 'className' => 'small-text border-left center-align'],
+                    ['targets' => [4], 'className' => 'small-text center-align'],
+                    ['targets' => [5], 'className' => 'small-text border-right center-align'],
+                    ['targets' => [6], 'className' => 'small-text center-align'],
+                    ['targets' => [7], 'className' => 'small-text center-align'],
                 ]
            ]);
     }
@@ -185,9 +190,18 @@ class SalaryReviewByQuarterDataTable extends DataTable
     protected function addMonthColumnsToDatatable($dataTable): array
     {
         $monthColumns = [];
-        foreach($this->period() as $month) {
+        foreach(period($this->year, $this->quarter) as $month) {
             $monthName = strtolower($month->monthName);
             $monthColumns[] = $monthName;
+            $dataTable->addColumn("$monthName-event", static function (SalaryReview $model) {
+                return "event";
+            });
+            $dataTable->addColumn("$monthName-date", static function (SalaryReview $model) {
+                return "date";
+            });
+            $dataTable->addColumn("$monthName-sum", static function (SalaryReview $model) {
+                return "sum";
+            });
             $dataTable->addColumn($monthName, function(SalaryReview $model) use ($month, $monthName) {
                 $value = $model->{$monthName};
                 $class = $value < 0 ? "red-text" : "";
@@ -202,15 +216,6 @@ class SalaryReviewByQuarterDataTable extends DataTable
     }
 
     /**
-     * @return CarbonPeriod
-     * @throws \Carbon\Exceptions\InvalidFormatException
-     */
-    protected function period()
-    {
-        return CarbonPeriod::create(Carbon::createFromDate($this->year)->startOfYear(), '1 month', Carbon::createFromDate($this->year)->endOfYear());
-    }
-
-    /**
      * @return array
      * @throws \Carbon\Exceptions\InvalidFormatException
      */
@@ -218,7 +223,7 @@ class SalaryReviewByQuarterDataTable extends DataTable
     {
         $columns = [];
 
-        foreach($this->period() as $month) {
+        foreach(period($this->year, $this->quarter) as $month) {
             $columns[] = Column::make(strtolower($month->monthName))
                 ->title($month->shortMonthName)
                 ->orderable(false)
@@ -237,10 +242,13 @@ class SalaryReviewByQuarterDataTable extends DataTable
      */
     protected function addMonthsSelect($query): void
     {
-        foreach($this->period() as $month) {
+        foreach(period($this->year, $this->quarter) as $month) {
             $monthName = strtolower($month->monthName);
             $query->selectRaw("sum(case when month(date)={$month->month} and year(date)='{$this->year}' then sum end) as {$monthName}");
         }
-        $query->selectRaw("sum(case when year(date)='{$this->year}' then sum end) as total");
+
+        $between = between_quarter($this->quarter);
+
+        $query->selectRaw("sum(case when year(date)='{$this->year}' and (month(date) between {$between[0]} and {$between[1]}) then sum end) as total");
     }
 }

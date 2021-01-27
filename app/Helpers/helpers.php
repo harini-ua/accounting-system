@@ -310,3 +310,20 @@ if (!function_exists('period'))
         return \Carbon\CarbonPeriod::create(...$params);
     }
 }
+
+if (!function_exists('between_quarter'))
+{
+    function between_quarter($quarter, $quality = 'month')
+    {
+        if ($quality === 'month') {
+            $betweenMonths = [
+                1 => [1, 3],
+                2 => [4, 6],
+                3 => [7, 9],
+                4 => [10, 12],
+            ];
+
+            return $betweenMonths[$quarter];
+        }
+    }
+}

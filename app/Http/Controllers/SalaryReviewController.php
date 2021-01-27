@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\SalaryReviewByYearDataTable;
+use App\DataTables\SalaryReviewByQuarterDataTable;
+use App\DataTables\SalaryReviewDataTable;
 use App\Enums\SalaryReviewProfGrowthType;
 use App\Enums\SalaryReviewReason;
 use App\Enums\SalaryReviewType;
@@ -17,11 +18,11 @@ class SalaryReviewController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param SalaryReviewByYearDataTable $dataTable
+     * @param SalaryReviewDataTable $dataTable
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(SalaryReviewByYearDataTable $dataTable)
+    public function index(SalaryReviewDataTable $dataTable)
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
@@ -47,17 +48,14 @@ class SalaryReviewController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param SalaryReviewByQuarterDataTable $dataTable
-     *
      * @return \Illuminate\Http\Response
      */
-    public function byQuarter(SalaryReviewByQuarterDataTable $dataTable, $year, $quarter)
+    public function quarter($year, $quarter)
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['link' => route('salary-reviews.index'), 'name' => __('Salary Reviews')],
-            ['link' => route('salary-reviews.index'), 'name' => __($year.' y.')],
-            ['name' => __(integerToRoman($quarter).' qr.')]
+            ['name' => __(integerToRoman($quarter). " quarter $year year")]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
@@ -69,9 +67,7 @@ class SalaryReviewController extends Controller
             }
         );
 
-        $year = $dataTable->year;
-
-        $quarter = QuartersYear::toCollection();
+        $dataTable = new SalaryReviewByQuarterDataTable($year, $quarter);
 
         return $dataTable->render('pages.salary-review.quarter', compact(
             'pageConfigs', 'breadcrumbs', 'calendarYears', 'year', 'quarter'
