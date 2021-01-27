@@ -25,7 +25,7 @@
     <div class="create-btn invoice-create-btn">
         <a href="{{ route('invoices.create') }}" class="btn waves-effect waves-light invoice-create">
             <i class="material-icons">add</i>
-            <span class="hide-on-small-only">{{ __("Add Invoice") }}</span>
+            <span class="hide-on-small-only">{{ __("Add") }}</span>
         </a>
     </div>
     <!-- invoice list -->

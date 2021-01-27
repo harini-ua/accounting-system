@@ -109,7 +109,6 @@ return [
             "slug"=> "calendar",
             "icon"=> "today",
             "i18n"=> "Calendar"
-
         ],
         [
             'url' => 'vacations',
@@ -136,6 +135,13 @@ return [
             'url' => 'salary-reviews',
             'name' => 'Salary Reviews',
             'slug' => 'salary-reviews',
+            'icon' => 'local_atm',
+            'i18n' => 'local_atm',
+        ],
+        [
+            'url' => 'salaries',
+            'name' => 'Salaries',
+            'slug' => 'salaries',
             'icon' => 'local_atm',
             'i18n' => 'local_atm',
         ],

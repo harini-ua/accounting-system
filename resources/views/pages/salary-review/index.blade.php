@@ -25,12 +25,10 @@
         <a href="{{ route('salary-reviews.create') }}"
            class="btn waves-effect waves-light invoice-create z-depth-4">
             <i class="material-icons">add</i>
-            <span class="hide-on-small-only">{{ __("Add Salary Review") }}</span>
+            <span class="hide-on-small-only">{{ __("Add") }}</span>
         </a>
     </div>
-    <!-- invoice list -->
     <section class="salary-review-list-wrapper users-list-wrapper section animate fadeLeft">
-        <!-- create invoice button-->
         <div class="filters-panel">
             <ul class="collapsible mt-0">
                 <li class="{{ active(config('general.ui.datatable.filter.show')) }}">
@@ -65,10 +63,8 @@
                         </div>
                     </div>
                 </li>
-
             </ul>
         </div>
-
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">

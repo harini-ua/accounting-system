@@ -33,7 +33,7 @@
         <div class="create-btn invoice-create-btn">
             <a href="{{ route('salary-reviews.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
                 <i class="material-icons">add</i>
-                <span class="hide-on-small-only">{{ __("Add Salary Review") }}</span>
+                <span class="hide-on-small-only">{{ __("Add") }}</span>
             </a>
         </div>
 

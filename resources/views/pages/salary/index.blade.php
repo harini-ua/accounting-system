@@ -21,82 +21,76 @@
 
 {{-- page content --}}
 @section('content')
-    <div class="users-list-wrapper section animate fadeLeft">
-
-        <!-- create button-->
-        <div class="create-btn invoice-create-btn">
-            <a href="{{ route('salary-payments.create') }}"
-               class="btn waves-effect waves-light invoice-create z-depth-4">
-                <i class="material-icons">add</i>
-                <span class="hide-on-small-only">{{ __("Add Salary") }}</span>
-            </a>
+    <div class="create-btn invoice-create-btn">
+        <a href="{{ route('salary-payments.create') }}"
+           class="btn waves-effect waves-light invoice-create z-depth-4">
+            <i class="material-icons">add</i>
+            <span class="hide-on-small-only">{{ __("Add") }}</span>
+        </a>
+    </div>
+    <section class="salary-review-list-wrapper users-list-wrapper section animate fadeLeft">
+        <div class="filters-panel">
+            <ul class="collapsible mt-0">
+                <li class="{{ active(config('general.ui.datatable.filter.show')) }}">
+                    <div class="collapsible-header p-0">
+                        <div class="box-shadow-none width-100  card-panel m-0 display-flex align-items-center justify-content-between">
+                            <div class="display-flex align-items-center">
+                                <i class="material-icons">arrow_upward</i>
+                                <h6 class="m-0">  {{ __('Filters') }}</h6>
+                            </div>
+                            <x-reset-filters/>
+                        </div>
+                    </div>
+                    <div class="collapsible-body mt-0 p-0">
+                        <div class="m-0 box-shadow-none filter-panel accounts-page-card-panel card-panel">
+                            <div class="filter-block mb-0">
+                                <x-filter
+                                        table="salary-table"
+                                        :options="$calendarYears"
+                                        url="{{ route('salaries.index') }}"
+                                        name="year_filter"
+                                        title="By Year"
+                                        :default="$year"
+                                        all="0"
+                                />
+                                <x-filter
+                                        table="salary-table"
+                                        :options="$currencies"
+                                        url="{{ route('salaries.index') }}"
+                                        name="currency_filter"
+                                        title="Currency"
+                                        default="{{ \App\Enums\Currency::USD }}"
+                                        all="0"
+                                />
+                                <x-checkbox-filter
+                                        title="Show All"
+                                        name="show_all"
+                                        table="salary-table"
+                                        url="{{ route('salaries.index') }}"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
-        <ul class="collapsible m-0">
-            <li class="{{ active(config('general.ui.datatable.filter.show')) }}">
-                <div class="collapsible-header p-0">
-                    <div class="box-shadow-none width-100  card-panel m-0 display-flex align-items-center justify-content-between">
-                        <div class="display-flex align-items-center">
-                            <i class="material-icons">arrow_upward</i>
-                            <h6 class="m-0">  {{ __('Filters') }}</h6>
-                        </div>
-                        <x-reset-filters/>
-                    </div>
-                </div>
-                <div class="collapsible-body mt-0 p-0">
-                    <div class="m-0 box-shadow-none filter-panel accounts-page-card-panel card-panel">
-                        <div class="filter-block mb-0">
-                            <x-filter
-                                table="salary-table"
-                                :options="$calendarYears"
-                                url="{{ route('salaries.index') }}"
-                                name="year_filter"
-                                title="By Year"
-                                :default="$year"
-                                all="0"
-                            />
-                            <x-filter
-                                table="salary-table"
-                                :options="$currencies"
-                                url="{{ route('salaries.index') }}"
-                                name="currency_filter"
-                                title="Currency"
-                                default="{{ \App\Enums\Currency::USD }}"
-                                all="0"
-                            />
-                            <x-checkbox-filter
-                                title="Show All"
-                                name="show_all"
-                                table="salary-table"
-                                url="{{ route('salaries.index') }}"
-                            />
-                        </div>
-                    </div>
-                </div>
-            </li>
-        </ul>
-
-        {{-- controls end --}}
-        {{-- content start --}}
-        <section class="users-list-table">
+        <div class="users-list-table">
             <div class="card">
                 <div class="card-content">
-                    <!-- datatable start -->
                     <div class="responsive-table overflow-x-auto">
                         {{ $dataTable->table() }}
                     </div>
-                    <!-- datatable ends -->
                 </div>
             </div>
-        </section>
-        {{-- content end --}}
-    </div>
-    {{-- Content Area Ends --}}
+        </div>
+    </section>
 @endsection
 
 {{-- vendor scripts --}}
 @section('vendor-script')
     <script src="{{asset('vendors/data-tables/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('vendors/data-tables/js/datatables.checkboxes.min.js')}}"></script>
     <script src="{{asset('vendors/select2/select2.full.min.js')}}"></script>
     <script src="{{asset('js/scripts/form-select2.js')}}"></script>
 @endsection

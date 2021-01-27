@@ -21,7 +21,7 @@
     <div class="create-btn">
         <a href="{{ route('clients.create') }}" class="btn">
             <i class="material-icons">add</i>
-            <span class="hide-on-small-only">{{ __('Add Client') }}</span>
+            <span class="hide-on-small-only">{{ __('Add') }}</span>
         </a>
     </div>
     <!-- client list start -->
