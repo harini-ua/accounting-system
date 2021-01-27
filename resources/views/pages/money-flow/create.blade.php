@@ -25,7 +25,6 @@
                             <div class="row">
                                 <div class="col s12 m6">
                                     <h5 class="indigo-text">From:</h5>
-                                    <div class="divider mt-2 mb-2"></div>
                                     <div class="row">
                                         <x-linked-selects
                                             firstName="wallet_from_id"
@@ -44,7 +43,6 @@
                                 </div>
                                 <div class="col s12 m6">
                                     <h5 class="purple-text">To:</h5>
-                                    <div class="divider mt-2 mb-2"></div>
                                     <div class="row">
                                         <x-linked-selects
                                             firstName="wallet_to_id"

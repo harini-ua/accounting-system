@@ -66,9 +66,9 @@
                         @error('items.'.$i.'.description')<small class="errorTxt1"><div id="title-error" class="error">{{ $message }}</div></small>@enderror
                     </div>
                 </div>
-                <div class="invoice-icon display-flex flex-column justify-content-between">
-                    <span data-repeater-delete class="delete-row-btn">
-                        <i class="material-icons">clear</i>
+                <div class="invoice-icon display-flex justify-content-center  padding-2 align-items-center">
+                    <span data-repeater-delete class="delete-row-btn indigo-text">
+                        <i class="material-icons">delete</i>
                     </span>
                 </div>
             </div>

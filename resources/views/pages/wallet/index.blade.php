@@ -24,7 +24,12 @@
 
 {{-- page content --}}
 @section('content')
-
+    <div class="create-btn add-item-btn slide-down-btn">
+        <a href="#" class="waves-effect waves-light btn slide-down-btn">
+            <i class="material-icons">add</i>
+            <span class="hide-on-small-only">Add</span>
+        </a>
+    </div>
     <!-- Sidebar Area Starts -->
     <section class="users-list-wrapper section animate fadeLeft">
         {{--<div class="page-layout">--}}
@@ -36,12 +41,7 @@
         <!-- Sidebar Area Ends -->
 
         <!-- Content Area Starts -->
-        <div class="create-btn add-item-btn slide-down-btn">
-            <a href="#" class="waves-effect waves-light btn slide-down-btn">
-                <i class="material-icons">add</i>
-                <span class="hide-on-small-only">Add</span>
-            </a>
-        </div>
+
         <div class="users-list-table animate fadeRight">
 
             <div class="card">

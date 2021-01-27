@@ -34,12 +34,6 @@
                                             :model="$model"
                                             disabled="true"
                                         ></x-select>
-                                    </div>
-                                </div>
-                                <div class="col s12 m6 animate fadeRight">
-                                    <div class="row">
-                                        <x-date name="started_at" title="Start date" :model="$model"></x-date>
-                                        <x-input name="balance" title="Balance" :model="$model"></x-input>
                                         <div class="col s12 input-field">
                                             <div class="switch">
                                                 <label>
@@ -53,6 +47,13 @@
                                             <span class="helper-text">{{ $message }}</span>
                                             @enderror
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col s12 m6 animate fadeRight">
+                                    <div class="row">
+                                        <x-date name="started_at" title="Start date" :model="$model"></x-date>
+                                        <x-input name="balance" title="Balance" :model="$model"></x-input>
+
                                     </div>
                                 </div>
                                 <div class="col s12 display-flex justify-content-end mt-3">

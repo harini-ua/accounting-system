@@ -20,7 +20,12 @@
 
 {{-- page content --}}
 @section('content')
-
+    <div class="create-btn add-item-btn slide-down-btn">
+        <a href="#" class="waves-effect waves-light btn">
+            <i class="material-icons">add</i>
+            <span class="hide-on-small-only">Add</span>
+        </a>
+    </div>
     <!-- Sidebar Area Starts -->
     <section class="users-list-wrapper section animate fadeLeft">
         <div class="card slide-down-block">
@@ -28,13 +33,6 @@
                 @include('pages.expense-category.partials._form')
             </div>
         </div>
-        <div class="create-btn add-item-btn slide-down-btn">
-            <a href="#" class="waves-effect waves-light btn">
-                <i class="material-icons">add</i>
-                <span class="hide-on-small-only">Add</span>
-            </a>
-        </div>
-
         <!-- Sidebar Area Ends -->
 
         <!-- Content Area Starts -->

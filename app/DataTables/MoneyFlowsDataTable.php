@@ -107,6 +107,7 @@ class MoneyFlowsDataTable extends DataTable
             ->addTableClass('subscription-table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
+            ->pageLength(15)
             ->dom('Bfrtip')
             ->language([ 'processing' => view('partials.preloader-circular')->render() ])
             ->orderBy(0);

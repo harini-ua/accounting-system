@@ -3,7 +3,8 @@
       action="{{ route('incomes.store') }}">
     @csrf
     <div class="row">
-        <x-linked-selects
+        <div class="col s12 m6">
+            <x-linked-selects
                 firstName="client_id"
                 firstTitle="Client"
                 secondName="contract_id"
@@ -11,8 +12,10 @@
                 dataUrl="/clients/[id]/contracts"
                 view="components.linked-selects.clients-contracts"
                 :options="$clients"
-        />
-        <x-linked-selects
+            />
+        </div>
+        <div class="col s12 m6">
+            <x-linked-selects
                 firstName="wallet_id"
                 firstTitle="Wallet"
                 secondName="account_id"
@@ -20,7 +23,8 @@
                 dataUrl="/wallets/[id]/accounts"
                 view="components.linked-selects.wallets-accounts"
                 :options="$wallets"
-        />
+            />
+        </div>
         <div class="col s12 m6">
             <x-date name="plan_date" title="Planning Date"></x-date>
         </div>

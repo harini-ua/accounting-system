@@ -16,8 +16,6 @@
   }
 
   .users-list-table {
-    overflow: hidden;
-
     .dataTables_filter {
       label {
         input {
@@ -46,16 +44,12 @@
         width: auto !important;
         border-bottom: 1px solid color("grey", "lighten-2");
       }
-
-
-      tbody td {
-        padding: .8rem .8rem;
-      }
     }
+
+
 
     .dataTables_paginate {
 
-      /* Pagination button styling */
       .paginate_button {
         padding: 0.25em 0.65em;
         margin-top: 0.25rem;
@@ -73,7 +67,7 @@
 
     .dataTables_processing {
       top: 0% !important;
-      height: 100% !important;
+      height: 98% !important;
       background-color: white !important;
       opacity: 0.7 !important;
       .preloader-wrapper {

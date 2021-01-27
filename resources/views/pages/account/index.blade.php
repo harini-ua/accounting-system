@@ -22,15 +22,16 @@
 
 {{-- page content --}}
 @section('content')
-    <section class="section animate fadeLeft">
+    <section class="section animate fadeLeft ">
+        <div class="pb-1"></div>
         <x-totals :options="$accountTypes" relation="accountsSum"/>
-        <ul class="collapsible m-0">
+        <ul class="collapsible card">
             <li class="{{ active(config('general.ui.datatable.filter.show')) }}">
                 <div class="collapsible-header p-0">
                     <div class="box-shadow-none width-100  card-panel m-0 display-flex align-items-center justify-content-between">
                         <div class="display-flex align-items-center">
-                            <i class="material-icons">arrow_upward</i>
-                            <h6 class="m-0"> {{ __('Filters') }}</h6>
+                            <i class="material-icons collapsible-arrow">arrow_upward</i>
+                            <h6 class="m-0">  {{ __('Filters') }}</h6>
                         </div>
                         <x-reset-filters/>
                     </div>

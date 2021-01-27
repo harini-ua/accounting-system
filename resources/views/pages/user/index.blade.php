@@ -20,6 +20,12 @@
 
 
 @section('content')
+    <div class="create-btn add-item-btn slide-down-btn">
+        <a href="#" class="waves-effect waves-light btn">
+            <i class="material-icons">add</i>
+            <span class="hide-on-small-only">Add</span>
+        </a>
+    </div>
     <!-- users list start -->
     <section class="users-list-wrapper section animate fadeLeft">
         <div class="card slide-down-block">
@@ -27,12 +33,7 @@
                 @include('pages.user.partials._form')
             </div>
         </div>
-        <div class="create-btn add-item-btn slide-down-btn">
-            <a href="#" class="waves-effect waves-light btn">
-                <i class="material-icons">add</i>
-                <span class="hide-on-small-only">Add</span>
-            </a>
-        </div>
+
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">

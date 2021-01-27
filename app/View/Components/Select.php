@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
 
@@ -52,6 +53,23 @@ class Select extends Component
 
         return $this->default == $option->id ? 'selected' : '';
     }
+
+    /**
+     * @return string
+     */
+     public function selectedOptionName() {
+        $optionId = null;
+
+        if ($this->model) {
+            $optionId = $this->model->{$this->name};
+        }
+
+        if (old($this->name)) {
+            $optionId = old($this->name);
+        }
+        $option = method_exists($this->options, 'find') ? $this->options->find($optionId) : null;
+        return $option ? $option->name : '';
+     }
 
     /**
      * @return string

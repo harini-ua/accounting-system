@@ -20,6 +20,12 @@
 
 {{-- page content --}}
 @section('content')
+    <div class=" create-btn invoice-create-btn add-item-btn">
+        <a href="{{ route('expenses.create') }}" class="btn waves-effect waves-light invoice-create">
+            <i class="material-icons">add</i>
+            <span class="hide-on-small-only">Add</span>
+        </a>
+    </div>
     <section class="users-list-wrapper section animate fadeLeft">
         <div class="totals-container totals-2-col">
             <div class="col s12 m6">
@@ -30,12 +36,13 @@
             </div>
         </div>
 
-        <ul class="collapsible m-0">
+
+        <ul class="collapsible mt-0">
             <li class="{{ active(config('general.ui.datatable.filter.show')) }}">
                 <div class="collapsible-header p-0">
                     <div class="box-shadow-none width-100  card-panel m-0 display-flex align-items-center justify-content-between">
                         <div class="display-flex align-items-center">
-                            <i class="material-icons">arrow_upward</i>
+                            <i class="material-icons collapsible-arrow">arrow_upward</i>
                             <h6 class="m-0">  {{ __('Filters') }}</h6>
                         </div>
                         <x-reset-filters/>
@@ -50,12 +57,6 @@
                 </div>
             </li>
         </ul>
-        <div class=" create-btn invoice-create-btn add-item-btn">
-            <a href="{{ route('expenses.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
-                <i class="material-icons">add</i>
-                <span class="hide-on-small-only">Add</span>
-            </a>
-        </div>
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">

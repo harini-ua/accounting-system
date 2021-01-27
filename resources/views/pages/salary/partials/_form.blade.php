@@ -25,7 +25,8 @@
     <div class="row" data-pjax>
         @if($person)
         <div class="col s12 m6">
-            <x-input name="working_days" title="{{ __('Number of working days') }}" :model="$calendarMonth" disabled="true"></x-input>
+            <x-input name="working_days" 23321
+                     title="{{ __('Number of working days') }}" :model="$calendarMonth" disabled="true"></x-input>
             <x-input name="worked_days" title="{{ __('Number of worked days') }}" :model="$model"></x-input>
             <x-input name="working_hours" title="{{ __('Number of working hours') }}" :model="$calendarMonth" disabled="true"></x-input>
             <x-input name="worked_hours" title="{{ __('Number of worked hours') }}" :model="$model"></x-input>

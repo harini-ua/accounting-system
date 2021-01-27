@@ -83,6 +83,7 @@ class PersonDataTable extends DataTable
             ->orderColumn('salary', function($query, $order) {
                 $query->orderBy('salary', $order);
             })
+
             // other
             ->setRowClass(function (Person $model) {
                 if ($model->long_vacation) {
@@ -113,6 +114,7 @@ class PersonDataTable extends DataTable
             })
             ->groupBy('person_id');
 
+
         return $model->newQuery()
             ->select('people.*', 'current_long_vacations.long_vacation')
             ->leftJoinSub($longVacations, 'current_long_vacations', function($join) {
@@ -126,7 +128,6 @@ class PersonDataTable extends DataTable
      * Optional method if you want to use html builder.
      *
      * @return \Yajra\DataTables\Html\Builder
-     * @throws \Throwable
      */
     public function html()
     {
@@ -135,6 +136,7 @@ class PersonDataTable extends DataTable
             ->addTableClass('subscription-table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
+            ->pageLength(15)
             ->dom('Bfrtip')
             ->language([ 'processing' => view('partials.preloader-circular')->render() ])
             ->orderBy(0, 'desc');

@@ -1,28 +1,29 @@
-<div class="col s12 m6">
-    <div class="col s12 input-field">
-        <select id="{{ $firstName }}" name="{{ $firstName }}" data-placeholder="{{ __('- Select '.$firstTitle.' -') }}"
-                class="select2 browser-default linked" data-url="{{ $url }}">
-            @if(count($options))
-                <option class="first_default">{{ __('- Select '.$firstTitle.' -') }}</option>
-                @if($model)
-                    @foreach ($options as $client)
-                        <option {{ $model->contract->client_id == $client->id ? 'selected' : '' }}
-                                value="{{ $client->id }}">
-                            {{ $client->name }}
-                        </option>
-                    @endforeach
-                @else
-                    @foreach ($options as $client)
-                        <option {{ old($firstName) == $client->id ? 'selected' : '' }}
-                                value="{{ $client->id }}">
-                            {{ $client->name }}
-                        </option>
-                    @endforeach
-                @endif
+<div class="col s12 input-field custom-select-wrapper">
+    <input type="text" id="{{$firstName}}-input" class="select-trigger">
+    <label for="{{$firstName}}-input">{{ $firstTitle }}</label>
+    <select id="{{ $firstName }}" name="{{ $firstName }}" data-placeholder="{{ __('- Select '.$firstTitle.' -') }}"
+            class="select2 browser-default linked form-select" data-url="{{ $url }}"
+            data-binded-select="{{$secondName}}">
+        @if(count($options))
+            <option class="first_default">{{ __('- Select '.$firstTitle.' -') }}</option>
+            @if($model)
+                @foreach ($options as $client)
+                    <option {{ $model->contract->client_id == $client->id ? 'selected' : '' }}
+                            value="{{ $client->id }}">
+                        {{ $client->name }}
+                    </option>
+                @endforeach
+            @else
+                @foreach ($options as $client)
+                    <option {{ old($firstName) == $client->id ? 'selected' : '' }}
+                            value="{{ $client->id }}"
+                    >{{ $client->name }}
+                    </option>
+                @endforeach
             @endif
-        </select>
-        <span class="error-span"></span>
-    </div>
+        @endif
+    </select>
+    <span class="error-span"></span>
 </div>
 
 <div class="col s12 m6">

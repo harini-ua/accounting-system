@@ -85,6 +85,7 @@ class FormerPersonDataTable extends DataTable
             ->addTableClass('subscription-table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
+            ->pageLength(15)
             ->dom('Bfrtip')
             ->language([ 'processing' => view('partials.preloader-circular')->render() ])
             ->orderBy(0, 'desc')
@@ -102,8 +103,8 @@ class FormerPersonDataTable extends DataTable
             Column::make('id'),
             Column::make('name')->searchable(),
             Column::make('position'),
-            Column::make('start_date')->title('Date of the work beginning'),
-            Column::make('quited_at')->title('Date of the work ending'),
+            Column::make('start_date')->title('Date of the work <br> beginning'),
+            Column::make('quited_at')->title('Date of the work <br> ending'),
             Column::make('salary'),
             Column::make('contract_type')->title('Type of contract'),
             Column::make('quit_reason')->title('Reason for the job quit'),

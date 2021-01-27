@@ -57,7 +57,6 @@ class WalletDataTable extends DataTable
      * Optional method if you want to use html builder.
      *
      * @return \Yajra\DataTables\Html\Builder
-     * @throws \Throwable
      */
     public function html()
     {
@@ -67,6 +66,7 @@ class WalletDataTable extends DataTable
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
+            ->pageLength(16)
             ->language([ 'processing' => view('partials.preloader-circular')->render() ])
             ->orderBy(0);
     }

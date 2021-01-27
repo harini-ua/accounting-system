@@ -33,7 +33,7 @@
                             </div>
                             <div class="col s12 m6">
                                 <div class="row">
-                                    <x-textarea name="purpose" title="Purpose of expense" :model="$model"></x-textarea>
+
                                     <x-linked-selects
                                         firstName="wallet_id"
                                         firstTitle="Wallet"
@@ -50,6 +50,7 @@
                                         :options="$expenseCategories"
                                         :model="$model"
                                     ></x-select>
+                                    <x-textarea name="purpose" title="Purpose of expense" :model="$model"></x-textarea>
                                 </div>
                             </div>
                             <div class="col s12 display-flex justify-content-end mt-3">

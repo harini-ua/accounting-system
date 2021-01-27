@@ -30,12 +30,12 @@
             <x-totals title="Received" :options="$accountTypes" relation="receivedSum"/>
         </div>
     </div>
-    <ul class="collapsible m-0">
+    <ul class="collapsible card">
         <li class="{{ active(config('general.ui.datatable.filter.show')) }}">
             <div class="collapsible-header p-0">
                 <div class="box-shadow-none width-100  card-panel m-0 display-flex align-items-center justify-content-between">
                     <div class="display-flex align-items-center">
-                        <i class="material-icons">arrow_upward</i>
+                        <i class="material-icons collapsible-arrow">arrow_upward</i>
                         <h6 class="m-0">  {{ __('Filters') }}</h6>
                     </div>
                     <x-reset-filters/>
@@ -62,9 +62,9 @@
                                 title="By Wallet"
                                 className="filter-btn invoice-filter-action"
                             />
+                            <x-checkbox-filter title="Received" name="received" table="incomes-list-table"
+                                               url="{{ route('incomes.list') }}"/>
                         </div>
-                        <x-checkbox-filter title="Received" name="received" table="incomes-list-table"
-                                           url="{{ route('incomes.list') }}"/>
                     </div>
                 </div>
             </div>
