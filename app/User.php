@@ -1,6 +1,7 @@
 <?php
 
 namespace App;
+
 use App\Models\Position;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Passport\HasApiTokens;

@@ -11,7 +11,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class ClientsDataTable extends DataTable
 {
-    const COLUMNS = [
+    public const COLUMNS = [
         'name',
         'email',
         'phone'

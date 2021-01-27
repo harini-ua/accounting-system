@@ -44,7 +44,10 @@ class ExpenseDataTable extends DataTable
                 return mb_strimwidth($model->purpose, 0, 50, '...');
             })
             ->addColumn('action', function(Expense $model) {
-                return view("partials.actions", ['actions'=>['edit', 'copy', 'delete'], 'model' => $model]);
+                return view("partials.actions", [
+                    'actions' => ['edit', 'copy', 'delete'],
+                    'model' => $model
+                ]);
             })
             ->orderColumn('plan_sum', function($query, $order) {
                 $query->orderBy('plan_sum', $order);

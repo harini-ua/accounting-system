@@ -15,7 +15,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class SalaryReviewByPersonDataTable extends DataTable
 {
-    const COLUMNS = [
+    public const COLUMNS = [
         'person',
         'date',
         'sum',

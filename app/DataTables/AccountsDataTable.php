@@ -15,6 +15,10 @@ use Yajra\DataTables\Services\DataTable;
 
 class AccountsDataTable extends DataTable
 {
+    public const COLUMNS = [
+        'status',
+    ];
+
     public $filterService;
 
     /**
@@ -56,7 +60,7 @@ class AccountsDataTable extends DataTable
             ->addColumn('action', function(Account $account) {
                 return view("partials.actions", ['actions'=>['edit'], 'model' => $account]);
             })
-            ->rawColumns(['status'])
+            ->rawColumns(self::COLUMNS)
             ->filter(function($query) {
                 if ($this->request->has('wallet_filter')) {
                     $wallet_filter = $this->request->input('wallet_filter');

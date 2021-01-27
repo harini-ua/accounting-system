@@ -16,7 +16,7 @@ $(document).ready(function () {
         <th colspan="3" class="center-align border"><a class="qr2 underline" target="_blank">II Quarter</a></th>
         <th colspan="3" class="center-align border"><a class="qr3 underline" target="_blank">III Quarter</a></th>
         <th colspan="3" class="center-align border"><a class="qr4 underline" target="_blank">IV Quarter</a></th>
-        <th colspan="2"></th>
+        <th colspan="2" class="center-align border"><a class="year underline" href="javascript:void(0);"></a></th>
       </tr>
       `);
 
@@ -25,6 +25,8 @@ $(document).ready(function () {
       $('a.qr2').attr('href', route('salary-reviews.byQuarter', [year, 2]));
       $('a.qr3').attr('href', route('salary-reviews.byQuarter', [year, 3]));
       $('a.qr4').attr('href', route('salary-reviews.byQuarter', [year, 4]));
+
+      $('a.year').text(year);
 
       $('.tooltipped').tooltip();
     });

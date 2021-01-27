@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class BonusesRecruitersDataTable extends BonusesDataTableAbstract
 {
-    const COLUMNS = [
+    public const COLUMNS = [
         'recruiter',
         'bonus',
         'total',

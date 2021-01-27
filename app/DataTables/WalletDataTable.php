@@ -12,6 +12,10 @@ use Yajra\DataTables\Services\DataTable;
 
 class WalletDataTable extends DataTable
 {
+    public const COLUMNS = [
+        'name'
+    ];
+
     /**
      * Build DataTable class.
      *
@@ -28,7 +32,7 @@ class WalletDataTable extends DataTable
             ->addColumn('name', static function(Wallet $model) {
                 return view('partials.view-link', ['model' => $model]);
             })
-            ->rawColumns(['name'])
+            ->rawColumns(self::COLUMNS)
             ->filterColumn('name', function($query, $keyword) {
                 $query->where('name', 'like', "%$keyword%");
             })

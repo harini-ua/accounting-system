@@ -11,7 +11,7 @@ use Yajra\DataTables\Services\DataTable;
 
 abstract class BonusesDataTableAbstract extends DataTable
 {
-    const COLUMNS = [
+    public const COLUMNS = [
         'person',
         'bonus',
         'total',

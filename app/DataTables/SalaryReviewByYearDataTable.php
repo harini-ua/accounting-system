@@ -13,7 +13,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class SalaryReviewByYearDataTable extends DataTable
 {
-    const COLUMNS = [
+    public const COLUMNS = [
         'person',
         'basic_salary',
         'total',
@@ -25,10 +25,12 @@ class SalaryReviewByYearDataTable extends DataTable
 
     /**
      * OffersDataTables constructor.
+     *
+     * @param null $year
      */
-    public function __construct()
+    public function __construct($year = null)
     {
-        $this->year = $this->request()->input('year_filter') ?? Carbon::now()->year;
+        $this->year = $year ?? $this->request()->input('year_filter') ?? Carbon::now()->year;
     }
 
     /**
@@ -148,11 +150,13 @@ class SalaryReviewByYearDataTable extends DataTable
             ->orderBy(1, 'asc')
             ->parameters([
                 'columnDefs' => [
-                    ['targets' => [1, 2], 'className' => 'small-text'],
+                    ['targets' => [1], 'className' => 'small-text border-left'],
+                    ['targets' => [2], 'className' => 'small-text'],
                     ['targets' => [3, 6, 9, 12], 'className' => 'small-text border-left center-align'],
                     ['targets' => [4, 7, 10, 13], 'className' => 'small-text center-align'],
                     ['targets' => [5, 8, 11, 14], 'className' => 'small-text border-right center-align'],
-                    ['targets' => [15, 16], 'className' => 'small-text center-align'],
+                    ['targets' => [15], 'className' => 'small-text center-align'],
+                    ['targets' => [16], 'className' => 'small-text border-right center-align'],
                 ]
            ]);
     }
@@ -185,7 +189,7 @@ class SalaryReviewByYearDataTable extends DataTable
     protected function addMonthColumnsToDatatable($dataTable): array
     {
         $monthColumns = [];
-        foreach($this->period() as $month) {
+        foreach(period($this->year) as $month) {
             $monthName = strtolower($month->monthName);
             $monthColumns[] = $monthName;
             $dataTable->addColumn($monthName, function(SalaryReview $model) use ($month, $monthName) {
@@ -202,15 +206,6 @@ class SalaryReviewByYearDataTable extends DataTable
     }
 
     /**
-     * @return CarbonPeriod
-     * @throws \Carbon\Exceptions\InvalidFormatException
-     */
-    protected function period()
-    {
-        return CarbonPeriod::create(Carbon::createFromDate($this->year)->startOfYear(), '1 month', Carbon::createFromDate($this->year)->endOfYear());
-    }
-
-    /**
      * @return array
      * @throws \Carbon\Exceptions\InvalidFormatException
      */
@@ -218,7 +213,7 @@ class SalaryReviewByYearDataTable extends DataTable
     {
         $columns = [];
 
-        foreach($this->period() as $month) {
+        foreach(period($this->year) as $month) {
             $columns[] = Column::make(strtolower($month->monthName))
                 ->title($month->shortMonthName)
                 ->orderable(false)
@@ -237,7 +232,7 @@ class SalaryReviewByYearDataTable extends DataTable
      */
     protected function addMonthsSelect($query): void
     {
-        foreach($this->period() as $month) {
+        foreach(period($this->year) as $month) {
             $monthName = strtolower($month->monthName);
             $query->selectRaw("sum(case when month(date)={$month->month} and year(date)='{$this->year}' then sum end) as {$monthName}");
         }

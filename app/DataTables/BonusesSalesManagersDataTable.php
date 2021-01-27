@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class BonusesSalesManagersDataTable extends BonusesDataTableAbstract
 {
-    const COLUMNS = [
+    public const COLUMNS = [
         'sales_manager',
         'bonus',
         'total',

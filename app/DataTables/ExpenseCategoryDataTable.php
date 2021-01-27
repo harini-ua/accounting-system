@@ -22,7 +22,10 @@ class ExpenseCategoryDataTable extends DataTable
         return datatables()
             ->eloquent($query)
             ->addColumn('action', function(ExpenseCategory $model) {
-                return view("partials.actions", ['actions'=>['edit','delete'], 'model' => $model]);
+                return view("partials.actions", [
+                    'actions' => ['edit','delete'],
+                    'model' => $model
+                ]);
             });
     }
 

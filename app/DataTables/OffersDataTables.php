@@ -12,7 +12,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class OffersDataTables extends DataTable
 {
-    const COLUMNS = [
+    public const COLUMNS = [
         'employee',
         'start_date',
         'trial_period',

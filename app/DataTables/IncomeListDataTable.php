@@ -8,11 +8,16 @@ use App\Models\Invoice;
 use App\Services\FilterService;
 use App\Services\Formatter;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Self_;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
 class IncomeListDataTable extends DataTable
 {
+    public const COLUMNS = [
+        'status',
+    ];
+
     public $filterService;
 
     /**
@@ -61,7 +66,7 @@ class IncomeListDataTable extends DataTable
             ->addColumn('received_sum', function(Invoice $model) {
                 return Formatter::currency($model->received_sum, $model->account->accountType->symbol);
             })
-            ->rawColumns(['status'])
+            ->rawColumns(self::COLUMNS)
             ->filterColumn('client', function($query, $keyword) {
                 $contracts = Contract::join('clients', 'contracts.client_id', '=', 'clients.id')
                     ->where('clients.name', 'like', "%$keyword%")

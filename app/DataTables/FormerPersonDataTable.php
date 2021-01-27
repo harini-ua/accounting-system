@@ -81,13 +81,13 @@ class FormerPersonDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-                    ->setTableId('formerperson-table')
-                    ->addTableClass('subscription-table responsive-table highlight')
-                    ->columns($this->getColumns())
-                    ->minifiedAjax()
-                    ->dom('Bfrtip')
-                    ->language([ 'processing' => view('partials.preloader-circular')->render() ])
-                    ->orderBy(0, 'desc')
+            ->setTableId('formerperson-table')
+            ->addTableClass('subscription-table responsive-table highlight')
+            ->columns($this->getColumns())
+            ->minifiedAjax()
+            ->dom('Bfrtip')
+            ->language([ 'processing' => view('partials.preloader-circular')->render() ])
+            ->orderBy(0, 'desc')
         ;
     }
 

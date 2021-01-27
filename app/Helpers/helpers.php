@@ -244,3 +244,29 @@ if (!function_exists('active'))
         return $condition ? 'active' : '';
     }
 }
+
+if (!function_exists('period'))
+{
+    function period($year, $quarter = null)
+    {
+        $params = [
+            \Carbon\Carbon::createFromDate($year)->startOfYear(),
+            '1 month',
+            \Carbon\Carbon::createFromDate($year)->endOfYear()
+        ];
+
+        if ($quarter) {
+            $params = [
+                \Carbon\Carbon::createFromDate($year, 1)
+                    ->addQuarters($quarter - 1)
+                    ->startOfMonth(),
+                '1 month',
+                \Carbon\Carbon::createFromDate($year, 12)
+                    ->subQuarters(4 - $quarter)
+                    ->endOfMonth()
+            ];
+        }
+
+        return \Carbon\CarbonPeriod::create(...$params);
+    }
+}

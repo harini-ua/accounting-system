@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\DataTables\SalaryReviewByQuarterDataTable;
 use App\DataTables\SalaryReviewByYearDataTable;
+use App\Enums\Quarters;
 use App\Enums\SalaryReviewProfGrowthType;
 use App\Enums\SalaryReviewReason;
 use App\Enums\SalaryReviewType;
@@ -17,15 +19,63 @@ class SalaryReviewController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @param SalaryReviewByYearDataTable $dataTable
+     * @param null $year
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(SalaryReviewByYearDataTable $dataTable)
+    public function index($year = null, $quarter = null)
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['name' => __('Salary Reviews')]
+        ];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+        if (($year !== null) && !CalendarYear::where('name', $year)->exists()) {
+            abort(404);
+        }
+
+        $calendarYears = CalendarYear::orderBy('name')->get()->map(
+            static function($calendarYear) {
+                $calendarYear->id = $calendarYear->name;
+                return $calendarYear;
+            }
+        );
+
+        $quarters = Quarters::toCollection();
+
+        if ($quarter === null) {
+            $dataTable = new SalaryReviewByYearDataTable($year);
+            $view = 'pages.salary-review.year';
+        } else {
+            $dataTable = new SalaryReviewByQuarterDataTable($year, $quarter);
+            $view = 'pages.salary-review.quarter';
+        }
+
+        $year = $dataTable->year;
+
+        return $dataTable->render($view, compact(
+            'pageConfigs', 'breadcrumbs', 'calendarYears', 'quarters', 'year', 'quarter'
+        ));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @param $year
+     * @param $quarter
+     *
+     * @return \Illuminate\Http\Response
+     * @throws \Symfony\Component\HttpKernel\Exception\HttpException
+     * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
+     */
+    public function quarter($year, $quarter)
+    {
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('salary-review.index'), 'name' => __('Salary Reviews')],
+            ['name' => "$quarter $year"]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
@@ -37,9 +87,17 @@ class SalaryReviewController extends Controller
             }
         );
 
+//        if ($quarter === null) {
+            $dataTable = new SalaryReviewByYearDataTable($year);
+            $view = 'pages.salary-review.year';
+//        } else {
+//            $dataTable = new SalaryReviewByQuarterDataTable($year, $quarter);
+//            $view = 'pages.salary-review.quarter';
+//        }
+
         $year = $dataTable->year;
 
-        return $dataTable->render('pages.salary-review.index', compact(
+        return $dataTable->render($view, compact(
             'pageConfigs', 'breadcrumbs', 'calendarYears', 'year'
         ));
     }

@@ -12,10 +12,6 @@ use Yajra\DataTables\Services\DataTable;
 
 class PaymentsDataTable extends DataTable
 {
-    const COLUMNS = [
-        //
-    ];
-
     /**
      * ContractsDataTable constructor.
      */
@@ -37,8 +33,6 @@ class PaymentsDataTable extends DataTable
         $dataTable->addColumn('action', static function(Payment $model) {
             return view('partials.actions', ['actions' =>['view', 'edit', 'delete'], 'model' => $model]);
         });
-
-        $dataTable->rawColumns(self::COLUMNS);
 
         return $dataTable;
     }

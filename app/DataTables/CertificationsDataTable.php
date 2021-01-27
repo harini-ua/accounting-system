@@ -10,7 +10,7 @@ use Yajra\DataTables\Services\DataTable;
 
 class CertificationsDataTable extends DataTable
 {
-    const COLUMNS = [
+    public const COLUMNS = [
         'person',
         'name',
         'subject',
