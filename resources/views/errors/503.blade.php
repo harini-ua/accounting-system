@@ -10,9 +10,9 @@
 
 {{-- page content --}}
 @section('content')
-    <div class="section p-0 m-0 height-100vh section-maintenance">
+    <div class="pt-1"></div>
+    <section class="section p-0 m-0 height-100vh section-maintenance">
         <div class="row">
-            <!-- Maintenance -->
             <div id="maintenance" class="col s12 center-align white">
                 <img src="{{asset('images/gallery/maintenance.png')}}" class="responsive-img maintenance-img" alt="">
                 <h4 class="error-code">This page is under maintenance</h4>
@@ -20,5 +20,5 @@
                 <a class="btn waves-effect waves-light" href="/">Back TO Home</a>
             </div>
         </div>
-    </div>
+    </section>
 @endsection

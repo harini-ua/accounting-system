@@ -11,9 +11,9 @@
 
 {{-- page content --}}
 @section('content')
-    <div class="section section-404 p-0 m-0 height-100vh">
+    <div class="pt-1"></div>
+    <section class="section section-404 p-0 m-0 height-100vh">
         <div class="row">
-            <!-- 404 -->
             <div class="col s12 center-align white">
                 <img src="{{asset('images/gallery/error-2.png')}}" class="bg-image-404" alt="">
                 <h1 class="error-code m-0">404</h1>
@@ -22,5 +22,5 @@
                    href="{{ route('home')}} ">{{ __('Back TO Home') }}</a>
             </div>
         </div>
-    </div>
+    </section>
 @endsection

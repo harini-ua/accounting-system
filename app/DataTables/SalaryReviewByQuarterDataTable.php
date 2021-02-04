@@ -144,7 +144,7 @@ class SalaryReviewByQuarterDataTable extends DataTable
     {
         return $this->builder()
             ->setTableId('salary-review-list-datatable')
-            ->addTableClass('table responsive-table highlight')
+            ->addTableClass('subscription-table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')

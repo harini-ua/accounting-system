@@ -14,8 +14,17 @@ use Yajra\DataTables\Services\DataTable;
 
 class SalaryMonthDataTable extends DataTable
 {
+    public const COLUMNS = [
+        'payment_method',
+        'action'
+    ];
+
+    /** @var $year */
     private $year;
+
+    /** @var $month */
     private $month;
+
     private $calendarMonth;
 
     /**
@@ -116,17 +125,12 @@ class SalaryMonthDataTable extends DataTable
                 }
                 return $this->moneyFormat($model, 'fines');
             })
-            ->addColumn('tax_compensation', function(Person $model) {
-                if (is_null($model->salary_payments_id)) {
-                    return null;
-                }
-                return $this->moneyFormat($model, 'tax_compensation');
-            })
-            ->addColumn('other_compensation', function(Person $model) {
-                if (is_null($model->other_compensation)) {
-                    return null;
-                }
-                return $this->moneyFormat($model, 'other_compensation');
+            ->addColumn('compensation', function(Person $model) {
+                if (is_null($model->salary_payments_id)) return null;
+
+                $compensation = $model->tax_compensation + $model->other_compensation;
+
+                return $compensation ? Formatter::currency($compensation, Currency::symbol($model->people_currency)) : null;
             })
             ->addColumn('total_usd', function(Person $model) {
                 if (is_null($model->salary_payments_id)) {
@@ -147,7 +151,12 @@ class SalaryMonthDataTable extends DataTable
                     return null;
                 }
                 $account = $this->accounts->find($model->account_id);
-                return $account->wallet->name . ', ' . $account->accountType->name;
+
+                return '<a href="'.
+                    route('wallets.show', $account->wallet->id).'" 
+                    title="'.$account->accountType->name.'" 
+                    target="_blank">'
+                    .$account->wallet->name.'</a>';
             })
             // filters
             ->filterColumn('name', function($query, $keyword) {
@@ -159,16 +168,26 @@ class SalaryMonthDataTable extends DataTable
             })
             // other
             ->addColumn('action', function(Person $model) {
-                $url = route('salary-payments.create', [
-                    'year' => $this->calendarMonth->calendarYear->id,
-                    'month' => $this->calendarMonth->id,
+                $parameters = [
+                    'year' => $this->year,
+                    'month' => $this->month,
                     'person_id' => $model->id
-                ]);
+                ];
+
+                $url = route('salary-payments.create', $parameters);
+                $payslip = route('payslip.print', $parameters);
+
                 if (!is_null($model->salary_payments_id)) {
-                    return '<a class="mr-4" href="'.$url.'"><i class="material-icons">edit</i></a>';
+                    $actions = '<a class="mr-4" href="'.$url.'"><i class="material-icons">edit</i></a>';
+                    $actions .= '<a class="mr-4" href="'.$payslip.'"><i class="material-icons">print</i></a>';
+
+                    return $actions;
                 }
-                return '<a href="'.$url.'" class="waves-effect waves-light  btn">+Add</a>';
+
+                return '<a href="'.$url.'" class="waves-effect waves-light btn">+Add</a>';
+                // return view("partials.actions", ['actions'=> ['edit', 'delete'], 'model' => $model]);
             })
+            ->rawColumns(self::COLUMNS)
             ;
     }
 
@@ -228,14 +247,25 @@ class SalaryMonthDataTable extends DataTable
     public function html()
     {
         return $this->builder()
-            ->setTableId('salary-month-table')
+            ->setTableId('salary-month-list-datatable')
             ->addTableClass('subscription-table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
             ->language([ 'processing' => view('partials.preloader-circular')->render() ])
-//            ->ordering(false)
-            ;
+            ->orderBy(1, 'asc')
+            ->parameters([
+                 'columnDefs' => [
+                     ['targets' => [0], 'className' => 'fixed small-text center-align'],
+                     ['targets' => [1], 'className' => 'fixed small-text center-align border-right'],
+                     ['targets' => [2, 4, 6, 8, 15, 17, 19], 'className' => 'small-text center-align border-right'],
+                     [
+                         'targets' => [3, 5, 7, 9, 10, 11, 12, 13, 14, 16, 18, 20],
+                         'className' => 'small-text center-align'
+                     ],
+                 ],
+                 'buttons'      => ['reset'],
+             ]);
     }
 
     /**
@@ -246,29 +276,28 @@ class SalaryMonthDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            Column::make('name')->searchable(true)->orderable(true),
+            Column::make('name')->title('Person')->searchable(true)->orderable(true),
 //            Column::make('salary_type')->searchable(false),
 //            Column::make('contract_type')->searchable(false),
             Column::make('salary')->searchable(false)->orderable(false),
             Column::make('rate')->searchable(false)->orderable(false),
-            Column::make('worked_days')->searchable(false)->orderable(false),
-            Column::make('worked_hours')->searchable(false)->orderable(false),
+            Column::make('worked_days')->title('Days')->searchable(false)->orderable(false),
+            Column::make('worked_hours')->title('Hours')->searchable(false)->orderable(false),
             Column::make('delta_hours')->searchable(false)->orderable(false),
             Column::make('earned')->searchable(false)->orderable(false),
-            Column::make('overtime_hours')->searchable(false)->orderable(false),
-            Column::make('overtime_pay')->searchable(false)->orderable(false),
+            Column::make('overtime_hours')->title('Hours')->searchable(false)->orderable(false),
+            Column::make('overtime_pay')->title('Pay')->searchable(false)->orderable(false),
             Column::make('salary_payments_bonuses')->title(__('Bonuses'))->searchable(false)->orderable(false),
             Column::make('vacations')->searchable(false)->orderable(false),
             Column::make('vacation_compensation')->searchable(false)->orderable(false),
             Column::make('leads')->searchable(false)->orderable(false),
             Column::make('monthly_bonus')->searchable(false)->orderable(false),
             Column::make('fines')->searchable(false)->orderable(false),
-            Column::make('tax_compensation')->searchable(false)->orderable(false),
-            Column::make('other_compensation')->searchable(false)->orderable(false),
-            Column::make('total_usd')->searchable(false)->orderable(false),
-            Column::make('total_uah')->searchable(false)->orderable(false),
-            Column::make('payment_method')->searchable(false)->orderable(false),
-            Column::make('payment_date')->searchable(false)->orderable(false),
+            Column::make('compensation')->searchable(false)->orderable(false),
+            Column::make('total_usd')->title('USD')->searchable(false)->orderable(false),
+            Column::make('total_uah')->title('UAH')->searchable(false)->orderable(false),
+            Column::make('payment_method')->title('Method')->searchable(false)->orderable(false),
+            Column::make('payment_date')->title('Date')->searchable(false)->orderable(false),
             Column::computed('action')
                 ->exportable(false)
                 ->printable(false)

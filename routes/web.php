@@ -117,10 +117,12 @@ Route::middleware(['auth'])->group(function() {
 
     // Salary
     Route::get('/salaries', 'SalaryController@index')->name('salaries.index');
-    Route::get('/salaries/{year}/{month}', 'SalaryController@month')
-        ->name('salaries.month')
+    Route::get('/salaries/{year}/{month}', 'SalaryController@month')->name('salaries.month')
         ->where(['year' => '\d\d\d\d', 'month' => '\d{1,2}']);
-    Route::get('/salary-payments/create', 'SalaryController@create')->name('salary-payments.create');
-    Route::resource('salary-payments', 'SalaryController')->except(['index', 'create']);
+
+    Route::resource('salary-payments', 'SalaryController')->except(['index']);
+//    Route::get('/salary-payments/create', 'SalaryController@create')->name('salary-payments.create');
+
+    Route::get('/payslip/print', 'PayslipController@index')->name('payslip.print');
 });
 

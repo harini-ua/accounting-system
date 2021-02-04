@@ -37,7 +37,7 @@ class ClientsDataTable extends DataTable
                 return $model->billingAddress ? $model->billingAddress->city : null;
             })
             ->addColumn('action', static function(Client $model) {
-                return view('partials.actions', ['actions' =>['edit', 'delete'], 'model' => $model]);
+                return view('partials.actions', ['actions' => ['edit', 'delete'], 'model' => $model]);
             })
             ->orderColumn('city', function($query, $order) {
                 $query->join('address', 'address.addressable_id', '=', 'clients.id')

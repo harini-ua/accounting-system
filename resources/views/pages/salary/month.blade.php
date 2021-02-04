@@ -17,25 +17,30 @@
 {{-- page styles --}}
 @section('page-style')
     <link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-users.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/salary-month.css')}}">
 @endsection
 
 {{-- page content --}}
 @section('content')
-    <div class="users-list-wrapper section animate fadeLeft">
-        {{-- content start --}}
-        <section class="users-list-table">
-            <div class="card">
-                <div class="card-content">
-                    <!-- datatable start -->
-                    <div class="responsive-table overflow-x-auto">
-                        {{ $dataTable->table() }}
-                    </div>
-                    <!-- datatable ends -->
-                </div>
-            </div>
-        </section>
-        {{-- content end --}}
+{{--    <div class="pt-1"></div>--}}
+    <div class="create-btn invoice-create-btn">
+        <a href="{{ route('payslip.print', ['year' => $year, 'month' => $month]) }}"
+           class="btn indigo waves-effect waves-light invoice-create">
+            <i class="material-icons">print</i>
+            <span class="hide-on-small-only"> {{ __("Final payslips") }}</span>
+        </a>
     </div>
+    <section class="salary-month-list-wrapper users-list-wrapper section animate fadeLeft">
+        <div class="card">
+            <div class="card-content">
+                <!-- datatable start -->
+                <div class="responsive-table users-list-table overflow-x-auto">
+                    {{ $dataTable->table() }}
+                </div>
+                <!-- datatable ends -->
+            </div>
+        </div>
+    </section>
     {{-- Content Area Ends --}}
 @endsection
 
@@ -52,4 +57,5 @@
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
     <script src="{{asset('js/scripts/filters.js')}}"></script>
+    <script src="{{asset('js/scripts/salary-month.js')}}"></script>
 @endsection

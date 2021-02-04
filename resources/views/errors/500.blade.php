@@ -9,9 +9,9 @@
 
 {{-- page content --}}
 @section('content')
-    <div class="section p-0 m-0 height-100vh section-500">
+    <div class="pt-1"></div>
+    <section class="section p-0 m-0 height-100vh section-500">
         <div class="row">
-            <!-- 404 -->
             <div class="col s12 center-align white">
                 <img src="{{asset('images/gallery/error-2.png')}}" alt="" class="bg-image-500">
                 <h1 class="error-code m-0">500</h1>
@@ -21,5 +21,5 @@
                     TO Home</a>
             </div>
         </div>
-    </div>
+    </section>
 @endsection

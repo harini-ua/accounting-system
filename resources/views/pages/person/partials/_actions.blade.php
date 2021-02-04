@@ -32,12 +32,12 @@
                     <span>{{ __('Pay Data') }}</span>
                 </span>
             </div>
-            <div class="invoice-action-btn">
-                <a href="#" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">
-                    <i class="material-icons mr-3">attach_money</i>
-                    <span>{{ __('Final payslip') }}</span>
-                </a>
-            </div>
+{{--            <div class="invoice-action-btn">--}}
+{{--                <a href="#" class="btn indigo waves-effect waves-light display-flex align-items-center justify-content-center">--}}
+{{--                    <i class="material-icons mr-3">attach_money</i>--}}
+{{--                    <span>{{ __('Final payslip') }}</span>--}}
+{{--                </a>--}}
+{{--            </div>--}}
             <div class="invoice-action-btn">
                 @if($isEdit)
                     <a href="{{ route('people.show', $model) }}" class="btn waves-effect waves-light display-flex align-items-center justify-content-center">

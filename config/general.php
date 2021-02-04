@@ -20,6 +20,27 @@ return [
             'filter' => [
                 'show' => true,
             ]
+        ],
+        'navigation' => [
+            'lock' => false
         ]
+    ],
+    'hour_day' => 8,
+    'payslip' => [
+        'per_page' => [
+            'available' => [
+                4 => [2, 2],
+                6 => [2, 3],
+                9 => [3, 3],
+                12 => [3, 4],
+                16 => [4, 4],
+            ],
+            'default' => 6,
+        ],
+        'language' => [
+            'available' => [ 'en', 'ru' ],
+            'default' => 'en',
+        ],
+        'margins' => '20px 0 0 0',
     ]
 ];

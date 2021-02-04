@@ -39,6 +39,9 @@ mixAssetsDir('sass/custom/**/!(_)*.scss', (src, dest) => mix.sass(src, dest.repl
 // pages Core stylesheets
 mixAssetsDir('sass/pages/**/!(_)*.scss', (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions));
 
+// pdf Core stylesheets
+mixAssetsDir('sass/pdf/**/!(_)*.scss', (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions));
+
 // Theme scss task
 mixAssetsDir('sass/themes/**/!(_)*.scss', (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions));
 

@@ -65,4 +65,25 @@ class SalaryPayment extends Model
     {
         return $this->belongsTo(Account::class);
     }
+
+    /**
+     * Scope a query by status contract.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string                                status
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByDate($query, $year, $month = null)
+    {
+        if ($year) {
+            $query->whereRaw("year(payment_date)={$year}");
+        }
+
+        if ($month) {
+            $query->whereRaw("month(payment_date)={$month}");
+        }
+
+        return $query;
+    }
 }

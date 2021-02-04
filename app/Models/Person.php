@@ -200,6 +200,16 @@ class Person extends Model
         return $this->hasMany(SalaryReview::class, 'person_id', 'id');
     }
 
+    /**
+     * Get the salary payment that owns the person.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function salary()
+    {
+        return $this->hasMany(SalaryPayment::class, 'person_id', 'id');
+    }
+
     /*
      * ***********************************
      * Methods

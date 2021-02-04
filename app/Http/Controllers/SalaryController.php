@@ -77,7 +77,9 @@ class SalaryController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        return $dataTable->render('pages.salary.month', compact('breadcrumbs', 'pageConfigs', 'year', 'month', 'monthName'));
+        return $dataTable->render('pages.salary.month', compact(
+            'breadcrumbs', 'pageConfigs', 'year', 'month', 'monthName'
+        ));
     }
 
     /**
@@ -126,8 +128,8 @@ class SalaryController extends Controller
         extract($salaryPaymentService->data());
 
         return view('pages.salary.create', compact(
-            'breadcrumbs', 'pageConfigs', 'calendarYears', 'calendarMonth', 'salaryPayment',
-            'people', 'person', 'symbol', 'wallets', 'currencies', 'fields'
+            'breadcrumbs', 'pageConfigs', 'calendarYears', 'calendarMonth',
+            'salaryPayment', 'people', 'person', 'symbol', 'wallets', 'currencies', 'fields'
         ));
     }
 
