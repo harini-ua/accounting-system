@@ -185,7 +185,6 @@ class SalaryMonthDataTable extends DataTable
                 }
 
                 return '<a href="'.$url.'" class="waves-effect waves-light btn">+Add</a>';
-                // return view("partials.actions", ['actions'=> ['edit', 'delete'], 'model' => $model]);
             })
             ->rawColumns(self::COLUMNS)
             ;

@@ -13,11 +13,12 @@ return [
     'overtime' => 'Сверхурочно',
     'bonuses' => 'Бонусы',
     'vacation' => 'Отпуск',
-    'leads' => 'Ведет',
+    'leads' => 'Лидерство',
     'monthly_bonus' => 'Ежемесячный бонус',
     'fines' => 'Штрафы',
     'compensations' => 'Компенсации',
     'payment_method' => 'Способ оплаты',
     'compensation' => 'компенсация',
     'pay' => 'оплата',
+    'total' => 'Итого',
 ];

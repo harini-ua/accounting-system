@@ -20,4 +20,5 @@ return [
     'payment_method' => 'Payment method',
     'compensation' => 'compensation',
     'pay' => 'pay',
+    'total' => 'Total',
 ];

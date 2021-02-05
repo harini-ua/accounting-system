@@ -86,16 +86,26 @@
         <tr>
             <td rowspan="2" class="first">{{ __('payslip.vacation', [], 'ru') }}</td>
             <td>{{ __('payslip.days', [], 'ru') }}</td>
-            <td class="values">{{ $payslip['vacations'] ?? 0 }}</td>
+            <td class="values">
+                @php($vacation = $payslip['vacations'] ?? 0)
+                {{ $payslip['vacations'] ?? 0 }}
+            </td>
         </tr>
         <tr>
             <td>{{ __('payslip.compensation', [], 'ru') }}</td>
-            <td class="values">{{ $payslip['vacation_compensation'] }}</td>
+            <td class="values">
+                @php($compensation = \App\Services\Formatter::currency( $vacation ? $payslip['vacation_compensation'] : 0, \App\Enums\Currency::symbol(\App\Enums\Currency::USD)))
+                {{ $compensation }}
+            </td>
         </tr>
-{{--        <tr>--}}
-{{--            <td colspan="2" class="first">{{ __('payslip.leads', [], 'ru') }}</td>--}}
-{{--            <td class="values">-</td>--}}
-{{--        </tr>--}}
+        <tr>
+            <td colspan="2" class="first">{{ __('payslip.leads', [], 'ru') }}</td>
+            <td class="values">
+                @php($leads = $payslip['person']['tech_lead_reward'] + $payslip['person']['team_lead_reward'])
+                @php($leads = \App\Services\Formatter::currency($leads ?? 0, \App\Enums\Currency::symbol(\App\Enums\Currency::USD)))
+                {{ $leads }}
+            </td>
+        </tr>
         <tr>
             <td colspan="2" class="first">{{ __('payslip.monthly_bonus', [], 'ru') }}</td>
             <td class="values">{{ \App\Services\Formatter::currency( $payslip['monthly_bonus'], \App\Enums\Currency::symbol($payslip['person']['currency'])) }}</td>
@@ -109,18 +119,20 @@
             <td class="values">{{ \App\Services\Formatter::currency( $payslip['tax_compensation'] + $payslip['other_compensation'], \App\Enums\Currency::symbol($payslip['person']['currency'])) }}</td>
         </tr>
         <tr>
-            <td colspan="2" class="first">{{ __('Total') }}</td>
-            @php
-            $total = 0;
-            @endphp
+            <td rowspan="3" class="first">{{ __('payslip.total', [], 'ru') }}</td>
+            <td>UAH</td>
             <td class="values">
-                {{ \App\Services\Formatter::currency($total, \App\Enums\Currency::symbol($payslip['person']['currency'])) }}
+                @php($total = \App\Services\Formatter::currency($payslip['total_usd'] * $payslip['currency'], \App\Enums\Currency::symbol(\App\Enums\Currency::UAH)))
+                {{ $total }}
             </td>
         </tr>
-{{--        <tr>--}}
-{{--            <td colspan="2" class="first">{{ __('payslip.payment_method', [], 'ru') }}</td>--}}
-{{--            <td class="values">-</td>--}}
-{{--        </tr>--}}
+        <tr>
+            <td>USD</td>
+            <td class="values">
+                @php($total = \App\Services\Formatter::currency($payslip['total_usd'], \App\Enums\Currency::symbol(\App\Enums\Currency::USD)))
+                {{ $total }}
+            </td>
+        </tr>
     </table>
 
     <table class="payslip-footer">

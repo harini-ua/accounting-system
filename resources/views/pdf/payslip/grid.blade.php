@@ -9,7 +9,7 @@
     <div id="payslip-list">
     @php($columns = config('general.payslip.per_page.available')[config('general.payslip.per_page.default')][1])
     @foreach($salaryPayments as $page => $rows)
-        <table style="width: 100%">
+        <table class="table-list">
         @foreach($rows as $r => $col)
             <tr>
             @foreach($col as $c => $payslip)
@@ -17,6 +17,12 @@
                     @include('pdf.payslip.item')
                 </td>
             @endforeach
+            @if($fewColumn)
+                @php($more = $columns - $salaryPayments->count())
+                @for($i = 1; $i <= $more; $i++)
+                <td></td>
+                @endfor
+            @endif
             </tr>
         @endforeach
         </table>
