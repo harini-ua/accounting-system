@@ -24,7 +24,9 @@ Route::middleware(['auth'])->group(function() {
 
     // Wallets
     Route::resource('wallets', 'WalletController')->except(['create']);
-    Route::get('wallets/{wallet}/accounts', 'WalletController@walletAccounts')->name('wallets.accounts');
+    Route::group(['prefix' => 'wallets'], static function() {
+        Route::get('{wallet}/accounts', 'WalletController@walletAccounts')->name('wallets.accounts');
+    });
 
     // Accounts
     Route::resource('accounts', 'AccountController')->only(['index', 'edit', 'update']);
@@ -51,6 +53,9 @@ Route::middleware(['auth'])->group(function() {
 
     // Payments
     Route::resource('payments', 'PaymentController');
+    Route::group(['prefix' => 'payments'], static function() {
+        Route::get('grid', 'PaymentGridController@index')->name('payments.grid.index');
+    });
 
     // Incomes
     Route::resource('incomes', 'IncomeController')->except(['create', 'show']);
@@ -92,9 +97,11 @@ Route::middleware(['auth'])->group(function() {
 
     // Bonuses
     Route::resource('bonuses', 'BonusController')->except(['index', 'show']);
-    Route::get('/bonuses', 'BonusController@index')->name('bonuses.index');
-    Route::get('/bonuses/position/{position}', 'BonusController@byPosition')->name('bonuses.byPosition');
-    Route::get('/bonuses/person/{person}', 'BonusController@show')->name('bonuses.person.show');
+    Route::group(['prefix' => 'bonuses'], static function() {
+        Route::get('/', 'BonusController@index')->name('bonuses.index');
+        Route::get('/position/{position}', 'BonusController@byPosition')->name('bonuses.byPosition');
+        Route::get('/person/{person}', 'BonusController@show')->name('bonuses.person.show');
+    });
 
     // Vacations
     Route::group(['prefix' => 'vacations', 'as' => 'vacations.'], function() {

@@ -22,6 +22,13 @@
 {{-- page content --}}
 @section('content')
     <div class="create-btn invoice-create-btn">
+        <a style="margin-right: 10px;"
+           target="_blank"
+           href="{{ route('payments.grid') }}"
+           class="btn indigo waves-effect waves-light invoice-create">
+            <i class="material-icons">account_balance_wallet</i>
+            <span class="hide-on-small-only"> {{ __("Payment Grid") }}</span>
+        </a>
         <a href="{{ route('salary-payments.create') }}"
            class="btn waves-effect waves-light invoice-create z-depth-4">
             <i class="material-icons">add</i>
