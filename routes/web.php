@@ -53,9 +53,7 @@ Route::middleware(['auth'])->group(function() {
 
     // Payments
     Route::resource('payments', 'PaymentController');
-    Route::group(['prefix' => 'payments'], static function() {
-        Route::get('grid', 'PaymentGridController@index')->name('payments.grid.index');
-    });
+    Route::get('payment-grid', 'PaymentGridController@index')->name('payments.grid.index');
 
     // Incomes
     Route::resource('incomes', 'IncomeController')->except(['create', 'show']);

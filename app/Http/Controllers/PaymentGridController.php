@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\DataTables\PaymentsGridDataTable;
+use App\Models\CalendarYear;
 
 class PaymentGridController extends Controller
 {
@@ -22,8 +23,15 @@ class PaymentGridController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
+        $year = $dataTable->year;
+
+        $calendarYears = CalendarYear::orderBy('name')->get()->map(function($calendarYear) {
+            $calendarYear->id = $calendarYear->name;
+            return $calendarYear;
+        });
+
         return $dataTable->render('pages.payments.grid.index', compact(
-            'breadcrumbs', 'pageConfigs'
+            'breadcrumbs', 'pageConfigs', 'calendarYears', 'year'
         ));
     }
 }

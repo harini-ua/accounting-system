@@ -61,7 +61,8 @@ class SalaryDataTable extends DataTable
     public function query(Person $model)
     {
         $totalColumn = $this->currency == Currency::UAH ? 'total_usd * salary_payments.currency' : 'total_usd';
-        $query = $model->newQuery()->select(['people.id', 'people.name', 'people.start_date', 'people.quited_at'])
+        $query = $model->newQuery()
+            ->select(['people.id', 'people.name', 'people.start_date', 'people.quited_at'])
             ->selectRaw("sum($totalColumn) as total")
             ->join('salary_payments', 'salary_payments.person_id', '=', 'people.id')
             ->join('calendar_months', 'salary_payments.calendar_month_id', '=', 'calendar_months.id')

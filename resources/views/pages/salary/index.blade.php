@@ -24,7 +24,7 @@
     <div class="create-btn invoice-create-btn">
         <a style="margin-right: 10px;"
            target="_blank"
-           href="{{ route('payments.grid') }}"
+           href="{{ route('payments.grid.index') }}"
            class="btn indigo waves-effect waves-light invoice-create">
             <i class="material-icons">account_balance_wallet</i>
             <span class="hide-on-small-only"> {{ __("Payment Grid") }}</span>
