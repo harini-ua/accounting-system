@@ -2,6 +2,7 @@
 
 namespace App\Enums;
 
+use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
 
 /**
@@ -18,7 +19,7 @@ use BenSampo\Enum\Enum;
  * @method static static November()
  * @method static static December()
  */
-final class Month extends Enum
+final class Month extends Enum implements LocalizedEnum
 {
     const January = 'January';
     const February = 'February';

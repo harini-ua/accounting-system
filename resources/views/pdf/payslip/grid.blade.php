@@ -20,7 +20,7 @@
             @if($fewColumn)
                 @php($more = $columns - $salaryPayments->count())
                 @for($i = 1; $i <= $more; $i++)
-                <td></td>
+                <td style="width: 300px"> </td>
                 @endfor
             @endif
             </tr>

@@ -39,7 +39,7 @@ return [
         ],
         'language' => [
             'available' => [ 'en', 'ru' ],
-            'default' => 'en',
+            'default' => 'ru',
         ],
         'margins' => '20px 0 0 0',
     ]

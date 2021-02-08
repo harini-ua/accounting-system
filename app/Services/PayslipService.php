@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\CalendarMonth;
 use App\Models\SalaryPayment;
 use Barryvdh\DomPDF\PDF;
+use Illuminate\Support\Facades\App;
 
 class PayslipService
 {
@@ -64,13 +65,14 @@ class PayslipService
 
         ini_set('max_execution_time', 0);
 
+        App::setLocale(config('general.payslip.language.default'));
+
         $this->pdf->loadView('pdf.payslip.grid', compact(
             'calendarMonth', 'salaryPayments', 'year', 'month', 'fewColumn'
         ));
 
+        App::setLocale(config('app.locale'));
+
         return $this->pdf->download($filename.'.pdf');
-//        return view('pdf.payslip.grid', compact(
-//            'calendarMonth', 'salaryPayments', 'year', 'month', 'fewColumn'
-//        ));
     }
 }

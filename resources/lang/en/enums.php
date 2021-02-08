@@ -30,6 +30,21 @@ return [
         \App\Enums\InvoiceType::DEFAULT => 'Default',
     ],
 
+    \App\Enums\Month::class => [
+        \App\Enums\Month::January => 'January',
+        \App\Enums\Month::February => 'February',
+        \App\Enums\Month::March => 'March',
+        \App\Enums\Month::April => 'April',
+        \App\Enums\Month::May => 'May',
+        \App\Enums\Month::June => 'June',
+        \App\Enums\Month::July => 'July',
+        \App\Enums\Month::August => 'August',
+        \App\Enums\Month::September => 'September',
+        \App\Enums\Month::October => 'October',
+        \App\Enums\Month::November => 'November',
+        \App\Enums\Month::December => 'December',
+    ],
+
     \App\Enums\PersonContractType::class => [
         \App\Enums\PersonContractType::Individual2 => 'Individual II group',
         \App\Enums\PersonContractType::Individual3 => 'Individual III group',
