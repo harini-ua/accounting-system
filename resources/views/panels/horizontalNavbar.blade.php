@@ -33,7 +33,8 @@
           </a>
         </li>
         <li>
-            <x-avatar profile="true"/>
+            @php($user = \Illuminate\Support\Facades\Auth::user())
+            <x-avatar :user="$user" profile="true"/>
         </li>
         <li>
           <a class="waves-effect waves-block waves-light sidenav-trigger" href="#" data-target="slide-out-right">

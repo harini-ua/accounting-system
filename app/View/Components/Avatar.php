@@ -2,23 +2,29 @@
 
 namespace App\View\Components;
 
+use App\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class Avatar extends Component
 {
+    protected $avatar;
     public $online;
     public $profile;
 
     /**
      * Create a new component instance.
      *
-     * @param $profile
-     * @param $online
+     * @param User|null $user
+     * @param bool      $profile
+     * @param bool      $online
      *
-     * @return void
      */
-    public function __construct($profile = false, $online = false)
+    public function __construct(User $user = null, $profile = false, $online = true)
     {
+        $this->user = $user ?? Auth::user();
+        $this->avatar = new \Laravolt\Avatar\Avatar();
+
         $this->profile = $profile;
         $this->online = $online;
     }
@@ -30,6 +36,8 @@ class Avatar extends Component
      */
     public function render()
     {
-        return view('components.avatar');
+        $image = $this->avatar->create($this->user->name)->toBase64();
+
+        return view('components.avatar', compact('image'));
     }
 }

@@ -20,6 +20,7 @@
         "laravel/framework": "^7.0",
         "laravel/passport": "^8.4",
         "laravel/tinker": "^2.0",
+        "laravolt/avatar": "^4.0",
         "mateusjunges/laravel-acl": "^2.3",
         "nesbot/carbon": "^2.28",
         "pragmarx/countries": "^0.7.0",

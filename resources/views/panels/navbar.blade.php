@@ -14,7 +14,8 @@
           </a>
         </li>
         <li>
-            <x-avatar profile="true"/>
+            @php($user = \Illuminate\Support\Facades\Auth::user())
+            <x-avatar :user="$user" profile="true"/>
         </li>
       </ul>
       <!-- profile-dropdown-->
