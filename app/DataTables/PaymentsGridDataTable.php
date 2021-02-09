@@ -2,18 +2,10 @@
 
 namespace App\DataTables;
 
-use App\Enums\Currency;
-use App\Models\Contract;
-use App\Models\Payment;
 use App\Models\Person;
-use App\Services\Formatter;
 use Carbon\CarbonPeriod;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class PaymentsGridDataTable extends DataTable
