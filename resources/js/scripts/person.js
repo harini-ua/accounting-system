@@ -14,25 +14,6 @@ $(document).ready(function () {
         });
     });
 
-    // $('.person-edit-wrapper').each(function () {
-    //     handleSlideDown('change-salary-type');
-    //     handleSlideDown('change-contract-type');
-    //     handleSlideDown('make-former', function (form) {
-    //         $('#back-to-active-button').removeClass('hide');
-    //         clearForm('back-to-active');
-    //     });
-    //     handleSlideDown('long-vacation', function (form) {
-    //         $('#back-to-active-button').removeClass('hide');
-    //         clearForm('back-to-active');
-    //     });
-    //     handleSlideDown('back-to-active', function (form) {
-    //         $('#back-to-active-button').addClass('hide');
-    //         $('#long-vacation-button').removeClass('hide');
-    //         clearForm('long-vacation');
-    //         clearForm('make-former');
-    //     });
-    //     handleSlideDown('pay-data');
-    // });
     const submitCallbacks = {
         'make-former': _ => {
             $('#back-to-active-button').removeClass('hide');
@@ -61,24 +42,7 @@ $(document).ready(function () {
             slideDown.slideDown(animationSpeed);
         }
     });
-    // function handleSlideDown(id, callback = null) {
-    //     const slideDown = $('#' + id + '-slide-down');
-    //     $('#' + id + '-button').click(function () {
-    //         let animationSpeed = $('.slide-down-trigger.isOpen').length ? 1 : 'fast'
-    //         if (!$(this).hasClass('isOpen')) {
-    //             $('.slide-down-trigger.isOpen')
-    //             $('.slide-down-trigger').removeClass('isOpen')
-    //             $(this).addClass('isOpen')
-    //             $('.slide-down-block').slideUp(1)
-    //             slideDown.slideDown(animationSpeed);
-    //         }
-    //     });
-    //
-    //     // slideDown.find('button').click(function (e) {
-    //     //     const form = document.forms[id];
-    //     //     const formData = new FormData(form);
-    //     // });
-    // }
+
     function enableFormBrn(form) {
         const formData = new FormData(form.get(0)),
             condition =  _ => [...formData.values()].some(el => el.split(' ').join('').length > 0)
@@ -87,8 +51,11 @@ $(document).ready(function () {
             form.find('.person-submit-btn').prop('disabled', false)
         } else  {
             form.find('.person-submit-btn').prop('disabled', true)
-
         }
+    }
+
+    function hideFormBrn(form) {
+        $(form).closest('.slide-down-block').slideUp('fast');
     }
 
     $('.person-handle-submit')
@@ -109,6 +76,7 @@ $(document).ready(function () {
                 formId = $(form).attr('name'),
                 formData = new FormData(form),
                 hasCallback = Object.keys(submitCallbacks).includes(formId)
+
             $.ajax({
                 url: $(form).attr('action'),
                 type: 'POST',
@@ -122,6 +90,7 @@ $(document).ready(function () {
                         type: resp.success === false ? 'error' : 'success',
                     });
                     updateMainForm(form);
+                    hideFormBrn(form);
                     hasCallback && submitCallbacks[formId]()
                 },
                 error: resp => {
@@ -160,6 +129,7 @@ $(document).ready(function () {
                         type: resp.success === false ? 'error' : 'success',
                     });
                     updateMainForm(form);
+                    hideFormBrn(form);
                     if (typeof callback === 'function') {
                         callback(form);
                     }

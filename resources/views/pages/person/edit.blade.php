@@ -13,16 +13,6 @@
 {{-- page content --}}
 @section('content')
     <div class="person-edit-wrapper invoice-view-wrapper section">
-
-{{--        @include('pages.person.partials._slide-down-forms')--}}
-
-{{--        <div class="create-btn add-item-btn slide-down-btn">--}}
-{{--            <a href="#" class="waves-effect waves-light btn">--}}
-{{--                <i class="material-icons">add</i>--}}
-{{--                <span class="hide-on-small-only">Add</span>--}}
-{{--            </a>--}}
-{{--        </div>--}}
-
         <div class="row">
             <div class="col xl9 m8 s12">
                 @include('pages.person.partials._slide-down-forms')
