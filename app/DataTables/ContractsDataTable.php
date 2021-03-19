@@ -45,10 +45,6 @@ class ContractsDataTable extends DataTable
     {
         $dataTable = datatables()->eloquent($query);
 
-        $dataTable->addColumn('id', static function(Contract $model) {
-            return $model->id;
-        });
-
         $dataTable->addColumn('contract', static function(Contract $model) {
             return view('partials.view-link', ['model' => $model]);
         });
