@@ -28,7 +28,7 @@ class CreateContractsTable extends Migration
             $table->foreign('client_id')
                 ->on('clients')->references('id')->onDelete('cascade');
             $table->foreign('sales_manager_id')
-                ->on('users')->references('id')->onDelete('cascade');
+                ->on('people')->references('id')->onDelete('cascade');
         });
     }
 

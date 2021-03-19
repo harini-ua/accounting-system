@@ -52,7 +52,7 @@
                         <div class="filter-block flex-wrap-important">
                             <x-filter
                                 table="contracts-list-datatable"
-                                :options="$statusToCollection"
+                                :options="$status"
                                 url="{{ route('contracts.index') }}"
                                 name="status_filter"
                                 title="By Status"
@@ -60,14 +60,14 @@
                             />
                             <x-filter
                                 table="contracts-list-datatable"
-                                :options="$clientsToCollection"
+                                :options="$clients"
                                 url="{{ route('contracts.index') }}"
                                 name="client_filter"
                                 title="By Client"
                             />
                             <x-filter
                                 table="contracts-list-datatable"
-                                :options="$salesManagersToCollection"
+                                :options="$salesManagers"
                                 url="{{ route('contracts.index') }}"
                                 name="sales_managers_filter"
                                 title="By Sales Manager"

@@ -63,7 +63,7 @@ class Contract extends Model
      */
     public function manager()
     {
-        return $this->belongsTo(User::class, 'sales_manager_id', 'id');
+        return $this->belongsTo(Person::class, 'sales_manager_id', 'id');
     }
 
     /**

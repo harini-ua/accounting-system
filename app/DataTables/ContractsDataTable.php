@@ -63,15 +63,15 @@ class ContractsDataTable extends DataTable
             return mb_strimwidth($model->comment, 0, 50, '...');
         });
 
+        $dataTable->addColumn('manager', static function(Contract $model) {
+            return $model->manager->name;
+        });
+
         $dataTable->addColumn('status', static function(Contract $model) {
             return view('partials.view-status', [
                 'status' => ContractStatus::getDescription($model->status),
                 'color' => ContractStatus::getColor($model->status, 'class'),
             ]);
-        });
-
-        $dataTable->addColumn('manager', static function(Contract $model) {
-            return $model->manager->name;
         });
 
         $dataTable->addColumn('action', static function(Contract $model) {
@@ -97,35 +97,17 @@ class ContractsDataTable extends DataTable
 
         $dataTable->filter(function($query) {
             if ($this->request->has('client_filter')) {
-                $query->join('clients', 'contracts.client_id', '=', 'clients.id')
-                    ->where('clients.id', '=', $this->request->input('client_filter'));
+                $query->where('contracts.client_id', '=', $this->request->input('client_filter'));
             }
             if ($this->request->has('status_filter')) {
                 $query->where('contracts.status', $this->request->input('status_filter'));
             }
             if ($this->request->has('sales_managers_filter')) {
-                $query->join('users', 'contracts.sales_manager_id', '=', 'users.id')
-                    ->where('users.id', '=', $this->request->input('sales_managers_filter'));
+                $query->where('contracts.sales_manager_id', $this->request->get('sales_managers_filter'));
             }
         }, true);
 
-        $dataTable->orderColumn('client', static function($query, $order) {
-            $query->join('clients', 'contracts.client_id', '=', 'clients.id')
-                ->orderBy('clients.name', $order);
-        });
-
-        $dataTable->orderColumn('name', static function($query, $order) {
-            $query->orderBy('contracts.name', $order);
-        });
-
-        $dataTable->orderColumn('manager', static function($query, $order) {
-            $query->join('users', 'contracts.sales_manager_id', '=', 'users.id')
-                ->orderBy('users.name', $order);
-        });
-
-        $dataTable->orderColumn('status', static function($query, $order) {
-            $query->orderBy('contracts.status', $order);
-        });
+        $this->setOrderColumns($dataTable);
 
         return $dataTable;
     }
@@ -188,6 +170,34 @@ class ContractsDataTable extends DataTable
         $data[] = Column::computed('action')->addClass('text-center');
 
         return $data;
+    }
+
+    /**
+     * @param $dataTable
+     *
+     * @return mixed
+     */
+    protected function setOrderColumns($dataTable)
+    {
+        $dataTable->orderColumn('contract', static function($query, $order) {
+            $query->orderBy('contracts.name', $order);
+        });
+
+        $dataTable->orderColumn('client', static function($query, $order) {
+            $query->join('clients', 'contracts.client_id', '=', 'clients.id')
+                ->orderBy('clients.name', $order);
+        });
+
+        $dataTable->orderColumn('manager', static function($query, $order) {
+            $query->join('users', 'contracts.sales_manager_id', '=', 'users.id')
+                ->orderBy('users.name', $order);
+        });
+
+        $dataTable->orderColumn('status', static function($query, $order) {
+            $query->orderBy('contracts.status', $order);
+        });
+
+        return $dataTable;
     }
 
     /**

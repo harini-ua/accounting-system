@@ -4,6 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
+use Monolog\Handler\IFTTTHandler;
 
 class Input extends Component
 {
@@ -59,7 +60,11 @@ class Input extends Component
      */
     public function value()
     {
-        return $this->default ?? ( $this->model ? $this->model->{$this->field} : old($this->name) );
+        if (old($this->name)) {
+            return old($this->name);
+        }
+
+        return $this->model->{$this->field} ?? $this->default;
     }
 
     /**
