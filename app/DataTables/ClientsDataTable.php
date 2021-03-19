@@ -25,28 +25,43 @@ class ClientsDataTable extends DataTable
      */
     public function dataTable($query)
     {
-        return datatables()
-            ->eloquent($query)
-            ->addColumn('client_name', static function(Client $model) {
-                return '<a target="_blank" href="'.route('clients.show', $model->id).'">'.$model->name.'</a>';
-            })
-            ->addColumn('email', static function(Client $model) {
-                return '<a href="mailto:'.$model->email.'">'.$model->email.'</a>';
-            })
-            ->addColumn('city', static function(Client $model) {
-                return $model->billingAddress ? $model->billingAddress->city : null;
-            })
-            ->addColumn('action', static function(Client $model) {
-                return view('partials.actions', ['actions' => ['edit', 'delete'], 'model' => $model]);
-            })
-            ->orderColumn('city', function($query, $order) {
-                $query->join('address', 'address.addressable_id', '=', 'clients.id')
-                    ->where('address.addressable_type', Client::class)
-                    ->where('address.is_billing', true)
-                    ->whereNull('address.deleted_at')
-                    ->orderBy('address.city', $order);
-            })
-            ->rawColumns(self::COLUMNS);
+        $dataTable = datatables()->eloquent($query);
+
+        $dataTable->addColumn('client_name', static function(Client $model) {
+            return '<a target="_blank" href="'.route('clients.show', $model->id).'">'.$model->name.'</a>';
+        });
+
+        $dataTable->addColumn('email', static function(Client $model) {
+            return '<a href="mailto:'.$model->email.'">'.$model->email.'</a>';
+        });
+
+        $dataTable->addColumn('city', static function(Client $model) {
+            return $model->billingAddress ? $model->billingAddress->city : null;
+        });
+
+        $dataTable->addColumn('action', static function(Client $model) {
+            return view('partials.actions', ['actions' => ['edit', 'delete'], 'model' => $model]);
+        });
+
+        $dataTable->orderColumn('client_name', static function($query, $order) {
+            $query->orderBy('name', $order);
+        });
+
+        $dataTable->orderColumn('email', static function($query, $order) {
+            $query->orderBy('email', $order);
+        });
+
+        $dataTable->orderColumn('city', function($query, $order) {
+            $query->join('address', 'address.addressable_id', '=', 'clients.id')
+                ->where('address.addressable_type', Client::class)
+                ->where('address.is_billing', true)
+                ->whereNull('address.deleted_at')
+                ->orderBy('address.city', $order);
+        });
+
+        $dataTable->rawColumns(self::COLUMNS);
+
+        return $dataTable;
     }
 
     /**
