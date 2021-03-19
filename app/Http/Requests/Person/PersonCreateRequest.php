@@ -38,7 +38,6 @@ class PersonCreateRequest extends FormRequest
             'skills' => 'nullable|string|min:3',
             'certifications' => 'nullable|string|min:3',
             'salary' => 'required|numeric|max:1000000|min:0',
-            'currency' => ['required', new EnumValue(Currency::class)],
             'salary_type' => ['required', new EnumValue(SalaryType::class)],
             'contract_type' => ['required', new EnumValue(PersonContractType::class)],
             'salary_changed_at' => 'nullable|date_format:d-m-Y',

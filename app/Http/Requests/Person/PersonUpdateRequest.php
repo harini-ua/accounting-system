@@ -8,6 +8,7 @@ use App\Enums\Position;
 use App\Enums\SalaryType;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class PersonUpdateRequest extends FormRequest
@@ -38,7 +39,6 @@ class PersonUpdateRequest extends FormRequest
             'skills' => 'nullable|string|min:3',
             'certifications' => 'nullable|string|min:3',
             'salary' => 'required|numeric|max:1000000|min:0',
-            'currency' => ['required', new EnumValue(Currency::class)],
             'salary_changed_at' => 'nullable|date_format:d-m-Y',
             'salary_change_reason' => 'nullable|string|min:3',
             'last_salary' => 'nullable|numeric|max:1000000|min:0',
@@ -56,5 +56,18 @@ class PersonUpdateRequest extends FormRequest
                 }),
             ],
         ];
+    }
+
+    /**
+     * Setting up a validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+            //dump($validator->errors()->all()); die('dump');
+        });
     }
 }
