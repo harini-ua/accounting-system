@@ -12,7 +12,7 @@ use Yajra\DataTables\Services\DataTable;
 class ClientsDataTable extends DataTable
 {
     public const COLUMNS = [
-        'name',
+        'client_name',
         'email',
         'phone'
     ];
@@ -27,7 +27,7 @@ class ClientsDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('name', static function(Client $model) {
+            ->addColumn('client_name', static function(Client $model) {
                 return '<a target="_blank" href="'.route('clients.show', $model->id).'">'.$model->name.'</a>';
             })
             ->addColumn('email', static function(Client $model) {
@@ -88,8 +88,9 @@ class ClientsDataTable extends DataTable
     {
         return [
             Column::make('id'),
-            Column::make('name')->searchable(),
-            Column::make('company_name')->searchable(),
+            Column::make('name')->hidden()->searchable(true),
+            Column::make('client_name'),
+            Column::make('company_name')->searchable(true),
             Column::make('email'),
             Column::make('city'),
             Column::computed('action')
