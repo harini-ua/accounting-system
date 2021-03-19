@@ -20,14 +20,7 @@
         </div>
         @if(!isset($model))
         <div class="col s12 m6">
-            <div class="col s12 input-field">
-                <input id="password" name="password" type="password" class="validate" value="{{ old('password') }}"
-                       data-error=".errorTxt1">
-                <label for="password">{{ __('Password') }}</label>
-                @error('password')
-                <small class="errorTxt3">{{ $message }}</small>
-                @enderror
-            </div>
+            <x-input name="password" title="{{ __('Password') }}" :model="$model"></x-input>
         </div>
         @endif
     </div>
