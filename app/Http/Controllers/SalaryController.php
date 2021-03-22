@@ -86,7 +86,7 @@ class SalaryController extends Controller
      * Show the form for creating a new resource.
      *
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function create(Request $request)
     {
@@ -122,10 +122,10 @@ class SalaryController extends Controller
         }
 
         $wallets = Wallet::with('accounts.accountType')->get();
-        $people = Person::whereNull('quited_at')->orderBy('name')->get(); // todo: pick only if final payslip isn't paid
+        $people = Person::whereDoesntHave('finalPayslip')->orderBy('name')->get();
 
         $salaryPaymentService = new SalaryPaymentService($calendarMonth, $people, $request, $date);
-        extract($salaryPaymentService->data());
+        [$calendarMonth, $salaryPayment, $person, $symbol, $currencies, $fields] = $salaryPaymentService->data();
 
         return view('pages.salary.create', compact(
             'breadcrumbs', 'pageConfigs', 'calendarYears', 'calendarMonth',

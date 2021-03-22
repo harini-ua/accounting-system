@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             $this->call(SalaryPaymentSeeder::class);
             $this->call(OffersSeeder::class);
             $this->call(SalaryReviewSeeder::class);
+            $this->call(FinalPayslipSeeder::class);
         }
     }
 }

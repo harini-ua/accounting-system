@@ -142,6 +142,17 @@ class Person extends Model
     }
 
     /**
+     * Scope a query to only include former people.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeFormer($query)
+    {
+        return $query->whereNotNull('quited_at');
+    }
+
+    /**
      * Scope a query user by position.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
@@ -188,6 +199,16 @@ class Person extends Model
     public function offer()
     {
         return $this->hasOne(Offer::class, 'employee_id', 'id');
+    }
+
+    /**
+     * Get the final payslip that owns the person.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function finalPayslip()
+    {
+        return $this->hasOne(FinalPayslip::class, 'person_id', 'id');
     }
 
     /**

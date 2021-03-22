@@ -66,11 +66,12 @@
 
 {{-- vendor scripts --}}
 @section('vendor-script')
+    <script src="{{asset('js/scripts/form-select2.js')}}"></script>
+    <script src="{{asset('vendors/select2/select2.full.min.js')}}"></script>
+    <script src="{{asset('vendors/jquery-validation/jquery.validate.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/js/datatables.checkboxes.min.js')}}"></script>
-    <script src="{{asset('vendors/select2/select2.full.min.js')}}"></script>
-    <script src="{{asset('js/scripts/form-select2.js')}}"></script>
 @endsection
 
 {{-- page scripts --}}

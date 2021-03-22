@@ -164,4 +164,5 @@ return [
     "Salary Reviews"=> "Salary Reviews",
     "Salaries"=> "Salaries",
     "Add Salary"=> "Add Salary",
+    "Final Payslip"=> "Final Payslip",
 ];

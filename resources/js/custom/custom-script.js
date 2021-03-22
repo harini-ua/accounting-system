@@ -135,7 +135,6 @@ $('.handle-submit-form').on('submit', function (e) {
 
         }
     });
-
 })
 
 function clearForm(form) {
@@ -172,7 +171,6 @@ $('body').on('click', '.slide-up-btn', function (e) {
     )
 })
 
-
 // filters
 $('.select-filters').on('change', function (e) {
     const text = $(this).find('option:selected').text()
@@ -190,9 +188,7 @@ $('.select-filters').on('change', function (e) {
         condition && label.text(`By ${label.text()}`)
         label.removeClass('active')
         input.val('')
-
     }
-
 })
 
 $('.custom-filter-trigger').on('click', function (e) {
@@ -234,43 +230,45 @@ $(function () {
         }
     })
 
-        from = $("#from")
-            .datepicker({
-                format: 'yyyy-mm-dd',
-                changeMonth: true,
-                numberOfMonths: 3,
-                onOpen: datePickerOnOpenModal,
-                onClose: datePickerOnCloseModal
-            })
-            .on("change", function () {
-                highlightLabel($(this))
-                to.datepicker({
-                    minDate: new Date($(this).val()),
-                    format: 'yyyy-mm-dd',
-                    changeMonth: true,
-                    numberOfMonths: 3,
-                    onOpen: datePickerOnOpenModal,
-                    onClose: datePickerOnCloseModal
-                });
-            }),
-            to = $("#to").datepicker({
+    from = $("#from")
+        .datepicker({
             format: 'yyyy-mm-dd',
             changeMonth: true,
             numberOfMonths: 3,
             onOpen: datePickerOnOpenModal,
             onClose: datePickerOnCloseModal
         })
-            .on("change", function () {
-                highlightLabel($(this))
-                from.datepicker({
-                    format: 'yyyy-mm-dd',
-                    changeMonth: true,
-                    numberOfMonths: 3,
-                    onOpen: datePickerOnOpenModal,
-                    onClose: datePickerOnCloseModal,
-                    maxDate: new Date($(this).val())
-                });
+        .on("change", function () {
+            highlightLabel($(this))
+            to.datepicker({
+                minDate: new Date($(this).val()),
+                format: 'yyyy-mm-dd',
+                changeMonth: true,
+                numberOfMonths: 3,
+                onOpen: datePickerOnOpenModal,
+                onClose: datePickerOnCloseModal
             });
+        });
+
+    to = $("#to")
+        .datepicker({
+            format: 'yyyy-mm-dd',
+            changeMonth: true,
+            numberOfMonths: 3,
+            onOpen: datePickerOnOpenModal,
+            onClose: datePickerOnCloseModal
+        })
+        .on("change", function () {
+            highlightLabel($(this))
+            from.datepicker({
+                format: 'yyyy-mm-dd',
+                changeMonth: true,
+                numberOfMonths: 3,
+                onOpen: datePickerOnOpenModal,
+                onClose: datePickerOnCloseModal,
+                maxDate: new Date($(this).val())
+            });
+        });
 })
 
 function datePickerOnOpenModal() {
