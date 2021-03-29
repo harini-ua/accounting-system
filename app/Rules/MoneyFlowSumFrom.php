@@ -34,6 +34,7 @@ class MoneyFlowSumFrom implements Rule
         if ($this->request->money_flow) {
             return Account::find($this->request->account_from_id)->balance + $this->request->money_flow->sum_from >= $value;
         }
+
         return Account::find($this->request->account_from_id)->balance >= $value;
     }
 

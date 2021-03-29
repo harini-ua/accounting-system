@@ -29,7 +29,7 @@ class MoneyFlowRequest extends FormRequest
             'account_from_id' => 'required|exists:accounts,id',
             'sum_from' => ['required', 'numeric', new MoneyFlowSumFrom($this)],
             'account_to_id' => 'required|exists:accounts,id',
-            'sum_to' => ['required', 'numeric', new MoneyFlowSumFrom($this)],
+            'sum_to' => ['required', 'numeric'],
             'date' => 'required|date_format:d-m-Y',
             'currency_rate' => 'nullable|numeric',
             'fee' => ['nullable', 'numeric', new MoneyFlowFee($this)],
