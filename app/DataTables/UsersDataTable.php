@@ -19,12 +19,27 @@ class UsersDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->addColumn('name', function(User $user) {
+                return $user->name;
+            })
+            ->addColumn('email', function(User $user) {
+                return $user->email;
+            })
+            ->addColumn('position', function(User $user) {
+                return $user->position->name;
+            })
             ->addColumn('action', function(User $user) {
                 return view("partials.actions", ['actions'=>['edit','delete'], 'model' => $user]);
+            })
+            ->filterColumn('name', function($query, $keyword) {
+                $query->where('users.name', 'like', "%$keyword%");
             })
             ->filterColumn('position', function($query, $keyword) {
                 $walletTypes = Position::where('name', 'like', "%$keyword%")->pluck('id')->toArray();
                 $query->whereIn('position_id', $walletTypes);
+            })
+            ->orderColumn('name', function($query, $order) {
+                $query->orderBy('users.name', $order);
             })
             ->orderColumn('position', function($query, $order) {
                 $query->join('positions', 'positions.id', '=', 'users.position_id')
@@ -40,7 +55,9 @@ class UsersDataTable extends DataTable
      */
     public function query(User $model)
     {
-        return $model->newQuery()->with('position');
+        return $model->newQuery()
+            ->select('users.*')
+            ->with('position');
     }
 
     /**
@@ -72,8 +89,8 @@ class UsersDataTable extends DataTable
         return [
             Column::make('id'),
             Column::make('name'),
-            Column::make('email'),
-            Column::make('position')->data('position.name'),
+            Column::make('email')->orderable(false),
+            Column::make('position'),
             Column::computed('action')
                 ->orderable(false)
                 ->exportable(false)
