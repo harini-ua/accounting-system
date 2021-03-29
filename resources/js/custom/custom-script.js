@@ -132,10 +132,8 @@ $('.handle-submit-form').on('submit', function (e) {
                 let formField = ($(form).find(`[name = ${key}] `));
                 formField.parents('.input-field').find('.error-span').text(errors[key].join(' '))
             }
-
         }
     });
-
 })
 
 function clearForm(form) {
@@ -165,13 +163,11 @@ $('body').on('click', '.slide-up-btn', function (e) {
     e.preventDefault();
     var slideDownBlock = $(this).parents('.slide-down-block')
     slideDownBlock.slideUp('fast', function () {
-            $('.slide-down-btn').show()
-            clearForm(slideDownBlock.find('.handle-submit-form').get(0))
-            slideDownBlock.find('.error-span').text('')
-        }
-    )
+        $('.slide-down-btn').show()
+        clearForm(slideDownBlock.find('.handle-submit-form').get(0))
+        slideDownBlock.find('.error-span').text('')
+    })
 })
-
 
 // filters
 $('.select-filters').on('change', function (e) {
@@ -190,19 +186,17 @@ $('.select-filters').on('change', function (e) {
         condition && label.text(`By ${label.text()}`)
         label.removeClass('active')
         input.val('')
-
     }
-
 })
 
 $('.custom-filter-trigger').on('click', function (e) {
     const select = $(this).parents('.custom-filter-btn').find('.select-filters')
     select.select2("open");
 })
-$('.custom-filter-input')
-    .each(function (i) {
-        $(this).val('')
-    })
+
+$('.custom-filter-input').each(function (i) {
+    $(this).val('')
+})
 
 $('.dropdown-content').on('click', 'a', function (e) {
     var text = $(this).text(),
@@ -223,7 +217,6 @@ function highLightField(inputField, text) {
 
 $(function () {
 
-
     $('.collapsible').on('click', 'li', function () {
         const icon = $(this).find('.collapsible-header').find('.collapsible-arrow')
 
@@ -234,43 +227,43 @@ $(function () {
         }
     })
 
-        from = $("#from")
-            .datepicker({
-                format: 'yyyy-mm-dd',
-                changeMonth: true,
-                numberOfMonths: 3,
-                onOpen: datePickerOnOpenModal,
-                onClose: datePickerOnCloseModal
-            })
-            .on("change", function () {
-                highlightLabel($(this))
-                to.datepicker({
-                    minDate: new Date($(this).val()),
-                    format: 'yyyy-mm-dd',
-                    changeMonth: true,
-                    numberOfMonths: 3,
-                    onOpen: datePickerOnOpenModal,
-                    onClose: datePickerOnCloseModal
-                });
-            }),
-            to = $("#to").datepicker({
+    from = $("#from")
+        .datepicker({
             format: 'yyyy-mm-dd',
             changeMonth: true,
             numberOfMonths: 3,
             onOpen: datePickerOnOpenModal,
             onClose: datePickerOnCloseModal
         })
-            .on("change", function () {
-                highlightLabel($(this))
-                from.datepicker({
-                    format: 'yyyy-mm-dd',
-                    changeMonth: true,
-                    numberOfMonths: 3,
-                    onOpen: datePickerOnOpenModal,
-                    onClose: datePickerOnCloseModal,
-                    maxDate: new Date($(this).val())
-                });
+        .on("change", function () {
+            highlightLabel($(this))
+            to.datepicker({
+                minDate: new Date($(this).val()),
+                format: 'yyyy-mm-dd',
+                changeMonth: true,
+                numberOfMonths: 3,
+                onOpen: datePickerOnOpenModal,
+                onClose: datePickerOnCloseModal
             });
+        });
+
+    to = $("#to").datepicker({
+        format: 'yyyy-mm-dd',
+        changeMonth: true,
+        numberOfMonths: 3,
+        onOpen: datePickerOnOpenModal,
+        onClose: datePickerOnCloseModal
+    }).on("change", function () {
+        highlightLabel($(this))
+        from.datepicker({
+            format: 'yyyy-mm-dd',
+            changeMonth: true,
+            numberOfMonths: 3,
+            onOpen: datePickerOnOpenModal,
+            onClose: datePickerOnCloseModal,
+            maxDate: new Date($(this).val())
+        });
+    });
 })
 
 function datePickerOnOpenModal() {
@@ -282,6 +275,7 @@ function datePickerOnOpenModal() {
         })
     )
 }
+
 function highlightLabel (input) {
     input.parent()
         .find('.custom-filter-label')
@@ -292,13 +286,11 @@ function datePickerOnCloseModal() {
     $('.section').addClass('relative')
 }
 
-
 // custom form select
 
 $('.select-trigger').on('click', function () {
     const select = $(this).parents('.input-field').find('.form-select')
     select.select2('open')
-
 })
 
 $('.form-select').on('change', function (e) {
@@ -322,12 +314,12 @@ $('.form-select').on('change', function (e) {
     }
 })
 
-
 $('body').on('change', '.custom-select', function (e) {
     const parent = $(this).parents('.input-field')
     const input = parent.find('.custom-select-input')
     const label = parent.find('label')
     const defaultValue = $(this).find('.first_default').val()
+
     if ($(this).val() !== defaultValue && $(this).val() !== '' ) {
         const selectedOptionValue =$(this).find(`option[value = ${$(this).val()}]`).text()
         input.val(selectedOptionValue)

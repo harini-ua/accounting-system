@@ -13,11 +13,9 @@
             <x-input name="email" title="{{ __('Client Email') }}" :model="$client" type="email"></x-input>
             <x-input name="phone" title="{{ __('Client Phone') }}" :model="$client"></x-input>
         </div>
-
     </div>
     <div class="col s12">
-        <div class="divider  mt-1 mb-2"></div>
-
+        <div class="divider mt-1 mb-2"></div>
     </div>
     <div class="row">
         <div class="col s12 m6 row">

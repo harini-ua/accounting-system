@@ -24,35 +24,31 @@ $(document).ready(function () {
     var selectAll = $('#multi-select .select-all');
 
     checkbox.on('click', function () {
-    $(this).parent().parent().parent().toggleClass('selected');
+        $(this).parent().parent().parent().toggleClass('selected');
     })
 
     checkbox.on('click', function () {
-    if ($(this).attr("checked")) {
-      $(this).attr('checked', false);
-    } else {
-      $(this).attr('checked', true);
-    }
+        if ($(this).attr("checked")) {
+            $(this).attr('checked', false);
+        } else {
+            $(this).attr('checked', true);
+        }
     });
 
-
     // Select Every Row
-
     selectAll.on('click', function () {
-    $(this).toggleClass('clicked');
-    if (selectAll.hasClass('clicked')) {
-      $('#multi-select tbody tr').addClass('selected');
-    } else {
-      $('#multi-select tbody tr').removeClass('selected');
-    }
+        $(this).toggleClass('clicked');
+        if (selectAll.hasClass('clicked')) {
+            $('#multi-select tbody tr').addClass('selected');
+        } else {
+            $('#multi-select tbody tr').removeClass('selected');
+        }
 
-    if ($('#multi-select tbody tr').hasClass('selected')) {
-      checkbox.prop('checked', true);
-
-    } else {
-      checkbox.prop('checked', false);
-
-    }
+        if ($('#multi-select tbody tr').hasClass('selected')) {
+            checkbox.prop('checked', true);
+        } else {
+            checkbox.prop('checked', false);
+        }
     });
 
     $('.dataTable').on('click', '.delete-link', function(e) {
