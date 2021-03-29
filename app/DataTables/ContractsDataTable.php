@@ -45,7 +45,7 @@ class ContractsDataTable extends DataTable
     {
         $dataTable = datatables()->eloquent($query);
 
-        $dataTable->addColumn('contract', static function(Contract $model) {
+        $dataTable->addColumn('name', static function(Contract $model) {
             return view('partials.view-link', ['model' => $model]);
         });
 
@@ -95,11 +95,11 @@ class ContractsDataTable extends DataTable
             if ($this->request->has('client_filter')) {
                 $query->where('contracts.client_id', '=', $this->request->input('client_filter'));
             }
-            if ($this->request->has('status_filter')) {
-                $query->where('contracts.status', $this->request->input('status_filter'));
-            }
             if ($this->request->has('sales_managers_filter')) {
                 $query->where('contracts.sales_manager_id', $this->request->get('sales_managers_filter'));
+            }
+            if ($this->request->has('status_filter')) {
+                $query->where('contracts.status', $this->request->input('status_filter'));
             }
         }, true);
 
@@ -140,7 +140,6 @@ class ContractsDataTable extends DataTable
             ->addTableClass('subscription-table responsive-table highlight')
             ->columns($this->getColumns())
             ->minifiedAjax()
-//            ->scrollX(true)
             ->dom('Bfrtip')
             ->language([ 'processing' => view('partials.preloader-circular')->render() ])
             ->orderBy(0);
@@ -154,7 +153,7 @@ class ContractsDataTable extends DataTable
     protected function getColumns()
     {
         $data[] = Column::make('id');
-        $data[] = Column::make('contract')->searchable(false)->title(__('Contract / Project'));
+        $data[] = Column::make('name')->searchable(true)->title(__('Contract / Project'));
 
         if ($this->client_id === null) {
             $data[] = Column::make('client')->searchable(true);
@@ -194,6 +193,16 @@ class ContractsDataTable extends DataTable
         });
 
         return $dataTable;
+    }
+
+    /**
+     * @param $query
+     */
+    private function addFilterQuery($query)
+    {
+        $query->when($this->request()->input('search.value'), function($query, $search) {
+            $query->where('contracts.name', 'like', "%$search%");
+        });
     }
 
     /**
