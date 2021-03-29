@@ -42,7 +42,7 @@
     <div class="row">
         <div class="col s12">
             <div class="col s12 display-flex justify-content-end mt-3">
-                <a href="{{ url()->previous() }}" class="cancel-btn btn btn-light mr-1">{{ __('Cancel') }}</a>
+                <a href="{{ previousOr('offers.index') }}" class="cancel-btn btn btn-light mr-1">{{ __('Cancel') }}</a>
                 <button type="submit" class="btn waves-effect waves-light">{{ isset($model) ? __('Update') : __('Create') }}</button>
             </div>
         </div>
