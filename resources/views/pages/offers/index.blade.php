@@ -17,7 +17,7 @@
 {{-- page styles --}}
 @section('page-style')
     <link rel="stylesheet" type="text/css" href="{{asset('css/pages/page-users.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/offer.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('css/pages/offers.css')}}">
 @endsection
 
 {{-- page content --}}
@@ -96,5 +96,5 @@
     {{ $dataTable->scripts() }}
     <script src="{{asset('js/scripts/data-tables.js')}}"></script>
     <script src="{{asset('js/scripts/filters.js')}}"></script>
-    <script src="{{asset('js/scripts/offer.js')}}"></script>
+    <script src="{{asset('js/scripts/offers.js')}}"></script>
 @endsection

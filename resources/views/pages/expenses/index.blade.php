@@ -10,6 +10,8 @@
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/data-tables/css/jquery.dataTables.min.css')}}">
     <link rel="stylesheet" type="text/css"
           href="{{asset('vendors/data-tables/extensions/responsive/css/responsive.dataTables.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2-materialize.css')}}">
 @endsection
 
 {{-- page styles --}}
@@ -75,6 +77,8 @@
 @section('vendor-script')
     <script src="{{asset('vendors/data-tables/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('vendors/select2/select2.full.min.js')}}"></script>
+    <script src="{{asset('js/scripts/form-select2.js')}}"></script>
 @endsection
 
 {{-- page scripts --}}
