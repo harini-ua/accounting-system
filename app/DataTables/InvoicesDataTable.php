@@ -98,6 +98,10 @@ class InvoicesDataTable extends DataTable
 
         $dataTable->rawColumns(self::COLUMNS);
 
+        $dataTable->filterColumn('number', static function($query, $keyword) {
+            $query->where('number', 'like', "%$keyword%");
+        });
+
         $dataTable->filterColumn('client', static function($query, $keyword) {
             $contractIds = Contract::join('clients', 'contracts.client_id', '=', 'clients.id')
                 ->where('clients.name', 'like', "%$keyword%")
@@ -109,19 +113,24 @@ class InvoicesDataTable extends DataTable
             $query->whereIn('contract_id', $contractIds);
         });
 
+        $dataTable->filterColumn('contract', static function($query, $keyword) {
+            $query->join('contracts', 'invoices.contract_id', '=', 'contracts.id');
+            $query->where('contracts.name', 'like', "%$keyword%");
+        });
+
         $dataTable->filter(function($query) {
-            if ($this->request->has('client_filter')) {
-                $query->join('clients', 'contracts.client_id', '=', 'clients.id')
-                    ->where('clients.id', '=', $this->request->input('client_filter'));
-            }
-            if ($this->request->has('status_filter')) {
-                $query->where('invoices.status', $this->request->input('status_filter'));
-            }
             if ($this->request->has('start_date')) {
-                $query->where('invoices.plan_income_date', '>=', \Illuminate\Support\Carbon::parse($this->request->input('start_date'))->startOfMonth());
+                $query->where('invoices.date', '>=', Carbon::parse($this->request->input('start_date'))->startOfMonth());
             }
             if ($this->request->has('end_date')) {
-                $query->where('invoices.plan_income_date', '<=', Carbon::parse($this->request->input('end_date'))->endOfMonth());
+                $query->where('invoices.date', '<=', Carbon::parse($this->request->get('end_date'))->endOfMonth());
+            }
+            if ($this->request->has('status_filter')) {
+                $query->where('invoices.status', $this->request->get('status_filter'));
+            }
+            if ($this->request->has('client_filter')) {
+                $query->join('clients', 'contracts.client_id', '=', 'clients.id')
+                    ->where('clients.id', '=', $this->request->get('client_filter'));
             }
         }, true);
 
@@ -213,7 +222,7 @@ class InvoicesDataTable extends DataTable
     {
         $data[] = Column::make('number')->title('Invoice #');
         $data[] = Column::make('client');
-        $data[] = Column::make('contract')->searchable(false);
+        $data[] = Column::make('contract');
         $data[] = Column::make('date')->searchable(false);
         $data[] = Column::make('wallet')->searchable(false)->footer(__('Totals: '));
         $data[] = Column::make('total')->title('Sum')->searchable(false);

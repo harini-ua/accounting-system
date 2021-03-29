@@ -31,7 +31,7 @@ class InvoiceUpdateRequest extends FormRequest
             'contract_id' => 'required|exists:contracts,id',
             'account_id' => 'required|exists:accounts,id',
             'sales_manager_id' => ['required',
-                Rule::exists('users', 'id')->where(static function ($query) {
+                Rule::exists('people', 'id')->where(static function ($query) {
                     $query->where('position_id', 5);
                 })
             ],

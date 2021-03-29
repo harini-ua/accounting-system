@@ -101,7 +101,6 @@ class InvoiceController extends Controller
      */
     public function store(InvoiceCreateRequest $request)
     {
-
         $invoiceData = $request->except(['client_id', 'wallet_id']);
 
         $invoice = $this->invoiceService->save($invoiceData);
@@ -201,8 +200,6 @@ class InvoiceController extends Controller
      */
     public function update(InvoiceUpdateRequest $request, Invoice $invoice)
     {
-        //$validator = Validator::make($request->all(), (new InvoiceUpdateRequest)->rules());
-
         $invoiceData = $request->except(['client_id', 'wallet_id']);
 
         $invoice = $this->invoiceService->update($invoice, $invoiceData);
