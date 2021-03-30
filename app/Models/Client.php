@@ -49,7 +49,10 @@ class Client extends Model
      */
     public function billingAddress()
     {
-        return $this->morphOne(Address::class, 'addressable')->where('is_billing', true);
+        return $this->morphOne(Address::class, 'addressable')
+            ->where('addressable_type', self::class)
+            ->whereNull('deleted_at')
+            ->where('is_billing', true);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\DataTables;
 
+use App\Models\Address;
 use App\Models\Client;
 use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
@@ -61,6 +62,18 @@ class ClientsDataTable extends DataTable
 
         $dataTable->rawColumns(self::COLUMNS);
 
+        $dataTable->filterColumn('city', static function($query, $keyword) {
+            $clientIds = Address::where('address.addressable_type', Client::class)
+                ->where('address.City', 'like', "%$keyword%")
+                ->where('address.is_billing', true)
+                ->whereNull('address.deleted_at')
+                ->distinct('address.id')
+                ->pluck('address.id')
+                ->toArray();
+
+            $query->whereIn('id', $clientIds);
+        });
+
         return $dataTable;
     }
 
@@ -72,7 +85,9 @@ class ClientsDataTable extends DataTable
      */
     public function query(Client $model)
     {
-        return $model->newQuery()->with(['billingAddress']);
+        return $model->newQuery()
+            ->select('clients.*')
+            ->with(['billingAddress']);
     }
 
     /**
@@ -107,7 +122,7 @@ class ClientsDataTable extends DataTable
             Column::make('client_name'),
             Column::make('company_name')->searchable(true),
             Column::make('email'),
-            Column::make('city'),
+            Column::make('city')->searchable(true),
             Column::computed('action')
                 ->addClass('text-center'),
         ];
