@@ -119,11 +119,11 @@ class InvoicesDataTable extends DataTable
         });
 
         $dataTable->filter(function($query) {
-            if ($this->request->has('start_date')) {
-                $query->where('invoices.date', '>=', Carbon::parse($this->request->input('start_date'))->startOfMonth());
+            if ($this->request->has('start_date_filter')) {
+                $query->where('invoices.date', '>=', $this->request->get('start_date_filter'));
             }
-            if ($this->request->has('end_date')) {
-                $query->where('invoices.date', '<=', Carbon::parse($this->request->get('end_date'))->endOfMonth());
+            if ($this->request->has('end_date_filter')) {
+                $query->where('invoices.date', '<=', $this->request->get('end_date_filter'));
             }
             if ($this->request->has('status_filter')) {
                 $query->where('invoices.status', $this->request->get('status_filter'));
