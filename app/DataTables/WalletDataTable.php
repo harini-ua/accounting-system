@@ -26,15 +26,18 @@ class WalletDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
-            ->addColumn('action', function(Wallet $model) {
-                return view("partials.actions", ['actions'=>['edit','delete'], 'model' => $model]);
-            })
             ->addColumn('name', static function(Wallet $model) {
                 return view('partials.view-link', ['model' => $model]);
             })
+            ->addColumn('action', function(Wallet $model) {
+                return view("partials.actions", ['actions'=>['edit','delete'], 'model' => $model]);
+            })
             ->rawColumns(self::COLUMNS)
             ->filterColumn('name', function($query, $keyword) {
-                $query->where('name', 'like', "%$keyword%");
+                $query->where('wallets.name', 'like', "%$keyword%");
+            })
+            ->orderColumn('name', function($query, $order) {
+                $query->orderBy('wallets.name', $order);
             })
             ->orderColumn('type', function($query, $order) {
                 $query->join('wallet_types', 'wallet_types.id', '=', 'wallets.wallet_type_id')
@@ -50,13 +53,17 @@ class WalletDataTable extends DataTable
      */
     public function query(Wallet $model)
     {
-        return $model->newQuery()->with('walletType');
+        return $model->newQuery()
+            ->select(['wallets.*'])
+            ->with('walletType')
+            ;
     }
 
     /**
      * Optional method if you want to use html builder.
      *
      * @return \Yajra\DataTables\Html\Builder
+     * @throws \Throwable
      */
     public function html()
     {
@@ -68,7 +75,7 @@ class WalletDataTable extends DataTable
             ->dom('Bfrtip')
             ->pageLength(16)
             ->language([ 'processing' => view('partials.preloader-circular')->render() ])
-            ->orderBy(0);
+            ->orderBy(0, 'asc');
     }
 
     /**
