@@ -37,5 +37,5 @@
 {{-- page scripts --}}
 @section('page-script')
     <script src="{{asset('js/scripts/checkbox-input.js')}}"></script>
-    <script src="{{asset('js/scripts/offer.js')}}"></script>
+    <script src="{{asset('js/scripts/offers.js')}}"></script>
 @endsection
