@@ -7,6 +7,7 @@ use App\Models\CalendarMonth;
 use App\Models\CalendarYear;
 use App\Models\Holiday;
 use App\Services\CalendarPaginator;
+use Carbon\Carbon;
 
 class CalendarController extends Controller
 {
@@ -35,7 +36,10 @@ class CalendarController extends Controller
      */
     public function create()
     {
+        $last = CalendarYear::orderBy('name', 'DESC')->first()->name;
+
         $year = new CalendarYear;
+        $year->name = ++ $last ?? Carbon::now()->year;
         $year->save();
 
         return redirect()->route('calendar.index', ['year' => $year->name]);

@@ -15,7 +15,7 @@ class CreateCalendarYearsTable extends Migration
     {
         Schema::create('calendar_years', function (Blueprint $table) {
             $table->increments('id');
-            $table->year('name')->unique()->default(\Illuminate\Support\Carbon::now()->year);
+            $table->year('name')->unique();
             $table->timestamps();
         });
     }
