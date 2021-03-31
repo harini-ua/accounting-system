@@ -1,13 +1,12 @@
 <!-- sidebar forms start  -->
 <x-sidebar-form id="change-salary-type" title="{{ __('Change salary type') }}" :model="$model">
     <x-date name="salary_type_changed_at" title="{{ __('Date') }}" :model="$model"></x-date>
-    <x-select name="salary_type" title="{{ __('Salary type') }}" :options="$salaryTypes" :model="$model"></x-select>
+    <x-select name="salary_type" title="{{ __('Salary type') }}" :options="$salaryTypes" :model="$model" firstTitle="{{ __('Salary type') }}"></x-select>
 </x-sidebar-form>
 
 <x-sidebar-form id="change-contract-type" title="{{ __('Change type of contract') }}" :model="$model">
     <x-date name="contract_type_changed_at" title="{{ __('Date') }}" :model="$model"></x-date>
-    <x-select name="contract_type" title="{{ __('Type og Contract') }}" :options="$contractTypes"
-              :model="$model"></x-select>
+    <x-select name="contract_type" title="{{ __('Type of Contract') }}" :options="$contractTypes" :model="$model" firstTitle="{{ __('Type of Contract') }}"></x-select>
 </x-sidebar-form>
 
 <x-sidebar-form id="make-former" title="{{ __('Make former employee') }}" :model="$model">

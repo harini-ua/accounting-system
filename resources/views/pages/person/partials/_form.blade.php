@@ -12,17 +12,17 @@
                  {{--main info start--}}
                 <h4 class="card-title col s12">{{ __('Main Info') }}</h4>
                 <x-input name="name" title="Name" :model="$model"></x-input>
-                <x-select name="position_id" title="Position" :options="$positions" :model="$model"></x-select>
+                <x-select name="position_id" title="{{ __('Position') }}" :options="$positions" :model="$gimodel" firstTitle="{{ __('Position') }}"></x-select>
                 <x-input name="department" title="Department" :model="$model"></x-input>
                 <x-date name="start_date" title="Date of the work beginning" :model="$model"></x-date>
                 <x-input name="trial_period" title="{{ __('Trial Period (In Months)') }}" type="number" min="1" max="12" default="{{ config('people.trial_period.value') }}" :model="$model"></x-input>
                 <x-input name="salary" title="Salary" :model="$model"></x-input>
-                {{--<x-select name="currency" title="Currency" :options="$currencies" :model="$model"></x-select>--}}
+                {{--<x-select name="currency" title="{{ __('Currency') }}" :options="$currencies" :model="$model" firstTitle="{{ __('Currency') }}"></x-select>--}}
                 <x-textarea name="skills" title="Skills" :model="$model"></x-textarea>
                 <x-textarea name="certifications" title="Certifications" :model="$model"></x-textarea>
                 @if(!$model)
-                    <x-select name="salary_type" title="Salary type" :options="$salaryTypes" :model="$model"></x-select>
-                    <x-select name="contract_type" title="Type of contract" :options="$contractTypes" :model="$model"></x-select>
+                    <x-select name="salary_type" title="Salary type" :options="$salaryTypes" :model="$model" firstTitle="{{ __('Salary type') }}"></x-select>
+                    <x-select name="contract_type" title="Type of contract" :options="$contractTypes" :model="$model" firstTitle="{{ __('Type of contract') }}"></x-select>
                 @endif
                 {{-- main info end --}}
             </div>
@@ -74,7 +74,7 @@
             </x-checkbox-input>
 
             <div class="pt-9">
-                <x-select name="recruiter_id" title="Recruiter" :options="$recruiters" :model="$model" firstTitle="Recruiter"></x-select>
+                <x-select name="recruiter_id" title="{{ __('Recruiter') }}" :options="$recruiters" :model="$model" firstTitle="{{ __('Recruiter') }}"></x-select>
             </div>
         </div>
         <div class="col s12 display-flex justify-content-end mt-3">

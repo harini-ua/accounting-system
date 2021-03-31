@@ -5,7 +5,7 @@
             <x-date name="salary_type_changed_at" title="{{ __('Date') }}" :model="$model"></x-date>
         </div>
         <div class="col s12 m6">
-            <x-select name="salary_type" title="{{ __('Salary type') }}" :options="$salaryTypes" :model="$model"></x-select>
+            <x-select name="salary_type" title="{{ __('Salary type') }}" :options="$salaryTypes" :model="$model" firstTitle="{{ __('Salary type') }}"></x-select>
         </div>
     </div>
 </x-slide-down-form>
@@ -16,7 +16,7 @@
             <x-date name="contract_type_changed_at" title="{{ __('Date') }}" :model="$model"></x-date>
         </div>
         <div class="col s12 m6">
-            <x-select name="contract_type" title="{{ __('Type og Contract') }}" :options="$contractTypes" :model="$model"></x-select>
+            <x-select name="contract_type" title="{{ __('Type of Contract') }}" :options="$contractTypes" :model="$model" firstTitle="{{ __('Type of Contract') }}"></x-select>
         </div>
     </div>
 </x-slide-down-form>
