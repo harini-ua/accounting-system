@@ -18,8 +18,7 @@
                             </script>
                         </div>
                         <div class="col xl4 m12 display-flex align-items-center">
-                            <input type="text" value="{{ $invoice->number ?? null }}"
-                                   placeholder="{{ __('INV-00000') }}" disabled>
+                            <input type="text" value="{{ $invoice->number ?? null }}" placeholder="{{ __('INV-00000') }}" disabled>
                         </div>
                         <div class="col xl8 m12">
                             <div class="invoice-date-picker display-flex align-items-center">
@@ -66,16 +65,7 @@
                             <div class="col s12">
                                 <h4 class="indigo-text">Invoice</h4>
                             </div>
-                            <div class="col s12 input-field">
-                                <input name="name" value="{{ old('name') ?? $invoice->name ?? null }}" type="text">
-                                <label for="name" data-error="wrong"
-                                       data-success="right">{{ __('Invoice Name') }}</label>
-                                @error('name')
-                                <small class="errorTxt1">
-                                    <div id="name-error" class="error">{{ $message }}</div>
-                                </small>
-                                @enderror
-                            </div>
+                            <x-input name="name" title="{{ __('Invoice Name') }}" :model="$model"></x-input>
                         </div>
                     </div>
                     <div class="divider mb-3 mt-3"></div>
@@ -117,27 +107,13 @@
                     <div class="invoice-subtotal">
                         <div class="row">
                             <div class="col m5 s12">
-                                <div class="input-field">
-                                    <input name="discount" type="text"
-                                           value="{{ old('discount') ?? $invoice->discount ?? null }}"
-                                           placeholder="{{ __('0.00') }}">
-                                    <label for="discount">{{ __('Discount') }}</label>
-                                </div>
-                                <div class="input-field">
-                                    <select name="sales_manager_id" class="select2 invoice-item-select browser-default">
-                                        <option value="">{{ __('- Select Sales Manager -') }}</option>
-                                        @php( $sales_manager_id = old('sales_manager_id') ?? (isset($invoice) && $invoice->sales_manager_id) ?? null )
-                                        @foreach($sales as $user)
-                                            <option
-                                                value="{{ $user->id }}" {{ isset($invoice) && $sales_manager_id == $user->id ? 'selected' : '' }}>{{ $user->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('sales_manager_id')
-                                    <small class="errorTxt1">
-                                        <div id="sales_manager_id-error" class="error">{{ $message }}</div>
-                                    </small>
-                                    @enderror
-                                </div>
+                                <x-input name="discount" title="{{ __('Discount') }}" :model="$model"></x-input>
+                                <x-select name="sales_manager_id"
+                                        title="{{ __('Sales Manager') }}"
+                                        :options="$sales"
+                                        :model="$model"
+                                        firstTitle="{{ __('Sales Manager') }}"
+                                ></x-select>
                             </div>
                             <div class="col xl4 m7 s12 offset-xl3">
                                 <ul>

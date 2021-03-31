@@ -22,36 +22,40 @@
 {{-- page content --}}
 @section('content')
     <div class="create-btn invoice-create-btn">
-        <a href="{{ route('salary-reviews.create') }}" class="btn waves-effect waves-light invoice-create z-depth-4">
+        <a href="{{ route('salary-reviews.create') }}"
+           class="btn waves-effect waves-light invoice-create z-depth-4">
             <i class="material-icons">add</i>
             <span class="hide-on-small-only">{{ __("Add") }}</span>
         </a>
     </div>
     <section class="salary-review-list-wrapper users-list-wrapper section animate fadeLeft">
         <div class="filters-panel">
-            <ul class="collapsible">
-                <li class="active">
-                    <div class="collapsible-header">
-                        <i class="material-icons">filter_list</i>{{ __('Filters') }}
+            <ul class="collapsible mt-0">
+                <li class="{{ active(config('general.ui.datatable.filter.show')) }}">
+                    <div class="collapsible-header p-0">
+                        <div class="box-shadow-none width-100  card-panel m-0 display-flex align-items-center justify-content-between">
+                            <div class="display-flex align-items-center">
+                                <i class="material-icons">arrow_upward</i>
+                                <h6 class="m-0"> {{ __('Filters') }}</h6>
+                            </div>
+                            <x-reset-filters/>
+                        </div>
                     </div>
-                    <div class="collapsible-body" style="background-color: white">
-                        <div class="filter-block">
-                            <div class="row">
-                                <div class="col s6 m3">
-                                    <x-checkbox-filter
-                                            table="salary-review-list-datatable"
-                                            title="Show All"
-                                            name="all_people"
-                                            url="{{ route('salary-reviews.index') }}">
-                                    </x-checkbox-filter>
-                                </div>
+                    <div class="collapsible-body mt-0 p-0">
+                        <div class="m-0 box-shadow-none filter-panel accounts-page-card-panel card-panel">
+                            <div class="filter-block mb-0">
+                                <x-checkbox-filter
+                                    table="salary-review-list-datatable"
+                                    title="Show All"
+                                    name="all_people"
+                                    url="{{ route('salary-reviews.index') }}">
+                                </x-checkbox-filter>
                             </div>
                         </div>
                     </div>
                 </li>
             </ul>
         </div>
-
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">

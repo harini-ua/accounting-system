@@ -35,10 +35,9 @@
                                             view="components.linked-selects.wallets-accounts-money-flow"
                                             :options="$wallets"
                                         />
-                                        <x-date name="date" title="Date"></x-date>
                                         <x-input name="sum_from" title="Sum"></x-input>
                                         <x-input name="currency_rate" title="Currency Rate"></x-input>
-                                        <x-input name="fee" title="Fee"></x-input>
+                                        <x-date name="date" title="Date"></x-date>
                                     </div>
                                 </div>
                                 <div class="col s12 m6">
@@ -54,6 +53,7 @@
                                             :options="$wallets"
                                         />
                                         <x-input name="sum_to" title="Sum"></x-input>
+                                        <x-input name="fee" title="Fee"></x-input>
                                         <x-textarea name="comment" title="Comment"></x-textarea>
                                     </div>
                                 </div>

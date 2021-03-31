@@ -11,7 +11,7 @@
             <x-input name="name" title="{{ __('Name') }}" :model="$model"></x-input>
         </div>
         <div class="col s12 m6">
-            <x-select name="position_id" title="{{ __('Position') }}" :model="$model" :options="$positions"></x-select>
+            <x-select name="position_id" title="{{ __('Position') }}" :model="$model" :options="$positions" firstTitle="{{ __('Position') }}"></x-select>
         </div>
     </div>
     <div class="row">

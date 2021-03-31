@@ -31,9 +31,10 @@
                                 <div class="col s12 m6">
                                     <x-select
                                         name="expense_category_id"
-                                        title="Category"
+                                        title="{{ __('Category') }}"
                                         :options="$expenseCategories"
                                         :model="$model"
+                                        firstTitle="{{ __('Category') }}"
                                     ></x-select>
                                     <x-linked-selects
                                         firstName="wallet_id"

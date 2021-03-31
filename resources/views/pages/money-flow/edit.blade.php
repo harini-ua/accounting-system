@@ -40,8 +40,7 @@
                                     <x-date name="date" title="Date" :model="$moneyFlow"></x-date>
                                     <x-input name="sum_from" title="Sum" :model="$moneyFlow"></x-input>
                                     <x-input name="currency_rate" title="Currency Rate" :model="$moneyFlow"></x-input>
-                                    <x-input name="fee" title="Fee" :model="$moneyFlow"></x-input>
-                                    <x-textarea name="comment" title="Comment" :model="$moneyFlow"></x-textarea>
+                                    <x-date name="date" title="Date" :model="$moneyFlow"></x-date>
                                 </div>
                             </div>
                             <div class="col s12 m6">
@@ -58,6 +57,8 @@
                                         :model="$moneyFlow"
                                     />
                                     <x-input name="sum_to" title="Sum" :model="$moneyFlow"></x-input>
+                                    <x-input name="fee" title="Fee" :model="$moneyFlow"></x-input>
+                                    <x-textarea name="comment" title="Comment" :model="$moneyFlow"></x-textarea>
                                 </div>
                             </div>
                             <div class="col s12 display-flex justify-content-end mt-3">

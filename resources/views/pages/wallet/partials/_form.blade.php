@@ -14,11 +14,7 @@
             </div>
         </div>
         <div class="col s12 m6">
-            <x-select
-                    name="wallet_type_id"
-                    title="Wallet Type"
-                    :options="$walletTypes"
-            ></x-select>
+            <x-select name="wallet_type_id" title="{{ __('Wallet Type') }}" :options="$walletTypes" firstTitle="{{ __('Wallet Type') }}"></x-select>
         </div>
     </div>
     <div class="pl-0 pr-0 right-align">
