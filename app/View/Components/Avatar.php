@@ -8,9 +8,11 @@ use Illuminate\View\Component;
 
 class Avatar extends Component
 {
-    protected $avatar;
+    public $user;
     public $online;
     public $profile;
+
+    private $avatar;
 
     /**
      * Create a new component instance.
@@ -23,10 +25,10 @@ class Avatar extends Component
     public function __construct(User $user = null, $profile = false, $online = true)
     {
         $this->user = $user ?? Auth::user();
-        $this->avatar = new \Laravolt\Avatar\Avatar();
-
         $this->profile = $profile;
         $this->online = $online;
+
+        $this->avatar = new \Laravolt\Avatar\Avatar();
     }
 
     /**

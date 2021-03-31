@@ -60,12 +60,11 @@ class SalaryReviewController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        $calendarYears = CalendarYear::orderBy('name')->get()->map(
-            static function($calendarYear) {
+        $calendarYears = CalendarYear::orderBy('name')
+            ->get()->map(static function($calendarYear) {
                 $calendarYear->id = $calendarYear->name;
                 return $calendarYear;
-            }
-        );
+            });
 
         $dataTable = new SalaryReviewByQuarterDataTable($year, $quarter);
 
