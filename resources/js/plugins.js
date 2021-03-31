@@ -178,7 +178,6 @@ $(function () {
       gutter: 0,
       coverTrigger: false,
       alignment: "right",
-      hover: false,
       closeOnClick: false,
    });
 
