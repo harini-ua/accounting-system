@@ -12,7 +12,7 @@
                  {{--main info start--}}
                 <h4 class="card-title col s12">{{ __('Main Info') }}</h4>
                 <x-input name="name" title="Name" :model="$model"></x-input>
-                <x-select name="position_id" title="{{ __('Position') }}" :options="$positions" :model="$gimodel" firstTitle="{{ __('Position') }}"></x-select>
+                <x-select name="position_id" title="{{ __('Position') }}" :options="$positions" :model="$model" firstTitle="{{ __('Position') }}"></x-select>
                 <x-input name="department" title="Department" :model="$model"></x-input>
                 <x-date name="start_date" title="Date of the work beginning" :model="$model"></x-date>
                 <x-input name="trial_period" title="{{ __('Trial Period (In Months)') }}" type="number" min="1" max="12" default="{{ config('people.trial_period.value') }}" :model="$model"></x-input>
