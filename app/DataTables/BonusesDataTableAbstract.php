@@ -2,6 +2,8 @@
 
 namespace App\DataTables;
 
+use App\Enums\Position;
+use App\Models\AccountType;
 use App\Models\Person;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
@@ -25,6 +27,15 @@ abstract class BonusesDataTableAbstract extends DataTable
 
     /** @var mixed|null */
     public $positionId;
+
+    /**
+     * BonusesDataTable constructor.
+     */
+    public function __construct()
+    {
+        $this->currency = AccountType::all()->pluck('symbol', 'name')->toArray();
+        $this->year = $this->request()->input('year_filter') ?? Carbon::now()->year;
+    }
 
     /**
      * Build DataTable class.

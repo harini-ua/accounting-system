@@ -43,7 +43,7 @@
                                 <x-filter
                                     table="bonuses-list-datatable"
                                     :options="$calendarYears"
-                                    url="{{ route('bonuses.index') }}"
+                                    url="{{ route('bonuses.byPosition', $position->id) }}"
                                     name="year_filter"
                                     title="By Year"
                                     :default="$year"
@@ -55,7 +55,6 @@
                 </div>
             </li>
         </ul>
-
         <div class="card">
             <div class="row">
                 <div class="col s12">

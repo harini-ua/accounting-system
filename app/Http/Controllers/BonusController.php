@@ -59,8 +59,8 @@ class BonusController extends Controller
                 $dataTable = new BonusesRecruitersDataTable();
                 break;
             case \App\Enums\Position::SalesManager:
-            default:
                 $dataTable = new BonusesSalesManagersDataTable();
+                break;
         }
 
         $year = $dataTable->year;

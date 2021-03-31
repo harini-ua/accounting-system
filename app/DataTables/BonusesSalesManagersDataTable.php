@@ -17,15 +17,6 @@ class BonusesSalesManagersDataTable extends BonusesDataTableAbstract
         'total',
     ];
 
-    /** @var array */
-    public $currency;
-
-    /** @var mixed */
-    public $year;
-
-    /** @var mixed|null */
-    public $positionId;
-
     /**
      * BonusesDataTable constructor.
      */

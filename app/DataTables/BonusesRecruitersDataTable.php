@@ -17,22 +17,13 @@ class BonusesRecruitersDataTable extends BonusesDataTableAbstract
         'total',
     ];
 
-    /** @var array */
-    public $currency;
-
-    /** @var mixed */
-    public $year;
-
-    /** @var mixed|null */
-    public $positionId;
-
     /**
      * BonusesDataTable constructor.
      */
     public function __construct()
     {
-        $this->currency = AccountType::all()->pluck('symbol', 'name')->toArray();
-        $this->year = $this->request()->input('year_filter') ?? Carbon::now()->year;
+        parent::__construct();
+
         $this->positionId = Position::Recruiter;
     }
 
