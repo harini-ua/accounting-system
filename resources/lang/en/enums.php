@@ -54,7 +54,7 @@ return [
 
     \App\Enums\Position::class => [
         \App\Enums\Position::CEO => 'CEO',
-        \App\Enums\Position::COO => 'CEO',
+        \App\Enums\Position::COO => 'COO',
         \App\Enums\Position::ProjectManager => 'Project Manager',
         \App\Enums\Position::Manager => 'Manager',
         \App\Enums\Position::SalesManager => 'Sales Manager',
@@ -62,6 +62,7 @@ return [
         \App\Enums\Position::SysAdmin => 'SysAdmin',
         \App\Enums\Position::Accountant => 'Accountant',
         \App\Enums\Position::Designer => 'Designer',
+        \App\Enums\Position::Recruiter => 'Recruiter',
     ],
 
     \App\Enums\SalaryReviewProfGrowthType::class => [
