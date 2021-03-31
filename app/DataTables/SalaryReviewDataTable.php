@@ -74,8 +74,11 @@ class SalaryReviewDataTable extends DataTable
         });
 
         $dataTable->filterColumn('person', static function($query, $keyword) {
-            $query->join('people', 'salary_reviews.person_id', '=', 'people.id');
-            $query->where('people.name', 'like', "%$keyword%");
+            $personIds = Person::where('name', 'like', "%$keyword%")->get()
+                ->pluck('id')->toArray()
+            ;
+
+            $query->where('salary_reviews.person_id', $personIds);
         });
 
         $dataTable->filter(function($query) {
@@ -120,7 +123,7 @@ class SalaryReviewDataTable extends DataTable
     {
         $query = $model->newQuery();
 
-        $query->select('salary_reviews.*');
+        $query->select(['salary_reviews.*']);
 
         $query->with(['person']);
 
