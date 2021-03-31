@@ -16,7 +16,6 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- users edit start -->
     <div class="section users-edit animate fadeUp">
         <div class="card">
             <div class="card-content">
@@ -190,14 +189,11 @@
                                 </div>
                             </div>
                         </form>
-                        <!-- users edit account form ends -->
                     </div>
                 </div>
-                <!-- </div> -->
             </div>
         </div>
     </div>
-    <!-- users edit ends -->
 @endsection
 
 {{-- vendor scripts --}}

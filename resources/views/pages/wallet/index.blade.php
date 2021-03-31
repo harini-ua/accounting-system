@@ -30,34 +30,22 @@
             <span class="hide-on-small-only">Add</span>
         </a>
     </div>
-    <!-- Sidebar Area Starts -->
     <section class="users-list-wrapper section animate fadeLeft">
-        {{--<div class="page-layout">--}}
         <div class="card slide-down-block">
             <div class="card-content">
                 @include('pages.wallet.partials._form')
             </div>
         </div>
-        <!-- Sidebar Area Ends -->
-
-        <!-- Content Area Starts -->
-
         <div class="users-list-table animate fadeRight">
-
             <div class="card">
                 <div class="card-content">
-                    <!-- datatable start -->
                     <div class="responsive-table">
                         {{ $dataTable->table() }}
                     </div>
-                    <!-- datatable ends -->
                 </div>
             </div>
         </div>
-        {{--</div>--}}
     </section>
-
-    <!-- Content Area Ends -->
 @endsection
 
 {{-- vendor scripts --}}

@@ -18,8 +18,6 @@
             <div class="col xl9 m8 s12">
                 <div class="card animate fadeLeft">
                     <div class="card-content invoice-print-area">
-                        {{-- content start --}}
-                        <!-- header section -->
                         <div class="row invoice-date-number">
                             <div class="col xl8 s12 offset-xl4">
                                 <div class="invoice-date display-flex align-items-center flex-wrap">
@@ -30,15 +28,12 @@
                                 </div>
                             </div>
                         </div>
-                        {{-- logo and title start --}}
                         <div class="row mt-3">
                             <div class="col m6 s12">
                                 <h4 class="indigo-text">{{ $person->name }}</h4>
                             </div>
                         </div>
                         <div class="divider mb-3 mt-3"></div>
-                        {{-- logo and title start --}}
-                        {{-- main-info start --}}
                         <div class="main-info info-block">
                             <h6 class="card-title">{{ __('Main Info') }}</h6>
                             <table class="responsive-table">
@@ -56,8 +51,6 @@
                                 </tbody>
                             </table>
                         </div>
-                         {{--main-info end--}}
-                         {{--additional-info start--}}
                         <div class="additional-info info-block mt-3">
                             <h6 class="card-title">{{ __('Additional information') }}</h6>
                             <table class="responsive-table">
@@ -85,9 +78,7 @@
                                 </tbody>
                             </table>
                         </div>
-                         {{--additional-info end--}}
                         @if($person->salary_changed_at)
-                             {{--salary-changed-info start--}}
                             <div class="salary-changed-info info-block mt-3">
                                 <h6 class="card-title">{{ __('Salary changed') }}</h6>
                                 <table class="responsive-table">
@@ -98,9 +89,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                             {{--salary-changed-info end--}}
                         @endif
-                        {{-- long-vacation-info start --}}
                         @php($longVacation = $person->lastLongVacation())
                         <div class="long-vacation-info info-block mt-3{{ empty($longVacation->long_vacation_started_at) && empty($longVacation->long_vacation_finished_at) ? ' hide' : '' }}">
                             <h6 class="card-title">{{ __('Long-term vacation') }}</h6>
@@ -135,8 +124,6 @@
                                 </tbody>
                             </table>
                         </div>
-                        {{-- long-vacation-info end --}}
-                        {{-- quit-info start --}}
                         <div class="quit-info info-block mt-3{{ empty($person->quited_at) ? ' hide' : '' }}">
                             <h6 class="card-title">{{ __('Quit information') }}</h6>
                             <table class="responsive-table">
@@ -152,8 +139,6 @@
                                 </tbody>
                             </table>
                         </div>
-                        {{-- quit-info end --}}
-                        {{-- content end --}}
                     </div>
                 </div>
             </div>

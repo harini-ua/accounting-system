@@ -40,9 +40,7 @@
                     <div class="col s12">
                         <div class="users-list-table">
                             <div class="responsive-table overflow-x-auto">
-                                <!-- datatable start -->
                             {{ $dataTable->table() }}
-                            <!-- datatable ends -->
                             </div>
                         </div>
                     </div>
@@ -50,8 +48,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Content Area Ends -->
 @endsection
 
 {{-- vendor scripts --}}

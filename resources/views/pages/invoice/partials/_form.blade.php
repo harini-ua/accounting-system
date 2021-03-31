@@ -4,11 +4,9 @@
     @php $model = $invoice ?? null @endphp
     @csrf
     <div class="row changed-row-margin">
-        <!-- invoice view page -->
         <div class="col xl9 m8 s12">
             <div class="card">
                 <div class="card-content px-36">
-                    <!-- header section -->
                     <div class="row mb-3">
                         <div class="hidden">
                             <input type="hidden" name="type" value="{{ \App\Enums\InvoiceType::DEFAULT }}">
@@ -53,7 +51,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- logo and title -->
                     <div class="row mb-3">
                         @if($image)
                             <div class="col m6 s12 invoice-logo display-flex pt-1 push-m6">
@@ -69,7 +66,6 @@
                         </div>
                     </div>
                     <div class="divider mb-3 mt-3"></div>
-                    <!-- invoice client and wallet -->
                     <div class="row mb-3">
                         <div class="col l6 s12 p-0 row">
                             <h6 class="col s12">{{ __('Client / Contract') }}</h6>
@@ -99,11 +95,9 @@
                         </div>
                     </div>
                     <div class="divider mb-3 mt-3"></div>
-                    <!-- product details table-->
                     <div class="invoice-product-details mb-3">
                         @include('pages.invoice-item.partials._item-repeat-fields', ['items' => isset($invoice) ? $invoice->items : []])
                     </div>
-                    <!-- invoice subtotal -->
                     <div class="invoice-subtotal">
                         <div class="row">
                             <div class="col m5 s12">
@@ -155,7 +149,6 @@
                 </div>
             </div>
         </div>
-        <!-- invoice action  -->
         <div class="col xl3 m4 s12">
             <div class="card invoice-action-wrapper mb-10">
                 <div class="card-content">

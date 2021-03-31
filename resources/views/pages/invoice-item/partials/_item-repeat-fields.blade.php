@@ -3,7 +3,6 @@
     @php $count = $items ? $items->count() : 1 @endphp
     @for($i = 0; $i < $count; $i++)
         <div class="mb-2 invoice-item-wrapper" data-repeater-item>
-            <!-- invoice Titles -->
             <div class="row mb-1">
                 <div class="col s3 m3">
                     <h6 class="m-0">{{ __('Item') }}</h6>

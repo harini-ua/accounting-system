@@ -33,11 +33,9 @@
     <section class="salary-month-list-wrapper users-list-wrapper section animate fadeLeft">
         <div class="card">
             <div class="card-content">
-                <!-- datatable start -->
                 <div class="responsive-table users-list-table overflow-x-auto">
                     {{ $dataTable->table() }}
                 </div>
-                <!-- datatable ends -->
             </div>
         </div>
     </section>

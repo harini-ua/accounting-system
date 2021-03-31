@@ -26,31 +26,22 @@
             <span class="hide-on-small-only">Add</span>
         </a>
     </div>
-    <!-- Sidebar Area Starts -->
     <section class="users-list-wrapper section animate fadeLeft">
         <div class="card slide-down-block">
             <div class="card-content">
                 @include('pages.expense-category.partials._form')
             </div>
         </div>
-        <!-- Sidebar Area Ends -->
-
-        <!-- Content Area Starts -->
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">
-                    <!-- datatable start -->
                     <div class="responsive-table">
                         {{ $dataTable->table() }}
                     </div>
-                    <!-- datatable ends -->
                 </div>
             </div>
         </div>
-        {{--</div>--}}
     </section>
-
-    <!-- Content Area Ends -->
 @endsection
 
 {{-- vendor scripts --}}

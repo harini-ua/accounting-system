@@ -12,61 +12,54 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- edit start -->
     <div class="section">
         <div class="card">
             <div class="card-content">
-                <!-- <div class="card-body"> -->
                 <div class="row">
                     <div class="col s12" id="account">
-                        <!-- form start -->
                         <form method="POST" action="{{ route('incomes.update', $income) }}">
                             @csrf
                             @method('PUT')
                             <div class="row">
-                                    <x-linked-selects
-                                        firstName="client_id"
-                                        firstTitle="Client"
-                                        secondName="contract_id"
-                                        secondTitle="Contract"
-                                        dataUrl="/clients/[id]/contracts"
-                                        view="components.linked-selects.clients-contracts"
-                                        :options="$clients"
-                                        :model="$income"
-                                    />
-                                    <x-linked-selects
-                                        firstName="wallet_id"
-                                        firstTitle="Wallet"
-                                        secondName="account_id"
-                                        secondTitle="Account"
-                                        dataUrl="/wallets/[id]/accounts"
-                                        view="components.linked-selects.wallets-accounts"
-                                        :options="$wallets"
-                                        :model="$income"
-                                    />
+                                <x-linked-selects
+                                    firstName="client_id"
+                                    firstTitle="Client"
+                                    secondName="contract_id"
+                                    secondTitle="Contract"
+                                    dataUrl="/clients/[id]/contracts"
+                                    view="components.linked-selects.clients-contracts"
+                                    :options="$clients"
+                                    :model="$income"
+                                />
+                                <x-linked-selects
+                                    firstName="wallet_id"
+                                    firstTitle="Wallet"
+                                    secondName="account_id"
+                                    secondTitle="Account"
+                                    dataUrl="/wallets/[id]/accounts"
+                                    view="components.linked-selects.wallets-accounts"
+                                    :options="$wallets"
+                                    :model="$income"
+                                />
                                 <div class="col s12 m6">
-                                        <x-date name="plan_date" title="Planning Date" :model="$income"></x-date>
+                                    <x-date name="plan_date" title="Planning Date" :model="$income"></x-date>
                                 </div>
                                 <div class="col s12 m6">
-                                        <x-input name="plan_sum" title="Planning Sum" :model="$income"></x-input>
+                                    <x-input name="plan_sum" title="Planning Sum" :model="$income"></x-input>
                                 </div>
                                 <div class="col s12 display-flex justify-content-end mt-3">
                                     <a href="{{ route('incomes.index') }}" class="cancel-btn btn btn-light mr-1">Cancel</a>
-
                                     <button type="submit" class="btn waves-effect waves-light">
                                         Save changes
                                     </button>
                                 </div>
                             </div>
                         </form>
-                        <!-- form ends -->
                     </div>
                 </div>
-                <!-- </div> -->
             </div>
         </div>
     </div>
-    <!-- edit ends -->
 @endsection
 
 {{-- vendor scripts --}}

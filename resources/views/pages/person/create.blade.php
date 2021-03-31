@@ -12,21 +12,17 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- add start -->
     <div class="section">
         <div class="card">
             <div class="card-content">
                 <div class="row">
                     <div class="col s12" id="account">
-                        <!-- form start -->
                         @include('pages.person.partials._form')
-                        <!-- form ends -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- add ends -->
 @endsection
 
 {{-- vendor scripts --}}

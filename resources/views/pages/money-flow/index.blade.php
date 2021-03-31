@@ -20,7 +20,6 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- list -->
     <div class=" create-btn invoice-create-btn add-item-btn">
         <a href="{{ route('money-flows.create') }}" class="btn waves-effect waves-light invoice-create">
             <i class="material-icons">add</i>
@@ -33,11 +32,9 @@
             <div class="users-list-table">
                 <div class="card">
                     <div class="card-content">
-                        <!-- datatable start -->
                         <div class="responsive-table">
                             {{ $dataTable->table() }}
                         </div>
-                        <!-- datatable ends -->
                     </div>
                 </div>
             </div>

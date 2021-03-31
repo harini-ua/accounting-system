@@ -6,7 +6,6 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- client create start -->
     <div id="clients" class="clients-wrapper section">
         <div class="row">
             <div class="col s12">
@@ -18,5 +17,4 @@
             </div>
         </div>
     </div>
-    <!-- client create ends -->
 @endsection

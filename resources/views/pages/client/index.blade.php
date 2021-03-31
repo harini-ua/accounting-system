@@ -26,21 +26,17 @@
             <span class="hide-on-small-only">{{ __('Add') }}</span>
         </a>
     </div>
-    <!-- client list start -->
     <section id="clients" class="users-list-wrapper section animate fadeLeft">
         <div class="users-list-table">
         <div class="card">
                 <div class="card-content">
-                    <!-- datatable start -->
                     <div class="responsive-table">
                         {{ $dataTable->table() }}
                     </div>
-                    <!-- datatable ends -->
                 </div>
             </div>
         </div>
     </section>
-    <!-- client list ends -->
 @endsection
 
 {{-- vendor scripts --}}

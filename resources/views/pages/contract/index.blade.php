@@ -28,9 +28,7 @@
             <span class="hide-on-small-only">Add</span>
         </a>
     </div>
-    <!-- contract list start -->
     <section class="contracts-list-wrapper users-list-wrapper section animate fadeLeft">
-
         <div class="card slide-down-block">
             <div class="card-content">
                 @include('pages.contract.partials._form')
@@ -87,7 +85,6 @@
             </div>
         </div>
     </section>
-    <!-- client list ends -->
 @endsection
 
 {{-- vendor scripts --}}

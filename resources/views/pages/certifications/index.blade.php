@@ -22,7 +22,6 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- certification list -->
     <div class="create-btn add-item-btn slide-down-btn">
         <a href="#" class="waves-effect waves-light btn">
             <i class="material-icons">add</i>

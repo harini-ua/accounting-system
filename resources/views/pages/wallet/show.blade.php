@@ -11,16 +11,11 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- app invoice View Page -->
     <section class="invoice-view-wrapper section">
         <div class="row">
-            <!-- invoice view page -->
             <div class="col xl9 m8 s12">
                 <div class="card animate fadeLeft">
                     <div class="card-content invoice-print-area">
-                        <!-- header section -->
-
-                        <!-- logo and title -->
                         <div class="row mt-3 invoice-logo-title">
                             <div class="col m6 s12"></div>
                             <div class="col m6 s12 pull-m6 mb-4">
@@ -28,7 +23,6 @@
                                 <span>{{ $wallet->walletType->name }}</span>
                             </div>
                         </div>
-                        <!-- product details table-->
                         <div class="invoice-product-details">
                             <table class="responsive-table">
                                 <thead>
@@ -55,11 +49,9 @@
                                 </tbody>
                             </table>
                         </div>
-                        <!-- invoice subtotal -->
                     </div>
                 </div>
             </div>
-            <!-- invoice action  -->
             <div class="col xl3 m4 s12">
                 <div class="card invoice-action-wrapper animate fadeRight">
                     <div class="card-content">

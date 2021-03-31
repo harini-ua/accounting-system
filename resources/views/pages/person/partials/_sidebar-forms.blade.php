@@ -1,4 +1,3 @@
-<!-- sidebar forms start  -->
 <x-sidebar-form id="change-salary-type" title="{{ __('Change salary type') }}" :model="$model">
     <x-date name="salary_type_changed_at" title="{{ __('Date') }}" :model="$model"></x-date>
     <x-select name="salary_type" title="{{ __('Salary type') }}" :options="$salaryTypes" :model="$model" firstTitle="{{ __('Salary type') }}"></x-select>
@@ -48,4 +47,3 @@
     <x-input name="recipient_bank" title="{{ __('Recipient Bank') }}" :model="$model"></x-input>
     <x-input name="note_salary_pay" title="{{ __('Notes For Salary payment') }}" :model="$model"></x-input>
 </x-sidebar-form>
-<!-- sidebar forms end  -->

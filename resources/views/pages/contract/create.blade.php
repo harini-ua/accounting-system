@@ -12,7 +12,6 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- client create start -->
     <div id="contracts" class="section">
         <div class="row">
             <div class="col s12">
@@ -24,7 +23,6 @@
             </div>
         </div>
     </div>
-    <!-- client create ends -->
 @endsection
 
 {{-- page scripts --}}

@@ -30,7 +30,6 @@
         <section class="section-data-tables">
             <div class="card">
                 <div class="card-content">
-                    <!-- datatable start -->
                     <div class="responsive-table overflow-x-auto">
                         <vacation-month-table
                             year="{{ $year }}"
@@ -40,7 +39,6 @@
                             :day-types="{{ json_encode(\App\Enums\DayType::days(), JSON_NUMERIC_CHECK) }}"
                         ></vacation-month-table>
                     </div>
-                    <!-- datatable ends -->
                 </div>
             </div>
         </section>

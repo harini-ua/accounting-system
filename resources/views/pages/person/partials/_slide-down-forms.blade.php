@@ -1,4 +1,3 @@
-<!-- slide down forms start  -->
 <x-slide-down-form id="change-salary-type" title="{{ __('Change salary type') }}" :model="$model">
     <div class="row">
         <div class="col s12 m6">
@@ -94,6 +93,4 @@
             <x-input name="note_salary_pay" title="{{ __('Notes For Salary payment') }}" :model="$model"></x-input>
         </div>
    </div>
-
 </x-slide-down-form>
-<!-- slide down forms end  -->

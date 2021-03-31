@@ -26,7 +26,6 @@
             <span class="hide-on-small-only">Add</span>
         </a>
     </div>
-    <!-- users list start -->
     <section class="users-list-wrapper section animate fadeLeft">
         <div class="card slide-down-block">
             <div class="card-content">
@@ -44,7 +43,6 @@
             </div>
         </div>
     </section>
-    <!-- users list ends -->
 @endsection
 
 {{-- vendor scripts --}}

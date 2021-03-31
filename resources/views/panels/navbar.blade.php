@@ -18,7 +18,6 @@
             <x-avatar :user="$user" profile="true"/>
         </li>
       </ul>
-      <!-- profile-dropdown-->
       <ul class="dropdown-content" id="profile-dropdown">
         <li>
           <a class="grey-text text-darken-1" href="{{ route('user.profile') }}">
@@ -54,7 +53,7 @@
     </nav>
   </nav>
 </div>
-<!-- search ul  -->
+
 <ul class="display-none" id="default-search-main">
   <li class="auto-suggestion-title">
     <a class="collection-item" href="#">

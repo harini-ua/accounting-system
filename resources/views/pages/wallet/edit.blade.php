@@ -10,10 +10,8 @@
     <div class="section animate fadeUp">
         <div class="card">
             <div class="card-content">
-                <!-- <div class="card-body"> -->
                 <div class="row">
                     <div class="col s12">
-                        <!-- form start -->
                         <form id="accountForm" method="POST" action="{{ route('wallets.update', $wallet) }}">
                             @csrf
                             @method('PUT')
@@ -30,10 +28,8 @@
                                 </div>
                             </div>
                         </form>
-                        <!-- edit form ends -->
                     </div>
                 </div>
-                <!-- </div> -->
             </div>
         </div>
     </div>

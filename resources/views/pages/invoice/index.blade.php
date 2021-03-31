@@ -28,7 +28,6 @@
             <span class="hide-on-small-only">{{ __("Add") }}</span>
         </a>
     </div>
-    <!-- invoice list -->
     <section class="invoice-list-wrapper users-list-wrapper section animate fadeLeft">
         <ul class="collapsible card">
             <li class="{{ active(config('general.ui.datatable.filter.show')) }}">

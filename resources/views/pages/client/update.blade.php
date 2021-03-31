@@ -6,7 +6,6 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- client update start -->
     <div id="clients" class="section">
         <div class="card card card-default scrollspy">
             <div class="card-content">
@@ -14,5 +13,4 @@
             </div>
         </div>
     </div>
-    <!-- client update ends -->
 @endsection

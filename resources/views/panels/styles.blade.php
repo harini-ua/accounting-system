@@ -1,9 +1,9 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link rel="stylesheet" type="text/css" href="{{ asset('vendors/vendors.min.css') }}">
-<!-- BEGIN: VENDOR CSS-->
+{{-- BEGIN: VENDOR CSS --}}
 @yield('vendor-style')
-<!-- END: VENDOR CSS-->
-<!-- BEGIN: Page Level CSS-->
+{{-- END: VENDOR CSS --}}
+{{-- BEGIN: Page Level CSS --}}
 @if(!empty($configData['mainLayoutType']) && isset($configData['mainLayoutType']))
 <link rel="stylesheet" type="text/css"
   href="{{asset('css/themes/'.$configData['mainLayoutType'].'-template/materialize.css')}}">
@@ -24,8 +24,8 @@
 {{-- rtl style file for rtl version --}}
 <link rel="stylesheet" type="text/css" href="{{asset('css/style-rtl.css')}}">
 @endif
-<!-- END: Page Level CSS-->
-<!-- BEGIN: Custom CSS-->
+{{-- END: PAGE LEVEL CSS --}}
+{{-- BEGIN: CUSTOM CSS --}}
 <link rel="stylesheet" type="text/css" href="{{asset('css/laravel-custom.css')}}">
 <link rel="stylesheet" type="text/css" href="{{asset('css/custom/custom.css')}}">
-<!-- END: Custom CSS-->
+{{-- END: CUSTOM CSS --}}

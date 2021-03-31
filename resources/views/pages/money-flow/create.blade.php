@@ -12,14 +12,11 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- users edit start -->
     <div class="section">
         <div class="card">
             <div class="card-content">
-                <!-- <div class="card-body"> -->
                 <div class="row">
                     <div class="col s12" id="account">
-                        <!-- users edit account form start -->
                         <form id="accountForm" method="POST" action="{{ route('money-flows.store') }}">
                             @csrf
                             <div class="row">
@@ -59,20 +56,16 @@
                                 </div>
                                 <div class="col s12 display-flex justify-content-end mt-3">
                                     <a href="{{ route('money-flows.index') }}" class="btn cancel-btn mr-1">Cancel</a>
-
                                     <button type="submit" class="btn waves-effect waves-light">
                                         Save changes</button>
                                 </div>
                             </div>
                         </form>
-                        <!-- users edit account form ends -->
                     </div>
                 </div>
-                <!-- </div> -->
             </div>
         </div>
     </div>
-    <!-- users edit ends -->
 @endsection
 
 {{-- vendor scripts --}}

@@ -70,7 +70,6 @@
             </div>
         </li>
     </ul>
-    <!-- list -->
     <section class="users-list-wrapper section">
         <div class="users-list-table">
             <div class="card">

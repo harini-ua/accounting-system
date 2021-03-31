@@ -28,7 +28,6 @@
             <span class="hide-on-small-only">{{ __("Add") }}</span>
         </a>
     </div>
-    <!-- offer list -->
     <section class="offer-list-wrapper users-list-wrapper section animate fadeLeft">
         <div class="card slide-down-block">
             <div class="card-content">

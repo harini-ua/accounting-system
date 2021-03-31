@@ -18,10 +18,8 @@
 {{-- page content --}}
 @section('content')
 <div class="section">
-   <!-- Current balance & total transactions cards-->
    <div class="row vertical-modern-dashboard">
       <div class="col s12 m4 l4">
-         <!-- Current Balance -->
          <div class="card animate fadeLeft">
             <div class="card-content">
                <h6 class="mb-0 mt-0 display-flex justify-content-between">Current Balance <i
@@ -37,7 +35,6 @@
          </div>
       </div>
       <div class="col s12 m8 l8 animate fadeRight">
-         <!-- Total Transaction -->
          <div class="card">
             <div class="card-content">
                <h4 class="card-title mb-0">Total Transaction <i class="material-icons float-right">more_vert</i></h4>
@@ -49,12 +46,9 @@
          </div>
       </div>
    </div>
-   <!--/ Current balance & total transactions cards-->
 
-   <!-- User statistics & appointment cards-->
    <div class="row">
       <div class="col s12 l5">
-         <!-- User Statistics -->
          <div class="card user-statistics-card animate fadeLeft">
             <div class="card-content">
                <h4 class="card-title mb-0">User Statistics <i class="material-icons float-right">more_vert</i></h4>
@@ -85,7 +79,6 @@
          </div>
       </div>
       <div class="col s12 l4">
-         <!-- Recent Buyers -->
          <div class="card recent-buyers-card animate fadeUp">
             <div class="card-content">
                <h4 class="card-title mb-0">Recent Buyers <i class="material-icons float-right">more_vert</i></h4>
@@ -126,7 +119,6 @@
          </div>
       </div>
    </div>
-   <!--/ Current balance & appointment cards-->
 
    <div class="row">
       <div class="col s12 m6 l4">
@@ -138,8 +130,7 @@
                   <p class="mb-0 pt-8">1,12,900</p>
                </div>
                <div class="col s7 m7 right-align">
-                  <i
-                          class="material-icons background-round mt-5 mb-5 gradient-45deg-purple-amber gradient-shadow white-text">perm_identity</i>
+                  <i class="material-icons background-round mt-5 mb-5 gradient-45deg-purple-amber gradient-shadow white-text">perm_identity</i>
                   <p class="mb-0">Total Clients</p>
                </div>
             </div>

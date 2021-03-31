@@ -29,7 +29,6 @@
             <span class="hide-on-small-only">Add</span>
         </a>
     </div>
-    <!-- list -->
     <section class="users-list-wrapper section animate fadeLeft">
         <div class="card slide-down-block">
             <div class="card-content">
@@ -37,8 +36,6 @@
             </div>
         </div>
         <x-totals :options="$accountTypes" relation="planningSum"/>
-
-
         <ul class="collapsible card">
             <li class="{{ active(config('general.ui.datatable.filter.show')) }}">
                 <div class="collapsible-header p-0">
@@ -54,7 +51,6 @@
                     <div class="m-0 box-shadow-none filter-panel accounts-page-card-panel card-panel">
                         <div class="filter-block mb-0">
                             <x-date-filter start="{{ $startDate }}" end="{{ $endDate }}" table="incomes-table"/>
-
                             <x-filter
                                 table="incomes-table"
                                 :options="$clients"

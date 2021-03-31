@@ -13,7 +13,6 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- client update start -->
     <div id="contracts" class="section">
         <div class="row">
             <div class="col s12">
@@ -25,7 +24,6 @@
             </div>
         </div>
     </div>
-    <!-- client update ends -->
 @endsection
 
 @section('vendor-script')

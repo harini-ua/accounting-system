@@ -37,8 +37,6 @@
                 <x-totals title="Real" :options="$accountTypes" relation="expensesRealSum"/>
             </div>
         </div>
-
-
         <ul class="collapsible mt-0">
             <li class="{{ active(config('general.ui.datatable.filter.show')) }}">
                 <div class="collapsible-header p-0">
@@ -69,8 +67,6 @@
             </div>
         </div>
     </section>
-
-    <!-- Content Area Ends -->
 @endsection
 
 {{-- vendor scripts --}}

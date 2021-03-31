@@ -25,7 +25,6 @@
     <div class="create-btn invoice-create-btn">
 
     </div>
-    <!-- offer list -->
     <section class="payment-grid-list-wrapper users-list-wrapper section animate fadeLeft">
         <ul class="collapsible card">
             <li class="{{ active(config('general.ui.datatable.filter.show')) }}">

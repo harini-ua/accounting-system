@@ -23,24 +23,23 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- app invoice View Page -->
     <section class="invoice-view-wrapper users-list-wrapper section">
         <div class="row">
-            <!-- invoice view page -->
             <div class="col xl9 m8 s12">
                 <div class="card">
                     <div class="row">
                         <div class="col s12">
                             <ul class="tabs">
-                                <li class="tab col m3"><a class="active" href="#invoice-tab">{{ __('Invoice') }}</a>
+                                <li class="tab col m3">
+                                    <a class="active" href="#invoice-tab">{{ __('Invoice') }}</a>
                                 </li>
-                                <li class="tab col m3"><a class="payments-tab"
-                                                          href="#payments-tab">{{ __('Payments') }}</a></li>
+                                <li class="tab col m3">
+                                    <a class="payments-tab" href="#payments-tab">{{ __('Payments') }}</a>
+                                </li>
                             </ul>
                         </div>
                         <div id="invoice-tab" class="col s12">
                             <div class="card-content invoice-print-area">
-                                <!-- header section -->
                                 <div class="row invoice-date-number">
                                     <div class="col xl4 s12 pt-1 pb-1">
                                         <img src="{{ $image['src'] }}" alt="logo" height="{{ $image['height'] }}"
@@ -56,16 +55,10 @@
                                                 <small>Date Due:</small>
                                                 <span>{{ $invoice->plan_income_date }}</span>
                                             </div>
-
-
                                         </div>
                                         <span class="invoice-number float-right">{{ $invoice->number }}</span>
-
                                     </div>
-
-
                                 </div>
-                                <!-- logo and title -->
                                 <div class="row invoice-logo-title">
                                     @if($image)
                                         <div class="col m6 s12 invoice-logo display-flex pt-1 push-m6">
@@ -77,8 +70,6 @@
                                         <span>{{ $invoice->name }}</span>
                                     </div>
                                 </div>
-
-                                <!-- invoice address and contact -->
                                 <div class="row invoice-info pt-3">
                                     <div class="col m6 s12">
                                         <div class="divider show-on-small hide-on-med-and-up mb-3"></div>
@@ -115,7 +106,6 @@
                                     </div>
                                 </div>
                                 <div class="divider mb-3 mt-3"></div>
-                                <!-- product details table-->
                                 <div class="invoice-product-details">
                                     <table class="striped responsive-table">
                                         <thead>
@@ -142,7 +132,6 @@
                                         </tbody>
                                     </table>
                                 </div>
-                                <!-- invoice subtotal -->
                                 <div class="divider mt-3 mb-3"></div>
                                 <div class="invoice-subtotal">
                                     <div class="row">
@@ -189,7 +178,6 @@
                     </div>
                 </div>
             </div>
-            <!-- invoice action  -->
             <div class="col xl3 m4 s12" id="action">
                 <div class="card invoice-action-wrapper">
                     <div class="card-content">

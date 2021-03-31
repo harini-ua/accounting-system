@@ -57,11 +57,9 @@
             <div class="users-list-table">
                 <div class="card">
                     <div class="card-content">
-                        <!-- datatable start -->
                         <div class="responsive-table">
                             {{ $dataTable->table() }}
                         </div>
-                        <!-- datatable ends -->
                     </div>
                 </div>
             </div>

@@ -22,7 +22,6 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- bonus list -->
     <div class="pt-1"></div>
     <section class="bonus-list-wrapper users-list-wrapper section animate fadeLeft">
         <ul class="collapsible card">

@@ -1,46 +1,44 @@
 <body
-  class="{{$configData['mainLayoutTypeClass']}} @if(!empty($configData['bodyCustomClass']) && isset($configData['bodyCustomClass'])) {{$configData['bodyCustomClass']}} @endif"
-  data-open="click" data-menu="horizontal-menu" data-col="2-columns">
-
+        class="{{$configData['mainLayoutTypeClass']}} @if(!empty($configData['bodyCustomClass']) && isset($configData['bodyCustomClass'])) {{$configData['bodyCustomClass']}} @endif"
+        data-open="click" data-menu="horizontal-menu" data-col="2-columns">
 <script src="https://unpkg.com/sweetalert2@7.18.0/dist/sweetalert2.all.js"></script>
-  @include('sweetalert::alert')
+@include('sweetalert::alert')
 
-  <!-- BEGIN: Header-->
-  <header class="page-topbar" id="header">
+{{-- BEGIN: HEADER --}}
+<header class="page-topbar" id="header">
     @include('panels.horizontalNavbar')
-  </header>
-  <!-- BEGIN: SideNav-->
-  @include('panels.sidebar')
-  <!-- END: SideNav-->
+</header>
+{{-- BEGIN: SIDENAV --}}
+@include('panels.sidebar')
+{{-- END: SIDENAV --}}
 
-  <!-- BEGIN: Page Main-->
-  <div id="main">
+{{-- BEGIN: PAGE MAIN --}}
+<div id="main">
     <div class="row">
-      @if($configData["navbarLarge"] === true && isset($configData["navbarLarge"]))
-      {{-- navabar large  --}}
-      <div class="content-wrapper-before {{$configData["navbarLargeColor"]}}"></div>
-      @endif
+        @if($configData["navbarLarge"] === true && isset($configData["navbarLarge"]))
+            {{-- NAVBAR LARGE --}}
+            <div class="content-wrapper-before {{$configData["navbarLargeColor"]}}"></div>
+        @endif
 
-      @if ($configData["pageHeader"] === true && isset($breadcrumbs))
-      {{-- breadcrumb --}}
-      @include('panels.breadcrumb')
-      @endif
-      <div class="col s12">
-        <div class="container">
-          {{-- main page content  --}}
-          @yield('content')
+        @if ($configData["pageHeader"] === true && isset($breadcrumbs))
+            {{-- BREADCRUMB --}}
+            @include('panels.breadcrumb')
+        @endif
+        <div class="col s12">
+            <div class="container">
+                {{--MAIN PAGE CONTENT --}}
+                @yield('content')
+            </div>
+            {{-- OVERLAY --}}
+            <div class="content-overlay"></div>
         </div>
-        {{-- overlay --}}
-        <div class="content-overlay"></div>
-      </div>
     </div>
-  </div>
+</div>
+{{-- END: PAGE MAIN --}}
 
-  <!-- END: Page Main-->
+{{-- FOOTER --}}
+@include('panels.footer')
 
-  {{-- main footer  --}}
-  @include('panels.footer')
-
-  {{-- vendors and page scripts file   --}}
-  @include('panels.scripts')
+{{-- VENDOR AND PAGE SCRIPTS --}}
+@include('panels.scripts')
 </body>

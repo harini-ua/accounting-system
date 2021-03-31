@@ -42,7 +42,6 @@
           </a>
         </li>
       </ul>
-      <!-- profile-dropdown-->
       <ul class="dropdown-content" id="profile-dropdown">
         <li>
           <a class="grey-text text-darken-1" href="#">
@@ -91,7 +90,6 @@
       </div>
     </nav>
   </nav>
-  <!-- BEGIN: Horizontal nav start-->
   <nav class="white hide-on-med-and-down" id="horizontal-nav">
     <div class="nav-wrapper">
       <ul class="left hide-on-med-and-down" id="ul-horizontal-nav" data-menu="menu-navigation">
@@ -118,7 +116,6 @@
         @endif
       </ul>
     </div>
-    <!-- END: Horizontal nav start-->
   </nav>
 </div>
 

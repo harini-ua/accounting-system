@@ -1,4 +1,3 @@
-<!-- actions start  -->
 <div class="col xl3 m4 s12">
     <div class="card invoice-action-wrapper animate fadeRight">
         <div class="card-content">
@@ -54,4 +53,3 @@
         </div>
     </div>
 </div>
-<!-- actions end  -->

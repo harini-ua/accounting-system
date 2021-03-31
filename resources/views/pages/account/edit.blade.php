@@ -6,14 +6,11 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- users edit start -->
     <div class="section">
         <div class="card">
             <div class="card-content">
-                <!-- <div class="card-body"> -->
                 <div class="row">
                     <div class="col s12" id="account">
-                        <!-- users edit account form start -->
                         <form id="accountForm" method="POST" action="{{ route('accounts.update', $model) }}">
                             @csrf
                             @method('PUT')
@@ -64,12 +61,9 @@
                                 </div>
                             </div>
                         </form>
-                        <!-- users edit account form ends -->
                     </div>
                 </div>
-                <!-- </div> -->
             </div>
         </div>
     </div>
-    <!-- users edit ends -->
 @endsection

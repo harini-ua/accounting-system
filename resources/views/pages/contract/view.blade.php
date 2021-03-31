@@ -17,7 +17,6 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- client update start -->
     <div id="contracts" class="users-list-wrapper section">
         <div class="row">
             <div class="page-layout col s12">
@@ -76,13 +75,10 @@
                     <div class="card user-card-negative-margin" id="feed">
                         <div class="card-content card-border-gray">
                             <h5>{{ __('Invoices') }}</h5>
-                            <!-- datatable start -->
                             <div class="users-list-table">
-                                <!-- datatable start -->
                                 <div class="responsive-table">
                                     {{ $dataTable->table() }}
                                 </div>
-                                <!-- datatable ends -->
                             </div>
                         </div>
                     </div>
@@ -90,7 +86,6 @@
             </div>
         </div>
     </div>
-    <!-- client update ends -->
 @endsection
 
 {{-- vendor scripts --}}

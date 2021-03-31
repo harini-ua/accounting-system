@@ -12,8 +12,6 @@
 
 {{-- page content --}}
 @section('content')
-
-    <!-- edit start -->
     <section class="offer-create-wrapper users-list-wrapper section animate fadeLeft">
         <div class="row">
             <div class="col s12">
@@ -25,7 +23,6 @@
             </div>
         </div>
     </section>
-    <!-- edit ends -->
 @endsection
 
 {{-- vendor scripts --}}

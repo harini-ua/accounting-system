@@ -12,13 +12,11 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- edit start -->
     <div class="section">
         <div class="card">
             <div class="card-content">
                 <div class="row">
                     <div class="col s12">
-                        <!--  edit form start -->
                         <form method="POST" action="{{ route('expenses.store') }}">
                             @csrf
                             <div class="row">
@@ -58,15 +56,12 @@
                                     Save changes
                                 </button>
                             </div>
-                    </form>
-                    <!-- edit form ends -->
+                        </form>
+                    </div>
                 </div>
             </div>
-            <!-- </div> -->
         </div>
     </div>
-    </div>
-    <!-- edit ends -->
 @endsection
 
 {{-- page scripts --}}

@@ -12,13 +12,11 @@
 
 {{-- page content --}}
 @section('content')
-<!-- edit start -->
 <div class="section">
     <div class="card">
         <div class="card-content">
             <div class="row">
                 <div class="col s12">
-                    <!--  edit form start -->
                     <form method="POST" action="{{ route('expenses.update', $model) }}">
                         @csrf
                         @method('PUT')
@@ -33,7 +31,6 @@
                             </div>
                             <div class="col s12 m6">
                                 <div class="row">
-
                                     <x-linked-selects
                                         firstName="wallet_id"
                                         firstTitle="Wallet"
@@ -55,20 +52,16 @@
                             </div>
                             <div class="col s12 display-flex justify-content-end mt-3">
                                 <a href="{{ route('expenses.index') }}" class="btn btn-light cancel-btn mr-1">Cancel</a>
-
                                 <button type="submit" class="btn waves-effect waves-light ">
                                     Save changes</button>
                             </div>
                         </div>
                     </form>
-                    <!-- edit form ends -->
                 </div>
             </div>
-            <!-- </div> -->
         </div>
     </div>
 </div>
-<!-- edit ends -->
 @endsection
 
 {{-- page scripts --}}

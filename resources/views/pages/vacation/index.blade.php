@@ -62,17 +62,13 @@
         <div class="users-list-table">
             <div class="card">
                 <div class="card-content">
-                    <!-- datatable start -->
                     <div class="responsive-table overflow-x-auto">
                         {{ $dataTable->table() }}
                     </div>
-                    <!-- datatable ends -->
                 </div>
             </div>
         </div>
     </section>
-
-    {{-- Content Area Ends --}}
 @endsection
 
 {{-- vendor scripts --}}

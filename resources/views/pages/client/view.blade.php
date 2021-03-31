@@ -17,7 +17,6 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- client update start -->
     <div id="clients" class="users-list-wrapper section">
         <div class="page-layout client-detail">
             <div class="page-layout-col">
@@ -46,12 +45,10 @@
                         </div>
                         <div class="row pt-4 client-detail-block">
                             <h6 class="col s12 mt-1 mb-2"> {{ __('Contact') }} </h6>
-                            <!-- Phone -->
                             <div class="col s12 phone mb-3">
                                 <i class="mr-3 material-icons display-inline">call</i>
                                 <p class="m-0 display-inline">{{ $client->phone }}</p>
                             </div>
-                            <!-- Mail -->
                             <div class="col s12 mail  mb-1">
                                 <i class="material-icons mr-3 display-inline"> mail_outline</i>
                                 <p class="m-0 display-inline">{{ $client->email }} </p>
@@ -118,21 +115,16 @@
                 <div class=" card user-card-negative-margin " id="feed">
                     <div class="card-content card-border-gray">
                         <h5>{{ __('Contracts') }}</h5>
-                        <!-- datatable start -->
                         <div class="users-list-table">
-                            <!-- datatable start -->
                             <div class="responsive-table">
                                 {{ $dataTable->table() }}
                             </div>
-                            <!-- datatable ends -->
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
-    <!-- client update ends -->
 @endsection
 
 {{-- vendor scripts --}}

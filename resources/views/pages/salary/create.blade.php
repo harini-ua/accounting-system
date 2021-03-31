@@ -12,7 +12,6 @@
 
 {{-- page content --}}
 @section('content')
-    <!-- edit start -->
     <div class="section">
         <div class="row">
             <div class="col s12">
@@ -24,7 +23,6 @@
             </div>
         </div>
     </div>
-    <!-- edit ends -->
 @endsection
 
 {{-- vendor scripts --}}

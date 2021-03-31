@@ -1,6 +1,5 @@
 <div class="{{ $className }} custom-filter-btn input-field" data-table="{{ $table }}" data-url="{{ $url }}"
      data-name="{{ $name }}">
-    <!-- Dropdown Trigger -->
     <a class="full-width custom-filter-trigger" href="#"
        data-target="btn-filter-{{ $table }}-{{ $id }}">
         <input type="text" class="custom-filter-input" id="input-filter-{{ $table }}-{{ $id }}">
