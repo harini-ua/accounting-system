@@ -136,6 +136,9 @@ class ContractController extends Controller
         $salesManagers = Person::byPosition(Position::SalesManager)->get()->sortBy('name');
         $status = ContractStatus::toCollection();
 
+//        dump($salesManagers, $status);
+//        die('dump');
+
         return view('pages.contract.update', compact(
             'pageConfigs', 'breadcrumbs', 'contract', 'clients', 'salesManagers', 'status'
         ));

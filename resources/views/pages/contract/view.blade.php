@@ -54,7 +54,7 @@
                                     </div>
                                     <div class="col s1 m1 l1"><i class="material-icons">person_outline</i></div>
                                     <div class="col s11 m11 l11">
-                                        <p class="m-0"><a href="#">{{ $contract->manager->name }}</a></p>
+                                        <p class="m-0"><a href="{{ route('people.show', $contract->manager) }}">{{ $contract->manager->name }}</a></p>
                                     </div>
                                 </div>
                                 <div class="col s12 mail mt-4 p-0">

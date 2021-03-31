@@ -1,5 +1,5 @@
 <div class="col s12 input-field custom-select-wrapper">
-    <input type="text" class="custom-select-input" id="{{$name}}-input" value="{{$selectedOptionName()}}">
+    <input id="{{$name}}-input" class="custom-select-input" type="text" readonly="true" value="{{ $selectedOptionName() }}">
     <label class="select-label" for="{{ $name }}-input">{{ $title }}</label>
     <select class="custom-select @if($search) select2 browser-default @endif" name="{{ $name }}" id="{{$name}}" {{ $disabled() }}>
         @if($isDefaultOption())

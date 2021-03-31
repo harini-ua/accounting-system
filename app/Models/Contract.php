@@ -3,8 +3,6 @@
 namespace App\Models;
 
 use App\Casts\Date;
-use App\Enums\ContractStatus;
-use App\User;
 use BenSampo\Enum\Traits\CastsEnums;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;

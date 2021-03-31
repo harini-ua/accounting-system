@@ -57,18 +57,19 @@ class Select extends Component
     /**
      * @return string
      */
-     public function selectedOptionName() {
-        $optionId = null;
+     public function selectedOptionName()
+     {
+         $optionId = $this->model->{$this->name} ?? null;
 
-        if ($this->model) {
-            $optionId = $this->model->{$this->name};
-        }
+         if (old($this->name)) {
+             $optionId = old($this->name);
+         }
 
-        if (old($this->name)) {
-            $optionId = old($this->name);
-        }
-        $option = method_exists($this->options, 'find') ? $this->options->find($optionId) : null;
-        return $option ? $option->name : '';
+         $option = $this->options->first(function($option) use ($optionId) {
+             return $option->id === $optionId;
+         });
+
+         return $option->name ?? '';
      }
 
     /**
