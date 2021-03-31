@@ -73,14 +73,6 @@ class SalaryReviewDataTable extends DataTable
             return '<span class="'.$class.'">'.$value.'</span>';
         });
 
-        $dataTable->filterColumn('person', static function($query, $keyword) {
-            $personIds = Person::where('name', 'like', "%$keyword%")->get()
-                ->pluck('id')->toArray()
-            ;
-
-            $query->where('salary_reviews.person_id', $personIds);
-        });
-
         $dataTable->filter(function($query) {
             if ($this->request->has('person_filter')) {
                 $query->where('salary_reviews.person_id', '=', $this->request->input('person_filter'));
@@ -106,6 +98,16 @@ class SalaryReviewDataTable extends DataTable
         $dataTable->orderColumn('person', static function($query, $order) {
             $query->join('people', 'salary_reviews.person_id', '=', 'people.id')
                 ->orderBy('people.name', $order);
+        });
+
+        $dataTable->filterColumn('person', static function($query, $keyword) {
+            $personIds = Person::whereNull('people.quited_at')
+                ->distinct('people.id')
+                ->where('name', 'like', "%$keyword%")
+                ->get()->pluck('id')->toArray()
+            ;
+
+            $query->where('person_id', $personIds);
         });
 
         return $dataTable;
