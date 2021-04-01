@@ -62,6 +62,8 @@ class MoneyFlowController extends Controller
     {
         MoneyFlow::create($request->all());
 
+        alert()->success(__('Success'), __('Create money flow has been successful'));
+
         return redirect()->route('money-flows.index');
     }
 
@@ -103,6 +105,8 @@ class MoneyFlowController extends Controller
     {
         $moneyFlow->fill($request->all());
         $moneyFlow->save();
+
+        alert()->success(__('Success'), __('Money flow data has been update successful'));
 
         return redirect()->route('money-flows.index');
     }
