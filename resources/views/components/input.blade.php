@@ -5,6 +5,7 @@
     <input
         name="{{ $name }}"
         type="{{ $type }}"
+        @if($placeholder) placeholder="{{ $placeholder }}" @endif
         @if($type === 'number')
         @if($min) min="{{ $min }}" @endif
         @if($max) max="{{ $max }}" @endif

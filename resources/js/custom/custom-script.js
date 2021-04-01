@@ -321,7 +321,7 @@ $('body').on('change', '.custom-select', function (e) {
     const defaultValue = $(this).find('.first_default').val()
 
     if ($(this).val() !== defaultValue && $(this).val() !== '' ) {
-        const selectedOptionValue =$(this).find(`option[value = ${$(this).val()}]`).text()
+        const selectedOptionValue = $(this).find(`option[value = ${$(this).val()}]`).text()
         input.val(selectedOptionValue)
         label.addClass('active')
     } else {
@@ -329,5 +329,3 @@ $('body').on('change', '.custom-select', function (e) {
         label.removeClass('active')
     }
 })
-
-

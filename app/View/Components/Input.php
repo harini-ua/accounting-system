@@ -12,6 +12,7 @@ class Input extends Component
     public $title;
     public $model;
     public $type;
+    public $placeholder;
     public $field;
     public $default;
     public $disabled;
@@ -28,6 +29,7 @@ class Input extends Component
      * @param null         $title
      * @param null|Model   $model
      * @param string       $type
+     * @param string       $placeholder
      * @param string       $field
      * @param null         $default
      * @param null|integer $min
@@ -37,14 +39,16 @@ class Input extends Component
      * @param bool         $readonly
      */
     public function __construct(
-        string $name, $title = null, $model = null, $type = 'text', $field = '', $default = null,
-        $min = null, $max = null, $disabled = false, $icon = '', $readonly = false
+        string $name, $title = null, $model = null, $type = 'text', $placeholder = '',
+        $field = '', $default = null, $min = null, $max = null, $disabled = false, $icon = '',
+        $readonly = false
     )
     {
         $this->name = $name;
         $this->title = $title;
         $this->model = $model;
         $this->type = $type;
+        $this->placeholder = $placeholder;
         $this->field = $field ?: $name;
         $this->default = $default;
         $this->disabled = $disabled;
