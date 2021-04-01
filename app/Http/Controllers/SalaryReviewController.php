@@ -107,9 +107,11 @@ class SalaryReviewController extends Controller
      */
     public function store(SalaryReviewCreateRequest $request)
     {
-        $salaryReview = SalaryReview::create($request->all());
+        SalaryReview::create($request->all());
 
-        return redirect()->route('salary-reviews.show', $salaryReview);
+        alert()->success(__('Success'), __('Salary review has been successful'));
+
+        return redirect()->route('salary-reviews.index');
     }
 
     /**
@@ -176,6 +178,8 @@ class SalaryReviewController extends Controller
     {
         $salaryReview->fill($request->all());
         $salaryReview->save();
+
+        alert()->success(__('Success!'), __('Salary review data has been update successful'));
 
         return redirect()->route('salary-reviews.show', $salaryReview);
     }
