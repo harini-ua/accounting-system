@@ -19,7 +19,7 @@
             />
         </div>
         <div class="col s12 m6">
-            <x-select name="person_id" :options="$people" :model="$model" firstTitle="{{ __('Employee') }}" :search="true"></x-select>
+            <x-select name="person_id" title="{{ __('Employee') }}" :options="$people" :model="$model" firstTitle="{{ __('Employee') }}" :search="true"></x-select>
         </div>
     </div>
     <div class="row" data-pjax>

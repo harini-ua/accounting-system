@@ -42,14 +42,14 @@ class OffersController extends Controller
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
-            ['link' => route('invoices.index'), 'name' => __('Invoices')],
+            ['link' => route('offers.index'), 'name' => __('Offers')],
             ['name' => __('Create')],
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $people = Person::whereDoesntHave('offer')
-            ->whereNotNull('quited_at')
+            ->whereNull('quited_at')
             ->orderBy('name')->get();
 
         return view('pages.offers.create', compact(
