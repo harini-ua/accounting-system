@@ -49,7 +49,6 @@ class VacationMonthDataTable extends DataTable
     {
         $eloquent = datatables()
             ->eloquent($query)
-            //definitions
             ->addColumn('name', function(Person $model) {
                 return $model->payment === VacationPaymentType::Paid ? view('partials.view-link', ['model' => $model]) : '';
             })
@@ -59,6 +58,7 @@ class VacationMonthDataTable extends DataTable
                 if ($date < $startedDate || $startedDate->diffInMonths($date) > 2) {
                     return false;
                 }
+
                 return $model->compensate;
             });
 
@@ -167,8 +167,8 @@ class VacationMonthDataTable extends DataTable
             return [
                 'day' => "{$this->shortMonthName($item)}_{$item->day}",
                 'name' => "{$item->shortMonthName} {$item->day}",
-                'holiday' => $item->isWeekend() || in_array($item->day, array_column($this->holidays, 'day')),
-                'tooltip' => in_array($item->day, array_column($this->holidays, 'day')) ? $this->holidays[array_search($item->day, $this->holidays)]['name'] : '',
+                'holiday' => $item->isWeekend() || in_array($item->day, array_column($this->holidays, 'day'), true),
+                'tooltip' => in_array($item->day, array_column($this->holidays, 'day'), true) ? $this->holidays[array_search($item->day, $this->holidays, true)]['name'] : '',
                 'date' => $item->format('d-m-Y'),
             ];
         }, $this->period()->toArray());

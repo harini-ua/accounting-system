@@ -68,12 +68,12 @@ export default {
                 },
                 params: params,
             })
-                .then(resp => {
-                    commit('setVacations', {
-                        vacations: resp.data.data,
-                        totalVacations: resp.data.recordsTotal,
-                    });
-                })
+            .then(resp => {
+                commit('setVacations', {
+                    vacations: resp.data.data,
+                    totalVacations: resp.data.recordsTotal,
+                });
+            })
         },
         setVacation({ commit, state }, payload) {
             axios.post('/vacations', {
@@ -82,7 +82,7 @@ export default {
                 payment_type: payload.item.payment,
                 date: payload.day.date
             })
-                .then(() => commit('setVacationType', payload))
+            .then(() => commit('setVacationType', payload))
         },
         deleteVacation({ commit, state }, payload) {
             axios.post(`/vacations/delete`, {
@@ -90,20 +90,19 @@ export default {
                 payment_type: payload.item.payment,
                 date: payload.day.date
             })
-                .then(() => commit('setVacationType', payload))
-
+            .then(() => commit('setVacationType', payload))
         },
         setAvailableVacations({ commit, state }, payload) {
             axios.patch(`/people/available-vacations/${payload.item.id}`, {
                 available_vacations: payload.available_vacations
             })
-                .then(() => commit('setAvailableVacations', payload))
+            .then(() => commit('setAvailableVacations', payload))
         },
         compensate({ commit, state }, personId) {
             axios.patch(`/people/compensate/${personId}`, {
                 month: state.month
             })
-                .then(() => this.dispatch('fetchVacations'))
+            .then(() => this.dispatch('fetchVacations'))
         }
     }
 }

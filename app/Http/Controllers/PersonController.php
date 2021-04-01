@@ -22,6 +22,7 @@ use App\Http\Requests\Person\PersonUpdateRequest;
 use App\Http\Requests\Person\UpdateAvailableVacationsRequest;
 use App\Models\CalendarMonth;
 use App\Models\Person;
+use App\Models\Vacation;
 use App\User;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 
@@ -342,12 +343,11 @@ class PersonController extends Controller
      */
     public function compensate(CompensateRequest $request, Person $person)
     {
-        if ($person->available_vacations > 15) {
+        if ($person->available_vacations <= Vacation::VACATION_PAY_DAYS) {
 
             $date = $person->getCompensationDate($request->month);
 
-            $person->compensated_days = $person->available_vacations - 15;
-            $person->available_vacations -= $person->compensated_days;
+            $person->compensated_days = Vacation::VACATION_PAY_DAYS - $person->available_vacations;
             $person->compensate = false;
             $person->compensated_at = $date;
 

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Vacation extends Model
 {
     public const TABLE_NAME = 'vacations';
+    public const VACATION_PAY_DAYS = 15;
 
     /**
      * The table associated with the model.

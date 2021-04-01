@@ -114,8 +114,7 @@ export default {
                 }
             }
         },
-        isDayAvailable(item, day)
-        {
+        isDayAvailable(item, day) {
             return this.dayTypes[item[day.day].type].available;
         },
         paginateHandler(page) {
