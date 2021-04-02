@@ -343,11 +343,12 @@ class PersonController extends Controller
      */
     public function compensate(CompensateRequest $request, Person $person)
     {
-        if ($person->available_vacations <= Vacation::VACATION_PAY_DAYS) {
+        if ($person->available_vacations > Vacation::VACATION_PAY_DAYS) {
 
             $date = $person->getCompensationDate($request->month);
 
-            $person->compensated_days = Vacation::VACATION_PAY_DAYS - $person->available_vacations;
+            $person->compensated_days = $person->available_vacations - Vacation::VACATION_PAY_DAYS;
+            $person->available_vacations -= $person->compensated_days;
             $person->compensate = false;
             $person->compensated_at = $date;
 
