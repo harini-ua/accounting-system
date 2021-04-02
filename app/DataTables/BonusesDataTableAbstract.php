@@ -50,8 +50,9 @@ abstract class BonusesDataTableAbstract extends DataTable
         $dataTable = datatables()->eloquent($query);
 
         $dataTable->addColumn('person', function (Person $model) {
-            $personUrl = route("bonuses.person.show", $model->id).'?'.Arr::query(['year' => $this->year]);
-            return '<a target="_blank" href="'.$personUrl.'">'.$model->name.'</a>';
+            //$personUrl = route("bonuses.person.show", $model->id).'?'.Arr::query(['year' => $this->year]);
+            //return '<a target="_blank" href="'.$personUrl.'">'.$model->name.'</a>';
+            return view('partials.view-link', ['model' => $model]);
         });
 
         $dataTable->addColumn('bonus', static function(Person $model) {
