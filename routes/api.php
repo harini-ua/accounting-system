@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Http\Request;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,15 +14,13 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::group([
-    'prefix' => 'auth'
-  ], function () {
-    Route::post('register','AuthController@register');
-    Route::post('login','AuthController@login');
-    Route::post('forgetpassword','AuthController@forgetPassword');
+Route::group(['prefix' => 'auth'], function () {
+    Route::post('register', [AuthController::class, 'register']);
+    Route::post('login', [AuthController::class, 'login']);
+    Route::post('forgetpassword', [AuthController::class, 'forgetPassword']);
 
     Route::group(['middleware' => 'auth:api'], function () {
-        Route::get('user','AuthController@user');
-        Route::get('logout','AuthController@logout');
+        Route::get('user', [AuthController::class, 'user']);
+        Route::get('logout', [AuthController::class, 'logout']);
     });
 });
