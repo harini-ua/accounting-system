@@ -55,13 +55,13 @@
                                 name="client_filter"
                                 title="By Client"
                             />
-                            <x-filter
-                                table="contracts-list-datatable"
-                                :options="$salesManagers"
-                                url="{{ route('contracts.index') }}"
-                                name="sales_managers_filter"
-                                title="By Sales Manager"
-                            />
+{{--                            <x-filter--}}
+{{--                                table="contracts-list-datatable"--}}
+{{--                                :options="$salesManagers"--}}
+{{--                                url="{{ route('contracts.index') }}"--}}
+{{--                                name="sales_managers_filter"--}}
+{{--                                title="By Sales Manager"--}}
+{{--                            />--}}
                             <x-filter
                                 table="contracts-list-datatable"
                                 :options="$status"
