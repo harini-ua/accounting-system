@@ -30,12 +30,12 @@ class ContractController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        $clients = Client::all()->sortBy('name');
+//        $clients = Client::all()->sortBy('name');
         //$salesManagers = Person::byPosition(Position::SalesManager)->orderBy('name')->get();
-        $status = ContractStatus::toCollection();
+//        $status = ContractStatus::toCollection();
 
         return $dataTable->render('pages.contract.index', compact(
-            'pageConfigs', 'breadcrumbs', 'clients', /*'salesManagers',*/ 'status'
+            'pageConfigs', 'breadcrumbs' /*, 'clients','salesManagers', 'status'*/
         ));
     }
 
