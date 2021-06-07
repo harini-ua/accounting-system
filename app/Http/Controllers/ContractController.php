@@ -29,7 +29,7 @@ class ContractController extends Controller
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
-
+        dd($pageConfigs);
 //        $clients = Client::all()->sortBy('name');
         //$salesManagers = Person::byPosition(Position::SalesManager)->orderBy('name')->get();
 //        $status = ContractStatus::toCollection();
