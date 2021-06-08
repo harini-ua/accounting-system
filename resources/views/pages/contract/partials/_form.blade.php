@@ -10,15 +10,15 @@
         <div class="col s12 m6">
             <x-input name="name" title="{{ __('Contract Name') }}" :model="$model"></x-input>
         </div>
-{{--        <div class="col s12 m6">--}}
-{{--            <x-select name="client_id" title="{{ __('Client') }}" :model="$model" :options="$clients" firstTitle="{{ __('Client') }}"></x-select>--}}
-{{--        </div>--}}
-{{--        <div class="col s12 m6">--}}
-{{--            <x-select name="sales_manager_id" title="{{ __('Sales Manager') }}" :model="$model" :options="$salesManagers" firstTitle="{{ __('Sales Manager') }}"></x-select>--}}
-{{--        </div>--}}
-{{--        <div class="col s12 m6">--}}
-{{--            <x-select name="status" title="{{ __('Status') }}" :model="$model" :options="$status" firstTitle="{{ __('Status') }}"></x-select>--}}
-{{--        </div>--}}
+        <div class="col s12 m6">
+            <x-select name="client_id" title="{{ __('Client') }}" :model="$model" :options="$clients" firstTitle="{{ __('Client') }}"></x-select>
+        </div>
+        <div class="col s12 m6">
+            <x-select name="sales_manager_id" title="{{ __('Sales Manager') }}" :model="$model" :options="$salesManagers" firstTitle="{{ __('Sales Manager') }}"></x-select>
+        </div>
+        <div class="col s12 m6">
+            <x-select name="status" title="{{ __('Status') }}" :model="$model" :options="$status" firstTitle="{{ __('Status') }}"></x-select>
+        </div>
         <div class="col s12 m6">
             <x-textarea name="comment" title="{{ __('Comment') }}" :model="$model"></x-textarea>
         </div>

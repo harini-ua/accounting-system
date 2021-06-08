@@ -53,7 +53,7 @@ class Contract extends Model
      */
     public function client()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Client::class)->withTrashed();
     }
 
     /**
@@ -61,7 +61,7 @@ class Contract extends Model
      */
     public function manager()
     {
-        return $this->belongsTo(Person::class, 'sales_manager_id', 'id');
+        return $this->belongsTo(Person::class, 'sales_manager_id', 'id')->withTrashed();
     }
 
     /**
