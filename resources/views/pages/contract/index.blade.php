@@ -48,28 +48,28 @@
                 <div class="collapsible-body  mt-0 p-0">
                     <div class="m-0 m-0 box-shadow-none filter-panel accounts-page-card-panel card-panel">
                         <div class="filter-block flex-wrap-important">
-{{--                            <x-filter--}}
-{{--                                table="contracts-list-datatable"--}}
-{{--                                :options="$clients"--}}
-{{--                                url="{{ route('contracts.index') }}"--}}
-{{--                                name="client_filter"--}}
-{{--                                title="By Client"--}}
-{{--                            />--}}
-{{--                            <x-filter--}}
-{{--                                table="contracts-list-datatable"--}}
-{{--                                :options="$salesManagers"--}}
-{{--                                url="{{ route('contracts.index') }}"--}}
-{{--                                name="sales_managers_filter"--}}
-{{--                                title="By Sales Manager"--}}
-{{--                            />--}}
-{{--                            <x-filter--}}
-{{--                                table="contracts-list-datatable"--}}
-{{--                                :options="$status"--}}
-{{--                                url="{{ route('contracts.index') }}"--}}
-{{--                                name="status_filter"--}}
-{{--                                title="By Status"--}}
-{{--                                className="filter-btn contract-filter-action"--}}
-{{--                            />--}}
+                            <x-filter
+                                table="contracts-list-datatable"
+                                :options="$clients"
+                                url="{{ route('contracts.index') }}"
+                                name="client_filter"
+                                title="By Client"
+                            />
+                            <x-filter
+                                table="contracts-list-datatable"
+                                :options="$salesManagers"
+                                url="{{ route('contracts.index') }}"
+                                name="sales_managers_filter"
+                                title="By Sales Manager"
+                            />
+                            <x-filter
+                                table="contracts-list-datatable"
+                                :options="$status"
+                                url="{{ route('contracts.index') }}"
+                                name="status_filter"
+                                title="By Status"
+                                className="filter-btn contract-filter-action"
+                            />
                         </div>
                     </div>
                 </div>
