@@ -92,6 +92,7 @@ $(document).ready(function () {
                     updateMainForm(form);
                     hideFormBrn(form);
                     hasCallback && submitCallbacks[formId]()
+                    location.reload();
                 },
                 error: resp => {
                     const errors = {...resp.responseJSON.errors}
