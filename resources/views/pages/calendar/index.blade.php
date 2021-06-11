@@ -24,7 +24,7 @@
                 <div class="card">
                     <div class="card-content padding-2">
                         <ul class="tabs mb-2">
-                            <li class="tab col s3"><a class="uppercase active" href="#test1">calaendar</a></li>
+                            <li class="tab col s3"><a class="uppercase active" href="#test1">calendar</a></li>
                             <li class="tab col s3"><a class="uppercase" href="#test2">holidays</a></li>
                         </ul>
                         <div id="test1">
