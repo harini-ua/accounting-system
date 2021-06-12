@@ -51,6 +51,20 @@ class Person extends Model
     ];
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = ['account_number', 'agreement', 'available_vacations', 'bonuses', 'bonuses_reward',
+                            'certifications', 'code', 'compensate', 'compensated_at', 'compensated_days',
+                            'department', 'end_trial_period_date', 'growth_plan', 'last_salary', 'name',
+                            'note_salary_pay', 'position_id', 'quited_at', 'quit_reason', 'rate',
+                            'recipient_bank', 'recruiter_id', 'salary', 'salary_changed_at', 'salary_change_reason',
+                            'salary_type', 'salary_type_changed_at', 'skills', 'start_date', 'team_lead',
+                            'team_lead_reward', 'tech_lead', 'tech_lead_reward', 'trial_period', 'updated_at',
+                            'contract_type', 'contract_type_changed_at', 'created_at', 'currency', 'deleted_at', 'user_id'];
+
+    /**
      * The array of booted models.
      *
      * @var array
@@ -67,7 +81,14 @@ class Person extends Model
         });
 
         static::saving(function ($person) {
-            $person->rate = round($person->salary / 160, 2);
+            $hoursInWeek = (int) filter_var($person->salary_type, FILTER_SANITIZE_NUMBER_INT);
+
+            if(empty($hoursInWeek)){
+                $hoursInWeek = 40;
+            }
+            $hoursInMonth = $hoursInWeek * 4;
+            $newRate = $person->salary / $hoursInMonth;
+            $person->rate = $newRate;
 
             if($person->isDirty(['start_date', 'trial_period'])) {
                 $trialPeriod = ($person->trial_period) ?? config('people.trial_period.value');

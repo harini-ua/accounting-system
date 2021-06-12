@@ -84,11 +84,6 @@ $(document).ready(function () {
                 contentType: false,
                 data: formData,
                 success: resp => {
-                    swal({
-                        title: resp.success === false ? 'Error!' : 'Successfully!',
-                        text: resp.message,
-                        type: resp.success === false ? 'error' : 'success',
-                    });
                     updateMainForm(form);
                     hideFormBrn(form);
                     hasCallback && submitCallbacks[formId]()

@@ -227,6 +227,8 @@ class PersonController extends Controller
         $person->fill($request->all());
         $person->save();
 
+        alert()->success(__('Successfully!'));
+
         return response()->json(['success' => true]);
     }
 
