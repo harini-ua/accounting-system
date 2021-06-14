@@ -53,15 +53,15 @@ class AccountController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        $wallets = Wallet::all();
-        $accountTypes = AccountType::all();
+        $wallet = Wallet::find($account->wallet_id);
+        $accountType = AccountType::find($account->account_type_id);
 
         return view('pages.account.edit', [
             'breadcrumbs' => $breadcrumbs,
             'pageConfigs' => $pageConfigs,
             'model' => $account,
-            'wallets' => $wallets,
-            'accountTypes' => $accountTypes,
+            'wallet' => $wallet,
+            'accountType' => $accountType,
         ]);
     }
 

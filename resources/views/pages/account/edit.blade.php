@@ -17,20 +17,18 @@
                             <div class="row">
                                 <div class="col s12 m6">
                                     <div class="row animate fadeLeft">
-                                        <x-select
-                                            name="wallet_id"
+                                        <x-input
+                                            name="name"
                                             title="Wallet"
-                                            :options="$wallets"
-                                            :model="$model"
+                                            :model="$wallet"
                                             disabled="true"
-                                        ></x-select>
-                                        <x-select
-                                            name="account_type_id"
+                                        ></x-input>
+                                        <x-input
+                                            name="name"
                                             title="Account"
-                                            :options="$accountTypes"
-                                            :model="$model"
+                                            :model="$accountType"
                                             disabled="true"
-                                        ></x-select>
+                                        ></x-input>
                                         <div class="col s12 input-field">
                                             <div class="switch">
                                                 <label>
