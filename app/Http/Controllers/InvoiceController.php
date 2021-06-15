@@ -265,6 +265,10 @@ class InvoiceController extends Controller
 
         $invoice->payments()->save($payment);
 
+        if($invoice->payments->sum('fee') > $invoice->total){
+            $invoice->status = InvoiceStatus::PAID;
+            $invoice->save();
+        }
         return response()->json([
             'success' => true,
             'message' => __('Payment has been created successfully.')
