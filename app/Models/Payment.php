@@ -49,4 +49,13 @@ class Payment extends Model
     {
         return $this->belongsTo(Invoice::class);
     }
+
+    /**
+     * @param $date
+     */
+     public function setDateAttribute($date){
+        $add = 'add';
+        $this->attributes['date'] = date('Y-m-d', strtotime($date));
+     }
+
 }
