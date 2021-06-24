@@ -83,7 +83,7 @@ class BonusesRecruitersDataTable extends BonusesDataTableAbstract
             $monthName = strtolower($month->monthName);
 
             $monthQuery = [];
-            foreach (Currency::toArray() as $currency) {
+            foreach (Currency::asArray() as $currency) {
                 $monthQuery[$currency] = [
                     "',IFNULL(hired.{$monthName}_first_{$currency}/100*(people.bonuses_reward/2),0),'",
                     "',IFNULL(hired.{$monthName}_second_{$currency}/100*(people.bonuses_reward/2),0),'"
@@ -106,7 +106,7 @@ class BonusesRecruitersDataTable extends BonusesDataTableAbstract
         foreach($this->period() as $month) {
             $monthName = strtolower($month->monthName);
 
-            foreach (Currency::toArray() as $currency) {
+            foreach (Currency::asArray() as $currency) {
                 $query->selectRaw("sum(case when month(start_date)={$month->month} and
                                                 year(start_date)='{$this->year}' and
                                                 currency='{$currency}' then salary end) as {$monthName}_first_{$currency}");
@@ -128,7 +128,7 @@ class BonusesRecruitersDataTable extends BonusesDataTableAbstract
     protected function addTotalSelect($query): void
     {
         $totalQuery = [];
-        foreach (Currency::toArray() as $currency) {
+        foreach (Currency::asArray() as $currency) {
             $totalQuery[$currency] = [
                 "',IFNULL(hired.total_first_{$currency}/100*(people.bonuses_reward/2),0),'",
                 "',IFNULL(hired.total_second_{$currency}/100*(people.bonuses_reward/2),0),'"
@@ -145,7 +145,7 @@ class BonusesRecruitersDataTable extends BonusesDataTableAbstract
      */
     protected function addTotalSubSelect($query): void
     {
-        foreach (Currency::toArray() as $currency) {
+        foreach (Currency::asArray() as $currency) {
             $query->selectRaw("sum(case when
                                     year(start_date)='{$this->year}' and
                                      currency='{$currency}' then salary end) as total_first_{$currency}");

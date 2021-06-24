@@ -70,7 +70,7 @@ class CalendarYearObserver
         }
 
         // Create Calendar months
-        foreach (Month::toArray() as $month) {
+        foreach (Month::asArray() as $month) {
             $firstDay = Carbon::parse("$month {$calendarYear->name}")->startOfMonth();
             $lastDay = (clone $firstDay)->addMonth();
 

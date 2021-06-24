@@ -89,7 +89,7 @@ class BonusesSalesManagersDataTable extends BonusesDataTableAbstract
             $monthName = strtolower($month->monthName);
 
             $monthQuery = [];
-            foreach (Currency::toArray() as $currency) {
+            foreach (Currency::asArray() as $currency) {
                 $monthQuery[$currency] = [
                     "',IFNULL(invoices.{$monthName}_{$currency}, 0),'",
                     "',IFNULL(invoices.{$monthName}_{$currency}/100*people.bonuses_reward, 0),'"
@@ -112,7 +112,7 @@ class BonusesSalesManagersDataTable extends BonusesDataTableAbstract
         foreach($this->period() as $month) {
             $monthName = strtolower($month->monthName);
 
-            foreach (Currency::toArray() as $currency) {
+            foreach (Currency::asArray() as $currency) {
                 $query->selectRaw("sum(case when month(payments.date)={$month->month} and account_types.name='{$currency}' then payments.received_sum end) as {$monthName}_{$currency}");
             }
         }
@@ -126,7 +126,7 @@ class BonusesSalesManagersDataTable extends BonusesDataTableAbstract
     protected function addTotalSelect($query): void
     {
         $totalQuery = [];
-        foreach (Currency::toArray() as $currency) {
+        foreach (Currency::asArray() as $currency) {
             $totalQuery[$currency] = [
                 "',IFNULL(invoices.total_{$currency}, 0),'",
                 "',IFNULL(invoices.total_{$currency}/100*people.bonuses_reward, 0),'"
@@ -143,7 +143,7 @@ class BonusesSalesManagersDataTable extends BonusesDataTableAbstract
      */
     protected function addTotalSubSelect($query): void
     {
-        foreach (Currency::toArray() as $currency) {
+        foreach (Currency::asArray() as $currency) {
             $query->selectRaw("sum(case when account_types.name='{$currency}' then payments.received_sum end) as total_{$currency}");
         }
     }
