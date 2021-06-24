@@ -107,8 +107,15 @@ class BonusesRecruitersDataTable extends BonusesDataTableAbstract
             $monthName = strtolower($month->monthName);
 
             foreach (Currency::toArray() as $currency) {
-                $query->selectRaw("sum(case when month(start_date)={$month->month} and year(start_date)='{$this->year}' and currency='{$currency}' then salary end) as {$monthName}_first_{$currency}");
-                $query->selectRaw("sum(case when month(date_add(date_add(start_date, interval 2 month), interval 1 day))={$month->month} and year(date_add(date_add(start_date, interval 2 month), interval 1 day))='{$this->year}' and currency='{$currency}' then salary end) as {$monthName}_second_{$currency}");
+                $query->selectRaw("sum(case when month(start_date)={$month->month} and
+                                                year(start_date)='{$this->year}' and
+                                                currency='{$currency}' then salary end) as {$monthName}_first_{$currency}");
+
+                $query->selectRaw("sum(case when
+                                     month(date_add(date_add(start_date, interval 2 month), interval 1 day))={$month->month} and
+                                     year(date_add(date_add(start_date, interval 2 month), interval 1 day))='{$this->year}' and
+                                     currency='{$currency}' and TIMESTAMPDIFF(MONTH, start_date, quited_at) > 2 then salary end) as
+                                     {$monthName}_second_{$currency}");
             }
         }
     }
@@ -139,8 +146,13 @@ class BonusesRecruitersDataTable extends BonusesDataTableAbstract
     protected function addTotalSubSelect($query): void
     {
         foreach (Currency::toArray() as $currency) {
-            $query->selectRaw("sum(case when year(start_date)='{$this->year}' and currency='{$currency}' then salary end) as total_first_{$currency}");
-            $query->selectRaw("sum(case when year(date_add(date_add(start_date, interval 2 month), interval 1 day))='{$this->year}' and currency='{$currency}' then salary end) as total_second_{$currency}");
+            $query->selectRaw("sum(case when
+                                    year(start_date)='{$this->year}' and
+                                     currency='{$currency}' then salary end) as total_first_{$currency}");
+            $query->selectRaw("sum(case when
+                                year(date_add(date_add(start_date, interval 2 month), interval 1 day))='{$this->year}' and
+                                currency='{$currency}' and
+                                TIMESTAMPDIFF(MONTH, start_date, quited_at) > 2 then salary end) as total_second_{$currency}");
         }
     }
 }
