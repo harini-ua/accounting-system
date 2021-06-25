@@ -177,6 +177,7 @@ class InvoicesDataTable extends DataTable
 
         $paymentSums = DB::table('payments')
             ->select('invoice_id', DB::raw('sum(received_sum) as received_sum, sum(fee) as fee'))
+            ->whereNull('payments.deleted_at')
             ->whereBetween('payments.date', $dates)
             ->groupBy('invoice_id');
 
