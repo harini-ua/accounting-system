@@ -265,13 +265,13 @@ class InvoiceController extends Controller
 
         $invoice->payments()->save($payment);
 
-        if($invoice->items()->sum('sum') > $invoice->total){
+        if($invoice->total > $invoice->items()->sum('sum')){
 
             $invoice->status = InvoiceStatus::PAID;
             $invoice->save();
         }
-        elseif($invoice->items()->sum('sum') < $invoice->total &&
-            $invoice->items()->sum('sum') > 0) {
+        elseif($invoice->total > 0 &&
+            $invoice->total < $invoice->items()->sum('sum') ) {
 
             $invoice->status = InvoiceStatus::DEBT;
             $invoice->save();
