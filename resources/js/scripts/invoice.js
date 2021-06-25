@@ -293,6 +293,7 @@ jQuery(document).ready(function ($) {
       if (discount.toString() !== '0,00' && invoice.subtotal.text() !== '0,00') {
         let total = parseFloat(invoice.subtotal.text()) - parseFloat(invoice.discount.input.val());
         invoice.total.text(number_format(total, ...numberFormat));
+          updateTotal();
       } else {
         invoice.total.text(invoice.subtotal.text());
       }
