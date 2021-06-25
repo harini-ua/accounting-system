@@ -289,11 +289,11 @@ jQuery(document).ready(function ($) {
 
     invoice.discount.input.on("keyup change", function (e) {
       let discount = number_format(invoice.discount.input.val(), ...numberFormat);
-      invoice.discount.value.text(discount)
-
+      invoice.discount.value.text(discount);
       if (discount.toString() !== '0,00' && invoice.subtotal.text() !== '0,00') {
-        let total = parseFloat(invoice.raw.text()) - parseFloat(invoice.discount.input.val());
+        let total = parseFloat(invoice.subtotal.text()) - parseFloat(invoice.discount.input.val());
         invoice.total.text(number_format(total, ...numberFormat));
+          updateTotal();
       } else {
         invoice.total.text(invoice.subtotal.text());
       }
