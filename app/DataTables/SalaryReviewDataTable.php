@@ -107,7 +107,7 @@ class SalaryReviewDataTable extends DataTable
                 ->get()->pluck('id')->toArray()
             ;
 
-            $query->where('person_id', $personIds);
+            $query->whereIn('person_id', $personIds);
         });
 
         return $dataTable;
