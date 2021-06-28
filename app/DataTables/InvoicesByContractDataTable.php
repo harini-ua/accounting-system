@@ -115,10 +115,6 @@ class InvoicesByContractDataTable extends DataTable
             $query->orderBy('invoices.status', $order);
         });
 
-//        $dataTable->with('total_sum', Formatter::currency($query->sum('total'), '$'));
-//        $dataTable->with('total_fee', $query->sum('fee'));
-//        $dataTable->with('total_received_sum', $query->sum('received_sum'));
-
         return $dataTable;
     }
 
@@ -133,6 +129,7 @@ class InvoicesByContractDataTable extends DataTable
     {
         $paymentSums = DB::table('payments')
             ->select('invoice_id', DB::raw('sum(received_sum) as received_sum, sum(fee) as fee'))
+            ->whereNull('payments.deleted_at')
             ->groupBy('invoice_id');
 
         return $model->with(['contract.client', 'account.wallet', 'account.accountType'])
@@ -140,6 +137,7 @@ class InvoicesByContractDataTable extends DataTable
             ->join('contracts', 'contracts.id', '=', 'invoices.contract_id')
             ->leftJoinSub($paymentSums, 'payment_sums', static function($join) {
                 $join->on('payment_sums.invoice_id', '=', 'invoices.id');
+
             })
             ->select([
                 'invoices.*',
