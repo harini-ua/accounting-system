@@ -114,7 +114,7 @@ class BonusesRecruitersDataTable extends BonusesDataTableAbstract
                 $query->selectRaw("sum(case when
                                      month(date_add(date_add(start_date, interval 2 month), interval 1 day))={$month->month} and
                                      year(date_add(date_add(start_date, interval 2 month), interval 1 day))='{$this->year}' and
-                                     currency='{$currency}' and (TIMESTAMPDIFF(MONTH, start_date, quited_at) < 2 or quited_at IS NULL) then salary end) as
+                                     currency='{$currency}' and (TIMESTAMPDIFF(MONTH, start_date, quited_at) <= 2 or quited_at IS NULL) then salary end) as
                                      {$monthName}_second_{$currency}");
             }
         }
@@ -152,7 +152,7 @@ class BonusesRecruitersDataTable extends BonusesDataTableAbstract
             $query->selectRaw("sum(case when
                                 year(date_add(date_add(start_date, interval 2 month), interval 1 day))='{$this->year}' and
                                 currency='{$currency}' and
-                                (TIMESTAMPDIFF(MONTH, start_date, quited_at) < 2 or quited_at IS NULL) then salary end) as total_second_{$currency}");
+                                (TIMESTAMPDIFF(MONTH, start_date, quited_at) <= 2 or quited_at IS NULL) then salary end) as total_second_{$currency}");
         }
     }
 }
