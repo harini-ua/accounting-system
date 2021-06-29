@@ -230,4 +230,16 @@ $(document).ready(function () {
         });
         return numberFormat.format(value);
     }
+
+    $(function () {
+        former = $("input[name=quited_at]")
+            .datepicker({
+                autoClose: true,
+                format: 'dd-mm-yyyy',
+                container: 'body',
+                setDefaultDate: true,
+                minDate: new Date()
+            });
+
+    })
 });
