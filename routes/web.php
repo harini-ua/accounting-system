@@ -132,10 +132,8 @@ Route::middleware(['auth'])->group(function() {
 
     // Final Payslip
     Route::get('/final-payslip/create', 'FinalPayslipController@create')->name('final-payslip.create');
-    Route::get('/final-payslip/person', 'FinalPayslipController@person')->name('final-payslip.create.person');
-    Route::group(['prefix' => 'final-payslip'], static function() {
-        Route::get('{person}/person/', 'FinalPayslipController@person')->name('final-payslip.person');
-    });
+    Route::get('/final-payslip/person/{person}', 'FinalPayslipController@person')->name('final-payslip.create.person');
+
     Route::resource('final-payslip', 'FinalPayslipController')->except(['create']);
 });
 

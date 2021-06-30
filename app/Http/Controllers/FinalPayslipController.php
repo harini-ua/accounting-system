@@ -153,25 +153,37 @@ class FinalPayslipController extends Controller
     /**
      * Display the specified final payslip.
      *
-     * @param  FinalPayslip $finalPayslip
+     * @param  Person $person
      *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function person(FinalPayslip $finalPayslip)
+    public function person(Person $person)
     {
-        die('FinalPayslip - Person');
-//        $finalPayslip->load(['employee']);
-//
-//        $breadcrumbs = [
-//            ['link' => route('home'), 'name' => __('Home')],
-//            ['link' => route('final-payslip.index'), 'name' => __('Final Payslip')],
-//            ['name' => $finalPayslip->employee->name]
-//        ];
-//
-//        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
-//
-//        return view('pages.final-payslip.view', compact(
-//            'breadcrumbs', 'pageConfigs', 'finalPayslip'
-//        ));
+        $breadcrumbs = [
+            ['link' => route('home'), 'name' => __('Home')],
+            ['link' => route('people.index'), 'name' => __('People')],
+            ['name' => __('Edit Person')]
+        ];
+
+        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+
+//        $people = $person;
+//        $positions = Position::toCollection();
+//        $currencies = Currency::toCollection();
+//        $salaryTypes = SalaryType::toCollection();
+//        $contractTypes = PersonContractType::toCollection();
+//        $people = Person::newCollection();
+
+//        $hasPayData = false;
+//        if($person->account_number !== null
+//            || $finalPayslip->code !== null
+//            || $finalPayslip->agreement !== null
+//            || $finalPayslip->note_salary_pay !== null) {
+//            $hasPayData = true;
+//        }
+
+        return view('pages.final-payslip.person', compact(
+            'breadcrumbs', 'pageConfigs', 'person'
+        ));
     }
 }
