@@ -149,4 +149,29 @@ class FinalPayslipController extends Controller
             'breadcrumbs', 'pageConfigs', 'finalPayslip'
         ));
     }
+
+    /**
+     * Display the specified final payslip.
+     *
+     * @param  FinalPayslip $finalPayslip
+     *
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function person(FinalPayslip $finalPayslip)
+    {
+        die('FinalPayslip - Person');
+//        $finalPayslip->load(['employee']);
+//
+//        $breadcrumbs = [
+//            ['link' => route('home'), 'name' => __('Home')],
+//            ['link' => route('final-payslip.index'), 'name' => __('Final Payslip')],
+//            ['name' => $finalPayslip->employee->name]
+//        ];
+//
+//        $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
+//
+//        return view('pages.final-payslip.view', compact(
+//            'breadcrumbs', 'pageConfigs', 'finalPayslip'
+//        ));
+    }
 }
