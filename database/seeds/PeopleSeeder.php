@@ -29,7 +29,7 @@ class PeopleSeeder extends Seeder
                     return null;
                 },
                 'recruiter_id' => function () use ($recruiters) {
-                    return rand(0, 1) ? $recruiters->random()->id : null;
+                    return random_int(0, 1) ? $recruiters->random()->id : null;
                 },
             ]);
     }

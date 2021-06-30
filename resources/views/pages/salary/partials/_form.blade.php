@@ -25,8 +25,7 @@
     <div class="row" data-pjax>
         @if($person)
         <div class="col s12 m6">
-            <x-input name="working_days" 23321
-                     title="{{ __('Number of working days') }}" :model="$calendarMonth" disabled="true"></x-input>
+            <x-input name="working_days" title="{{ __('Number of working days') }}" :model="$calendarMonth" disabled="true"></x-input>
             <x-input name="worked_days" title="{{ __('Number of worked days') }}" :model="$model"></x-input>
             <x-input name="working_hours" title="{{ __('Number of working hours') }}" :model="$calendarMonth" disabled="true"></x-input>
             <x-input name="worked_hours" title="{{ __('Number of worked hours') }}" :model="$model"></x-input>
@@ -47,15 +46,15 @@
             <x-input name="total_usd" title="{{ __('Total USD') }}" :model="$model" readonly="true" icon="{{ \App\Enums\Currency::symbol(\App\Enums\Currency::USD) }}"></x-input>
             <x-input name="currency" type="hidden" :model="$model"></x-input>
             <x-input name="total_uah" title="{{ __('Total UAH') }}" :model="$model" disabled="true" icon="{{ \App\Enums\Currency::symbol(\App\Enums\Currency::UAH) }}"></x-input>
-            <x-linked-selects
-                firstName="wallet_id"
-                firstTitle="Wallet"
-                secondName="account_id"
-                secondTitle="Account"
-                dataUrl="/wallets/[id]/accounts"
-                view="components.linked-selects.wallets-accounts"
-                :options="$wallets"
-            />
+{{--            <x-linked-selects--}}
+{{--                firstName="wallet_id"--}}
+{{--                firstTitle="Wallet"--}}
+{{--                secondName="account_id"--}}
+{{--                secondTitle="Account"--}}
+{{--                dataUrl="/wallets/[id]/accounts"--}}
+{{--                view="components.linked-selects.wallets-accounts"--}}
+{{--                :options="$wallets"--}}
+{{--            ></x-linked-selects>--}}
             <x-date name="payment_date" title="{{ __('Payment date') }}"></x-date>
             <x-textarea name="comments" title="{{ __('Comments') }}"></x-textarea>
         </div>

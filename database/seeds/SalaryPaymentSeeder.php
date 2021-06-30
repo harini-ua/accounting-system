@@ -14,6 +14,7 @@ class SalaryPaymentSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
+     * @throws Exception
      */
     public function run()
     {
@@ -68,7 +69,7 @@ class SalaryPaymentSeeder extends Seeder
                         }
                     },
                     'currency' => $accountType->currency,
-                    'payment_date' => rand(0, 3) ? $paymentDate : null,
+                    'payment_date' => random_int(0, 3) ? $paymentDate : null,
                 ])->toArray();
             }
         }

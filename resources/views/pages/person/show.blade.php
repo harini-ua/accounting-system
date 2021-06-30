@@ -22,8 +22,13 @@
                             <div class="col xl8 s12 offset-xl4">
                                 <div class="invoice-date display-flex align-items-center flex-wrap">
                                     <div class="mr-3">
-                                        <small>{{ __('Date of the work beginning') }}:</small>
-                                        <span>{{ $person->start_date }}</span>
+                                        @if(!$person->quited_at)
+                                            <small>{{ __('Date of the work beginning') }}:</small>
+                                            <span>{{ $person->start_date }}</span>
+                                        @else
+                                            <small>{{ __('Dates of work') }}:</small>
+                                            <span>{{ $person->start_date }} - {{ $person->quited_at }}</span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

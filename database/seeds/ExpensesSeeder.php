@@ -12,6 +12,7 @@ class ExpensesSeeder extends Seeder
      * Run the database seeds.
      *
      * @return void
+     * @throws Exception
      */
     public function run()
     {
@@ -20,8 +21,8 @@ class ExpensesSeeder extends Seeder
         $expenseCategories = factory(ExpenseCategory::class, 20)->create();
 
         foreach ($expenseCategories as $expenseCategory) {
-            $createdAt = Carbon::now()->subDays(rand(1, 365));
-            $expenses = factory(Expense::class, rand(0, 20))
+            $createdAt = Carbon::now()->subDays(random_int(1, 365));
+            $expenses = factory(Expense::class, random_int(0, 20))
                 ->make([
                     'account_id' => function() use ($accountIds) {
                         return $accountIds[array_rand($accountIds)];

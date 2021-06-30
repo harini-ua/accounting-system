@@ -6,6 +6,8 @@ use Illuminate\Support\Carbon;
 
 class Date extends Input
 {
+    public $disabled;
+
     /**
      * @return mixed|string
      */
@@ -30,5 +32,13 @@ class Date extends Input
     public function render()
     {
         return view('components.date');
+    }
+
+    /**
+     * @return string
+     */
+    public function disabled()
+    {
+        return $this->disabled ? 'disabled' : '';
     }
 }

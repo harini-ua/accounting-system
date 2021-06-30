@@ -18,7 +18,7 @@ class PaymentSeeder extends Seeder
         $allPayments = [];
 
         foreach ($invoiceIds as $invoiceId) {
-            if (rand(0, 3)) {
+            if (random_int(0, 3)) {
                 $payments = factory(\App\Models\Payment::class, random_int(1, 3))
                     ->make([
                         'invoice_id' => $invoiceId,

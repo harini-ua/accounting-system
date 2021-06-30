@@ -134,6 +134,7 @@ $('.handle-submit-form').on('submit', function (e) {
             }
         }
     });
+
 })
 
 function clearForm(form) {
@@ -169,6 +170,7 @@ $('body').on('click', '.slide-up-btn', function (e) {
     })
 })
 
+
 // filters
 $('.select-filters').on('change', function (e) {
     const text = $(this).find('option:selected').text()
@@ -186,7 +188,9 @@ $('.select-filters').on('change', function (e) {
         condition && label.text(`By ${label.text()}`)
         label.removeClass('active')
         input.val('')
+
     }
+
 })
 
 $('.custom-filter-trigger').on('click', function (e) {

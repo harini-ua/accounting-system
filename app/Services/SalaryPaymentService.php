@@ -67,12 +67,12 @@ class SalaryPaymentService
     public function data()
     {
         return [
-            'calendarMonth' => $this->calendarMonth,
-            'salaryPayment' => $this->salaryPayment,
-            'person' => $this->person,
-            'symbol' => $this->symbol,
-            'currencies' => $this->currencies,
-            'fields' => $this->fields,
+            $this->calendarMonth,
+            $this->salaryPayment,
+            $this->person,
+            $this->symbol,
+            $this->currencies,
+            $this->fields,
         ];
     }
 

@@ -116,8 +116,10 @@ $(function () {
         const datepickerItem = datepickers[i];
         $(datepickerItem).datepicker({
             autoClose: true,
+            //firstDay: 1,
             format: 'dd-mm-yyyy',
             container: 'body',
+            //dayNamesMin: ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
             defaultDate: Date.parse(datepickerItem.value).toString(),
             setDefaultDate: true,
             onDraw: function () {

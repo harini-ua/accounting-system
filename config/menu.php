@@ -145,6 +145,13 @@ return [
             'icon' => 'local_atm',
             'i18n' => 'local_atm',
         ],
+        [
+            'url' => 'final-payslip',
+            'name' => 'Final Payslip',
+            'slug' => 'final-payslip',
+            'icon' => 'local_atm',
+            'i18n' => 'local_atm',
+        ],
     ],
     'horizontal' => [
         //

@@ -55,7 +55,7 @@ class ClientController extends Controller
     /**
      * Store a newly created resource in client.
      *
-     * @param Request $request
+     * @param ClientCreateRequest $request
      *
      * @return \Illuminate\Http\RedirectResponse
      * @throws \Illuminate\Database\Eloquent\MassAssignmentException
