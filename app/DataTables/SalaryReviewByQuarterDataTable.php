@@ -51,7 +51,7 @@ class SalaryReviewByQuarterDataTable extends DataTable
         });
 
         $dataTable->addColumn('basic_salary', static function (SalaryReview $model) {
-            $value = $model->person->salary - $model->total;
+            $value = $model->person->salary;
 
             return Formatter::currency($value, Currency::symbol($model->person->currency));
         });
@@ -67,17 +67,17 @@ class SalaryReviewByQuarterDataTable extends DataTable
         });
 
         $dataTable->addColumn('salary', static function(SalaryReview $model) {
-            $value = $model->person->salary;
+            $value = $model->person->salary + $model->total;
             $class = ($value - ($model->person->salary - $model->total)) < 0 ? "red-text" : "";
             $value = Formatter::currency($value, Currency::symbol($model->person->currency));
 
             return '<span class="'.$class.'">'.$value.'</span>';
         });
 
-        $dataTable->filterColumn('person', static function($query, $keyword) {
-            $query->join('people', 'salary_reviews.person_id', '=', 'people.id');
-            $query->where('people.name', 'like', "%$keyword%");
-        });
+//        $dataTable->filterColumn('person', static function($query, $keyword) {
+//            $query->join('people', 'salary_reviews.person_id', '=', 'people.id');
+//            $query->where('people.name', 'like', "%$keyword%");
+//        });
 
         $dataTable->filter(function($query) {
             if ($this->request->has('person_filter')) {
@@ -104,6 +104,16 @@ class SalaryReviewByQuarterDataTable extends DataTable
         $dataTable->orderColumn('person', static function($query, $order) {
             $query->join('people', 'salary_reviews.person_id', '=', 'people.id')
                 ->orderBy('people.name', $order);
+        });
+
+        $dataTable->filterColumn('person', static function($query, $keyword) {
+            $personIds = Person::whereNull('people.quited_at')
+                ->distinct('people.id')
+                ->where('name', 'like', "%$keyword%")
+                ->get()->pluck('id')->toArray()
+            ;
+
+            $query->whereIn('person_id', $personIds);
         });
 
         return $dataTable;
