@@ -50,7 +50,7 @@ class SalaryReviewDataTable extends DataTable
         });
 
         $dataTable->addColumn('basic_salary', static function (SalaryReview $model) {
-            $value = $model->person->salary - $model->total;
+            $value = $model->person->salary;
 
             return Formatter::currency($value, Currency::symbol($model->person->currency));
         });
@@ -66,7 +66,7 @@ class SalaryReviewDataTable extends DataTable
         });
 
         $dataTable->addColumn('salary', static function(SalaryReview $model) {
-            $value = $model->person->salary;
+            $value = $model->person->salary + $model->total;
             $class = ($value - ($model->person->salary - $model->total)) < 0 ? "red-text" : "";
             $value = Formatter::currency($value, Currency::symbol($model->person->currency));
 
