@@ -18,6 +18,7 @@
                 <div class="card">
                     <div class="card-content">
                         @include('pages.salary.partials._form')
+                        @php dump($currencies); @endphp
                     </div>
                 </div>
             </div>
