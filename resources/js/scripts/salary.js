@@ -1,5 +1,6 @@
 $(document).ready(function () {
-
+    const currencies = JSON.parse( $('#currencies').val() );
+    const fields = JSON.parse( $('#fields').val() );
     $('[name="person_id"], [name="calendar_month_id"]').change(function() {
         $.pjax({
             url: makeUrl({
@@ -46,6 +47,7 @@ $(document).ready(function () {
 
     function updateTotal()
     {
+
         let total = 0;
         for (let field in fields) {
             total += getConvertedFieldValue(field);

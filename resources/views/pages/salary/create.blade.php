@@ -36,10 +36,6 @@
 
 {{-- page scripts --}}
 @section('page-script')
-    <script>
-        console.log(currencies);
-        console.log(fields);
-    </script>
     <script src="{{asset('js/scripts/linked-selects.js')}}"></script>
     <script src="{{asset('js/scripts/salary.js')}}"></script>
 @endsection
