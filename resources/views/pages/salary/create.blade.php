@@ -10,6 +10,16 @@
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2-materialize.css')}}">
 @endsection
 
+{{-- page scripts --}}
+@section('page-script')
+    <script>
+        const currencies = {!! json_encode($currencies, JSON_NUMERIC_CHECK) !!};
+        const fields = {!! json_encode($fields, JSON_NUMERIC_CHECK) !!};
+    </script>
+    <script src="{{asset('js/scripts/linked-selects.js')}}"></script>
+    <script src="{{asset('js/scripts/salary.js')}}"></script>
+@endsection
+
 {{-- page content --}}
 @section('content')
     <div class="section">
@@ -18,7 +28,6 @@
                 <div class="card">
                     <div class="card-content">
                         @include('pages.salary.partials._form')
-                        @php dump($currencies); @endphp
                     </div>
                 </div>
             </div>
@@ -34,12 +43,4 @@
     <script src="{{asset('vendors/pjax/jquery.pjax.js')}}"></script>
 @endsection
 
-{{-- page scripts --}}
-@section('page-script')
-    <script>
-        const currencies = {!! json_encode($currencies, JSON_NUMERIC_CHECK) !!};
-        const fields = {!! json_encode($fields, JSON_NUMERIC_CHECK) !!};
-    </script>
-    <script src="{{asset('js/scripts/linked-selects.js')}}"></script>
-    <script src="{{asset('js/scripts/salary.js')}}"></script>
-@endsection
+
