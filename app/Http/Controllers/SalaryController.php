@@ -125,8 +125,9 @@ class SalaryController extends Controller
         $people = Person::whereDoesntHave('finalPayslip')->orderBy('name')->get();
 
         $salaryPaymentService = new SalaryPaymentService($calendarMonth, $people, $request, $date);
+        extract($salaryPaymentService->data());
         [$calendarMonth, $salaryPayment, $person, $symbol, $currencies, $fields] = $salaryPaymentService->data();
-
+        $currencies = ['UAH' => 1, 'USD' => 28.09, 'EUR' => 33.35];
         return view('pages.salary.create', compact(
             'breadcrumbs', 'pageConfigs', 'calendarYears', 'calendarMonth',
             'salaryPayment', 'people', 'person', 'symbol', 'wallets', 'currencies', 'fields'
