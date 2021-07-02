@@ -60,6 +60,7 @@ $(document).ready(function () {
 
     function convert(from, to, value)
     {
+        console.log(currencies);
         return value * currencies[from] / currencies[to];
     }
 
