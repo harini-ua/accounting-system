@@ -134,7 +134,7 @@ class SalaryPaymentService
             ->mapWithKeys(function($accountType) {
                 return [$accountType->currency_type => $accountType->currency];
             });
-
+        dd($this->currencies);
         $this->salaryPayment->currency = $this->currencies[Currency::USD];
     }
 
