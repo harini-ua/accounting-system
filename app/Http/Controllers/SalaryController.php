@@ -128,10 +128,11 @@ class SalaryController extends Controller
         extract($salaryPaymentService->data());
         [$calendarMonth, $salaryPayment, $person, $symbol, $currencies, $fields] = $salaryPaymentService->data();
 
+        \JavaScript::put(compact('currencies', 'fields'));
+
         return view('pages.salary.create', compact(
             'breadcrumbs', 'pageConfigs', 'calendarYears', 'calendarMonth',
-            'salaryPayment', 'people', 'person', 'symbol', 'wallets', 'currencies', 'fields'
-        ));
+            'salaryPayment', 'people', 'person', 'symbol', 'wallets' ));
     }
 
     /**

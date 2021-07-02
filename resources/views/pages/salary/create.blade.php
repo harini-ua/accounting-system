@@ -10,15 +10,6 @@
     <link rel="stylesheet" type="text/css" href="{{asset('vendors/select2/select2-materialize.css')}}">
 @endsection
 
-{{-- page scripts --}}
-@section('page-script')
-    <script>
-        const currencies = {!! json_encode($currencies, JSON_NUMERIC_CHECK) !!};
-        const fields = {!! json_encode($fields, JSON_NUMERIC_CHECK) !!};
-    </script>
-    <script src="{{asset('js/scripts/linked-selects.js')}}"></script>
-    <script src="{{asset('js/scripts/salary.js')}}"></script>
-@endsection
 
 {{-- page content --}}
 @section('content')
@@ -41,6 +32,16 @@
     <script src="{{asset('vendors/select2/select2.full.min.js')}}"></script>
     <script src="{{asset('vendors/jquery-validation/jquery.validate.min.js')}}"></script>
     <script src="{{asset('vendors/pjax/jquery.pjax.js')}}"></script>
+@endsection
+
+{{-- page scripts --}}
+@section('page-script')
+    <script>
+        console.log(currencies);
+        console.log(fields);
+    </script>
+    <script src="{{asset('js/scripts/linked-selects.js')}}"></script>
+    <script src="{{asset('js/scripts/salary.js')}}"></script>
 @endsection
 
 
