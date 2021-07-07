@@ -76,7 +76,9 @@ class InvoiceController extends Controller
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $clients = Client::with('contracts')->orderBy('name')->get();
-        $wallets = Wallet::with('accounts.accountType')->orderBy('name')->get();
+        $wallets = Wallet::with(['accounts' => function($query){
+            $query->where('accounts.status', '=', 1);
+        }])->orderBy('name')->get();
 
         $sales = Person::where('position_id', Position::SalesManager)->get();
 
