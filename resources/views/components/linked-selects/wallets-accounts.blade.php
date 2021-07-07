@@ -48,10 +48,8 @@
             @if(count($accounts))
                 <option class="first_default">{{ __("- Select $secondTitle -") }}</option>
                 @foreach ($options->find($model->account->wallet_id)->accounts as $account)
-                    @if($account->status == 1)
                     <option {{ $model->account_id == $account->id ? 'selected' : '' }}
                             value="{{ $account->id }}">{{ $account->accountType->name }}</option>
-                    @endif
                 @endforeach
             @endif
         @else
@@ -59,10 +57,8 @@
             <option class="first_default">{{ __("- Select $secondTitle -") }}</option>
             @if($wallet)
                 @foreach ($wallet->accounts as $account)
-                    @if($account->status == 1)
                     <option {{ old($secondName) == $account->id ? 'selected' : '' }}
                             value="{{ $account->id }}">{{ $account->accountType->name }}</option>
-                    @endif
                 @endforeach
             @endif
         @endif

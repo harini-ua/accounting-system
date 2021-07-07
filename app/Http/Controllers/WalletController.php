@@ -131,7 +131,9 @@ class WalletController extends Controller
         $accounts = Account::with(['accountType' => static function($query) {
             $query->orderBy('name');
         }])
-            ->where('wallet_id', $walletId)->get()
+            ->where('wallet_id', $walletId)
+            ->where('status', 1)
+            ->get()
             ->map(static function($account) {
                 return [
                     'id' => $account->id,
