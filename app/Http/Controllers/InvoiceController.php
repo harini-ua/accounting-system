@@ -234,7 +234,7 @@ class InvoiceController extends Controller
             'billFrom' => [],
             'billTo' => [
                 'company' => $client->company_name,
-                'address' => Formatter::address($client->billingAddress),
+                'address' => $client->billingAddress ? Formatter::address($client->billingAddress) : '',
                 'email' => $client->email,
                 'phone' => $client->phone,
             ],
