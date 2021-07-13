@@ -60,7 +60,7 @@
                     </div>
                     <div class="col m12 s12 input-field">
                         <textarea name="items[{{ $i }}][description]" class="item-description materialize-textarea">
-{{ old("items.$i.description") ?? (!empty($items) && $items[$i]->description) ? $items[$i]->description : null }}</textarea>
+{{  (!empty($items) && $items[$i]->description) ? $items[$i]->description : null }}</textarea>
                         <label for="description">{{ __('Item Description') }}</label>
                         @error('items.'.$i.'.description')<small class="errorTxt1"><div id="title-error" class="error">{{ $message }}</div></small>@enderror
                     </div>

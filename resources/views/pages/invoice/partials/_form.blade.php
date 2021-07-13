@@ -22,30 +22,36 @@
                             <div class="invoice-date-picker display-flex align-items-center">
                                 <div class="display-flex align-items-center">
                                     <small>{{ __('Invoice Date') }}</small>
-                                    <div class="display-flex ml-4">
+                                    <div class="display-flex ml-4 input-field">
+                                        <div class="col s12 input-field">
                                         <input type="text" name="date"
                                                value="{{ old('date') ?? $invoice->date ?? \Carbon\Carbon::now()->format(config('invoices.date.format')) }}"
                                                class="datepicker mr-2 mb-1"
                                                placeholder="{{ __('Select Date') }}">
                                         @error('date')
+                                        <span class="error-span"></span>
                                         <small class="errorTxt1">
                                             <div id="date-error" class="error">{{ $message }}</div>
                                         </small>
                                         @enderror
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="display-flex align-items-center">
                                     <small>{{ __('Plan Income Date') }}</small>
                                     <div class="display-flex ml-4">
+                                        <div class="col s12 input-field">
                                         <input type="text" name="plan_income_date"
                                                value="{{ old('plan_income_date') ?? $invoice->plan_income_date ?? null }}"
                                                class="datepicker mr-2 mb-1"
                                                placeholder="{{ __('Select Date') }}">
                                         @error('plan_income_date')
+                                        <span class="error-span"></span>
                                         <small class="errorTxt1">
                                             <div id="plan_income_date-error" class="error">{{ $message }}</div>
                                         </small>
                                         @enderror
+                                        </div>
                                     </div>
                                 </div>
                             </div>
