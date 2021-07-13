@@ -187,6 +187,20 @@
                 <td class="font-weight-900">{{ totalWorkingTime(halfYearMonths('second'), 6)}}</td>
                 <td class="font-weight-900">{{ totalWorkingTime(allMonths, 6)}}</td>
             </tr>
+               <tr>
+                   <td>20 hours week</td>
+                   <td v-for="month in quarterMonths('first')">{{ workingDays(month) * 4 }}</td>
+                   <td class="font-weight-900">{{ totalWorkingTime(quarterMonths('first'), 4)}}</td>
+                   <td v-for="month in quarterMonths('second')">{{ workingDays(month) * 4 }}</td>
+                   <td class="font-weight-900">{{ totalWorkingTime(quarterMonths('second'), 4)}}</td>
+                   <td class="font-weight-900">{{ totalWorkingTime(halfYearMonths('first'), 4)}}</td>
+                   <td v-for="month in quarterMonths('third')">{{ workingDays(month) * 4 }}</td>
+                   <td class="font-weight-900">{{ totalWorkingTime(quarterMonths('third'), 4)}}</td>
+                   <td v-for="month in quarterMonths('fourth')">{{ workingDays(month) * 4 }}</td>
+                   <td class="font-weight-900">{{ totalWorkingTime(quarterMonths('fourth'), 4)}}</td>
+                   <td class="font-weight-900">{{ totalWorkingTime(halfYearMonths('second'), 4)}}</td>
+                   <td class="font-weight-900">{{ totalWorkingTime(allMonths, 4)}}</td>
+               </tr>
             </tbody>
         </table>
     </div>
