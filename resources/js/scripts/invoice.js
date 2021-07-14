@@ -331,3 +331,26 @@ jQuery(document).ready(function ($) {
     return sign + ch_first + ch_rest + ch_last;
   }
 })
+
+function onLoadUpdateTotal(){
+    let sumQty = 0;
+    let sumRate = 0;
+    let discount = 0;
+    let subTotal = 0;
+    let total = 0;
+    $('.item-qty').each(function() {
+        sumQty += Number($(this).val());
+    });
+    $('.item-rate').each(function() {
+        sumRate += Number($(this).val());
+    });
+    discount = Number($('input[name=discount]').val());
+    subTotal = sumQty * sumRate;
+    total = subTotal - discount;
+
+    $('h6.invoice-subtotal-value > span.value').text(subTotal);
+    $('h6.invoice-discount-value span.value').text(discount);
+    $('h6.invoice-total-value span.value').text(total);
+}
+
+document.addEventListener("DOMContentLoaded", onLoadUpdateTotal);
