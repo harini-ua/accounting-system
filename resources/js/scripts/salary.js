@@ -1,6 +1,10 @@
 $(document).ready(function () {
-    const currencies = JSON.parse( $('#currencies').val() );
-    const fields = JSON.parse( $('#fields').val() );
+    if($('#currencies').is(":visible") &&
+        $('#fields').is(":visible")){
+        const currencies = JSON.parse( $('#currencies').val() );
+        const fields = JSON.parse( $('#fields').val() );
+    }
+
     $('[name="person_id"], [name="calendar_month_id"]').change(function() {
         $.pjax({
             url: makeUrl({
