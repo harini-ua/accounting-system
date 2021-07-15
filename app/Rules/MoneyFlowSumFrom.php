@@ -31,6 +31,9 @@ class MoneyFlowSumFrom implements Rule
      */
     public function passes($attribute, $value)
     {
+        if($this->request->account_from_id){
+            return false;
+        }
         if ($this->request->money_flow) {
             return Account::find($this->request->account_from_id)->balance + $this->request->money_flow->sum_from >= $value;
         }

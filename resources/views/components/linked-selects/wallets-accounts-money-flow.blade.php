@@ -14,7 +14,7 @@
             data-binded-select="{{$secondName}}"
     >
         @if(count($options))
-            <option class="first_default">{{ __("- Select $firstTitle -") }}</option>
+            <option value="0" class="first_default">{{ __("- Select $firstTitle -") }}</option>
             @if($model)
                 @foreach ($options as $wallet)
                     <option {{ $model->accountFrom->wallet_id == $wallet->id ? 'selected' : '' }}
@@ -28,6 +28,8 @@
             @endif
         @endif
     </select>
+
+    @error($model)<span class="errorTxt1"><div id="{{$secondName}}-error" class="error">{{ $message }}</div></span>@enderror
 </div>
 <div class="col s12 input-field custom-select-wrapper">
     <input id="{{$secondName}}-input"
@@ -46,7 +48,7 @@
         @if($model)
             @php $accounts = $options->find($model->accountFrom->wallet_id)->accounts; @endphp
             @if(count($accounts))
-                <option class="first_default">{{ __("- Select $secondTitle -") }}</option>
+                <option value="0" class="first_default">{{ __("- Select $secondTitle -") }}</option>
                 @foreach ($accounts as $account)
                     <option {{ $model->account_from_id == $account->id ? 'selected' : '' }}
                             value="{{ $account->id }}">{{ $account->accountType->name }}</option>

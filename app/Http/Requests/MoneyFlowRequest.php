@@ -26,9 +26,12 @@ class MoneyFlowRequest extends FormRequest
     public function rules()
     {
         return [
-            'account_from_id' => 'required|exists:accounts,id',
+
+            'wallet_from_id' => ['required', 'numeric', 'not_in:0', 'exists:wallet,id'],
+            'account_from_id' => ['required', 'numeric', 'not_in:0', 'exists:accounts,id'],
             'sum_from' => ['required', 'numeric', new MoneyFlowSumFrom($this)],
-            'account_to_id' => 'required|exists:accounts,id',
+            'wallet_to_id' => ['required', 'numeric', 'numeric', 'not_in:0', 'exists:wallet,id'],
+            'account_to_id' => ['required', 'numeric', 'numeric', 'not_in:0', 'exists:accounts,id'],
             'sum_to' => ['required', 'numeric'],
             'date' => 'required|date_format:d-m-Y',
             'currency_rate' => 'nullable|numeric',
