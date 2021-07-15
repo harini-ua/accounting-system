@@ -19,12 +19,12 @@
                 @if($model)
                     @foreach ($options as $calendarYear)
                         <option {{ $model->calendarMonth->calendar_year_id == $calendarYear->id ? 'selected' : '' }}
-                                value="{{ $calendarYear->id }}">{{ $calendarYear->name }}</option>
+                                value="{{ $calendarYear->name }}">{{ $calendarYear->name }}</option>
                     @endforeach
                 @else
                     @foreach ($options as $calendarYear)
                         <option {{ old($firstName) == $calendarYear->id ? 'selected' : '' }}
-                                value="{{ $calendarYear->id }}">{{ $calendarYear->name }}</option>
+                                value="{{ $calendarYear->name }}">{{ $calendarYear->name }}</option>
                     @endforeach
                 @endif
             @endif
