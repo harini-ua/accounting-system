@@ -338,11 +338,16 @@ function onLoadUpdateTotal(){
     let discount = 0;
     let subTotal = 0;
     let total = 0;
-    $('.item-qty').each(function() {
+    $('.item-qty').each(function(key) {
+        let qty = Number($(this).val());
+        $('input[name="items['+ key +'][sum]"]').val(qty);
         sumQty += Number($(this).val());
     });
-    $('.item-rate').each(function() {
-        sumRate += Number($(this).val());
+    $('.item-rate').each(function(key) {
+        let rate = Number($(this).val());
+        let qty = parseFloat($('input[name="items['+ key +'][sum]"]').val());
+        $('input[name="items['+ key +'][sum]"]').val(rate*qty);
+        sumRate += rate;
     });
     discount = Number($('input[name=discount]').val());
     subTotal = sumQty * sumRate;
