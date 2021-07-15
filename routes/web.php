@@ -151,7 +151,7 @@ Route::middleware(['auth'])->group(function() {
 
     // Salary Payments
     Route::resource('salary-payments', SalaryController::class)->except(['index']);
-//    Route::get('/salary-payments/create', [SalaryController::class, 'create'])->name('salary-payments.create');
+    Route::get('/salary-payments/create', [SalaryController::class, 'create'])->name('salary-payments.create');
 
     Route::get('/payslip/print', 'PayslipController@index')->name('payslip.print');
 

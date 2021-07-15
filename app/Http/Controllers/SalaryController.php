@@ -91,7 +91,7 @@ class SalaryController extends Controller
     public function create(Request $request)
     {
         $validator = Validator::make($request->only(['year', 'month']), [
-            'year' => 'sometimes|exists:calendar_years,id',
+            'year' => 'sometimes|exists:calendar_years,name',
             'month' => 'sometimes|exists:calendar_months,id',
         ]);
 
@@ -110,7 +110,7 @@ class SalaryController extends Controller
         $calendarYears = CalendarYear::orderBy('name')->with('calendarMonths')->get();
 
         if ($request->has(['year', 'month'])) {
-            $year = $calendarYears->where('id', $request->year)->first()->name;
+            $year = $request->year;
             $date = Carbon::createFromDate($year, $request->month);
             $calendarMonth = CalendarMonth::find($request->month);
         } else {
