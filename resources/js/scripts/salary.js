@@ -1,9 +1,4 @@
 $(document).ready(function () {
-    if($('#currencies').is(":visible") &&
-        $('#fields').is(":visible")){
-        const currencies = JSON.parse( $('#currencies').val() );
-        const fields = JSON.parse( $('#fields').val() );
-    }
 
     $('[name="person_id"], [name="calendar_month_id"]').change(function() {
         $.pjax({
@@ -51,13 +46,12 @@ $(document).ready(function () {
 
     function updateTotal()
     {
-
+        const fields = JSON.parse( $('#fields').val() );
         let total = 0;
         for (let field in fields) {
             total += getConvertedFieldValue(field);
         }
         total = Number(total + Number($('#person-info').attr('data-total-bonuses'))).toFixed(2);
-
         $('[name="total_usd"]').val(total);
         $('[name="total_uah"]').val(Number(convert('USD', 'UAH', total)).toFixed(2));
 
@@ -66,6 +60,7 @@ $(document).ready(function () {
 
     function convert(from, to, value)
     {
+        const currencies = JSON.parse( $('#currencies').val() );
         return value * currencies[from] / currencies[to];
     }
 
@@ -76,6 +71,7 @@ $(document).ready(function () {
 
     function getConvertedFieldValue(field)
     {
+        const fields = JSON.parse( $('#fields').val() );
         return convertToUSD(fields[field], Number($('[name="'+field+'"]').val()));
     }
 
