@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\DataTables\FinalPayslipDataTable;
 use App\Http\Requests\FinalPayslipCreateRequest;
+use App\Http\Requests\FinalPayslipUpdateRequest;
 use App\Models\CalendarMonth;
-use App\Models\CalendarYear;
 use App\Models\FinalPayslip;
 use App\Models\Person;
 use App\Models\Wallet;
@@ -145,7 +145,7 @@ class FinalPayslipController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        return view('pages.final-payslip.view', compact(
+        return view('pages.final-payslip.show', compact(
             'breadcrumbs', 'pageConfigs', 'finalPayslip'
         ));
     }
@@ -167,23 +167,30 @@ class FinalPayslipController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-//        $people = $person;
-//        $positions = Position::toCollection();
-//        $currencies = Currency::toCollection();
-//        $salaryTypes = SalaryType::toCollection();
-//        $contractTypes = PersonContractType::toCollection();
-//        $people = Person::newCollection();
-
-//        $hasPayData = false;
-//        if($person->account_number !== null
-//            || $finalPayslip->code !== null
-//            || $finalPayslip->agreement !== null
-//            || $finalPayslip->note_salary_pay !== null) {
-//            $hasPayData = true;
-//        }
-
+        $finalPayslip = FinalPayslip::where('person_id', $person->id)->first();
+        $people = Person::orderBy('name')->get();
         return view('pages.final-payslip.person', compact(
-            'breadcrumbs', 'pageConfigs', 'person'
+            'breadcrumbs', 'pageConfigs', 'people', 'person' ,'finalPayslip'
         ));
+    }
+
+
+    /**
+     * Update the specified resource in final payslip.
+     *
+     * @param FinalPayslipUpdateRequest $request
+     * @param  FinalPayslip $finalPayslip
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     */
+    public function update(FinalPayslipUpdateRequest $request, FinalPayslip $finalPayslip)
+    {
+        $finalPayslip->fill($request->all());
+        $finalPayslip->save();
+
+        alert()->success($finalPayslip->name, __('FinalPayslip- data has been update successful'));
+
+        return redirect()->route('final-payslip.index');
     }
 }
