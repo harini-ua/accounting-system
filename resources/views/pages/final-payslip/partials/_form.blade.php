@@ -69,7 +69,7 @@
                 disabled="true"
             ></x-input>
 
-            <x-textarea name="comment" title="{{ __('Comment') }}" :model="$model"></x-textarea>
+            <x-textarea name="comments" title="{{ __('Comment') }}" :model="$model"></x-textarea>
 {{--            <x-linked-selects--}}
 {{--                firstName="wallet_id"--}}
 {{--                firstTitle="Wallet"--}}
