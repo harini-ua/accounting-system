@@ -79,8 +79,10 @@ class FinalPayslipService
     {
         $this->fields = [
             'earned' => $this->person->currency,
-            'overtime_pay' => $this->person->currency,
+            'bonuses' => $this->person->currency,
+            'vacation' => $this->person->currency,
             'vacation_compensation' => $this->person->currency,
+            'leads' => $this->person->currency,
             'monthly_bonus' => $this->person->currency,
             'fines' => $this->person->currency,
             'tax_compensation' => Currency::UAH,
