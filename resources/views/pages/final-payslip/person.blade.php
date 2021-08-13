@@ -27,7 +27,7 @@
 
 {{-- page scripts --}}
 @section('page-script')
+    <script src="{{asset('js/scripts/final-payslip.js')}}"></script>
     <script src="{{asset('js/scripts/checkbox-input.js')}}"></script>
     <script src="{{asset('js/scripts/person.js')}}"></script>
-    <script src="{{asset('js/scripts/final-payslip.js')}}"></script>
 @endsection

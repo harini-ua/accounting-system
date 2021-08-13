@@ -45,8 +45,10 @@
             <x-input name="worked_days" title="{{ __('Number worked days') }}" type="number" :model="$model" disabled="true"></x-input>
             <x-input name="working_hours" title="{{ __('Number working hours') }}" type="number" :model="$model" disabled="true"></x-input>
             <x-input name="worked_hours" title="{{ __('Number worked hours') }}" type="number" :model="$model"></x-input>
+            <x-input name="basic_salary" title="{{ __('Basic salary') }}" :model="$model" disabled="true"></x-input>
             <x-input name="earned" title="{{ __('Earned') }}" :model="$model" disabled="true"></x-input>
-            <x-input name="vacations" title="{{ __('Vacation ') . Str::plural('day', $model->vacations) }}" :model="$model" disabled="true"></x-input>
+            <x-input name="bonuses" title="{{ __('Bonuses') }}" :model="$model" disabled="true"></x-input>
+            <x-input name="vacation" title="{{ __('Vacation ') . Str::plural('day', $model->vacations) }}" :model="$model" disabled="true"></x-input>
             <x-input name="vacation_compensation" title="{{ __('Vacation compensation') }}" :model="$model" disabled="true" icon="{{ \App\Enums\Currency::symbol($person->currency) }}"></x-input>
             <x-input name="leads" title="{{ __('Leads') }}" :model="$model" disabled="true"></x-input>
             <x-input name="monthly_bonus" title="{{ __('Monthly bonus') }}" :model="$model"></x-input>

@@ -98,8 +98,7 @@ jQuery(document).ready(function ($) {
       return url.href;
     }
 
-    $('#final-payslip-form').on('keyup', '[name="worked_hours"]', function() {
-      //
+    $('#final-payslip-form').on('keyup', 'input[name="worked_hours"]', function() {
       updateTotal();
     });
 
@@ -116,11 +115,12 @@ jQuery(document).ready(function ($) {
     function updateTotal()
     {
       let total = 0;
+      let convertedValue = 0;
       for (let field in fields) {
-        total += getConvertedFieldValue(field);
+          convertedValue += getConvertedFieldValue(field);
+          total += convertedValue;
       }
       total = Number(total + Number($('#person-info').attr('data-total-bonuses'))).toFixed(2);
-
       $('[name="total_usd"]').val(total);
       $('[name="total_uah"]').val(Number(convert('USD', 'UAH', total)).toFixed(2));
 

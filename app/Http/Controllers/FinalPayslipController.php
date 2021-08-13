@@ -66,7 +66,7 @@ class FinalPayslipController extends Controller
         $people = Person::whereDoesntHave('finalPayslip')->orderBy('name')->get();
 
         $finalPayslipService = new FinalPayslipService($calendarMonth, $people, $request, $date);
-        [$calendarMonth, $finalPayslip, $person, $symbol, $fields, $currencies] = $finalPayslipService->data();
+        [$calendarMonth, $finalPayslip, $person, $symbol, $currencies, $fields] = $finalPayslipService->data();
 
         return view('pages.final-payslip.create', compact(
             'pageConfigs', 'breadcrumbs', 'people', 'wallets',
@@ -169,6 +169,7 @@ class FinalPayslipController extends Controller
 
         $finalPayslip = FinalPayslip::where('person_id', $person->id)->first();
         $people = Person::orderBy('name')->get();
+
         return view('pages.final-payslip.person', compact(
             'breadcrumbs', 'pageConfigs', 'people', 'person' ,'finalPayslip'
         ));
