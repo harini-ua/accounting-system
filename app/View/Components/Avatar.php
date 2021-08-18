@@ -38,8 +38,10 @@ class Avatar extends Component
      */
     public function render()
     {
-        $image = $this->avatar->create($this->user->name)->toBase64();
-
+        $image = null;
+        if(isset($this->user->name)) {
+            $image = $this->avatar->create($this->user->name)->toBase64();
+        }
         return view('components.avatar', compact('image'));
     }
 }
