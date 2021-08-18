@@ -29,6 +29,7 @@ use App\Http\Controllers\{
     OffersController,
     PaymentController,
     PayslipController,
+    FinalPayslipController,
     PersonController,
     SalaryController,
     SalaryReviewController,
@@ -153,12 +154,11 @@ Route::middleware(['auth'])->group(function() {
     Route::resource('salary-payments', SalaryController::class)->except(['index']);
     Route::get('/salary-payments/create', [SalaryController::class, 'create'])->name('salary-payments.create');
 
-    Route::get('/payslip/print', 'PayslipController@index')->name('payslip.print');
+    Route::get('/payslip/print', [PayslipController::class, 'index'])->name('payslip.print');
 
     // Final Payslip
-    Route::get('/final-payslip/create', 'FinalPayslipController@create')->name('final-payslip.create');
-    Route::get('/final-payslip/person/{person}', 'FinalPayslipController@person')->name('final-payslip.create.person');
+    Route::get('/final-payslip/person/{person}', [FinalPayslipController::class, 'person'])->name('final-payslip.create.person');
 
-    Route::resource('final-payslip', 'FinalPayslipController')->except(['create']);
+    Route::resource('final-payslip', FinalPayslipController::class);
 });
 
