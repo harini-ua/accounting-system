@@ -156,9 +156,6 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('/payslip/print', [PayslipController::class, 'index'])->name('payslip.print');
 
-    // Final Payslip
-    Route::get('/final-payslip/person/{person}', [FinalPayslipController::class, 'person'])->name('final-payslip.create.person');
 
-    Route::resource('final-payslip', FinalPayslipController::class);
 });
 
