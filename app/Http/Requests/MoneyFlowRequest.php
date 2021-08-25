@@ -27,10 +27,12 @@ class MoneyFlowRequest extends FormRequest
     {
         return [
 
-            'wallet_from_id' => ['required', 'numeric', 'not_in:0', 'exists:wallet,id'],
+//            'wallet_from_id' => ['required', 'numeric', 'not_in:0', 'exists:wallet,id'],
+            'wallet_from_id' => 'required',
             'account_from_id' => ['required', 'numeric', 'not_in:0', 'exists:accounts,id'],
             'sum_from' => ['required', 'numeric', new MoneyFlowSumFrom($this)],
-            'wallet_to_id' => ['required', 'numeric', 'numeric', 'not_in:0', 'exists:wallet,id'],
+//            'wallet_to_id' => ['required', 'numeric', 'numeric', 'not_in:0', 'exists:wallet,id'],
+            'wallet_to_id' => 'required',
             'account_to_id' => ['required', 'numeric', 'numeric', 'not_in:0', 'exists:accounts,id'],
             'sum_to' => ['required', 'numeric'],
             'date' => 'required|date_format:d-m-Y',
