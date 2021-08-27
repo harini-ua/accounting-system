@@ -9,6 +9,6 @@ $factory->define(\App\Models\Payment::class, static function (Faker $faker) {
     return [
         'fee' => $receivedSum / 100,
         'received_sum' => $receivedSum,
-        'date' => $faker->dateTimeBetween('-1 year', 'now'),
+        'date' => $faker->dateTimeBetween('-1 year', 'now')->format('Y-m-d'),
     ];
 });
