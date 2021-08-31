@@ -86,17 +86,41 @@
                                         @if($bank->account)
                                             <tr>
                                                 <td>{{ __('Account #') }}:</td>
-                                                <td>{{ $bank->account }}</td>
+                                                <td>
+                                                    <span
+                                                        style="cursor: pointer"
+                                                        class="tooltipped indigo-text text-darken-1 copy"
+                                                        data-position="right"
+                                                        data-tooltip="Click to copy"
+                                                        data-clipboard-text="{{ $bank->account }}"
+                                                    >{{ $bank->account }}</span>
+                                                </td>
                                             </tr>@endif
                                         @if($bank->iban)
                                             <tr>
                                                 <td>{{ __('IBAN') }}:</td>
-                                                <td>{{ $bank->iban }}</td>
+                                                <td>
+                                                    <span
+                                                        style="cursor: pointer"
+                                                        class="tooltipped indigo-text text-darken-1 copy"
+                                                        data-position="right"
+                                                        data-tooltip="Click to copy"
+                                                        data-clipboard-text="{{ $bank->iban }}"
+                                                    >{{ (new \PHP_IBAN\IBAN($bank->iban))->HumanFormat() }}</span>
+                                                </td>
                                             </tr>@endif
                                         @if($bank->swift)
                                             <tr>
                                                 <td>{{ __('SWIFT CODE') }}:</td>
-                                                <td>{{ $bank->swift }}</td>
+                                                <td>
+                                                    <span
+                                                        style="cursor: pointer"
+                                                        class="tooltipped indigo-text text-darken-1 copy"
+                                                        data-position="right"
+                                                        data-tooltip="Click to copy"
+                                                        data-clipboard-text="{{ $bank->swift }}"
+                                                    >{{ $bank->swift }}</span>
+                                                </td>
                                             </tr>@endif
                                         </tbody>
                                     </table>
@@ -128,6 +152,10 @@
 @section('vendor-script')
     <script src="{{asset('vendors/data-tables/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('vendors/data-tables/extensions/responsive/js/dataTables.responsive.min.js')}}"></script>
+    <script src="{{asset('vendors/clipboard-js/clipboard.min.js')}}"></script>
+    <script>
+        new ClipboardJS('.copy');
+    </script>
 @endsection
 
 {{-- page script --}}

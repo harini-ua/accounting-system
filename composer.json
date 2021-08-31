@@ -16,6 +16,7 @@
         "bensampo/laravel-enum": "^3.0.0",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
+        "globalcitizen/php-iban": "^4.1",
         "guzzlehttp/guzzle": "^7.0.1",
         "intervention/validation": "^2.9",
         "laravel/framework": "^8.0",
