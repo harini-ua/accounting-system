@@ -47,14 +47,11 @@
                             <h6 class="col s12 mt-1 mb-2"> {{ __('Contact') }} </h6>
                             <div class="col s12 phone mb-3">
                                 <i class="mr-3 material-icons display-inline">call</i>
-                                <p class="m-0 display-inline">{{ $client->phone }}</p>
+                                <p class="m-0 display-inline"><a href="tel:{{ $client->phone }}">{{ $client->phone }}</a></p>
                             </div>
                             <div class="col s12 mail  mb-1">
                                 <i class="material-icons mr-3 display-inline"> mail_outline</i>
-                                <p class="m-0 display-inline">{{ $client->email }} </p>
-                                <a href="mailto:{{ $client->email }}"
-                                   class="btn-small indigo float-right"><i
-                                        class="material-icons">mail_outline</i></a>
+                                <p class="m-0 display-inline"><a href="mailto:{{ $client->email }}">{{ $client->email }}</a></p>
                             </div>
                         </div>
                         <hr>
