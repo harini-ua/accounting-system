@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class WalletStoreRequest extends FormRequest
 {
@@ -24,7 +25,12 @@ class WalletStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|min:3',
+            'name' => [
+                'required',
+                Rule::unique('wallets')
+                    ->ignore($this->wallet)
+                    ->whereNull('deleted_at')
+            ],
             'wallet_type_id' => 'required',
         ];
     }
