@@ -161,7 +161,7 @@
                     <div class="input-field">
                         <h6>{{ __('Status') }}</h6>
                         <select name="status" class="select2 invoice-item-select browser-default">
-                            @foreach(\App\Enums\InvoiceStatus::toSelectArray() as $value => $status)
+                            @foreach(\App\Enums\InvoiceStatus::asSelectArray() as $value => $status)
                                 <option
                                     value="{{ $value }}" {{ isset($invoice) && $invoice->status == $value ? 'selected' : '' }}>{{ $status }}</option>
                             @endforeach

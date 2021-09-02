@@ -60,7 +60,7 @@ class ContractController extends Controller
         $salesManagers = Person::byPosition(Position::SalesManager)->get()
             ->pluck('name', 'id')->toArray();
 
-        $status = ContractStatus::toSelectArray();
+        $status = ContractStatus::asSelectArray();
 
         return view('pages.contract.create', compact(
             'pageConfigs', 'breadcrumbs', 'clients', 'salesManagers', 'status'

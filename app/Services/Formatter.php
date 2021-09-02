@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\AccountType;
 use App\Models\Address;
 
 class Formatter

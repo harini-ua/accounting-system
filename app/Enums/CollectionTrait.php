@@ -14,7 +14,7 @@ trait CollectionTrait
     public static function toCollection()
     {
         $values = new Collection();
-        foreach (self::toSelectArray() as $key => $value) {
+        foreach (self::asSelectArray() as $key => $value) {
             $values->push((object) [
                 'id' => $key,
                 'name' => $value,
