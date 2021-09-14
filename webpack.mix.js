@@ -34,19 +34,34 @@ const sassOptions = {
 };
 
 // themes Core stylesheets
-mixAssetsDir('sass/custom/**/!(_)*.scss', (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions));
+mixAssetsDir(
+    'sass/custom/**/!(_)*.scss',
+    (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions)
+);
 
 // pages Core stylesheets
-mixAssetsDir('sass/pages/**/!(_)*.scss', (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions));
+mixAssetsDir(
+    'sass/pages/**/!(_)*.scss',
+    (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions)
+);
 
 // pdf Core stylesheets
-mixAssetsDir('sass/pdf/**/!(_)*.scss', (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions));
+mixAssetsDir(
+    'sass/pdf/**/!(_)*.scss',
+    (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions)
+);
 
 // Theme scss task
-mixAssetsDir('sass/themes/**/!(_)*.scss', (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions));
+mixAssetsDir(
+    'sass/themes/**/!(_)*.scss',
+    (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions)
+);
 
 // Core stylesheets
-mixAssetsDir('sass/layouts/**/!(_)*.scss', (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions));
+mixAssetsDir(
+    'sass/layouts/**/!(_)*.scss',
+    (src, dest) => mix.sass(src, dest.replace(/(\\|\/)sass(\\|\/)/, '$1css$2').replace(/\.scss$/, '.css'), sassOptions)
+);
 
 // script js
 mixAssetsDir('js/scripts/**/*.js', (src, dest) => mix.scripts(src, dest));
@@ -60,13 +75,13 @@ mixAssetsDir('js/custom/**/*.js', (src, dest) => mix.scripts(src, dest));
  |--------------------------------------------------------------------------
  */
 
-// vue js
-mix.js('resources/js/vue/calendar.js', 'public/js/vue');
-mix.js('resources/js/vue/vacations.js', 'public/js/vue');
-
 mix.copyDirectory('resources/images', 'public/images');
 mix.copyDirectory('resources/vendors', 'public/vendors');
 mix.copyDirectory('resources/fonts', 'public/fonts');
+
+// vue js
+mix.js('resources/js/vue/calendar.js', 'public/js/vue')
+    .js('resources/js/vue/vacations.js', 'public/js/vue');
 
 mix.js('resources/js/materialize.js', 'public/js')
     .js('resources/js/plugins.js', 'public/js')
@@ -96,4 +111,4 @@ mix.then(() => {
 //     });
 //     mix.setResourceRoot("/materialize-material-design-admin-template/laravel/demo-1/");
 // }
-mix.version();
+

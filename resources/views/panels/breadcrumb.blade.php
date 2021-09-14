@@ -28,8 +28,7 @@
         <div class="container">
             <div class="row">
                 <div class="col s10 m6 l6 breadcrumbs-left">
-                    <h5 class="breadcrumbs-title mt-0 mb-0 display-inline hide-on-small-and-down">
-                        <span>@yield('title')</span></h5>
+                    <h5 class="breadcrumbs-title mt-0 mb-0 display-inline hide-on-small-and-down"><span>@yield('title')</span></h5>
                     @if(isset($breadcrumbs))
                         <ol class="breadcrumbs mb-0">
                             @foreach ($breadcrumbs as $breadcrumb)
@@ -42,11 +41,15 @@
                         </ol>
                     @endif
                 </div>
-                <div class="col s2 m6 l6"><a
+                <div class="col s2 m6 l6">
+                    <a
                         class="btn btn-floating dropdown-settings waves-effect waves-light breadcrumbs-btn right"
                         href="#!"
-                        data-target="dropdown1"><i class="material-icons">expand_more </i><i
-                            class="material-icons right">arrow_drop_down</i></a>
+                        data-target="dropdown1"
+                    >
+                        <i class="material-icons">expand_more </i>
+                        <i class="material-icons right">arrow_drop_down</i>
+                    </a>
                     <ul class="dropdown-content" id="dropdown1" tabindex="0">
                         <li tabindex="0"><a class="grey-text text-darken-2"
                                             href="{{asset('user-profile-page')}}">Profile<span
@@ -73,8 +76,7 @@
         <div class="container">
             <div class="row">
                 <div class="col s12 m6 l6">
-                    <h5 class="breadcrumbs-title mt-0 mb-0">
-                        <span>@yield('title')</span></h5>
+                    <h5 class="breadcrumbs-title mt-0 mb-0"><span>@yield('title')</span></h5>
                 </div>
                 <div class="col s12 m6 l6 right-align-md">
                     @if(isset($breadcrumbs))
@@ -100,8 +102,7 @@
         <div class="container">
             <div class="row">
                 <div class="col s12 m6 l6">
-                    <h5 class="breadcrumbs-title mt-0 mb-0">
-                        <span>@yield('title')</span></h5>
+                    <h5 class="breadcrumbs-title mt-0 mb-0"><span>@yield('title')</span></h5>
                 </div>
                 <div class="col s12 m6 l6 right-align-md">
                     @if(isset($breadcrumbs))
@@ -126,8 +127,7 @@
         <div class="container">
             <div class="row">
                 <div class="col s12 m6 l6">
-                    <h5 class="breadcrumbs-title"><span>@yield('title') </span>
-                    </h5>
+                    <h5 class="breadcrumbs-title"><span>@yield('title') </span></h5>
                 </div>
                 <div class="col s12 m6 l6 right-align-md">
                     @if(isset($breadcrumbs))
