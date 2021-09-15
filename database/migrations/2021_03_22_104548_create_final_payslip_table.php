@@ -25,16 +25,16 @@ class CreateFinalPayslipTable extends Migration
             $table->decimal('earned', 9,2);
             $table->json('bonuses')->nullable();
             $table->smallInteger('vacations')->nullable();
-            $table->decimal('vacation_compensation', 9,2);
-            $table->decimal('leads', 9,2);
-            $table->decimal('monthly_bonus', 9,2);
-            $table->decimal('fines', 9,2);
-            $table->decimal('tax_compensation', 9,2);
-            $table->decimal('other_compensation', 9,2);
+            $table->decimal('vacation_compensation', 9,2)->nullable();
+            $table->decimal('leads', 9,2)->nullable();
+            $table->decimal('monthly_bonus', 9,2)->nullable();
+            $table->decimal('fines', 9,2)->nullable();
+            $table->decimal('tax_compensation', 9,2)->nullable();
+            $table->decimal('other_compensation', 9,2)->nullable();
             $table->decimal('total_usd', 9,2);
             $table->decimal('total_uah', 9,2);
             $table->unsignedBigInteger('account_id');
-            $table->boolean('paid');
+            $table->boolean('paid')->default(0);
             $table->text('comments')->nullable();
             $table->timestamps();
 

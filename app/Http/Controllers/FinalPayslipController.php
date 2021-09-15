@@ -117,8 +117,10 @@ class FinalPayslipController extends Controller
      */
     public function store(FinalPayslipCreateRequest $request)
     {
+//        dd($request->all);
         $finalPayslip = new FinalPayslip();
         $finalPayslip->fill($request->all());
+//        dd($finalPayslip);
         $finalPayslip->save();
 
         alert()->success($finalPayslip->employee->name, __('Create client has been successful'));
@@ -190,7 +192,7 @@ class FinalPayslipController extends Controller
         $finalPayslip->fill($request->all());
         $finalPayslip->save();
 
-        alert()->success($finalPayslip->name, __('FinalPayslip- data has been update successful'));
+        alert()->success($finalPayslip->name, __('Final payslip data has been update successful'));
 
         return redirect()->route('final-payslip.index');
     }

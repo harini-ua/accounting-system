@@ -55,14 +55,14 @@ class Person extends Model
      *
      * @var array
      */
-    protected $fillable = ['account_number', 'agreement', 'available_vacations', 'bonuses', 'bonuses_reward',
-                            'certifications', 'code', 'compensate', 'compensated_at', 'compensated_days',
-                            'department', 'end_trial_period_date', 'growth_plan', 'last_salary', 'name',
-                            'note_salary_pay', 'position_id', 'quited_at', 'quit_reason', 'rate',
-                            'recipient_bank', 'recruiter_id', 'salary', 'salary_changed_at', 'salary_change_reason',
-                            'salary_type', 'salary_type_changed_at', 'skills', 'start_date', 'team_lead',
-                            'team_lead_reward', 'tech_lead', 'tech_lead_reward', 'trial_period', 'updated_at',
-                            'contract_type', 'contract_type_changed_at', 'created_at', 'currency', 'deleted_at', 'user_id'];
+    protected $fillable = [
+        'account_number', 'agreement', 'available_vacations', 'bonuses', 'bonuses_reward', 'certifications', 'code',
+        'compensate', 'compensated_at', 'compensated_days', 'department', 'end_trial_period_date', 'growth_plan',
+        'last_salary', 'name', 'note_salary_pay', 'position_id', 'quited_at', 'quit_reason', 'rate', 'recipient_bank',
+        'recruiter_id', 'salary', 'salary_changed_at', 'salary_change_reason', 'salary_type', 'salary_type_changed_at',
+        'skills', 'start_date', 'team_lead', 'team_lead_reward', 'tech_lead', 'tech_lead_reward', 'trial_period',
+        'updated_at', 'contract_type', 'contract_type_changed_at', 'created_at', 'currency', 'deleted_at', 'user_id'
+    ];
 
     /**
      * The array of booted models.

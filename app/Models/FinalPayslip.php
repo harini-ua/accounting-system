@@ -22,12 +22,12 @@ class FinalPayslip extends Model
      * @var array
      */
     protected $fillable = [
-        'employee_id',//
-        'last_working_day',//
-        'working_days',//
-        'worked_days',//
-        'working_hours',//
-        'worked_hours',//
+        'person_id',
+        'last_working_day',
+        'working_days',
+        'worked_days',
+        'working_hours',
+        'worked_hours',
         'basic_salary',
         'earned',
         'bonuses',
@@ -38,11 +38,11 @@ class FinalPayslip extends Model
         'fines',
         'tax_compensation',
         'other_compensation',
-        'total_usd',//
-        'total',//
-        'account_id',//
-        'paid',//
-        'comments',//
+        'total_usd',
+        'total',
+        'account_id',
+        'paid',
+        'comments',
     ];
 
     protected $casts = [

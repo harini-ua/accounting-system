@@ -109,6 +109,6 @@ class Input extends Component
      */
     public function readonly()
     {
-        return $this->disabled ? 'readonly' : '';
+        return $this->readonly ? 'readonly' : '';
     }
 }
