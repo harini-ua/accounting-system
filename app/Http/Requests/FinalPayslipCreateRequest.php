@@ -13,7 +13,7 @@ class FinalPayslipCreateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,14 @@ class FinalPayslipCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'person_id' => 'required|exists:people,id',
+            'last_working_day' => 'required|date_format:d-m-Y',
+            'worked_hours' => 'required|numeric|max:744|min:0',
+            'monthly_bonus' => 'nullable|numeric|max:1000000|min:0',
+            'fines' => 'nullable|numeric|max:0|min:-1000000',
+            'other_compensation' => 'nullable|numeric|max:1000000|min:0',
+            'comments' => 'nullable|string',
+            'paid' => 'nullable|boolean',
         ];
     }
 }

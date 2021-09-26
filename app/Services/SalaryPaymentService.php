@@ -243,6 +243,7 @@ class SalaryPaymentService
         if (SalaryType::isHourly($person->salary_type)) {
             return round($person->rate * $salaryPayment->worked_hours, 2);
         }
+
         return $calendarMonth->working_hours ? round($person->salary / $calendarMonth->working_days * $salaryPayment->worked_days, 2) : 0;
     }
 

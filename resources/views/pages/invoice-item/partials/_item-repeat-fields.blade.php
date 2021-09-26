@@ -30,7 +30,7 @@
                     <div class="col m3 s12 input-field">
                         <select name="items[{{ $i }}][type]" class="select2-icons invoice-item-select browser-default item-type">
                             @php( $item_type = old("items.$i.type") ?? (!empty($items) && $items[$i]->type) ?? null )
-                            @foreach(\App\Enums\InvoiceItemType::toSelectArray() as $type => $value)
+                            @foreach(\App\Enums\InvoiceItemType::asSelectArray() as $type => $value)
                                 <option value="{{ $type }}" {{ $type === $item_type ? 'selected' : '' }}
                                         data-icon="{{ \App\Enums\InvoiceItemType::getIcon($type) }}">{{ $value }}</option>
                             @endforeach

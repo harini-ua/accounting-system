@@ -39,8 +39,8 @@ class ClientUpdateRequest extends FormRequest
             'bank_name' => 'nullable|string|min:3',
             'bank_address' => 'nullable|string|min:3',
             'account' => 'nullable|string|min:3|max:100',
-            'iban' => 'nullable|string|min:8|max:34',
-            'swift' => 'nullable|string|min:8|max:11',
+            'iban' => 'nullable|iban',
+            'swift' => 'nullable|bic',
         ];
     }
 }

@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a8ce6a5f7289338a439c4011372b64be",
+    "content-hash": "2611cf5d0a97323472fb11eefc408646",
     "packages": [
         {
             "name": "askedio/laravel-soft-cascade",
@@ -998,6 +998,38 @@
             "time": "2020-04-28T08:47:37+00:00"
         },
         {
+            "name": "globalcitizen/php-iban",
+            "version": "v4.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/globalcitizen/php-iban.git",
+                "reference": "5bf5d7df0bd0158460897f2b9c26eda91bbf9b7d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/globalcitizen/php-iban/zipball/5bf5d7df0bd0158460897f2b9c26eda91bbf9b7d",
+                "reference": "5bf5d7df0bd0158460897f2b9c26eda91bbf9b7d",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "oophp-iban.php",
+                    "php-iban.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0-only"
+            ],
+            "description": "php-iban is a library for parsing and validating IBAN (and IIBAN) bank account information.",
+            "support": {
+                "issues": "https://github.com/globalcitizen/php-iban/issues",
+                "source": "https://github.com/globalcitizen/php-iban/tree/v4.1.0"
+            },
+            "time": "2021-07-01T23:55:02+00:00"
+        },
+        {
             "name": "graham-campbell/result-type",
             "version": "v1.0.1",
             "source": {
@@ -1366,6 +1398,76 @@
                 "watermark"
             ],
             "time": "2019-11-02T09:15:47+00:00"
+        },
+        {
+            "name": "intervention/validation",
+            "version": "2.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Intervention/validation.git",
+                "reference": "296589e69b8610eb1fcfe8001188c00616169bc9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Intervention/validation/zipball/296589e69b8610eb1fcfe8001188c00616169bc9",
+                "reference": "296589e69b8610eb1fcfe8001188c00616169bc9",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.5|~6|~7|~8",
+                "illuminate/validation": "^5.5|~6|~7|~8",
+                "php": "^7.3|^8.0"
+            },
+            "require-dev": {
+                "phpstan/phpstan": "^0.12.17",
+                "phpunit/phpunit": "^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Intervention\\Validation\\Laravel\\ValidationServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Intervention\\Validation\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oliver Vogel",
+                    "email": "oliver@olivervogel.com",
+                    "homepage": "https://olivervogel.com/"
+                }
+            ],
+            "description": "Additional Validator Functions for the Laravel Framework",
+            "keywords": [
+                "BIC",
+                "IBAN",
+                "ISBN",
+                "ISIN",
+                "base64",
+                "creditcard",
+                "data-url",
+                "ean",
+                "gtin",
+                "laravel",
+                "luhn",
+                "ulid",
+                "validation",
+                "validator"
+            ],
+            "support": {
+                "issues": "https://github.com/Intervention/validation/issues",
+                "source": "https://github.com/Intervention/validation/tree/2.9.0"
+            },
+            "time": "2021-06-01T15:57:42+00:00"
         },
         {
             "name": "laminas/laminas-code",
@@ -9946,5 +10048,6 @@
         "ext-json": "*",
         "ext-mbstring": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.1.0"
 }
