@@ -28,6 +28,7 @@ use App\Http\Controllers\{
     MoneyFlowController,
     OffersController,
     PaymentController,
+    PaymentGridController,
     PayslipController,
     FinalPayslipController,
     PersonController,
@@ -80,7 +81,7 @@ Route::middleware(['auth'])->group(function() {
 
     // Payments
     Route::resource('payments', PaymentController::class);
-    Route::get('payment-grid', [PaymentController::class, 'index'])->name('payments.grid.index');
+    Route::get('payment-grid', [PaymentGridController::class, 'index'])->name('payments.grid.index');
 
     // Incomes
     Route::resource('incomes', IncomeController::class)->except(['create', 'show']);
