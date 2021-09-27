@@ -8,7 +8,7 @@
     @csrf
     <div class="row">
         <div class="col s12 m6">
-            <x-select name="person_id" title="{{ __('Employee') }}" :options="$people" :model="$model" :search="true"></x-select>
+            <x-select name="person_id" title="{{ __('Employee') }}" firstTitle="{{ __('Employee') }}" :options="$people" :model="$model" :search="true"></x-select>
         </div>
         <div class="col s12 m6">
             <x-date name="last_working_day" title="{{ __('Last Working Day') }}" :model="$model" disabled="true"></x-date>

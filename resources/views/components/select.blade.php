@@ -3,11 +3,11 @@
     <label class="select-label" for="{{ $name }}-input">{{ $title }}</label>
     <select class="custom-select @if($search) select2 browser-default @endif" name="{{ $name }}" id="{{$name}}" {{ $disabled() }}>
         @if($isDefaultOption())
-            <option class="first_default" disabled value="">{{ $defaultOptionName }}</option>
+            <option class="first_default" selected disabled value="">{{ $defaultOptionName }}</option>
         @endif
         @if($model)
-            @foreach ($options as $option)
-                <option {{ $selected($option) }} value="{{ $option->id }}">{{ $option->name }}</option>
+            @foreach ($options as $key => $option)
+                <option  value="{{ $option->id }}">{{ $option->name }}</option>
             @endforeach
         @else
             @foreach ($options as $option)
