@@ -6,8 +6,6 @@ use Illuminate\Support\Carbon;
 
 class Date extends Input
 {
-    public $disabled;
-
     /**
      * @return mixed|string
      */

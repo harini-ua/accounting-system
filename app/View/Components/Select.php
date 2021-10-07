@@ -2,8 +2,6 @@
 
 namespace App\View\Components;
 
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
 
 class Select extends Component
@@ -29,8 +27,16 @@ class Select extends Component
      * @param bool   $disabled
      * @param string $firstTitle
      */
-    public function __construct(string $name, $options, $title = null, $model = null, $default = null, $search = false, $disabled = false, $firstTitle = '')
-    {
+    public function __construct(
+        string $name,
+        $options,
+        $title = null,
+        $model = null,
+        $default = null,
+        $search = false,
+        $disabled = false,
+        $firstTitle = ''
+    ){
         $this->name = $name;
         $this->options = $options;
         $this->title = $title;
@@ -66,7 +72,7 @@ class Select extends Component
          }
 
          $option = $this->options->first(function($option) use ($optionId) {
-             return $option->id === $optionId;
+             return $option->id == $optionId;
          });
 
          return $option->name ?? '';

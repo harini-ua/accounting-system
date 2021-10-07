@@ -23,14 +23,19 @@ jQuery(document).ready(function ($) {
     let $this = $(this);
     updateLastWorkingDay();
 
+    let person = getUrlParameter('person_id');
+    if(!person) {
+        $('[name="last_working_day"]').attr("disabled", 'disabled')
+    }
+
     $('[name="person_id"]').change(function() {
       let params = {}
       params.changed = 'person';
-      params.person_id = $('[name="person_id"]').val()
+      params.person_id = $('[name="person_id"]').val();
 
-      let lastWorkingDay = $('[name="last_working_day"]').val()
+      let lastWorkingDay = $('[name="last_working_day"]').val();
       if (lastWorkingDay) {
-        params.last_working_day = lastWorkingDay
+        params.last_working_day = lastWorkingDay;
       }
 
       $.pjax({
@@ -51,8 +56,10 @@ jQuery(document).ready(function ($) {
     $('[name="last_working_day"]').change(function() {
       let params = {}
       params.changed = 'date';
-      params.person_id = $('[name="person_id"]').val()
-      params.last_working_day = $('[name="last_working_day"]').val()
+      params.person_id = $('[name="person_id"]').val();
+      params.last_working_day = $('[name="last_working_day"]').val();
+
+      console.log('last_working_day: ', params);
 
       $.pjax({
         url: makeUrl({

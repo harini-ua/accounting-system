@@ -10,9 +10,15 @@ use App\Models\FinalPayslip;
 use App\Models\Person;
 use App\Models\Wallet;
 use App\Services\FinalPayslipService;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class FinalPayslipController extends Controller
 {
@@ -21,7 +27,7 @@ class FinalPayslipController extends Controller
      *
      * @param FinalPayslipDataTable $dataTable
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(FinalPayslipDataTable $dataTable)
     {
@@ -40,7 +46,7 @@ class FinalPayslipController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function create(Request $request)
     {
@@ -113,14 +119,12 @@ class FinalPayslipController extends Controller
      *
      * @param FinalPayslipCreateRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(FinalPayslipCreateRequest $request)
     {
-//        dd($request->all);
         $finalPayslip = new FinalPayslip();
         $finalPayslip->fill($request->all());
-//        dd($finalPayslip);
         $finalPayslip->save();
 
         alert()->success($finalPayslip->employee->name, __('Create client has been successful'));
@@ -131,9 +135,9 @@ class FinalPayslipController extends Controller
     /**
      * Display the specified final payslip.
      *
-     * @param  FinalPayslip $finalPayslip
+     * @param FinalPayslip $finalPayslip
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function show(FinalPayslip $finalPayslip)
     {
@@ -155,9 +159,9 @@ class FinalPayslipController extends Controller
     /**
      * Display the specified final payslip.
      *
-     * @param  Person $person
+     * @param Person $person
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function person(Person $person)
     {
@@ -173,7 +177,7 @@ class FinalPayslipController extends Controller
         $people = Person::orderBy('name')->get();
 
         return view('pages.final-payslip.person', compact(
-            'breadcrumbs', 'pageConfigs', 'people', 'person' ,'finalPayslip'
+            'breadcrumbs', 'pageConfigs', 'people', 'person', 'finalPayslip'
         ));
     }
 
@@ -182,10 +186,10 @@ class FinalPayslipController extends Controller
      * Update the specified resource in final payslip.
      *
      * @param FinalPayslipUpdateRequest $request
-     * @param  FinalPayslip $finalPayslip
+     * @param FinalPayslip $finalPayslip
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function update(FinalPayslipUpdateRequest $request, FinalPayslip $finalPayslip)
     {
