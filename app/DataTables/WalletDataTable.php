@@ -3,11 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Wallet;
-use App\Models\WalletType;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class WalletDataTable extends DataTable

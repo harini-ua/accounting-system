@@ -4,10 +4,7 @@ namespace App\DataTables;
 
 use App\Enums\ContractStatus;
 use App\Models\Contract;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class ContractsDataTable extends DataTable

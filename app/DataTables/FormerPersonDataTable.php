@@ -7,10 +7,7 @@ use App\Enums\PersonContractType;
 use App\Enums\Position;
 use App\Models\Person;
 use App\Services\Formatter;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class FormerPersonDataTable extends DataTable

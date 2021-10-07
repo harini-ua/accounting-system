@@ -8,7 +8,6 @@ use App\Models\Invoice;
 use App\Services\FilterService;
 use App\Services\Formatter;
 use Illuminate\Support\Facades\DB;
-use phpDocumentor\Reflection\Types\Self_;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 

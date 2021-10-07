@@ -2,15 +2,11 @@
 
 namespace App\DataTables;
 
-use App\Models\Contract;
 use App\Models\Invoice;
 use App\Models\Payment;
 use App\Services\Formatter;
 use Carbon\Carbon;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class PaymentsByInvoiceDataTable extends DataTable

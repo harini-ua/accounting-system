@@ -6,12 +6,8 @@ use App\Models\Contract;
 use App\Models\Income;
 use App\Services\FilterService;
 use App\Services\Formatter;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
-use Illuminate\Support\Carbon;
 
 class IncomesDataTable extends DataTable
 {
