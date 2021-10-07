@@ -15,7 +15,7 @@ trait CollectionTrait
     {
         $values = new Collection();
         foreach (self::asSelectArray() as $key => $value) {
-            $values->push((object) [
+            $values->push((object)[
                 'id' => $key,
                 'name' => $value,
             ]);

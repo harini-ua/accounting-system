@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\Date;
 use BenSampo\Enum\Traits\CastsEnums;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -75,10 +76,10 @@ class Contract extends Model
     /**
      * Scope a query by status contract.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Builder $query
      * @param string                                status
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeStatus($query, $status)
     {

@@ -47,7 +47,7 @@ class Address extends Model
     /**
      * Get the owner model of the address.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * @return MorphTo
      */
     public function addressable(): MorphTo
     {
@@ -57,9 +57,9 @@ class Address extends Model
     /**
      * Scope primary addresses.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param Builder $builder
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeIsPrimary(Builder $builder): Builder
     {
@@ -69,9 +69,9 @@ class Address extends Model
     /**
      * Scope billing addresses.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
+     * @param Builder $builder
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeIsBilling(Builder $builder): Builder
     {
@@ -81,10 +81,10 @@ class Address extends Model
     /**
      * Scope addresses by the given country.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $builder
-     * @param string                                $country
+     * @param Builder $builder
+     * @param string $country
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeInCountry(Builder $builder, string $country): Builder
     {

@@ -8,12 +8,20 @@ use App\Models\CalendarYear;
 use App\Models\Holiday;
 use App\Services\CalendarPaginator;
 use Carbon\Carbon;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Collection;
+use Illuminate\View\View;
 
 class CalendarController extends Controller
 {
     /**
      * @param CalendarPaginator $paginator
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function index(CalendarPaginator $paginator)
     {
@@ -32,14 +40,14 @@ class CalendarController extends Controller
     }
 
     /**
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function create()
     {
         $last = CalendarYear::orderBy('name', 'DESC')->first()->name;
 
         $year = new CalendarYear;
-        $year->name = ++ $last ?? Carbon::now()->year;
+        $year->name = ++$last ?? Carbon::now()->year;
         $year->save();
 
         return redirect()->route('calendar.index', ['year' => $year->name]);
@@ -47,22 +55,22 @@ class CalendarController extends Controller
 
     /**
      * @param $year
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy($year)
     {
         $calendarYear = CalendarYear::where('name', $year)->firstOrFail();
         if ($calendarYear->delete()) {
-            return response()->json(['success'=>true]);
+            return response()->json(['success' => true]);
         }
-        return response()->json(['success'=>false]);
+        return response()->json(['success' => false]);
     }
 
     /**
      * @param CalendarMonthUpdateRequest $request
      * @param CalendarMonth $calendarMonth
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function updateMonth(CalendarMonthUpdateRequest $request, CalendarMonth $calendarMonth)
     {
@@ -85,7 +93,7 @@ class CalendarController extends Controller
 
     /**
      * @param $calendarYearId
-     * @return \Illuminate\Database\Eloquent\Builder[]|\Illuminate\Database\Eloquent\Collection|\Illuminate\Support\Collection
+     * @return Builder[]|\Illuminate\Database\Eloquent\Collection|Collection
      */
     public function yearMonths($calendarYearId)
     {

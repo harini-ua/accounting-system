@@ -20,8 +20,8 @@ class CreateInvoiceItemsTable extends Migration
             $table->text('description')->nullable();
             $table->string('type', 50);
             $table->integer('qty');
-            $table->decimal('rate', 15,2);
-            $table->decimal('sum', 15,2);
+            $table->decimal('rate', 15, 2);
+            $table->decimal('sum', 15, 2);
             $table->timestamps();
             $table->softDeletes();
 

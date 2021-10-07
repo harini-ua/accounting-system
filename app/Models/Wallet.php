@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Askedio\SoftCascade\Traits\SoftCascadeTrait;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Wallet extends Model
@@ -29,7 +31,7 @@ class Wallet extends Model
     protected $fillable = ['name', 'wallet_type_id'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function walletType()
     {
@@ -37,7 +39,7 @@ class Wallet extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function accounts()
     {
@@ -50,7 +52,7 @@ class Wallet extends Model
     public function createAccounts()
     {
         $accountTypes = $this->walletType->account_types;
-        foreach($accountTypes as $accountType) {
+        foreach ($accountTypes as $accountType) {
             Account::create([
                 'account_type_id' => $accountType,
                 'wallet_id' => $this->id,

@@ -7,8 +7,12 @@ use App\Http\Requests\AccountRequest;
 use App\Models\Account;
 use App\Models\AccountType;
 use App\Models\Wallet;
-use Illuminate\Http\Request;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Carbon;
+use Illuminate\View\View;
 
 class AccountController extends Controller
 {
@@ -41,7 +45,7 @@ class AccountController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param Account $account
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function edit(Account $account)
     {
@@ -69,16 +73,16 @@ class AccountController extends Controller
      * Update the specified resource in storage.
      *
      * @param AccountRequest $request
-     * @param Account        $account
+     * @param Account $account
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function update(AccountRequest $request, Account $account)
     {
         $account->fill($request->all());
 
-        if (! $request->status) {
+        if (!$request->status) {
             $account->status = 0;
         }
 

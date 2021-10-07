@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CalendarYear extends Model
 {
@@ -16,7 +17,7 @@ class CalendarYear extends Model
     protected $table = self::TABLE_NAME;
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function calendarMonths()
     {
@@ -24,7 +25,7 @@ class CalendarYear extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function holidays()
     {

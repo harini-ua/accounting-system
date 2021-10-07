@@ -6,6 +6,7 @@ use App\Enums\Month;
 use App\Models\CalendarMonth;
 use App\Models\CalendarYear;
 use App\Models\Holiday;
+use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Carbon;
 
@@ -17,7 +18,7 @@ class CalendarYearObserver
      * @param CalendarYear $calendarYear
      *
      * @return void
-     * @throws \Carbon\Exceptions\InvalidFormatException
+     * @throws InvalidFormatException
      */
     public function creating(CalendarYear $calendarYear)
     {
@@ -32,7 +33,7 @@ class CalendarYearObserver
      * @param CalendarYear $calendarYear
      *
      * @return void
-     * @throws \Carbon\Exceptions\InvalidFormatException
+     * @throws InvalidFormatException
      */
     public function created(CalendarYear $calendarYear)
     {
@@ -41,7 +42,7 @@ class CalendarYearObserver
             $holidays = new Collection();
 
             // Get $lastYearHolidays to copy them in next year
-            $lastYearHolidays = Holiday::where('calendar_year_id', function($query) {
+            $lastYearHolidays = Holiday::where('calendar_year_id', function ($query) {
                 $query->select('calendar_year_id')
                     ->from('holidays')
                     ->orderByDesc('calendar_year_id')
@@ -54,7 +55,7 @@ class CalendarYearObserver
                 $newDate = Carbon::createFromDate($calendarYear->name, $date->month, $date->day);
                 $moved = $newDate->isWeekend();
 
-                $holiday = Holiday::withoutEvents(function() use ($calendarYear, $lastYearHoliday, $newDate, $moved) {
+                $holiday = Holiday::withoutEvents(function () use ($calendarYear, $lastYearHoliday, $newDate, $moved) {
                     return Holiday::create([
                         'calendar_year_id' => $calendarYear->id,
                         'name' => $lastYearHoliday->name,
@@ -74,11 +75,11 @@ class CalendarYearObserver
             $firstDay = Carbon::parse("$month {$calendarYear->name}")->startOfMonth();
             $lastDay = (clone $firstDay)->addMonth();
 
-            $weekends = $firstDay->diffInDaysFiltered(function(Carbon $date) {
+            $weekends = $firstDay->diffInDaysFiltered(function (Carbon $date) {
                 return $date->isWeekend();
             }, $lastDay);
 
-            $holidaysCount = $holidays->filter(function($holiday) use ($firstDay, $lastDay) {
+            $holidaysCount = $holidays->filter(function ($holiday) use ($firstDay, $lastDay) {
                 return Carbon::parse($holiday->moved_date ?? $holiday->date)->isBetween($firstDay, $lastDay);
             })->count();
 
@@ -96,7 +97,7 @@ class CalendarYearObserver
     /**
      * Handle the calendar year "updated" event.
      *
-     * @param  CalendarYear  $calendarYear
+     * @param CalendarYear $calendarYear
      * @return void
      */
     public function updated(CalendarYear $calendarYear)
@@ -107,7 +108,7 @@ class CalendarYearObserver
     /**
      * Handle the calendar year "deleted" event.
      *
-     * @param  CalendarYear  $calendarYear
+     * @param CalendarYear $calendarYear
      * @return void
      */
     public function deleted(CalendarYear $calendarYear)
@@ -118,7 +119,7 @@ class CalendarYearObserver
     /**
      * Handle the calendar year "restored" event.
      *
-     * @param  CalendarYear  $calendarYear
+     * @param CalendarYear $calendarYear
      * @return void
      */
     public function restored(CalendarYear $calendarYear)
@@ -129,7 +130,7 @@ class CalendarYearObserver
     /**
      * Handle the calendar year "force deleted" event.
      *
-     * @param  CalendarYear  $calendarYear
+     * @param CalendarYear $calendarYear
      * @return void
      */
     public function forceDeleted(CalendarYear $calendarYear)

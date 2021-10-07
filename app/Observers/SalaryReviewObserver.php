@@ -10,15 +10,14 @@ class SalaryReviewObserver
     /**
      * Handle the invoice "saving" event.
      *
-     * @param  SalaryReview $salaryReview
+     * @param SalaryReview $salaryReview
      * @return void
      */
     public function saving(SalaryReview $salaryReview)
     {
-        if(
+        if (
             $salaryReview->isDirty(['reason']) &&
-            $salaryReview->reason !== SalaryReviewReason::PROFESSIONAL_GROWTH)
-        {
+            $salaryReview->reason !== SalaryReviewReason::PROFESSIONAL_GROWTH) {
             $salaryReview->prof_growth = null;
         }
     }

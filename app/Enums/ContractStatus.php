@@ -4,7 +4,6 @@ namespace App\Enums;
 
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
-use Illuminate\Support\Collection;
 
 final class ContractStatus extends Enum implements LocalizedEnum
 {
@@ -16,7 +15,7 @@ final class ContractStatus extends Enum implements LocalizedEnum
     /**
      * Get the description for an enum value
      *
-     * @param  int  $value
+     * @param int $value
      * @return string
      */
     public static function getDescription($value): string

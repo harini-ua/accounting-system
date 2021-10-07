@@ -5,6 +5,14 @@ namespace App\Http\Controllers;
 use App\DataTables\ExpenseCategoryDataTable;
 use App\Http\Requests\ExpenseCategoryRequest;
 use App\Models\ExpenseCategory;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class ExpenseCategoryController extends Controller
 {
@@ -13,7 +21,7 @@ class ExpenseCategoryController extends Controller
      *
      * @param ExpenseCategoryDataTable $dataTable
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(ExpenseCategoryDataTable $dataTable)
     {
@@ -30,9 +38,9 @@ class ExpenseCategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  ExpenseCategoryRequest  $request
+     * @param ExpenseCategoryRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(ExpenseCategoryRequest $request)
     {
@@ -44,9 +52,9 @@ class ExpenseCategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  ExpenseCategory $expenseCategory
+     * @param ExpenseCategory $expenseCategory
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return Application|Factory|Response|View
      */
     public function edit(ExpenseCategory $expenseCategory)
     {
@@ -69,10 +77,10 @@ class ExpenseCategoryController extends Controller
      * Update the specified resource in storage.
      *
      * @param ExpenseCategoryRequest $request
-     * @param ExpenseCategory        $expenseCategory
+     * @param ExpenseCategory $expenseCategory
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function update(ExpenseCategoryRequest $request, ExpenseCategory $expenseCategory)
     {
@@ -87,15 +95,15 @@ class ExpenseCategoryController extends Controller
      *
      * @param ExpenseCategory $expenseCategory
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(ExpenseCategory $expenseCategory)
     {
         if ($expenseCategory->delete()) {
-            return response()->json(['success'=>true]);
+            return response()->json(['success' => true]);
         }
 
-        return response()->json(['success'=>false]);
+        return response()->json(['success' => false]);
     }
 }

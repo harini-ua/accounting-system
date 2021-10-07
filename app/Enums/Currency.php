@@ -4,7 +4,6 @@ namespace App\Enums;
 
 use BenSampo\Enum\Contracts\LocalizedEnum;
 use BenSampo\Enum\Enum;
-use Illuminate\Support\Collection;
 
 /**
  * @method static static USD()

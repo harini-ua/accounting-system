@@ -1,8 +1,8 @@
 <?php
 
+use App\Enums\Currency;
 use App\Models\AccountType;
 use Illuminate\Database\Seeder;
-use App\Enums\Currency;
 
 class AccountTypesSeeder extends Seeder
 {

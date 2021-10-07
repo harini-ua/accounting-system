@@ -11,7 +11,15 @@ use App\Models\Address;
 use App\Models\Bank;
 use App\Models\Client;
 use App\Models\Contract;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class ClientController extends Controller
 {
@@ -20,7 +28,7 @@ class ClientController extends Controller
      *
      * @param ClientsDataTable $dataTable
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(ClientsDataTable $dataTable)
     {
@@ -37,7 +45,7 @@ class ClientController extends Controller
     /**
      * Show the form for creating a new client.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function create()
     {
@@ -57,8 +65,8 @@ class ClientController extends Controller
      *
      * @param ClientCreateRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function store(ClientCreateRequest $request)
     {
@@ -77,9 +85,9 @@ class ClientController extends Controller
     /**
      * Display the specified client.
      *
-     * @param  Client $client
+     * @param Client $client
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function show(Client $client)
     {
@@ -105,9 +113,9 @@ class ClientController extends Controller
     /**
      * Show the form for editing the specified client.
      *
-     * @param  Client $client
+     * @param Client $client
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function edit(Client $client)
     {
@@ -128,10 +136,10 @@ class ClientController extends Controller
      * Update the specified resource in client.
      *
      * @param ClientUpdateRequest $request
-     * @param Client              $client
+     * @param Client $client
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function update(ClientUpdateRequest $request, Client $client)
     {
@@ -151,8 +159,8 @@ class ClientController extends Controller
      *
      * @param Client $client
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(Client $client)
     {
@@ -177,7 +185,7 @@ class ClientController extends Controller
     {
         $contracts = Contract::where('client_id', $clientId)
             ->orderBy('name')->get()
-            ->map(static function($contract) {
+            ->map(static function ($contract) {
                 return [
                     'id' => $contract->id,
                     'name' => $contract->name,
@@ -191,9 +199,9 @@ class ClientController extends Controller
      * Attach bank
      *
      * @param Request $request
-     * @param Client  $client
+     * @param Client $client
      *
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @throws MassAssignmentException
      */
     private function attachBank(Request $request, Client $client)
     {
@@ -211,9 +219,9 @@ class ClientController extends Controller
      * Attach billing address
      *
      * @param Request $request
-     * @param Client  $client
+     * @param Client $client
      *
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @throws MassAssignmentException
      */
     private function attachBillingAddress(Request $request, Client $client)
     {

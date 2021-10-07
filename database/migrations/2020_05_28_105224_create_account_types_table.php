@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Currency;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -18,7 +19,7 @@ class CreateAccountTypesTable extends Migration
             $table->string('name');
             $table->char('symbol', 5);
             $table->decimal('currency', 5, 2)->default(1);
-            $table->string('currency_type')->default(\App\Enums\Currency::USD);
+            $table->string('currency_type')->default(Currency::USD);
             $table->timestamps();
         });
     }

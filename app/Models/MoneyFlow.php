@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Casts\Date;
 use App\Services\Calculators\Calculator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class MoneyFlow extends Model
@@ -57,7 +58,7 @@ class MoneyFlow extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function accountFrom()
     {
@@ -65,7 +66,7 @@ class MoneyFlow extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function accountTo()
     {

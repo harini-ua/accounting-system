@@ -19,7 +19,7 @@ class CreateLongVacationsTable extends Migration
             $table->date('long_vacation_started_at')->nullable();
             $table->string('long_vacation_reason')->nullable();
             $table->boolean('long_vacation_compensation')->default(false);
-            $table->decimal('long_vacation_compensation_sum', 9,2)->nullable();
+            $table->decimal('long_vacation_compensation_sum', 9, 2)->nullable();
             $table->string('long_vacation_comment')->nullable();
             $table->date('long_vacation_plan_finished_at')->nullable();
             $table->date('long_vacation_finished_at')->nullable();

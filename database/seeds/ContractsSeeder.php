@@ -1,6 +1,9 @@
 <?php
 
 use App\Enums\Position;
+use App\Models\Client;
+use App\Models\Contract;
+use App\Models\Person;
 use Illuminate\Database\Seeder;
 
 class ContractsSeeder extends Seeder
@@ -13,12 +16,12 @@ class ContractsSeeder extends Seeder
      */
     public function run()
     {
-        $userIds = \App\Models\Person::where('position_id', Position::SalesManager)->pluck('id')->toArray();
+        $userIds = Person::where('position_id', Position::SalesManager)->pluck('id')->toArray();
 
-        $clientIds = \App\Models\Client::all()->pluck('id');
+        $clientIds = Client::all()->pluck('id');
         foreach ($clientIds as $clientId) {
             shuffle($userIds);
-            factory(\App\Models\Contract::class, random_int(3, 6))
+            factory(Contract::class, random_int(3, 6))
                 ->create([
                     'client_id' => $clientId,
                     'sales_manager_id' => $userIds[0],

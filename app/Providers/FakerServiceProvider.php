@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use Faker\Factory;
+use Faker\Provider\Base;
 use Illuminate\Support\ServiceProvider;
 
 class FakerServiceProvider extends ServiceProvider
@@ -13,14 +15,13 @@ class FakerServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('Faker', function($app) {
-            $faker = \Faker\Factory::create();
+        $this->app->singleton('Faker', function ($app) {
+            $faker = Factory::create();
 
             /**
              * Faker provider for credible and typical prices
              */
-            $newClass = new class($faker) extends \Faker\Provider\Base
-            {
+            $newClass = new class($faker) extends Base {
                 const DECIMALS = [0.29, 0.49, 0.99];
 
                 /**
@@ -35,7 +36,7 @@ class FakerServiceProvider extends ServiceProvider
                  * @param boolean $decimals
                  * @return float
                  */
-                public function price($min = 1000, $max = 20000, $tenths = true, $psychologicalPrice = true, $decimals = true) : float
+                public function price($min = 1000, $max = 20000, $tenths = true, $psychologicalPrice = true, $decimals = true): float
                 {
                     if ($decimals) {
                         $price = $this->generator->randomFloat($min, $max, 2);

@@ -1,5 +1,9 @@
 <?php
 
+use App\Enums\Position;
+use App\Models\Account;
+use App\Models\FinalPayslip;
+use App\Models\Person;
 use Illuminate\Database\Seeder;
 
 class FinalPayslipSeeder extends Seeder
@@ -11,15 +15,14 @@ class FinalPayslipSeeder extends Seeder
      */
     public function run()
     {
-        $people = \App\Models\Person::whereNotNull('quited_at')->get();
-        $accountIds = \App\Models\Account::pluck('id')->toArray();
+        $people = Person::whereNotNull('quited_at')->get();
+        $accountIds = Account::pluck('id')->toArray();
 
         foreach ($people as $person) {
-            factory(\App\Models\FinalPayslip::class, 1)->create([
-                'bonuses' => function() use ($person) {
-                    if ($person->position_id !== \App\Enums\Position::SalesManager ||
-                        $person->position_id !== \App\Enums\Position::Recruiter)
-                    {
+            factory(FinalPayslip::class, 1)->create([
+                'bonuses' => function () use ($person) {
+                    if ($person->position_id !== Position::SalesManager ||
+                        $person->position_id !== Position::Recruiter) {
                         return json_encode([]);
                     }
 
@@ -30,7 +33,7 @@ class FinalPayslipSeeder extends Seeder
                     ]);
                 },
                 'person_id' => $person->id,
-                'account_id' => static function() use ($accountIds) {
+                'account_id' => static function () use ($accountIds) {
                     return $accountIds[array_rand($accountIds)];
                 },
             ]);

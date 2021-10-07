@@ -24,7 +24,7 @@ class OfferUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'employee_id' => 'required|unique:offers,employee_id,'.$this->offer->id,
+            'employee_id' => 'required|unique:offers,employee_id,' . $this->offer->id,
             'start_date' => 'required|date_format:d-m-Y',
             'trial_period' => 'nullable|integer|between:1,12',
             'bonuses' => 'nullable|integer|between:1,100',

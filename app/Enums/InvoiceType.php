@@ -12,7 +12,7 @@ final class InvoiceType extends Enum implements LocalizedEnum
     /**
      * Get the description for an enum value
      *
-     * @param  int  $value
+     * @param int $value
      * @return string
      */
     public static function getDescription($value): string

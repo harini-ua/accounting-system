@@ -1,9 +1,11 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** @var Factory $factory */
 
 use App\Models\LongVacation;
+use App\Models\Person;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(LongVacation::class, function (Faker $faker) {
     return [
@@ -11,14 +13,14 @@ $factory->define(LongVacation::class, function (Faker $faker) {
     ];
 });
 
-$factory->afterCreating(\App\Models\Person::class, function($person, $faker) {
+$factory->afterCreating(Person::class, function ($person, $faker) {
 
     if (rand(0, 1)) return;
 
     $startDate = $person->start_date;
-    $quitedAt = ! rand(0, 3) ? $faker->dateTimeBetween($startDate, 'now') : null;
+    $quitedAt = !rand(0, 3) ? $faker->dateTimeBetween($startDate, 'now') : null;
 
-    $longVacationStartedAt = (! $quitedAt) && (! rand(0, 4)) ? $faker->dateTimeBetween($startDate, 'now') : null;
+    $longVacationStartedAt = (!$quitedAt) && (!rand(0, 4)) ? $faker->dateTimeBetween($startDate, 'now') : null;
 
     if ($longVacationStartedAt) {
         $longVacationCompensation = $faker->boolean;

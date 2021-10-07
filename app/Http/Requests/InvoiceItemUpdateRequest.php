@@ -42,7 +42,7 @@ class InvoiceItemUpdateRequest extends FormRequest
     {
         return [
             'items.*.title.required' => __('The title field is required.'),
-            'items.*.type.required' =>  __('The type field is required.'),
+            'items.*.type.required' => __('The type field is required.'),
             'items.*.qty.required' => __('The qrt field is required.'),
             'items.*.rate.required' => __('The rate field is required.'),
         ];

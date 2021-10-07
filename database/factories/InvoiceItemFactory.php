@@ -1,14 +1,17 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** @var Factory $factory */
 
+use App\Enums\InvoiceItemType;
+use App\Models\InvoiceItem;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
-$factory->define(\App\Models\InvoiceItem::class, static function (Faker $faker, $data) {
+$factory->define(InvoiceItem::class, static function (Faker $faker, $data) {
 
-    $type = \App\Enums\InvoiceItemType::getRandomValue();
-    $qty = (\App\Enums\InvoiceItemType::HOURLY === $type) ? random_int(50, 160) : 1;
-    $rate = (\App\Enums\InvoiceItemType::HOURLY === $type) ? random_int(10, 25) : random_int(160, 5000);
+    $type = InvoiceItemType::getRandomValue();
+    $qty = (InvoiceItemType::HOURLY === $type) ? random_int(50, 160) : 1;
+    $rate = (InvoiceItemType::HOURLY === $type) ? random_int(10, 25) : random_int(160, 5000);
     $sum = $rate * $qty;
 
     return [

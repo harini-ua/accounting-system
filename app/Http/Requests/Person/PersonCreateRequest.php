@@ -2,13 +2,12 @@
 
 namespace App\Http\Requests\Person;
 
-use App\Enums\Currency;
 use App\Enums\PersonContractType;
 use App\Enums\Position;
 use App\Enums\SalaryType;
 use BenSampo\Enum\Rules\EnumValue;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PersonCreateRequest extends FormRequest
 {

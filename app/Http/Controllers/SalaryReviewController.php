@@ -12,6 +12,14 @@ use App\Http\Requests\SalaryReviewUpdateRequest;
 use App\Models\CalendarYear;
 use App\Models\Person;
 use App\Models\SalaryReview;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class SalaryReviewController extends Controller
 {
@@ -20,7 +28,7 @@ class SalaryReviewController extends Controller
      *
      * @param SalaryReviewDataTable $dataTable
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(SalaryReviewDataTable $dataTable)
     {
@@ -32,7 +40,7 @@ class SalaryReviewController extends Controller
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $calendarYears = CalendarYear::orderBy('name')->get()->map(
-            static function($calendarYear) {
+            static function ($calendarYear) {
                 $calendarYear->id = $calendarYear->name;
                 return $calendarYear;
             }
@@ -48,20 +56,20 @@ class SalaryReviewController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function quarter($year, $quarter)
     {
         $breadcrumbs = [
             ['link' => route('home'), 'name' => __('Home')],
             ['link' => route('salary-reviews.index'), 'name' => __('Salary Reviews')],
-            ['name' => __(integerToRoman($quarter). " quarter $year year")]
+            ['name' => __(integerToRoman($quarter) . " quarter $year year")]
         ];
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $calendarYears = CalendarYear::orderBy('name')
-            ->get()->map(static function($calendarYear) {
+            ->get()->map(static function ($calendarYear) {
                 $calendarYear->id = $calendarYear->name;
                 return $calendarYear;
             });
@@ -76,7 +84,7 @@ class SalaryReviewController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return Application|Factory|Response|View
      */
     public function create()
     {
@@ -101,9 +109,9 @@ class SalaryReviewController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  SalaryReviewCreateRequest $request
+     * @param SalaryReviewCreateRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(SalaryReviewCreateRequest $request)
     {
@@ -119,7 +127,7 @@ class SalaryReviewController extends Controller
      *
      * @param SalaryReview $salaryReview
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function show(SalaryReview $salaryReview)
     {
@@ -143,7 +151,7 @@ class SalaryReviewController extends Controller
      *
      * @param SalaryReview $salaryReview
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function edit(SalaryReview $salaryReview)
     {
@@ -169,10 +177,10 @@ class SalaryReviewController extends Controller
      * Update the specified resource in storage.
      *
      * @param SalaryReviewUpdateRequest $request
-     * @param SalaryReview              $salaryReview
+     * @param SalaryReview $salaryReview
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function update(SalaryReviewUpdateRequest $request, SalaryReview $salaryReview)
     {
@@ -189,15 +197,15 @@ class SalaryReviewController extends Controller
      *
      * @param SalaryReview $salaryReview
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(SalaryReview $salaryReview)
     {
         if ($salaryReview->delete()) {
-            return response()->json(['success'=>true]);
+            return response()->json(['success' => true]);
         }
 
-        return response()->json(['success'=>false]);
+        return response()->json(['success' => false]);
     }
 }

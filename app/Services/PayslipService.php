@@ -5,11 +5,13 @@ namespace App\Services;
 use App\Models\CalendarMonth;
 use App\Models\SalaryPayment;
 use Barryvdh\DomPDF\PDF;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\App;
 
 class PayslipService
 {
-    /** @var PDF  */
+    /** @var PDF */
     private $pdf;
 
     public function __construct(PDF $pdf)
@@ -18,18 +20,18 @@ class PayslipService
     }
 
     /**
-     * @param array      $personIds
+     * @param array $personIds
      * @param string|int $year
      * @param string|int $month
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @return RedirectResponse|Response
      */
     public function print(array $personIds, $year, $month)
     {
         $filename = "payslip-{$month}-{$year}";
 
         $query = SalaryPayment::with('person');
-        if(!empty($personIds)) {
+        if (!empty($personIds)) {
             if (count($personIds) === 1) {
                 $filename .= "-#{$personIds[0]}";
             }
@@ -54,8 +56,7 @@ class PayslipService
         $calendarMonth = CalendarMonth::with('calendarYear')
             ->whereYear('date', $year)
             ->whereMonth('date', $month)
-            ->first()
-        ;
+            ->first();
 
         foreach ($salaryPayments as $key => $salaryPayment) {
             $salaryPayments[$key] = collect(
@@ -73,6 +74,6 @@ class PayslipService
 
         App::setLocale(config('app.locale'));
 
-        return $this->pdf->download($filename.'.pdf');
+        return $this->pdf->download($filename . '.pdf');
     }
 }

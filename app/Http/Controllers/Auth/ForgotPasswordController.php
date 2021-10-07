@@ -19,6 +19,7 @@ class ForgotPasswordController extends Controller
     */
 
     use SendsPasswordResetEmails;
+
     /**
      * Create a new controller instance.
      *
@@ -29,11 +30,12 @@ class ForgotPasswordController extends Controller
         $this->middleware('guest');
     }
 
-    public function showLinkRequestForm(){
+    public function showLinkRequestForm()
+    {
         $pageConfigs = ['bodyCustomClass' => 'forgot-bg', 'isCustomizer' => false];
-  
+
         return view('/auth/passwords/email', [
-          'pageConfigs' => $pageConfigs
+            'pageConfigs' => $pageConfigs
         ]);
-      }
+    }
 }

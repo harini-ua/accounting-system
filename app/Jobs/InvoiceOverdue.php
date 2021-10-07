@@ -34,6 +34,6 @@ class InvoiceOverdue implements ShouldQueue
     {
         Invoice::whereDate('plan_income_date', '<', Carbon::now())
             ->whereStatus(InvoiceStatus::SEND)
-            ->update([ 'status' => InvoiceStatus::OVERDUE ]);
+            ->update(['status' => InvoiceStatus::OVERDUE]);
     }
 }

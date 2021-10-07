@@ -18,8 +18,8 @@ class CreateExpensesTable extends Migration
             $table->date('plan_date');
             $table->date('real_date')->nullable();
             $table->string('purpose');
-            $table->decimal('plan_sum', 15,2)->nullable();
-            $table->decimal('real_sum', 15,2)->nullable();
+            $table->decimal('plan_sum', 15, 2)->nullable();
+            $table->decimal('real_sum', 15, 2)->nullable();
             $table->unsignedBigInteger('account_id');
             $table->unsignedInteger('expense_category_id');
             $table->timestamps();

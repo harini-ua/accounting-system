@@ -7,6 +7,7 @@ use App\Rules\YearIsGreater;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\ValidationException;
 
 class BonusesShowRequest extends FormRequest
 {
@@ -51,10 +52,10 @@ class BonusesShowRequest extends FormRequest
     /**
      * Handle a failed validation attempt.
      *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
+     * @param Validator $validator
      * @return void
      *
-     * @throws \Illuminate\Validation\ValidationException
+     * @throws ValidationException
      */
     protected function failedValidation(Validator $validator)
     {
@@ -64,6 +65,6 @@ class BonusesShowRequest extends FormRequest
                 $msg[] = $message;
             }
         }
-        toast(trim(implode("\t\n", $msg)),'warning');
+        toast(trim(implode("\t\n", $msg)), 'warning');
     }
 }

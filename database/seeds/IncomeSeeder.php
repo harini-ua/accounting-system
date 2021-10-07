@@ -1,9 +1,10 @@
 <?php
 
-use Illuminate\Database\Seeder;
+use App\Models\Account;
 use App\Models\Contract;
 use App\Models\Income;
-use App\Models\Account;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class IncomeSeeder extends Seeder
 {
@@ -17,12 +18,12 @@ class IncomeSeeder extends Seeder
         $incomes = [];
         $contractIds = Contract::pluck('id')->toArray();
         $accountIds = Account::pluck('id')->toArray();
-        $createdAt = \Illuminate\Support\Carbon::now();
+        $createdAt = Carbon::now();
 
         foreach ($contractIds as $contractId) {
             $contractIncomes = factory(Income::class, random_int(5, 10))->make([
                 'contract_id' => $contractId,
-                'account_id' => static function() use ($accountIds) {
+                'account_id' => static function () use ($accountIds) {
                     return $accountIds[array_rand($accountIds)];
                 },
                 'created_at' => $createdAt,

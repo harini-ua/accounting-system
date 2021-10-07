@@ -7,9 +7,9 @@ use App\Models\Address;
 class Formatter
 {
     /**
-     * @param string      $value
+     * @param string $value
      * @param string|null $symbol
-     * @param bool        $html
+     * @param bool $html
      *
      * @return string
      */
@@ -20,28 +20,28 @@ class Formatter
         $value = number_format($value, ...array_values(config('general.number.format')));
 
         return strtr($currency_format, [
-            '{SYMBOL}'    => $html ? '<span class="symbol">'.$symbol.'</span>' : $symbol,
+            '{SYMBOL}' => $html ? '<span class="symbol">' . $symbol . '</span>' : $symbol,
             '{DELIMITER}' => $symbol ? $delimiter : null,
-            '{VALUE}'     => $html ? '<span class="value">'.$value.'</span>' : $value,
+            '{VALUE}' => $html ? '<span class="value">' . $value . '</span>' : $value,
         ]);
     }
 
     /**
      * @param Address $address
-     * @param string  $type
+     * @param string $type
      *
      * @return string
      */
     public static function address(Address $address, $type = 'invoices'): string
     {
-        $address_format = config($type.'.address.format');
+        $address_format = config($type . '.address.format');
 
         return strtr($address_format, [
-            '{ADDRESS}'   => $address->address,
+            '{ADDRESS}' => $address->address,
             '{POST_CODE}' => $address->postal_code,
-            '{CITY}'      => $address->city,
-            '{STATE}'     => $address->state,
-            '{COUNTRY}'   => $address->country,
+            '{CITY}' => $address->city,
+            '{STATE}' => $address->state,
+            '{COUNTRY}' => $address->country,
         ]);
     }
 }

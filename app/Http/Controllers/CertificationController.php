@@ -7,6 +7,12 @@ use App\Http\Requests\CertificationCreateRequest;
 use App\Http\Requests\CertificationUpdateRequest;
 use App\Models\Certification;
 use App\Models\Person;
+use Exception;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class CertificationController extends Controller
 {
@@ -15,7 +21,7 @@ class CertificationController extends Controller
      *
      * @param CertificationsDataTable $dataTable
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(CertificationsDataTable $dataTable)
     {
@@ -38,8 +44,8 @@ class CertificationController extends Controller
      *
      * @param CertificationCreateRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function store(CertificationCreateRequest $request)
     {
@@ -57,7 +63,7 @@ class CertificationController extends Controller
      *
      * @param Certification $certification
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function edit(Certification $certification)
     {
@@ -80,10 +86,10 @@ class CertificationController extends Controller
      * Update the specified resource in storage.
      *
      * @param CertificationUpdateRequest $request
-     * @param Certification              $certification
+     * @param Certification $certification
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function update(CertificationUpdateRequest $request, Certification $certification)
     {
@@ -100,8 +106,8 @@ class CertificationController extends Controller
      *
      * @param Certification $certification
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(Certification $certification)
     {
@@ -115,6 +121,6 @@ class CertificationController extends Controller
         return response()->json([
             'success' => false,
             'message' => __('Something went wrong. Try again.')
-       ]);
+        ]);
     }
 }

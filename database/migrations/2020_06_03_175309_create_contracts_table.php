@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\ContractStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,7 +21,7 @@ class CreateContractsTable extends Migration
             $table->text('comment')->nullable();
             $table->unsignedBigInteger('sales_manager_id');
             $table->string('status', 20)
-                ->default(\App\Enums\ContractStatus::OPENED);
+                ->default(ContractStatus::OPENED);
             $table->timestamp('closed_at')->nullable();
             $table->timestamps();
             $table->softDeletes();

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Validator;
@@ -19,7 +20,7 @@ class AuthController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function register(Request $request)
     {
@@ -38,8 +39,8 @@ class AuthController extends Controller
         $input = $request->all();
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
-        $success['token'] =  $user->createToken('Personal Access Token')->accessToken;
-        $success['name'] =  $user->name;
+        $success['token'] = $user->createToken('Personal Access Token')->accessToken;
+        $success['name'] = $user->name;
 
         return response()->json(['success' => $success], $this->successStatus);
     }
@@ -47,7 +48,7 @@ class AuthController extends Controller
     /**
      * User login api
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function login()
     {
@@ -59,13 +60,13 @@ class AuthController extends Controller
             return response()->json(['success' => $success], $this->successStatus);
         }
 
-        return response()->json(['error'=>'Unauthorised'],401);
+        return response()->json(['error' => 'Unauthorised'], 401);
     }
 
     /**
      * User detail api
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function user()
     {
@@ -77,12 +78,12 @@ class AuthController extends Controller
     /**
      * User logout api
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function logout()
     {
         $user = Auth::user();
 
-        return response()->json(['success' => 'Successfully Logout!' ]);
+        return response()->json(['success' => 'Successfully Logout!']);
     }
 }

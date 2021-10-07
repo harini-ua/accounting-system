@@ -6,6 +6,7 @@ use App\Casts\Date;
 use App\Scopes\YearScope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Holiday extends Model
 {
@@ -59,7 +60,7 @@ class Holiday extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function calendarYear()
     {

@@ -8,7 +8,15 @@ use App\Models\AccountType;
 use App\Models\Expense;
 use App\Models\ExpenseCategory;
 use App\Models\Wallet;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class ExpenseController extends Controller
 {
@@ -16,7 +24,7 @@ class ExpenseController extends Controller
      * Display a listing of the resource.
      *
      * @param ExpenseDataTable $dataTable
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(ExpenseDataTable $dataTable)
     {
@@ -29,7 +37,7 @@ class ExpenseController extends Controller
 
         $filterService = $dataTable->filterService;
         $accountTypes = AccountType::with([
-            'expensesSum' => function($query) use ($filterService) {
+            'expensesSum' => function ($query) use ($filterService) {
                 $filterService->filterExpensesSum($query);
             },
         ])->get();
@@ -46,7 +54,7 @@ class ExpenseController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return Application|Factory|Response|View
      */
     public function create(Request $request)
     {
@@ -74,9 +82,9 @@ class ExpenseController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  ExpensesRequest $request
+     * @param ExpensesRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(ExpensesRequest $request)
     {
@@ -88,9 +96,9 @@ class ExpenseController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Expense $expense
+     * @param Expense $expense
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return Application|Factory|Response|View
      */
     public function edit(Expense $expense)
     {
@@ -118,10 +126,10 @@ class ExpenseController extends Controller
      * Update the specified resource in storage.
      *
      * @param ExpensesRequest $request
-     * @param Expense         $expense
+     * @param Expense $expense
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function update(ExpensesRequest $request, Expense $expense)
     {
@@ -136,15 +144,15 @@ class ExpenseController extends Controller
      *
      * @param Expense $expense
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(Expense $expense)
     {
         if ($expense->delete()) {
-            return response()->json(['success'=>true]);
+            return response()->json(['success' => true]);
         }
 
-        return response()->json(['success'=>false]);
+        return response()->json(['success' => false]);
     }
 }

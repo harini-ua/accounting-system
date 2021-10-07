@@ -5,16 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\HolidayCreateRequest;
 use App\Http\Requests\HolidayUpdateRequest;
 use App\Models\Holiday;
+use Exception;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+use Throwable;
 
 class HolidayController extends Controller
 {
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Throwable
+     * @return JsonResponse
+     * @throws Throwable
      */
     public function store(HolidayCreateRequest $request)
     {
@@ -32,10 +37,10 @@ class HolidayController extends Controller
      * Update the specified resource in storage.
      *
      * @param HolidayUpdateRequest $request
-     * @param \App\Models\Holiday  $holiday
+     * @param Holiday $holiday
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return JsonResponse
+     * @throws MassAssignmentException
      */
     public function update(HolidayUpdateRequest $request, Holiday $holiday)
     {
@@ -51,17 +56,17 @@ class HolidayController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param \App\Models\Holiday $holiday
+     * @param Holiday $holiday
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(Holiday $holiday)
     {
         if ($holiday->delete()) {
-            return response()->json(['success'=>true]);
+            return response()->json(['success' => true]);
         }
 
-        return response()->json(['success'=>false]);
+        return response()->json(['success' => false]);
     }
 }

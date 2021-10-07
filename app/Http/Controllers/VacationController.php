@@ -10,7 +10,13 @@ use App\Http\Requests\VacationRequest;
 use App\Models\CalendarMonth;
 use App\Models\CalendarYear;
 use App\Models\Vacation;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
+use Illuminate\View\View;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -29,7 +35,7 @@ class VacationController extends Controller
 
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
-        $calendarYears = CalendarYear::orderBy('name')->get()->map(function($calendarYear) {
+        $calendarYears = CalendarYear::orderBy('name')->get()->map(function ($calendarYear) {
             $calendarYear->id = $calendarYear->name;
             return $calendarYear;
         });
@@ -43,7 +49,7 @@ class VacationController extends Controller
     /**
      * @param $year
      * @param $month
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\JsonResponse|\Illuminate\View\View
+     * @return Application|Factory|JsonResponse|View
      */
     public function month($year, $month)
     {
@@ -75,7 +81,7 @@ class VacationController extends Controller
 
     /**
      * @param VacationRequest $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(VacationRequest $request)
     {
@@ -103,7 +109,7 @@ class VacationController extends Controller
     /**
      * @param VacationDeleteRequest $request
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\JsonResponse|\Illuminate\Http\Response
+     * @return Application|ResponseFactory|JsonResponse|Response
      */
     public function destroy(VacationDeleteRequest $request)
     {

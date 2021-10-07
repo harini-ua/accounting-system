@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Wallet;
+use App\Models\WalletType;
 use Illuminate\Database\Seeder;
 
 class WalletsSeeder extends Seeder
@@ -11,12 +13,12 @@ class WalletsSeeder extends Seeder
      */
     public function run()
     {
-        $walletTypes = \App\Models\WalletType::all();
-        factory(\App\Models\Wallet::class, 15)->create([
-            'wallet_type_id' => function() use ($walletTypes) {
+        $walletTypes = WalletType::all();
+        factory(Wallet::class, 15)->create([
+            'wallet_type_id' => function () use ($walletTypes) {
                 return $walletTypes->random()->id;
             }
-        ])->each(function($wallet) {
+        ])->each(function ($wallet) {
             $wallet->createAccounts();
         });
     }

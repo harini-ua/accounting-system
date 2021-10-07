@@ -7,6 +7,14 @@ use App\Http\Requests\OfferCreateRequest;
 use App\Http\Requests\OfferUpdateRequest;
 use App\Models\Offer;
 use App\Models\Person;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class OffersController extends Controller
 {
@@ -15,7 +23,7 @@ class OffersController extends Controller
      *
      * @param OffersDataTables $dataTable
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(OffersDataTables $dataTable)
     {
@@ -36,7 +44,7 @@ class OffersController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function create()
     {
@@ -62,8 +70,8 @@ class OffersController extends Controller
      *
      * @param OfferCreateRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function store(OfferCreateRequest $request)
     {
@@ -89,7 +97,7 @@ class OffersController extends Controller
      *
      * @param Offer $offer
      *
-     * @return \Illuminate\View\View
+     * @return View
      */
     public function edit(Offer $offer)
     {
@@ -115,10 +123,10 @@ class OffersController extends Controller
      * Update the specified resource in storage.
      *
      * @param OfferUpdateRequest $request
-     * @param Offer              $offer
+     * @param Offer $offer
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function update(OfferUpdateRequest $request, Offer $offer)
     {
@@ -143,8 +151,8 @@ class OffersController extends Controller
      *
      * @param Offer $offer
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(Offer $offer)
     {

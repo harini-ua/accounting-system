@@ -1,5 +1,8 @@
 <?php
 
+use App\Enums\Currency;
+use App\Enums\PersonContractType;
+use App\Enums\SalaryType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -29,23 +32,23 @@ class CreatePeopleTable extends Migration
             $table->smallInteger('compensated_days')->nullable();
             $table->date('compensated_at')->nullable();
             // Salary
-            $table->decimal('salary', 9,2);
-            $table->string('currency', 5)->default(\App\Enums\Currency::USD);
-            $table->decimal('rate', 5,2);
-            $table->string('salary_type', 10)->default(\App\Enums\SalaryType::Fixed40);
-            $table->string('contract_type', 15)->default(\App\Enums\PersonContractType::Individual2);
+            $table->decimal('salary', 9, 2);
+            $table->string('currency', 5)->default(Currency::USD);
+            $table->decimal('rate', 5, 2);
+            $table->string('salary_type', 10)->default(SalaryType::Fixed40);
+            $table->string('contract_type', 15)->default(PersonContractType::Individual2);
             $table->date('contract_type_changed_at')->nullable();
             // Salary changed
             $table->date('salary_type_changed_at')->nullable();
             $table->date('salary_changed_at')->nullable();
             $table->string('salary_change_reason')->nullable();
-            $table->decimal('last_salary', 9,2)->nullable();
+            $table->decimal('last_salary', 9, 2)->nullable();
             // Additional information
             $table->boolean('growth_plan')->default(false);
             $table->boolean('tech_lead')->default(false);
-            $table->decimal('tech_lead_reward', 9,2)->nullable();
+            $table->decimal('tech_lead_reward', 9, 2)->nullable();
             $table->boolean('team_lead')->default(false);
-            $table->decimal('team_lead_reward', 9,2)->nullable();
+            $table->decimal('team_lead_reward', 9, 2)->nullable();
             $table->boolean('bonuses')->default(false);
             $table->smallInteger('bonuses_reward')->nullable();
             $table->unsignedBigInteger('recruiter_id')->nullable();

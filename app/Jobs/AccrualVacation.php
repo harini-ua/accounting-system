@@ -36,7 +36,7 @@ class AccrualVacation implements ShouldQueue
             ->whereMonth('start_date', $now->month)
             ->whereDate('start_date', '!=', $now)
             ->get()
-            ->each(function($person) {
+            ->each(function ($person) {
                 if ($person->available_vacations) {
                     $person->compensate = true;
                     $person->compensated_days = null;

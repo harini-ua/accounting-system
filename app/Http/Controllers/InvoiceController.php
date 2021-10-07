@@ -18,6 +18,14 @@ use App\Models\Wallet;
 use App\Services\Formatter;
 use App\Services\InvoiceService;
 use Barryvdh\DomPDF\Facade as PDF;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class InvoiceController extends Controller
 {
@@ -39,7 +47,7 @@ class InvoiceController extends Controller
      *
      * @param InvoicesDataTable $dataTable
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(InvoicesDataTable $dataTable)
     {
@@ -63,7 +71,7 @@ class InvoiceController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function create()
     {
@@ -76,7 +84,7 @@ class InvoiceController extends Controller
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $clients = Client::with('contracts')->orderBy('name')->get();
-        $wallets = Wallet::with(['accounts' => function($query){
+        $wallets = Wallet::with(['accounts' => function ($query) {
             $query->where('accounts.status', '=', 1);
         }])->orderBy('name')->get();
 
@@ -98,8 +106,8 @@ class InvoiceController extends Controller
      *
      * @param InvoiceCreateRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function store(InvoiceCreateRequest $request)
     {
@@ -115,7 +123,7 @@ class InvoiceController extends Controller
      *
      * @param Invoice $invoice
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function show(Invoice $invoice)
     {
@@ -159,7 +167,7 @@ class InvoiceController extends Controller
      *
      * @param Invoice $invoice
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function edit(Invoice $invoice)
     {
@@ -195,10 +203,10 @@ class InvoiceController extends Controller
      * Update the specified resource in storage.
      *
      * @param InvoiceUpdateRequest $request
-     * @param Invoice              $invoice
+     * @param Invoice $invoice
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Exception
+     * @return RedirectResponse
+     * @throws Exception
      */
     public function update(InvoiceUpdateRequest $request, Invoice $invoice)
     {
@@ -216,7 +224,7 @@ class InvoiceController extends Controller
      *
      * @param Invoice $invoice
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function download(Invoice $invoice)
     {
@@ -254,11 +262,11 @@ class InvoiceController extends Controller
     /**
      * Add invoice payment.
      *
-     * @param Invoice              $invoice
+     * @param Invoice $invoice
      * @param PaymentCreateRequest $request
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return JsonResponse
+     * @throws MassAssignmentException
      */
     public function payment(Invoice $invoice, PaymentCreateRequest $request)
     {
@@ -267,13 +275,12 @@ class InvoiceController extends Controller
 
         $invoice->payments()->save($payment);
 
-        if($invoice->payments()->sum('received_sum') >= $invoice->total){
+        if ($invoice->payments()->sum('received_sum') >= $invoice->total) {
 
             $invoice->status = InvoiceStatus::PAID;
             $invoice->save();
-        }
-        elseif($invoice->payments()->sum('received_sum') > 0 &&
-            $invoice->payments()->sum('received_sum') < $invoice->total ) {
+        } elseif ($invoice->payments()->sum('received_sum') > 0 &&
+            $invoice->payments()->sum('received_sum') < $invoice->total) {
 
             $invoice->status = InvoiceStatus::DEBT;
             $invoice->save();
@@ -289,8 +296,8 @@ class InvoiceController extends Controller
      *
      * @param Invoice $invoice
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(Invoice $invoice)
     {

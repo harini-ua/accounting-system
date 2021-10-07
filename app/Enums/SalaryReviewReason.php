@@ -10,10 +10,10 @@ final class SalaryReviewReason extends Enum implements LocalizedEnum
     use CollectionTrait;
 
     const TRIAL_PERIOD_COMPLETED = 'TRIAL_PERIOD_COMPLETED';
-    const DESERVED               = 'DESERVED';
-    const PROFESSIONAL_GROWTH    = 'PROFESSIONAL_GROWTH';
-    const CERTIFICATE            = 'CERTIFICATE';
-    const DEMOTION               = 'DEMOTION';
-    const POOR_PERFORMANCE       = 'POOR_PERFORMANCE';
-    const OTHER                  = 'OTHER';
+    const DESERVED = 'DESERVED';
+    const PROFESSIONAL_GROWTH = 'PROFESSIONAL_GROWTH';
+    const CERTIFICATE = 'CERTIFICATE';
+    const DEMOTION = 'DEMOTION';
+    const POOR_PERFORMANCE = 'POOR_PERFORMANCE';
+    const OTHER = 'OTHER';
 }

@@ -1,10 +1,12 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** @var Factory $factory */
 
+use App\Models\Certification;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
-$factory->define(\App\Models\Certification::class, function (Faker $faker) {
+$factory->define(Certification::class, function (Faker $faker) {
     return [
         'name' => ucfirst($faker->words(random_int(2, 3), true)),
         'subject' => ucfirst($faker->words(random_int(3, 4), true)),

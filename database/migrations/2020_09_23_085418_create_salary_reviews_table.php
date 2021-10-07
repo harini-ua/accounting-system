@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\SalaryReviewType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -17,8 +18,8 @@ class CreateSalaryReviewsTable extends Migration
             $table->id();
             $table->unsignedBigInteger('person_id');
             $table->date('date');
-            $table->string('type')->default(\App\Enums\SalaryReviewType::ACTUAL);
-            $table->decimal('sum', 15,2);
+            $table->string('type')->default(SalaryReviewType::ACTUAL);
+            $table->decimal('sum', 15, 2);
             $table->string('reason')->nullable();
             $table->string('comment')->nullable();
             $table->string('prof_growth')->nullable();

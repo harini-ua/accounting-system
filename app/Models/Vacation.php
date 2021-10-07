@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\Date;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Vacation extends Model
 {
@@ -34,7 +35,7 @@ class Vacation extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function person()
     {
@@ -42,7 +43,7 @@ class Vacation extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function calendarMonth()
     {

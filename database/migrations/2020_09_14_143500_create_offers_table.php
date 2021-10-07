@@ -20,10 +20,10 @@ class CreateOffersTable extends Migration
             $table->smallInteger('trial_period')->nullable();
             $table->date('end_trial_period_date');
             $table->smallInteger('bonuses')->nullable();
-            $table->decimal('salary', 9,2);
+            $table->decimal('salary', 9, 2);
             $table->boolean('salary_review')->default(0);
-            $table->decimal('sum', 9,2)->nullable();
-            $table->decimal('salary_after_review', 9,2)->nullable();
+            $table->decimal('sum', 9, 2)->nullable();
+            $table->decimal('salary_after_review', 9, 2)->nullable();
             $table->text('additional_conditions')->nullable();
             $table->timestamps();
 

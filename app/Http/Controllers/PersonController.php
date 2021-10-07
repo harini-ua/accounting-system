@@ -23,8 +23,16 @@ use App\Http\Requests\Person\UpdateAvailableVacationsRequest;
 use App\Models\CalendarMonth;
 use App\Models\Person;
 use App\Models\Vacation;
-use App\User;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Throwable;
 
 class PersonController extends Controller
 {
@@ -33,7 +41,7 @@ class PersonController extends Controller
      *
      * @param PersonDataTable $dataTable
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(PersonDataTable $dataTable)
     {
@@ -67,7 +75,7 @@ class PersonController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return Application|Factory|Response|View
      */
     public function create()
     {
@@ -93,9 +101,9 @@ class PersonController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  PersonCreateRequest $request
+     * @param PersonCreateRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(PersonCreateRequest $request)
     {
@@ -107,9 +115,9 @@ class PersonController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  Person $person
+     * @param Person $person
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return Application|Factory|Response|View
      */
     public function show(Person $person)
     {
@@ -133,9 +141,9 @@ class PersonController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Person $person
+     * @param Person $person
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return Application|Factory|Response|View
      */
     public function edit(Person $person)
     {
@@ -155,7 +163,7 @@ class PersonController extends Controller
         $recruiters = Person::where('position_id', Position::Recruiter)->get();
 
         $hasPayData = false;
-        if($person->account_number !== null
+        if ($person->account_number !== null
             || $person->code !== null
             || $person->agreement !== null
             || $person->note_salary_pay !== null) {
@@ -171,10 +179,10 @@ class PersonController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  PersonUpdateRequest $request
-     * @param  Person $person
+     * @param PersonUpdateRequest $request
+     * @param Person $person
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function update(PersonUpdateRequest $request, Person $person)
     {
@@ -204,23 +212,23 @@ class PersonController extends Controller
      *
      * @param Person $person
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(Person $person)
     {
         if ($person->delete()) {
-            return response()->json(['success'=>true]);
+            return response()->json(['success' => true]);
         }
-        return response()->json(['success'=>false]);
+        return response()->json(['success' => false]);
     }
 
     /**
      * @param ChangeSalaryTypeRequest $request
-     * @param Person                  $person
+     * @param Person $person
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return JsonResponse
+     * @throws MassAssignmentException
      */
     public function changeSalaryType(ChangeSalaryTypeRequest $request, Person $person)
     {
@@ -234,10 +242,10 @@ class PersonController extends Controller
 
     /**
      * @param ChangeContractTypeRequest $request
-     * @param Person                    $person
+     * @param Person $person
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return JsonResponse
+     * @throws MassAssignmentException
      */
     public function changeContractType(ChangeContractTypeRequest $request, Person $person)
     {
@@ -249,10 +257,10 @@ class PersonController extends Controller
 
     /**
      * @param MakeFormerRequest $request
-     * @param Person            $person
+     * @param Person $person
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return JsonResponse
+     * @throws MassAssignmentException
      */
     public function makeFormer(MakeFormerRequest $request, Person $person)
     {
@@ -264,10 +272,10 @@ class PersonController extends Controller
 
     /**
      * @param LongVacationRequest $request
-     * @param Person              $person
+     * @param Person $person
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return JsonResponse
+     * @throws MassAssignmentException
      */
     public function longVacation(LongVacationRequest $request, Person $person)
     {
@@ -288,10 +296,10 @@ class PersonController extends Controller
 
     /**
      * @param BackActiveRequest $request
-     * @param Person            $person
+     * @param Person $person
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return JsonResponse
+     * @throws MassAssignmentException
      */
     public function backToActive(BackActiveRequest $request, Person $person)
     {
@@ -311,10 +319,10 @@ class PersonController extends Controller
 
     /**
      * @param PayDataRequest $request
-     * @param Person         $person
+     * @param Person $person
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return JsonResponse
+     * @throws MassAssignmentException
      */
     public function payData(PayDataRequest $request, Person $person)
     {
@@ -328,7 +336,7 @@ class PersonController extends Controller
      * @param UpdateAvailableVacationsRequest $request
      * @param Person $person
      * @return bool
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function updateAvailableVacations(UpdateAvailableVacationsRequest $request, Person $person)
     {
@@ -341,7 +349,7 @@ class PersonController extends Controller
      * @param CompensateRequest $request
      * @param Person $person
      * @return bool
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function compensate(CompensateRequest $request, Person $person)
     {
@@ -374,7 +382,7 @@ class PersonController extends Controller
     /**
      * @param Person $person
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function info(Person $person)
     {

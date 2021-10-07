@@ -4,7 +4,7 @@ namespace App\View\Components;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\View\Component;
-use Monolog\Handler\IFTTTHandler;
+use Illuminate\View\View;
 
 class Input extends Component
 {
@@ -26,24 +26,24 @@ class Input extends Component
     /**
      * Input constructor.
      *
-     * @param string       $name
-     * @param null         $title
-     * @param null|Model   $model
-     * @param string       $type
-     * @param string       $placeholder
-     * @param string       $value
-     * @param string       $field
-     * @param null         $default
+     * @param string $name
+     * @param null $title
+     * @param null|Model $model
+     * @param string $type
+     * @param string $placeholder
+     * @param string $value
+     * @param string $field
+     * @param null $default
      * @param null|integer $min
      * @param null|integer $max
-     * @param bool         $disabled
-     * @param string       $icon
-     * @param bool         $readonly
+     * @param bool $disabled
+     * @param string $icon
+     * @param bool $readonly
      */
     public function __construct(
         string $name, $title = null, $model = null, $type = 'text', $value = null, $placeholder = '',
-        $field = '', $default = null, $min = null, $max = null, $disabled = false, $icon = '',
-        $readonly = false
+               $field = '', $default = null, $min = null, $max = null, $disabled = false, $icon = '',
+               $readonly = false
     )
     {
         $this->name = $name;
@@ -81,7 +81,7 @@ class Input extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\View\View|string
+     * @return View|string
      */
     public function render()
     {

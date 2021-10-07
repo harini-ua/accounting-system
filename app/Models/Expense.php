@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Casts\Date;
 use App\Services\Calculators\Calculator;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Expense extends Model
@@ -53,7 +54,7 @@ class Expense extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function account()
     {
@@ -61,7 +62,7 @@ class Expense extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function expenseCategory()
     {

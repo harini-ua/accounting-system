@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\InvoiceStatus;
+use App\Enums\InvoiceType;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -22,11 +24,11 @@ class CreateInvoicesTable extends Migration
             $table->unsignedBigInteger('sales_manager_id');
             $table->date('date')->useCurrent();
             $table->string('status', 20)
-                ->default(\App\Enums\InvoiceStatus::DRAFT);
+                ->default(InvoiceStatus::DRAFT);
             $table->string('type', 20)
-                ->default(\App\Enums\InvoiceType::DEFAULT);
-            $table->decimal('discount', 15,2)->nullable();
-            $table->decimal('total', 15,2)->nullable();
+                ->default(InvoiceType::DEFAULT);
+            $table->decimal('discount', 15, 2)->nullable();
+            $table->decimal('total', 15, 2)->nullable();
             $table->date('plan_income_date');
             $table->date('pay_date')->nullable();
             $table->timestamps();

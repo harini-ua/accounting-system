@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Casts\Date;
 use App\Casts\InvoiceNumber;
-use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -59,7 +58,7 @@ class Invoice extends Model
      */
     public function __construct(array $attributes = [])
     {
-        $this->casts['date'] = Date::class.':'.config('invoices.date.format');
+        $this->casts['date'] = Date::class . ':' . config('invoices.date.format');
 
         parent::__construct($attributes);
     }

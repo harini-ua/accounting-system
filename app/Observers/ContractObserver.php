@@ -10,7 +10,7 @@ class ContractObserver
     /**
      * Handle the contract "creating" event.
      *
-     * @param  \App\Models\Contract  $contract
+     * @param Contract $contract
      * @return void
      */
     public function creating(Contract $contract)
@@ -23,7 +23,7 @@ class ContractObserver
     /**
      * Handle the contract "updating" event.
      *
-     * @param  \App\Models\Contract  $contract
+     * @param Contract $contract
      * @return void
      */
     public function updating(Contract $contract)

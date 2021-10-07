@@ -4,7 +4,15 @@ namespace App\Http\Controllers;
 
 use App\DataTables\InvoiceItemsDataTable;
 use App\Models\InvoiceItem;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class InvoiceItemController extends Controller
 {
@@ -13,7 +21,7 @@ class InvoiceItemController extends Controller
      *
      * @param InvoiceItemsDataTable $dataTable
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(InvoiceItemsDataTable $dataTable)
     {
@@ -25,7 +33,7 @@ class InvoiceItemController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function create()
     {
@@ -37,10 +45,10 @@ class InvoiceItemController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function store(Request $request)
     {
@@ -58,7 +66,7 @@ class InvoiceItemController extends Controller
      *
      * @param InvoiceItem $invoiceItem
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function show(InvoiceItem $invoiceItem)
     {
@@ -72,7 +80,7 @@ class InvoiceItemController extends Controller
      *
      * @param InvoiceItem $invoiceItem
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function edit(InvoiceItem $invoiceItem)
     {
@@ -86,11 +94,11 @@ class InvoiceItemController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param InvoiceItem              $invoiceItem
+     * @param Request $request
+     * @param InvoiceItem $invoiceItem
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function update(Request $request, InvoiceItem $invoiceItem)
     {
@@ -107,8 +115,8 @@ class InvoiceItemController extends Controller
      *
      * @param InvoiceItem $invoiceItem
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(InvoiceItem $invoiceItem)
     {

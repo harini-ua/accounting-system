@@ -8,7 +8,6 @@ use App\Enums\SalaryReviewType;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\RequiredIf;
-use Sabberworm\CSS\Rule\Rule;
 
 class SalaryReviewUpdateRequest extends FormRequest
 {

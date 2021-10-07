@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +19,7 @@ class FilterService
      *
      * @param Request $request
      *
-     * @throws \Carbon\Exceptions\InvalidFormatException
+     * @throws InvalidFormatException
      */
     public function __construct(Request $request)
     {
@@ -169,7 +170,7 @@ class FilterService
     private function filterClient($query, string $table = 'invoices')
     {
         $clientId = $this->get('client');
-        $query->when($clientId, function($query, $clientId) use ($table) {
+        $query->when($clientId, function ($query, $clientId) use ($table) {
             return $query->join('contracts', 'contracts.id', '=', "$table.contract_id")
                 ->where('contracts.client_id', $clientId);
         });
@@ -181,7 +182,7 @@ class FilterService
     private function filterWallet($query)
     {
         $walletId = $this->get('wallet');
-        $query->when($walletId, function($query, $walletId) {
+        $query->when($walletId, function ($query, $walletId) {
             return $query->where('accounts.wallet_id', $walletId);
         });
     }
@@ -192,7 +193,7 @@ class FilterService
     private function filterReceived($query)
     {
         $received = $this->get('received');
-        $query->when($received, function($query) {
+        $query->when($received, function ($query) {
             $query->whereExists(function ($query) {
                 $query->select(DB::raw(1))
                     ->from('payments')

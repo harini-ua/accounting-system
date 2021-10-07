@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\Invoice;
+use App\Models\Payment;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class PaymentSeeder extends Seeder
 {
@@ -12,14 +15,14 @@ class PaymentSeeder extends Seeder
      */
     public function run()
     {
-        $invoiceIds = \App\Models\Invoice::all()->pluck('id');
-        $createdAt = \Illuminate\Support\Carbon::now();
+        $invoiceIds = Invoice::all()->pluck('id');
+        $createdAt = Carbon::now();
 
         $allPayments = [];
 
         foreach ($invoiceIds as $invoiceId) {
             if (random_int(0, 3)) {
-                $payments = factory(\App\Models\Payment::class, random_int(1, 3))
+                $payments = factory(Payment::class, random_int(1, 3))
                     ->make([
                         'invoice_id' => $invoiceId,
                         'created_at' => $createdAt,
@@ -30,6 +33,6 @@ class PaymentSeeder extends Seeder
             }
         }
 
-        \App\Models\Payment::insert($allPayments);
+        Payment::insert($allPayments);
     }
 }

@@ -9,8 +9,8 @@ class PricingService
      *
      * @param float $target
      * @param float $discount
-     * @param int   $decimals
-     * @param bool  $rate
+     * @param int $decimals
+     * @param bool $rate
      *
      * @return float
      */
@@ -28,8 +28,8 @@ class PricingService
      *
      * @param float $target
      * @param float $tax
-     * @param int   $decimals
-     * @param bool  $rate
+     * @param int $decimals
+     * @param bool $rate
      *
      * @return float
      */
@@ -47,7 +47,7 @@ class PricingService
      *
      * @param float $target
      * @param float $quantity
-     * @param int   $decimals
+     * @param int $decimals
      *
      * @return float
      */

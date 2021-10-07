@@ -37,7 +37,7 @@ class PayslipController extends Controller
         $personIds = [];
 
         if ($request->has('person_id')) {
-            $personIds = (array) $request->get('person_id');
+            $personIds = (array)$request->get('person_id');
         }
 
         return $this->payslipService->print($personIds, $year, $month);

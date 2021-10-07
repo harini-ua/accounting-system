@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Enums\Currency;
 use App\Enums\SalaryType;
+use App\Enums\VacationPaymentType;
 use App\Models\AccountType;
 use App\Models\CalendarMonth;
 use App\Models\FinalPayslip;
@@ -12,7 +13,7 @@ use App\Models\Person;
 use App\Models\SalaryPayment;
 use App\Models\Vacation;
 use Carbon\Carbon;
-use Carbon\CarbonInterval;
+use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 
@@ -31,9 +32,9 @@ class FinalPayslipService
      * FinalPayslipService constructor.
      *
      * @param CalendarMonth $calendarMonth
-     * @param Collection    $people
-     * @param Request       $request
-     * @param Carbon        $date
+     * @param Collection $people
+     * @param Request $request
+     * @param Carbon $date
      */
     public function __construct(CalendarMonth $calendarMonth, Collection $people, Request $request, Carbon $date)
     {
@@ -130,8 +131,8 @@ class FinalPayslipService
      */
     private function setCurrencies(): void
     {
-        $this->currencies =  AccountType::all(['currency_type', 'currency'])
-            ->mapWithKeys(function($accountType) {
+        $this->currencies = AccountType::all(['currency_type', 'currency'])
+            ->mapWithKeys(function ($accountType) {
                 return [$accountType->currency_type => $accountType->currency];
             });
 
@@ -145,7 +146,7 @@ class FinalPayslipService
     {
         $vacations = $this->person ? Vacation::where('calendar_month_id', $this->calendarMonth->id)
             ->where('person_id', $this->person->id)
-            ->where('payment_type', \App\Enums\VacationPaymentType::Paid)
+            ->where('payment_type', VacationPaymentType::Paid)
             ->whereDate('date', '<=', $this->date)
             ->sum('days') : null;
 
@@ -175,7 +176,7 @@ class FinalPayslipService
         }, $end);
 
         $this->finalPayslip->worked_days = $days - $this->finalPayslip->vacations - self::calcHolidays($this->finalPayslip, $this->person, $this->calendarMonth);
-        $this->finalPayslip->worked_hours = self::calcHours($this->finalPayslip->worked_days , $this->person->salary_type);
+        $this->finalPayslip->worked_hours = self::calcHours($this->finalPayslip->worked_days, $this->person->salary_type);
         $this->finalPayslip->earned = $this->person ? self::calcEarned($this->finalPayslip, $this->person, $this->calendarMonth) : null;
         $this->finalPayslip->leads = $this->person ? self::calcLeads($this->finalPayslip, $this->person) : null;
     }
@@ -205,7 +206,7 @@ class FinalPayslipService
     private static function calcTotalUSD(FinalPayslip $finalPayslip, Person $person, $currencies, array $fields): float
     {
         $total = 0;
-        foreach($fields as $field => $currency) {
+        foreach ($fields as $field => $currency) {
             $total += self::convertToUSD($currencies, $currency, $finalPayslip->$field);
         }
 
@@ -254,9 +255,9 @@ class FinalPayslipService
     private static function totalBonusesUSD(Person $person, $currencies): ?float
     {
         if ($person->actualBonuses) {
-            return round($person->actualBonuses->reduce(function($carry, $bonus) use ($currencies) {
-                return $carry + $currencies[$bonus->currency] * $bonus->value;
-            }, 0) / $currencies[Currency::USD], 2);
+            return round($person->actualBonuses->reduce(function ($carry, $bonus) use ($currencies) {
+                    return $carry + $currencies[$bonus->currency] * $bonus->value;
+                }, 0) / $currencies[Currency::USD], 2);
         }
 
         return null;
@@ -272,7 +273,8 @@ class FinalPayslipService
      * @return int
      */
     private static function calcHolidays(FinalPayslip $finalPayslip, Person $person, CalendarMonth $calendarMonth)
-    {   $dateTo = Carbon::parse($calendarMonth->date)->format('Y-m-d');
+    {
+        $dateTo = Carbon::parse($calendarMonth->date)->format('Y-m-d');
         $dateFrom = Carbon::parse($finalPayslip->last_working_day)->format('Y-m-d');
 
         return $person ? Holiday::whereBetween('date', [$dateTo, $dateFrom])->count() : 0;
@@ -322,11 +324,11 @@ class FinalPayslipService
      * Calculate vacation compensation
      *
      * @param Person $person
-     * @param int    $vacations
+     * @param int $vacations
      * @param Carbon $date
      *
      * @return float|int
-     * @throws \Carbon\Exceptions\InvalidFormatException
+     * @throws InvalidFormatException
      */
     private static function calcVacationCompensation(Person $person, int $vacations, Carbon $date)
     {

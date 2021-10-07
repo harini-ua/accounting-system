@@ -22,7 +22,7 @@ trait Addressable
     /**
      * Get all attached addresses to the model.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return MorphMany
      */
     public function addresses(): MorphMany
     {

@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use Illuminate\View\View;
 
 class CheckboxFilter extends Component
 {
@@ -15,10 +16,10 @@ class CheckboxFilter extends Component
     /**
      * CheckboxFilter constructor.
      *
-     * @param string  $table
-     * @param string  $url
-     * @param string  $name
-     * @param string  $title
+     * @param string $table
+     * @param string $url
+     * @param string $name
+     * @param string $title
      * @param boolean $checked
      */
     public function __construct(string $table, string $url, string $name, string $title, $checked = false)
@@ -33,7 +34,7 @@ class CheckboxFilter extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\View\View|string
+     * @return View|string
      */
     public function render()
     {

@@ -2,7 +2,10 @@
 
 namespace App\View\Components;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Translation\Translator;
 use Illuminate\View\Component;
+use Illuminate\View\View;
 
 class Select extends Component
 {
@@ -20,23 +23,24 @@ class Select extends Component
      *
      * @param string $name
      * @param        $options
-     * @param null   $title
-     * @param null   $model
-     * @param null   $default
-     * @param bool   $search
-     * @param bool   $disabled
+     * @param null $title
+     * @param null $model
+     * @param null $default
+     * @param bool $search
+     * @param bool $disabled
      * @param string $firstTitle
      */
     public function __construct(
         string $name,
-        $options,
-        $title = null,
-        $model = null,
-        $default = null,
-        $search = false,
-        $disabled = false,
-        $firstTitle = ''
-    ){
+               $options,
+               $title = null,
+               $model = null,
+               $default = null,
+               $search = false,
+               $disabled = false,
+               $firstTitle = ''
+    )
+    {
         $this->name = $name;
         $this->options = $options;
         $this->title = $title;
@@ -63,20 +67,20 @@ class Select extends Component
     /**
      * @return string
      */
-     public function selectedOptionName()
-     {
-         $optionId = $this->model->{$this->name} ?? null;
+    public function selectedOptionName()
+    {
+        $optionId = $this->model->{$this->name} ?? null;
 
-         if (old($this->name)) {
-             $optionId = old($this->name);
-         }
+        if (old($this->name)) {
+            $optionId = old($this->name);
+        }
 
-         $option = $this->options->first(function($option) use ($optionId) {
-             return $option->id == $optionId;
-         });
+        $option = $this->options->first(function ($option) use ($optionId) {
+            return $option->id == $optionId;
+        });
 
-         return $option->name ?? '';
-     }
+        return $option->name ?? '';
+    }
 
     /**
      * @return string
@@ -91,11 +95,11 @@ class Select extends Component
      */
     public function isDefaultOption()
     {
-        return (bool) $this->firstTitle;
+        return (bool)$this->firstTitle;
     }
 
     /**
-     * @return array|\Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Translation\Translator|string|null
+     * @return array|Application|Translator|string|null
      */
     public function defaultOptionName()
     {
@@ -105,7 +109,7 @@ class Select extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\View\View|string
+     * @return View|string
      */
     public function render()
     {

@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Models\Holiday;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
 
 class HolidaySeeder extends Seeder
@@ -15,7 +15,7 @@ class HolidaySeeder extends Seeder
     {
         Schema::disableForeignKeyConstraints();
 
-        Holiday::withoutEvents(function() {
+        Holiday::withoutEvents(function () {
             Holiday::create([
                 'calendar_year_id' => 1,
                 'name' => 'New Year',

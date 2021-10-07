@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use Illuminate\View\View;
 
 abstract class FormAbstract extends Component
 {
@@ -52,7 +53,7 @@ abstract class FormAbstract extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\View\View|string
+     * @return View|string
      */
     abstract public function render();
 }

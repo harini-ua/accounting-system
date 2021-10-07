@@ -9,10 +9,10 @@ final class QuartersYear extends Enum implements LocalizedEnum
 {
     use CollectionTrait;
 
-    const FIRST_QUARTER  = 1;
+    const FIRST_QUARTER = 1;
     const SECOND_QUARTER = 2;
-    const THIRD_QUARTER  = 3;
-    const FORTH_QUARTER  = 4;
+    const THIRD_QUARTER = 3;
+    const FORTH_QUARTER = 4;
 
     /**
      * Get roman number by quarter

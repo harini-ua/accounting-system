@@ -2,7 +2,10 @@
 
 namespace App\View\Components;
 
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\View\Component;
+use Illuminate\View\View;
 
 class LinkedSelects extends Component
 {
@@ -41,7 +44,7 @@ class LinkedSelects extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\View\View|string
+     * @return View|string
      */
     public function render()
     {
@@ -49,7 +52,7 @@ class LinkedSelects extends Component
     }
 
     /**
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\UrlGenerator|string
+     * @return Application|UrlGenerator|string
      */
     public function url()
     {

@@ -17,7 +17,7 @@ class CreateIncomesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('contract_id');
             $table->unsignedBigInteger('account_id');
-            $table->decimal('plan_sum', 15,2);
+            $table->decimal('plan_sum', 15, 2);
             $table->date('plan_date');
             $table->timestamps();
             $table->softDeletes();

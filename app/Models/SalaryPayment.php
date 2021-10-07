@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Casts\Date;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SalaryPayment extends Model
@@ -39,7 +41,7 @@ class SalaryPayment extends Model
     /**
      * Get the person that owns the salary payment.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function person()
     {
@@ -49,7 +51,7 @@ class SalaryPayment extends Model
     /**
      * Get the calendar month that owns the salary payment.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function calendarMonth()
     {
@@ -59,7 +61,7 @@ class SalaryPayment extends Model
     /**
      * Get the account that owns the salary payment.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function account()
     {
@@ -69,10 +71,10 @@ class SalaryPayment extends Model
     /**
      * Scope a query by status contract.
      *
-     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param Builder $query
      * @param string                                status
      *
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @return Builder
      */
     public function scopeByDate($query, $year, $month = null)
     {

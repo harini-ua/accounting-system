@@ -61,7 +61,7 @@ class User extends Authenticatable
      * Scope a query user by position.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param integer                               $positionId
+     * @param integer $positionId
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */

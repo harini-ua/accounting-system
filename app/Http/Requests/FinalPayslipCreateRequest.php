@@ -26,7 +26,7 @@ class FinalPayslipCreateRequest extends FormRequest
     {
         $rule = [];
         $person = Person::find($this->person_id);
-        if($person) {
+        if ($person) {
             $rule[] = "after:$person->start_date";
         }
 
@@ -52,7 +52,7 @@ class FinalPayslipCreateRequest extends FormRequest
         $message = 'The last working day must be a date after person start date';
 
         $person = Person::find($this->person_id);
-        if($person) {
+        if ($person) {
             $message .= ": $person->start_date";
         }
 

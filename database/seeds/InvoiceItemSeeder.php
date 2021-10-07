@@ -1,6 +1,9 @@
 <?php
 
+use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 
 class InvoiceItemSeeder extends Seeder
 {
@@ -12,12 +15,12 @@ class InvoiceItemSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Invoice::chunk(1000, static function($invoices) {
+        Invoice::chunk(1000, static function ($invoices) {
             $allInvoiceItems = [];
 
             foreach ($invoices as $invoice) {
-                $createdAt = \Illuminate\Support\Carbon::now()->subDays(random_int(1, 365));
-                $invoiceItems = factory(\App\Models\InvoiceItem::class, random_int(3, 6))
+                $createdAt = Carbon::now()->subDays(random_int(1, 365));
+                $invoiceItems = factory(InvoiceItem::class, random_int(3, 6))
                     ->make([
                         'invoice_id' => $invoice->id,
                         'created_at' => $createdAt,
@@ -27,7 +30,7 @@ class InvoiceItemSeeder extends Seeder
                 $allInvoiceItems = array_merge($allInvoiceItems, $invoiceItems);
             }
 
-            \App\Models\InvoiceItem::insert($allInvoiceItems);
+            InvoiceItem::insert($allInvoiceItems);
         });
     }
 }

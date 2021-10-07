@@ -10,7 +10,7 @@ class InvoiceItemObserver
     /**
      * Handle the invoice item "saving" event.
      *
-     * @param  \App\Models\InvoiceItem  $item
+     * @param InvoiceItem $item
      * @return void
      */
     public function saving(InvoiceItem $item)
@@ -21,7 +21,7 @@ class InvoiceItemObserver
     /**
      * Handle the invoice item "saved" event.
      *
-     * @param  \App\Models\InvoiceItem  $item
+     * @param InvoiceItem $item
      * @return void
      */
     public function saved(InvoiceItem $item)
@@ -34,7 +34,7 @@ class InvoiceItemObserver
     /**
      * Handle the invoice item "deleted" event.
      *
-     * @param  \App\Models\InvoiceItem  $item
+     * @param InvoiceItem $item
      * @return void
      */
     public function deleted(InvoiceItem $item)

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DataTables\PaymentsGridDataTable;
 use App\Models\CalendarYear;
+use Illuminate\Http\Response;
 
 class PaymentGridController extends Controller
 {
@@ -12,7 +13,7 @@ class PaymentGridController extends Controller
      *
      * @param PaymentsGridDataTable $dataTable
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(PaymentsGridDataTable $dataTable)
     {
@@ -25,7 +26,7 @@ class PaymentGridController extends Controller
 
         $year = $dataTable->year;
 
-        $calendarYears = CalendarYear::orderBy('name')->get()->map(function($calendarYear) {
+        $calendarYears = CalendarYear::orderBy('name')->get()->map(function ($calendarYear) {
             $calendarYear->id = $calendarYear->name;
             return $calendarYear;
         });

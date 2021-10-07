@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Database\Seeder;
-use App\Models\ExpenseCategory;
-use App\Models\Expense;
 use App\Models\Account;
+use App\Models\Expense;
+use App\Models\ExpenseCategory;
+use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
 class ExpensesSeeder extends Seeder
@@ -24,7 +24,7 @@ class ExpensesSeeder extends Seeder
             $createdAt = Carbon::now()->subDays(random_int(1, 365));
             $expenses = factory(Expense::class, random_int(0, 20))
                 ->make([
-                    'account_id' => function() use ($accountIds) {
+                    'account_id' => function () use ($accountIds) {
                         return $accountIds[array_rand($accountIds)];
                     },
                     'expense_category_id' => $expenseCategory->id,

@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\CalendarMonth;
 use App\Models\Holiday;
+use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -12,10 +13,10 @@ class HolidayObserver
     /**
      * Handle the holiday "created" event.
      *
-     * @param \App\Models\Holiday $holiday
+     * @param Holiday $holiday
      *
      * @return void
-     * @throws \Carbon\Exceptions\InvalidFormatException
+     * @throws InvalidFormatException
      */
     public function created(Holiday $holiday)
     {
@@ -25,10 +26,10 @@ class HolidayObserver
     /**
      * Handle the holiday "updated" event.
      *
-     * @param \App\Models\Holiday $holiday
+     * @param Holiday $holiday
      *
      * @return void
-     * @throws \Carbon\Exceptions\InvalidFormatException
+     * @throws InvalidFormatException
      */
     public function updated(Holiday $holiday)
     {
@@ -39,10 +40,10 @@ class HolidayObserver
     /**
      * Handle the holiday "deleted" event.
      *
-     * @param \App\Models\Holiday $holiday
+     * @param Holiday $holiday
      *
      * @return void
-     * @throws \Carbon\Exceptions\InvalidFormatException
+     * @throws InvalidFormatException
      */
     public function deleted(Holiday $holiday)
     {
@@ -52,7 +53,7 @@ class HolidayObserver
     /**
      * Handle the holiday "restored" event.
      *
-     * @param  \App\Models\Holiday  $holiday
+     * @param Holiday $holiday
      * @return void
      */
     public function restored(Holiday $holiday)
@@ -63,7 +64,7 @@ class HolidayObserver
     /**
      * Handle the holiday "force deleted" event.
      *
-     * @param  \App\Models\Holiday  $holiday
+     * @param Holiday $holiday
      * @return void
      */
     public function forceDeleted(Holiday $holiday)
@@ -73,9 +74,9 @@ class HolidayObserver
 
     /**
      * @param Holiday $holiday
-     * @param false   $original
+     * @param false $original
      *
-     * @throws \Carbon\Exceptions\InvalidFormatException
+     * @throws InvalidFormatException
      */
     private function calculationMonthHolidays(Holiday $holiday, $original = false)
     {

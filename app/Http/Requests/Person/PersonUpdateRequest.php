@@ -2,14 +2,11 @@
 
 namespace App\Http\Requests\Person;
 
-use App\Enums\Currency;
-use App\Enums\PersonContractType;
 use App\Enums\Position;
-use App\Enums\SalaryType;
 use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Validator;
 
 class PersonUpdateRequest extends FormRequest
 {
@@ -61,7 +58,7 @@ class PersonUpdateRequest extends FormRequest
     /**
      * Setting up a validator instance.
      *
-     * @param  \Illuminate\Validation\Validator  $validator
+     * @param Validator $validator
      * @return void
      */
     public function withValidator($validator)

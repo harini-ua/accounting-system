@@ -10,6 +10,14 @@ use App\Models\Client;
 use App\Models\Income;
 use App\Models\Wallet;
 use App\Services\FilterService;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class IncomeController extends Controller
 {
@@ -27,10 +35,10 @@ class IncomeController extends Controller
 
         $filterService = $dataTable->filterService;
         $accountTypes = AccountType::with([
-            'invoicedSum' => function($query) use ($filterService) {
+            'invoicedSum' => function ($query) use ($filterService) {
                 $filterService->filterInvoicedSum($query);
             },
-            'receivedSum' => function($query) use ($filterService) {
+            'receivedSum' => function ($query) use ($filterService) {
                 $filterService->filterReceivedSum($query);
             }
         ])->get();
@@ -41,12 +49,13 @@ class IncomeController extends Controller
             'clients', 'wallets', 'startDate', 'endDate', 'accountTypes'
         ));
     }
+
     /**
      * Display a listing of the resource.
      *
      * @param IncomesDataTable $dataTable
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(IncomesDataTable $dataTable)
     {
@@ -62,7 +71,7 @@ class IncomeController extends Controller
 
         $filterService = $dataTable->filterService;
         $accountTypes = AccountType::with([
-            'planningSum' => function($query) use ($filterService) {
+            'planningSum' => function ($query) use ($filterService) {
                 $filterService->filterPlanningSum($query);
             },
         ])->get();
@@ -70,16 +79,16 @@ class IncomeController extends Controller
         $endDate = $filterService->getEndDate()->format('d-m-Y');
 
         return $dataTable->render('pages.income.index', compact('pageConfigs', 'breadcrumbs',
-            'clients', 'wallets',  'startDate', 'endDate', 'accountTypes'
+            'clients', 'wallets', 'startDate', 'endDate', 'accountTypes'
         ));
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  IncomeRequest  $request
+     * @param IncomeRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
     public function store(IncomeRequest $request)
     {
@@ -93,9 +102,9 @@ class IncomeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Income $income
+     * @param Income $income
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Http\Response|\Illuminate\View\View
+     * @return Application|Factory|Response|View
      */
     public function edit(Income $income)
     {
@@ -119,10 +128,10 @@ class IncomeController extends Controller
      * Update the specified resource in storage.
      *
      * @param IncomeRequest $request
-     * @param Income        $income
+     * @param Income $income
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function update(IncomeRequest $request, Income $income)
     {
@@ -138,8 +147,8 @@ class IncomeController extends Controller
      * Remove the specified resource from storage.
      *
      * @param Income $income
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(Income $income)
     {
@@ -159,19 +168,19 @@ class IncomeController extends Controller
     public function totals(FilterService $filterService)
     {
         return AccountType::with([
-            'invoicedSum' => function($query) use ($filterService) {
+            'invoicedSum' => function ($query) use ($filterService) {
                 $filterService->filterInvoicedSum($query);
             },
-            'receivedSum' => function($query) use ($filterService) {
+            'receivedSum' => function ($query) use ($filterService) {
                 $filterService->filterReceivedSum($query);
             },
-            'planningSum' => function($query) use ($filterService) {
+            'planningSum' => function ($query) use ($filterService) {
                 $filterService->filterPlanningSum($query);
             },
-            'expensesSum' => function($query) use ($filterService) {
+            'expensesSum' => function ($query) use ($filterService) {
                 $filterService->filterExpensesSum($query);
             },
-            'accountsSum' => function($query) use ($filterService) {
+            'accountsSum' => function ($query) use ($filterService) {
                 $filterService->filterAccountsSum($query);
             },
         ])->get()->makeVisible(['invoicedSum', 'receivedSum', 'accountsSum', 'planningSum']);

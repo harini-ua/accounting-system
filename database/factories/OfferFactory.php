@@ -1,15 +1,18 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** @var Factory $factory */
 
+use App\Models\Offer;
+use Carbon\Carbon;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
-$factory->define(\App\Models\Offer::class, function (Faker $faker) {
+$factory->define(Offer::class, function (Faker $faker) {
     $trialPeriod = random_int(1, 2);
     $salary_review = random_int(0, 1);
 
     $attributes['trial_period'] = $trialPeriod;
-    $attributes['end_trial_period_date'] = \Carbon\Carbon::now()->addMonths($trialPeriod);
+    $attributes['end_trial_period_date'] = Carbon::now()->addMonths($trialPeriod);
     $attributes['salary_review'] = $salary_review;
 
     if ($salary_review) {

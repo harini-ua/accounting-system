@@ -2,13 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Enums\SalaryReviewProfGrowthType;
-use App\Enums\SalaryReviewReason;
-use App\Enums\SalaryReviewType;
-use BenSampo\Enum\Rules\EnumValue;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\RequiredIf;
-use Sabberworm\CSS\Rule\Rule;
 
 class SalaryReviewCreateRequest extends FormRequest
 {

@@ -1,7 +1,10 @@
 <?php
 
-if (!function_exists('fraction_to_decimal'))
-{
+use Carbon\Carbon;
+use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\Config;
+
+if (!function_exists('fraction_to_decimal')) {
     function fraction_to_decimal($fraction)
     {
         // Split fraction into whole number and fraction components
@@ -14,14 +17,13 @@ if (!function_exists('fraction_to_decimal'))
 
         // Create decimal value
         $decimal = $whole;
-        $numerator && $denominator && $decimal += ($numerator/$denominator);
+        $numerator && $denominator && $decimal += ($numerator / $denominator);
 
         return number_format($decimal, 2);
     }
 }
 
-if (!function_exists('app_classes'))
-{
+if (!function_exists('app_classes')) {
     function app_classes()
     {
         // default data value
@@ -40,7 +42,7 @@ if (!function_exists('app_classes'))
             'isFooterDark' => null,
             'isFooterFixed' => false,
             'templateTitle' => '',
-            'defaultLanguage'=>'en',
+            'defaultLanguage' => 'en',
             'largeScreenLogo' => 'images/logo/materialize-logo-color.png',
             'smallScreenLogo' => 'images/logo/materialize-logo.png',
             'direction' => env('MIX_CONTENT_DIRECTION', 'ltr'),
@@ -58,10 +60,10 @@ if (!function_exists('app_classes'))
             'isNavbarFixed' => array(true, false),
             'isMenuDark' => array(null, true, false),
             'isMenuCollapsed' => array(true, false),
-            'activeMenuType' => array('sidenav-active-rounded'=>'sidenav-active-rounded','sidenav-active-square'=>'sidenav-active-square', 'sidenav-active-fullwidth'=>'sidenav-active-fullwidth'),
+            'activeMenuType' => array('sidenav-active-rounded' => 'sidenav-active-rounded', 'sidenav-active-square' => 'sidenav-active-square', 'sidenav-active-fullwidth' => 'sidenav-active-fullwidth'),
             'isFooterDark' => array(null, true, false),
             'isFooterFixed' => array(false, true),
-            'defaultLanguage'=>array('en'=>'en','fr'=>'fr','de'=>'de','pt'=>'pt'),
+            'defaultLanguage' => array('en' => 'en', 'fr' => 'fr', 'de' => 'de', 'pt' => 'pt'),
             'direction' => array('ltr', 'rtl'),
         ];
 
@@ -198,14 +200,14 @@ if (!function_exists('app_classes'))
             'templateTitle' => $data['templateTitle'],
             'largeScreenLogo' => $data['largeScreenLogo'],
             'smallScreenLogo' => $data['smallScreenLogo'],
-            'defaultLanguage'=>$allOptions['defaultLanguage'][$data['defaultLanguage']],
+            'defaultLanguage' => $allOptions['defaultLanguage'][$data['defaultLanguage']],
             'mainFooterClass' => $mainFooterClass[$data['mainLayoutType']],
             'mainFooterColor' => $mainFooterColor[$data['mainLayoutType']],
             'direction' => $data['direction'],
         ];
 
         // set default language if session hasn't locale value the set default language
-        if(!session()->has('locale')){
+        if (!session()->has('locale')) {
             app()->setLocale($layoutClasses['defaultLanguage']);
         }
 
@@ -213,8 +215,7 @@ if (!function_exists('app_classes'))
     }
 }
 
-if (!function_exists('update_page_config'))
-{
+if (!function_exists('update_page_config')) {
     // updatesPageConfig function override all configuration of custom.php file as page requirements.
     function update_page_config($pageConfigs)
     {
@@ -222,15 +223,14 @@ if (!function_exists('update_page_config'))
         if (isset($pageConfigs)) {
             if (count($pageConfigs) > 0) {
                 foreach ($pageConfigs as $config => $val) {
-                    \Illuminate\Support\Facades\Config::set('custom.' . $demo . '.' . $config, $val);
+                    Config::set('custom.' . $demo . '.' . $config, $val);
                 }
             }
         }
     }
 }
 
-if (!function_exists('integerToRoman'))
-{
+if (!function_exists('integerToRoman')) {
     function integerToRoman($integer)
     {
         // Convert the integer into an integer (just to make sure)
@@ -254,12 +254,12 @@ if (!function_exists('integerToRoman'))
             'I' => 1
         ];
 
-        foreach($lookup as $roman => $value){
+        foreach ($lookup as $roman => $value) {
             // Determine the number of matches
-            $matches = intval($integer/$value);
+            $matches = intval($integer / $value);
 
             // Add the same number of characters to the string
-            $result .= str_repeat($roman,$matches);
+            $result .= str_repeat($roman, $matches);
 
             // Set the integer to be the remainder of the integer and the value
             $integer = $integer % $value;
@@ -269,50 +269,46 @@ if (!function_exists('integerToRoman'))
     }
 }
 
-if (!function_exists('previousOr'))
-{
+if (!function_exists('previousOr')) {
     function previousOr($routeName)
     {
         return url()->previous() === url()->current() ? route($routeName) : url()->previous();
     }
 }
 
-if (!function_exists('active'))
-{
+if (!function_exists('active')) {
     function active($condition)
     {
         return $condition ? 'active' : '';
     }
 }
 
-if (!function_exists('period'))
-{
+if (!function_exists('period')) {
     function period($year, $quarter = null)
     {
         $params = [
-            \Carbon\Carbon::createFromDate($year)->startOfYear(),
+            Carbon::createFromDate($year)->startOfYear(),
             '1 month',
-            \Carbon\Carbon::createFromDate($year)->endOfYear()
+            Carbon::createFromDate($year)->endOfYear()
         ];
 
         if ($quarter) {
             $params = [
-                \Carbon\Carbon::createFromDate($year, 1)
+                Carbon::createFromDate($year, 1)
                     ->addQuarters($quarter - 1)
                     ->startOfMonth(),
                 '1 month',
-                \Carbon\Carbon::createFromDate($year, 12)
+                Carbon::createFromDate($year, 12)
                     ->subQuarters(4 - $quarter)
                     ->endOfMonth()
             ];
         }
 
-        return \Carbon\CarbonPeriod::create(...$params);
+        return CarbonPeriod::create(...$params);
     }
 }
 
-if (!function_exists('between_quarter'))
-{
+if (!function_exists('between_quarter')) {
     function between_quarter($quarter, $quality = 'month')
     {
         if ($quality === 'month') {

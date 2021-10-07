@@ -4,7 +4,10 @@ namespace App\Models;
 
 use App\Services\FilterService;
 use App\Services\Formatter;
+use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
 class AccountType extends Model
@@ -98,7 +101,7 @@ class AccountType extends Model
      */
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function accounts()
     {
@@ -106,7 +109,7 @@ class AccountType extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function accountsSum()
     {
@@ -116,8 +119,8 @@ class AccountType extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @return HasOne
+     * @throws BindingResolutionException
      */
     public function invoicedSum()
     {
@@ -132,7 +135,7 @@ class AccountType extends Model
         return $this->hasOne(Account::class)
             ->selectRaw('sum(invoice_sums.total - invoices.discount * invoice_sums.total / (invoices.total + invoices.discount)) as sum, account_type_id')
             ->join('invoices', 'invoices.account_id', '=', 'accounts.id')
-            ->leftJoinSub($invoiceSums, 'invoice_sums', function($join) {
+            ->leftJoinSub($invoiceSums, 'invoice_sums', function ($join) {
                 $join->on('invoice_sums.invoice_id', '=', 'invoices.id');
             })
             ->whereNull('invoices.deleted_at')
@@ -140,7 +143,7 @@ class AccountType extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function receivedSum()
     {
@@ -154,7 +157,7 @@ class AccountType extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function planningSum()
     {
@@ -166,7 +169,7 @@ class AccountType extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function expensesSum()
     {
@@ -205,7 +208,7 @@ class AccountType extends Model
     public static function currencies()
     {
         return self::all(['currency_type', 'currency'])
-            ->mapWithKeys(function($accountType) {
+            ->mapWithKeys(function ($accountType) {
                 return [$accountType->currency_type => $accountType->currency];
             });
     }

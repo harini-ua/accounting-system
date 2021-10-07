@@ -2,12 +2,10 @@
 
 namespace App\DataTables;
 
-use App\Enums\Position;
 use App\Models\AccountType;
 use App\Models\Person;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
-use Illuminate\Support\Arr;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 

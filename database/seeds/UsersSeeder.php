@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Database\Seeder;
 use App\Enums\Position;
+use App\User;
+use Illuminate\Database\Seeder;
 
 class UsersSeeder extends Seeder
 {
@@ -12,13 +13,13 @@ class UsersSeeder extends Seeder
      */
     public function run()
     {
-        \App\User::create([
+        User::create([
             'name' => 'Super Admin',
             'email' => 'admin@admin.com',
             'password' => bcrypt('123calculator123'),
             'position_id' => Position::CEO,
         ]);
-        \App\User::create([
+        User::create([
             'name' => 'Client',
             'email' => 'client@dreamdev.solutions',
             'password' => bcrypt('12344321'),
@@ -26,8 +27,8 @@ class UsersSeeder extends Seeder
         ]);
         if (app()->isLocal()) {
             $positions = \App\Models\Position::all();
-            factory(\App\User::class, 100)->create([
-                'position_id' => function() use ($positions) {
+            factory(User::class, 100)->create([
+                'position_id' => function () use ($positions) {
                     return $positions->random()->id;
                 }
             ]);

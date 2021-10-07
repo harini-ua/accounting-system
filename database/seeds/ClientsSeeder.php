@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Address;
+use App\Models\Bank;
+use App\Models\Client;
 use Illuminate\Database\Seeder;
 
 class ClientsSeeder extends Seeder
@@ -12,13 +15,13 @@ class ClientsSeeder extends Seeder
      */
     public function run()
     {
-        factory(\App\Models\Client::class, 100)->create()
-            ->each(static function (\App\Models\Client $client) {
-                $client->addresses()->save(factory(\App\Models\Address::class)->make());
+        factory(Client::class, 100)->create()
+            ->each(static function (Client $client) {
+                $client->addresses()->save(factory(Address::class)->make());
                 if (random_int(0, 1)) {
-                    $client->bank()->save(factory(\App\Models\Bank::class)->make());
+                    $client->bank()->save(factory(Bank::class)->make());
                 }
             }
-        );
+            );
     }
 }

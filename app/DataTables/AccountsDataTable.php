@@ -7,10 +7,7 @@ use App\Models\Wallet;
 use App\Services\FilterService;
 use App\Services\Formatter;
 use Illuminate\Support\Facades\DB;
-use Yajra\DataTables\Html\Button;
 use Yajra\DataTables\Html\Column;
-use Yajra\DataTables\Html\Editor\Editor;
-use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
 class AccountsDataTable extends DataTable

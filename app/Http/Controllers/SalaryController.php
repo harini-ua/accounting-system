@@ -12,10 +12,15 @@ use App\Models\Person;
 use App\Models\SalaryPayment;
 use App\Models\Wallet;
 use App\Services\SalaryPaymentService;
+use GuzzleHttp\Exception\InvalidArgumentException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\View\View;
 
 class SalaryController extends Controller
 {
@@ -37,12 +42,12 @@ class SalaryController extends Controller
 
         $year = $dataTable->year;
 
-        $calendarYears = CalendarYear::orderBy('name')->get()->map(function($calendarYear) {
+        $calendarYears = CalendarYear::orderBy('name')->get()->map(function ($calendarYear) {
             $calendarYear->id = $calendarYear->name;
             return $calendarYear;
         });
 
-        $currencies = Currency::toCollection()->filter(function($currency) {
+        $currencies = Currency::toCollection()->filter(function ($currency) {
             return in_array($currency->id, [Currency::UAH, Currency::USD], true);
         });
 
@@ -54,7 +59,7 @@ class SalaryController extends Controller
     /**
      * @param $year
      * @param $month
-     * @return \Illuminate\Http\JsonResponse|mixed
+     * @return JsonResponse|mixed
      */
     public function month($year, $month)
     {
@@ -86,7 +91,7 @@ class SalaryController extends Controller
      * Show the form for creating a new resource.
      *
      * @param Request $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function create(Request $request)
     {
@@ -133,7 +138,7 @@ class SalaryController extends Controller
 
         return view('pages.salary.create', compact(
             'breadcrumbs', 'pageConfigs', 'calendarYears', 'calendarMonth', 'currencies', 'fields',
-            'salaryPayment', 'people', 'person', 'symbol', 'wallets' ));
+            'salaryPayment', 'people', 'person', 'symbol', 'wallets'));
     }
 
     /**
@@ -142,7 +147,7 @@ class SalaryController extends Controller
      * @param SalaryPaymentRequest $request
      *
      * @return Response
-     * @throws \GuzzleHttp\Exception\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function store(SalaryPaymentRequest $request)
     {
@@ -161,7 +166,7 @@ class SalaryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  SalaryPayment  $salaryPayment
+     * @param SalaryPayment $salaryPayment
      * @return Response
      */
     public function show(SalaryPayment $salaryPayment)
@@ -172,7 +177,7 @@ class SalaryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  SalaryPayment  $salaryPayment
+     * @param SalaryPayment $salaryPayment
      * @return Response
      */
     public function edit(SalaryPayment $salaryPayment)
@@ -184,7 +189,7 @@ class SalaryController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param  SalaryPayment  $salaryPayment
+     * @param SalaryPayment $salaryPayment
      * @return Response
      */
     public function update(Request $request, SalaryPayment $salaryPayment)
@@ -195,7 +200,7 @@ class SalaryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  SalaryPayment $salaryPayment
+     * @param SalaryPayment $salaryPayment
      * @return Response
      */
     public function destroy(SalaryPayment $salaryPayment)

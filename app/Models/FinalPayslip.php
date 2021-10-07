@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Casts\Date;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class FinalPayslip extends Model
 {
@@ -62,7 +63,7 @@ class FinalPayslip extends Model
     /**
      * Get the account that owns the final payslip.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function account()
     {

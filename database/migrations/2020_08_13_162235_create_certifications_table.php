@@ -18,9 +18,9 @@ class CreateCertificationsTable extends Migration
             $table->unsignedBigInteger('person_id');
             $table->string('name');
             $table->string('subject');
-            $table->decimal('cost', 15,2)->nullable();
+            $table->decimal('cost', 15, 2)->nullable();
             $table->string('availability')->nullable();
-            $table->decimal('sum_award', 15,2)->nullable();
+            $table->decimal('sum_award', 15, 2)->nullable();
             $table->timestamps();
             $table->softDeletes();
 

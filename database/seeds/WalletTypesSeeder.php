@@ -1,7 +1,7 @@
 <?php
 
-use App\Models\WalletType;
 use App\Models\AccountType;
+use App\Models\WalletType;
 use Illuminate\Database\Seeder;
 
 class WalletTypesSeeder extends Seeder

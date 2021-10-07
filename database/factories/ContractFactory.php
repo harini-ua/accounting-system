@@ -1,13 +1,16 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** @var Factory $factory */
 
+use App\Enums\ContractStatus;
+use App\Models\Contract;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
 
-$factory->define(\App\Models\Contract::class, static function (Faker $faker) {
+$factory->define(Contract::class, static function (Faker $faker) {
     $status = $faker->randomElement([
-        \App\Enums\ContractStatus::OPENED,
-        \App\Enums\ContractStatus::CLOSED
+        ContractStatus::OPENED,
+        ContractStatus::CLOSED
     ]);
 
     $data = [
@@ -16,7 +19,7 @@ $factory->define(\App\Models\Contract::class, static function (Faker $faker) {
         'status' => $status,
     ];
 
-    if ($status === \App\Enums\ContractStatus::CLOSED) {
+    if ($status === ContractStatus::CLOSED) {
         $data['closed_at'] = now();
     }
 

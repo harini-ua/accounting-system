@@ -4,11 +4,13 @@ namespace App\Services;
 
 use App\Enums\Currency;
 use App\Enums\SalaryType;
+use App\Enums\VacationPaymentType;
 use App\Models\AccountType;
 use App\Models\CalendarMonth;
 use App\Models\Person;
 use App\Models\SalaryPayment;
 use App\Models\Vacation;
+use Carbon\Exceptions\InvalidFormatException;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -123,15 +125,15 @@ class SalaryPaymentService
     {
         $vacations = $this->person ? Vacation::where('calendar_month_id', $this->calendarMonth->id)
             ->where('person_id', $this->person->id)
-            ->where('payment_type', \App\Enums\VacationPaymentType::Paid)
+            ->where('payment_type', VacationPaymentType::Paid)
             ->sum('days') : null;
         $this->salaryPayment->vacations = $vacations;
     }
 
     private function setCurrencies(): void
     {
-        $this->currencies =  AccountType::all(['currency_type', 'currency'])
-            ->mapWithKeys(function($accountType) {
+        $this->currencies = AccountType::all(['currency_type', 'currency'])
+            ->mapWithKeys(function ($accountType) {
                 return [$accountType->currency_type => $accountType->currency];
             });
         $this->salaryPayment->currency = $this->currencies[Currency::USD];
@@ -166,12 +168,12 @@ class SalaryPaymentService
     /**
      * Calculate vacation compensation
      *
-     * @param Person      $person
-     * @param int         $vacations
+     * @param Person $person
+     * @param int $vacations
      * @param Carbon|null $date
      *
      * @return float|int
-     * @throws \Carbon\Exceptions\InvalidFormatException
+     * @throws InvalidFormatException
      */
     private static function calcVacationCompensation(Person $person, int $vacations, Carbon $date = null)
     {
@@ -273,7 +275,7 @@ class SalaryPaymentService
     private static function calcTotalUSD(SalaryPayment $salaryPayment, Person $person, $currencies, array $fields): float
     {
         $total = 0;
-        foreach($fields as $field => $currency) {
+        foreach ($fields as $field => $currency) {
             $total += self::convertToUSD($currencies, $currency, $salaryPayment->$field);
         }
 
@@ -293,7 +295,7 @@ class SalaryPaymentService
     private static function totalBonusesUSD(Person $person, $currencies): ?float
     {
         if ($person->actualBonuses) {
-            return round($person->actualBonuses->reduce(function($carry, $bonus) use ($currencies) {
+            return round($person->actualBonuses->reduce(function ($carry, $bonus) use ($currencies) {
                     return $carry + $currencies[$bonus->currency] * $bonus->value;
                 }, 0) / $currencies[Currency::USD], 2);
         }

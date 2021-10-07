@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use Illuminate\Support\Carbon;
+use Illuminate\View\View;
 
 class Date extends Input
 {
@@ -25,7 +26,7 @@ class Date extends Input
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\View\View|string
+     * @return View|string
      */
     public function render()
     {

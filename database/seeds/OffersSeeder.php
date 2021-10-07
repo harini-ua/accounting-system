@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Offer;
+use App\Models\Person;
 use Illuminate\Database\Seeder;
 
 class OffersSeeder extends Seeder
@@ -12,16 +14,16 @@ class OffersSeeder extends Seeder
      */
     public function run()
     {
-        $people = \App\Models\Person::all();
+        $people = Person::all();
 
         foreach ($people as $person) {
-            factory(\App\Models\Offer::class)
+            factory(Offer::class)
                 ->create([
                     'employee_id' => $person->id,
                     'start_date' => $person->start_date,
                     'bonuses' => $person->bonuses_reward,
                     'salary' => $person->salary,
-               ]);
+                ]);
         }
     }
 }

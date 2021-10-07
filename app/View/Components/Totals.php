@@ -3,6 +3,7 @@
 namespace App\View\Components;
 
 use Illuminate\View\Component;
+use Illuminate\View\View;
 
 class Totals extends Component
 {
@@ -18,7 +19,7 @@ class Totals extends Component
      * @param $relation
      * @param $titleColor
      */
-    public function __construct($options, $relation, $title = '',  $titleColor = '')
+    public function __construct($options, $relation, $title = '', $titleColor = '')
     {
         $this->title = $title;
         $this->options = $options;
@@ -29,7 +30,7 @@ class Totals extends Component
     /**
      * Get the view / contents that represent the component.
      *
-     * @return \Illuminate\View\View|string
+     * @return View|string
      */
     public function render()
     {

@@ -4,20 +4,21 @@ namespace App\Observers;
 
 use App\Models\Offer;
 use Carbon\Carbon;
+use Carbon\Exceptions\InvalidFormatException;
 
 class OfferObserver
 {
     /**
      * Handle the invoice "saving" event.
      *
-     * @param \App\Models\Offer $offer
+     * @param Offer $offer
      *
      * @return void
-     * @throws \Carbon\Exceptions\InvalidFormatException
+     * @throws InvalidFormatException
      */
     public function saving(Offer $offer)
     {
-        if($offer->isDirty(['start_date', 'trial_period'])) {
+        if ($offer->isDirty(['start_date', 'trial_period'])) {
             $trialPeriod = ($offer->trial_period) ?? config('people.trial_period.value');
             $offer->end_trial_period_date = Carbon::parse($offer->start_date)->addMonths($trialPeriod);
         }

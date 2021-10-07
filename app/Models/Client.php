@@ -4,6 +4,8 @@ namespace App\Models;
 
 use App\Traits\Addressable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 
@@ -45,7 +47,7 @@ class Client extends Model
     /**
      * Get only the billing address
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphOne
+     * @return MorphOne
      */
     public function billingAddress()
     {
@@ -56,7 +58,7 @@ class Client extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return HasOne
      */
     public function bank()
     {

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use View;
 
 class MenuServiceProvider extends ServiceProvider
 {
@@ -27,7 +28,7 @@ class MenuServiceProvider extends ServiceProvider
         $horizontalMenuData = empty(config('menu.horizontal')) ? $verticalMenuData : config('menu.horizontal');
 
         // share all menuData to all the views
-        \View::share('menuData',[
+        View::share('menuData', [
             'vertical' => $verticalMenuData,
             'horizontal' => $horizontalMenuData
         ]);

@@ -4,7 +4,6 @@ namespace App\Observers;
 
 use App\Enums\InvoiceStatus;
 use App\Helpers\InvoiceHelper;
-use App\Models\Client;
 use App\Models\Invoice;
 use App\Notifications\SendInvoice;
 
@@ -13,12 +12,12 @@ class InvoiceObserver
     /**
      * Handle the invoice "saving" event.
      *
-     * @param  \App\Models\Invoice $invoice
+     * @param Invoice $invoice
      * @return void
      */
     public function saving(Invoice $invoice)
     {
-        if($invoice->isDirty('status')) {
+        if ($invoice->isDirty('status')) {
             if ($invoice->status === InvoiceStatus::SEND) {
 //                $invoice->load(['contract.client']);
 //
@@ -32,7 +31,7 @@ class InvoiceObserver
     /**
      * Handle the invoice "created" event.
      *
-     * @param  \App\Models\Invoice  $invoice
+     * @param Invoice $invoice
      * @return void
      */
     public function created(Invoice $invoice)
@@ -44,7 +43,7 @@ class InvoiceObserver
     /**
      * Handle the invoice "deleting" event.
      *
-     * @param  \App\Models\Invoice  $invoice
+     * @param Invoice $invoice
      * @return void
      */
     public function deleting(Invoice $invoice)
@@ -56,7 +55,7 @@ class InvoiceObserver
     /**
      * Handle the invoice "restored" event.
      *
-     * @param  \App\Models\Invoice  $invoice
+     * @param Invoice $invoice
      * @return void
      */
     public function restored(Invoice $invoice)

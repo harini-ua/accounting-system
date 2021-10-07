@@ -1,16 +1,20 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** @var Factory $factory */
 
+use App\Enums\Currency;
+use App\Enums\PersonContractType;
+use App\Enums\Position;
+use App\Enums\SalaryType;
 use App\Models\Person;
 use Faker\Generator as Faker;
-use App\Enums\Position;
+use Illuminate\Database\Eloquent\Factory;
 
 $factory->define(Person::class, function (Faker $faker) {
 
     $startDate = $faker->dateTimeBetween('-5 years', 'now');
-    $quitedAt = ! rand(0, 3) ? $faker->dateTimeBetween($startDate, 'now') : null;
-    $salaryChangedAt = (! $quitedAt) && rand(0, 1) ? $faker->dateTimeBetween($startDate, 'now') : null;
+    $quitedAt = !rand(0, 3) ? $faker->dateTimeBetween($startDate, 'now') : null;
+    $salaryChangedAt = (!$quitedAt) && rand(0, 1) ? $faker->dateTimeBetween($startDate, 'now') : null;
     $salary = $faker->randomFloat(2, 100, 5000);
     $techLead = $faker->boolean;
     $teamLead = $faker->boolean;
@@ -27,11 +31,11 @@ $factory->define(Person::class, function (Faker $faker) {
         'certifications' => rand(0, 1) ? $faker->sentence : null,
         // Salary
         'salary' => $salary,
-        'currency' => \App\Enums\Currency::getRandomValue(),
-        'salary_type' => \App\Enums\SalaryType::getRandomValue(),
-        'contract_type' => \App\Enums\PersonContractType::getRandomValue(),
-        'contract_type_changed_at' => (! $quitedAt) && rand(0, 1) ? $faker->dateTimeBetween($startDate, 'now') : null,
-        'salary_type_changed_at' => (! $quitedAt) && rand(0, 1) ? $faker->dateTimeBetween($startDate, 'now') : null,
+        'currency' => Currency::getRandomValue(),
+        'salary_type' => SalaryType::getRandomValue(),
+        'contract_type' => PersonContractType::getRandomValue(),
+        'contract_type_changed_at' => (!$quitedAt) && rand(0, 1) ? $faker->dateTimeBetween($startDate, 'now') : null,
+        'salary_type_changed_at' => (!$quitedAt) && rand(0, 1) ? $faker->dateTimeBetween($startDate, 'now') : null,
         'salary_changed_at' => $salaryChangedAt,
         'salary_change_reason' => $salaryChangedAt ? $faker->sentence : null,
         'last_salary' => $salaryChangedAt ? $salary * 0.75 : null,

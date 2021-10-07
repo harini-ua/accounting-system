@@ -1,10 +1,11 @@
 <?php
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
+/** @var Factory $factory */
 
 use App\Models\Expense;
-use Illuminate\Support\Carbon;
 use Faker\Generator as Faker;
+use Illuminate\Database\Eloquent\Factory;
+use Illuminate\Support\Carbon;
 
 $factory->define(Expense::class, function (Faker $faker) {
     $planSum = $faker->randomFloat(2, 100, 10000);

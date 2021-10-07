@@ -11,6 +11,14 @@ use App\Http\Requests\ContractUpdateRequest;
 use App\Models\Client;
 use App\Models\Contract;
 use App\Models\Person;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Database\Eloquent\MassAssignmentException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Response;
+use Illuminate\View\View;
 
 class ContractController extends Controller
 {
@@ -19,7 +27,7 @@ class ContractController extends Controller
      *
      * @param ContractsDataTable $dataTable
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(ContractsDataTable $dataTable)
     {
@@ -34,14 +42,14 @@ class ContractController extends Controller
         $status = ContractStatus::toCollection();
 
         return $dataTable->render('pages.contract.index', compact(
-            'pageConfigs', 'breadcrumbs' , 'clients','salesManagers', 'status'
+            'pageConfigs', 'breadcrumbs', 'clients', 'salesManagers', 'status'
         ));
     }
 
     /**
      * Show the form for creating a new contract.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function create()
     {
@@ -72,8 +80,8 @@ class ContractController extends Controller
      *
      * @param ContractCreateRequest $request
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function store(ContractCreateRequest $request)
     {
@@ -89,9 +97,9 @@ class ContractController extends Controller
     /**
      * Display the specified contract.
      *
-     * @param  Contract $contract
+     * @param Contract $contract
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function show(Contract $contract)
     {
@@ -115,9 +123,9 @@ class ContractController extends Controller
     /**
      * Show the form for editing the specified contract.
      *
-     * @param  Contract $contract
+     * @param Contract $contract
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function edit(Contract $contract)
     {
@@ -144,10 +152,10 @@ class ContractController extends Controller
      * Update the specified resource in contract.
      *
      * @param ContractUpdateRequest $request
-     * @param Contract              $contract
+     * @param Contract $contract
      *
-     * @return \Illuminate\Http\RedirectResponse
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @return RedirectResponse
+     * @throws MassAssignmentException
      */
     public function update(ContractUpdateRequest $request, Contract $contract)
     {
@@ -164,8 +172,8 @@ class ContractController extends Controller
      *
      * @param Contract $contract
      *
-     * @return \Illuminate\Http\JsonResponse
-     * @throws \Exception
+     * @return JsonResponse
+     * @throws Exception
      */
     public function destroy(Contract $contract)
     {

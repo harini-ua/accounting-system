@@ -7,6 +7,7 @@ use App\Scopes\YearScope;
 use App\Services\SalaryPaymentService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CalendarMonth extends Model
 {
@@ -34,7 +35,7 @@ class CalendarMonth extends Model
     protected $appends = ['quarter', 'halfYear'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function calendarYear()
     {

@@ -4,6 +4,8 @@ namespace App\Services;
 
 use App\Models\Invoice;
 use App\Models\InvoiceItem;
+use Exception;
+use Illuminate\Database\Eloquent\MassAssignmentException;
 use Illuminate\Support\Facades\DB;
 
 class InvoiceService
@@ -14,7 +16,7 @@ class InvoiceService
      * @param array $invoiceData
      *
      * @return Invoice
-     * @throws \Illuminate\Database\Eloquent\MassAssignmentException
+     * @throws MassAssignmentException
      */
     public function save($invoiceData): Invoice
     {
@@ -32,7 +34,7 @@ class InvoiceService
 
             $invoice->items()->saveMany($invoiceItems);
             DB::commit();
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             DB::rollBack();
             throw $exception;
         }
@@ -46,7 +48,7 @@ class InvoiceService
      * Update invoice strategy
      *
      * @param Invoice $invoice
-     * @param array   $invoiceData
+     * @param array $invoiceData
      *
      * @return Invoice
      */
@@ -65,7 +67,7 @@ class InvoiceService
             $invoice->items()->delete();
             $invoice->items()->saveMany($invoiceItems);
             DB::commit();
-        } catch (\Exception $exception) {
+        } catch (Exception $exception) {
             DB::rollBack();
             throw $exception;
         }

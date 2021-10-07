@@ -12,6 +12,9 @@ use App\Models\CalendarMonth;
 use App\Models\CalendarYear;
 use App\Models\Person;
 use App\Models\Position;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
 
 class BonusController extends Controller
 {
@@ -33,7 +36,7 @@ class BonusController extends Controller
      *
      * @param Position|null $position
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
+     * @return Application|Factory|View|mixed
      */
     public function byPosition(Position $position)
     {
@@ -43,7 +46,7 @@ class BonusController extends Controller
     /**
      * @param Position|null $position
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View|mixed
+     * @return Application|Factory|View|mixed
      */
     private function listBoneses(Position $position = null)
     {
@@ -73,7 +76,7 @@ class BonusController extends Controller
         $pageConfigs = ['pageHeader' => true, 'isFabButton' => true];
 
         $calendarYears = CalendarYear::orderBy('name')->get()->map(
-            static function($calendarYear) {
+            static function ($calendarYear) {
                 $calendarYear->id = $calendarYear->name;
                 return $calendarYear;
             }
@@ -90,9 +93,9 @@ class BonusController extends Controller
      * Display the specified client.
      *
      * @param BonusesShowRequest $request
-     * @param Person             $person
+     * @param Person $person
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return Application|Factory|View
      */
     public function show(BonusesShowRequest $request, Person $person)
     {
@@ -120,11 +123,11 @@ class BonusController extends Controller
         }
 
         $calendarYears = CalendarYear::orderBy('name')->get()
-            ->map(static function($calendarYear) {
+            ->map(static function ($calendarYear) {
                 $calendarYear->id = $calendarYear->name;
                 return $calendarYear;
             }
-        );
+            );
 
         $calendarMonths = CalendarMonth::orderBy('id')->get();
 
