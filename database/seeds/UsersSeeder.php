@@ -21,7 +21,7 @@ class UsersSeeder extends Seeder
         ]);
         User::create([
             'name' => 'Client',
-            'email' => 'client@dreamdev.solutions',
+            'email' => 'client@example.com',
             'password' => bcrypt('12344321'),
             'position_id' => Position::SysAdmin,
         ]);

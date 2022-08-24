@@ -19,7 +19,7 @@ return [
         'format' => '{ADDRESS}, {CITY}, {STATE} {COUNTRY} {POST_CODE}'
     ],
     'logo' => [
-        'src' => '/images/dreamdev-solutions.png',
+        'src' => '/images/logo.png',
         'height' => 33,
         'width' => 160,
     ]
